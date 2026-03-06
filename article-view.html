@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loading… — Central Watch News</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --blue-light: #EBF0F7;
+      --green-light: #E8F5E9;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --max: 800px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .av-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--red);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .av-nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .av-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-mid);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: background 0.15s;
+    }
+    .av-nav-back:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+
+    /* ── MAIN LAYOUT ── */
+    .av-main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ── SKELETON ── */
+    @keyframes av-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+    .av-skeleton { animation: av-pulse 1.6s ease-in-out infinite; }
+    .av-skel-block {
+      background: #e0dbd3;
+      border-radius: 4px;
+      display: block;
+    }
+
+    #av-skeleton .av-skel-pill  { height: 22px; width: 80px; border-radius: 999px; margin-bottom: 14px; }
+    #av-skeleton .av-skel-title { height: 36px; width: 100%; margin-bottom: 8px; }
+    #av-skeleton .av-skel-title-2 { height: 36px; width: 72%; margin-bottom: 20px; }
+    #av-skeleton .av-skel-summary { height: 16px; width: 100%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-summary-2 { height: 16px; width: 88%; margin-bottom: 24px; }
+    #av-skeleton .av-skel-img { height: 340px; width: 100%; border-radius: 8px; margin-bottom: 32px; }
+    #av-skeleton .av-skel-heading { height: 20px; width: 45%; margin-bottom: 10px; }
+    #av-skeleton .av-skel-para { height: 14px; width: 100%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-para-2 { height: 14px; width: 94%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-para-3 { height: 14px; width: 80%; margin-bottom: 28px; }
+
+    .av-skel-notice {
+      text-align: center;
+      color: var(--ink-light);
+      font-size: 13px;
+      margin-top: 24px;
+      font-style: italic;
+    }
+
+    /* ── ARTICLE CONTENT ── */
+    #av-content { display: none; }
+
+    /* Header */
+    .av-category {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .av-byline {
+      font-size: 12px;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      align-items: center;
+    }
+    .av-byline-sep { color: var(--border); }
+    .av-readtime {
+      background: var(--red-light);
+      color: var(--red-dark);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .av-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .av-summary {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      margin-bottom: 24px;
+      border-left: 3px solid var(--red);
+      padding-left: 16px;
+    }
+    .av-hero-img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .av-img-credit {
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-bottom: 28px;
+      text-align: right;
+    }
+    .av-impact-box {
+      border-left: 4px solid var(--red);
+      background: var(--red-light);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 32px;
+    }
+    .av-impact-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .av-impact-text {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* Divider */
+    .av-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    /* Body sections */
+    .av-section {
+      margin-bottom: 32px;
+    }
+    .av-section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-section-content {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink-mid);
+    }
+    .av-chart-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .av-chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .av-chart-canvas {
+      max-height: 280px;
+    }
+
+    /* Key facts */
+    .av-facts-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .av-facts-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .av-fact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-fact-item:last-child { border-bottom: none; }
+    .av-fact-check {
+      color: var(--red);
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* What happens next */
+    .av-next-box {
+      background: var(--blue-light);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .av-next-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1A3657;
+      margin-bottom: 8px;
+    }
+    .av-next-text {
+      font-size: 14px;
+      color: #2C4A6E;
+      line-height: 1.65;
+    }
+
+    /* Should I worry */
+    .av-worry-box {
+      background: var(--green-light);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 32px;
+    }
+    .av-worry-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 8px;
+    }
+    .av-worry-text {
+      font-size: 14px;
+      color: #2E7D32;
+      line-height: 1.65;
+    }
+
+    /* Footer links */
+    .av-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .av-source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .av-source-link:hover { background: var(--red-dark); }
+    .av-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--ink-mid);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .av-back-link:hover { background: var(--cream); }
+    .av-share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--ink-mid);
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .av-share-btn:hover { background: var(--cream); }
+    .av-share-btn.copied { color: #2E7D32; border-color: #2E7D32; }
+
+    /* Error */
+    .av-error {
+      background: var(--red-light);
+      border: 1px solid #f0c0c8;
+      border-radius: var(--radius);
+      padding: 20px;
+      color: var(--red-dark);
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .av-main { padding: 20px 14px 40px; }
+      .av-footer-links { flex-direction: column; }
+      .av-source-link, .av-back-link, .av-share-btn { justify-content: center; }
+    }
+
+    /* ── Related articles ── */
+    .av-related-section { margin-top: 40px; display: none; }
+    .av-related-heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .av-related-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .av-related-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .av-related-img {
+      height: 80px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+    }
+    .av-related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .av-related-text { padding: 10px 12px; }
+    .av-related-cat {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--red); margin-bottom: 4px; text-transform: uppercase;
+    }
+    .av-related-title {
+      font-size: 12px; font-weight: 600; color: var(--ink);
+      line-height: 1.35; margin-bottom: 5px;
+      display: -webkit-box; -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .av-related-meta { font-size: 10px; color: var(--ink-light); }
+
+    /* ── Basic article notice ── */
+    .av-basic-notice {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #5D4037;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .av-related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="av-nav">
+    <a class="av-nav-brand" href="/uae-calm-uae-news.html">CWN</a>
+    <a class="av-nav-back" href="/uae-calm-uae-news.html">&#8592; Back to CWN</a>
+  </nav>
+
+  <main class="av-main">
+
+    <!-- Error state -->
+    <div class="av-error" id="av-error">
+      Could not load this article. Please <a href="/uae-calm-uae-news.html">return to the homepage</a> and try again.
+    </div>
+
+    <!-- Skeleton loader -->
+    <div id="av-skeleton" class="av-skeleton">
+      <span class="av-skel-block av-skel-pill"></span>
+      <span class="av-skel-block av-skel-title"></span>
+      <span class="av-skel-block av-skel-title-2"></span>
+      <span class="av-skel-block av-skel-summary"></span>
+      <span class="av-skel-block av-skel-summary-2"></span>
+      <span class="av-skel-block av-skel-img"></span>
+      <span class="av-skel-block av-skel-heading"></span>
+      <span class="av-skel-block av-skel-para"></span>
+      <span class="av-skel-block av-skel-para-2"></span>
+      <span class="av-skel-block av-skel-para-3"></span>
+      <span class="av-skel-block av-skel-heading"></span>
+      <span class="av-skel-block av-skel-para"></span>
+      <span class="av-skel-block av-skel-para-2"></span>
+      <span class="av-skel-block av-skel-para-3"></span>
+      <p class="av-skel-notice">CWN is rewriting this story in plain English&hellip;</p>
+    </div>
+
+    <!-- Article content -->
+    <div id="av-content">
+
+      <!-- Header section -->
+      <div class="av-category" id="av-category"></div>
+      <div class="av-byline" id="av-byline"></div>
+      <h1 class="av-title" id="av-title"></h1>
+      <p class="av-summary" id="av-summary"></p>
+
+      <img class="av-hero-img" id="av-hero-img" style="display:none;" alt="" />
+      <div class="av-img-credit" id="av-img-credit" style="display:none;">Photo: Official source</div>
+
+      <div class="av-impact-box" id="av-impact-box" style="display:none;">
+        <div class="av-impact-label">&#127968; What this means for you:</div>
+        <div class="av-impact-text" id="av-impact-text"></div>
+      </div>
+
+      <hr class="av-divider" />
+
+      <!-- Body sections -->
+      <div id="av-sections"></div>
+
+      <!-- Key facts -->
+      <div class="av-facts-card" id="av-facts" style="display:none;">
+        <div class="av-facts-heading">Key Facts at a Glance</div>
+        <div id="av-facts-list"></div>
+      </div>
+
+      <!-- What happens next -->
+      <div class="av-next-box" id="av-next" style="display:none;">
+        <div class="av-next-heading">What Happens Next &#128302;</div>
+        <p class="av-next-text" id="av-next-text"></p>
+      </div>
+
+      <!-- Should I worry -->
+      <div class="av-worry-box" id="av-worry" style="display:none;">
+        <div class="av-worry-heading">Should I be worried? &#129368;</div>
+        <p class="av-worry-text" id="av-worry-text"></p>
+      </div>
+
+      <!-- Footer -->
+      <div class="av-footer-links">
+        <a class="av-source-link" id="av-source-link" href="#" target="_blank" rel="noopener noreferrer">
+          Read original article &#8594;
+        </a>
+        <a class="av-back-link" href="/uae-calm-uae-news.html">&#8592; Back to CWN</a>
+        <button class="av-share-btn" id="av-share-btn" type="button">&#128279; Copy link</button>
+      </div>
+
+      <!-- Basic article notice (shown when deep rewrite unavailable) -->
+      <div class="av-basic-notice" id="av-basic-notice">
+        AI deep-rewrite is loading in the background. Refresh in a moment for the full analysis.
+      </div>
+
+      <!-- Related articles -->
+      <div class="av-related-section" id="av-related-section">
+        <div class="av-related-heading">More from this category</div>
+        <div class="av-related-grid" id="av-related-grid"></div>
+      </div>
+
+    </div><!-- /#av-content -->
+
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var ARTICLE_ID = (function() {
+      var qs = new URLSearchParams(window.location.search).get('id');
+      if (qs) return decodeURIComponent(qs);
+      var parts = window.location.pathname.split('/').filter(Boolean);
+      return decodeURIComponent(parts[parts.length - 1] || '');
+    }());
+
+    var chartInstances = [];
+
+    // ── Helpers ────────────────────────────────────────────────────────────────
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function uaeExactTime(iso) {
+      if (!iso) return '';
+      try {
+        var d = new Date(iso);
+        if (isNaN(d)) return '';
+        var timePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+        var datePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        return timePart + ', ' + datePart;
+      } catch (e) {
+        var d2 = new Date(iso);
+        return isNaN(d2) ? '' : d2.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
+    }
+
+    // Keep formatDate as alias for any legacy calls
+    function formatDate(iso) { return uaeExactTime(iso); }
+
+    function readTime(sections) {
+      var wordCount = 0;
+      (sections || []).forEach(function (s) {
+        wordCount += (s.content || '').split(/\s+/).length;
+      });
+      var mins = Math.max(1, Math.round(wordCount / 200));
+      return mins + ' min read';
+    }
+
+    function showError() {
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-error').style.display = 'block';
+    }
+
+    // ── Render chart ──────────────────────────────────────────────────────────
+    function renderChart(canvasId, section) {
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      var type = section.data_type === 'pie' ? 'pie'
+               : section.data_type === 'line' ? 'line'
+               : 'bar';
+
+      var colors = [
+        '#C8102E', '#E8506A', '#9B0B22',
+        '#F28C8C', '#FFCDD2', '#6A0020',
+      ];
+
+      var datasets = [{
+        label: section.data_title || '',
+        data: section.data_values || [],
+        backgroundColor: type === 'bar' || type === 'pie'
+          ? colors.slice(0, (section.data_values || []).length)
+          : 'rgba(200,16,46,0.15)',
+        borderColor: type === 'line' ? '#C8102E' : colors,
+        borderWidth: type === 'line' ? 2 : 1,
+        fill: type === 'line',
+        tension: 0.4,
+        pointBackgroundColor: '#C8102E',
+        borderRadius: type === 'bar' ? 4 : 0,
+      }];
+
+      var instance = new Chart(canvas, {
+        type: type,
+        data: {
+          labels: section.data_labels || [],
+          datasets: datasets,
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: type === 'pie',
+              labels: { font: { family: 'DM Sans', size: 12 }, color: '#3D3328' },
+            },
+            tooltip: {
+              bodyFont: { family: 'DM Sans', size: 12 },
+              titleFont: { family: 'DM Sans', size: 12 },
+            },
+          },
+          scales: type !== 'pie' ? {
+            x: {
+              ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' },
+              grid: { color: 'rgba(0,0,0,0.04)' },
+            },
+            y: {
+              ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' },
+              grid: { color: 'rgba(0,0,0,0.04)' },
+              beginAtZero: true,
+            },
+          } : undefined,
+        },
+      });
+      chartInstances.push(instance);
+    }
+
+    // ── Render article ────────────────────────────────────────────────────────
+    function render(data) {
+      // Tab title
+      document.title = (data.calm_title || data.title || 'Article') + ' — CWN';
+
+      // Category
+      var cat = document.getElementById('av-category');
+      cat.textContent = (data.topic || 'UAE').toUpperCase();
+
+      // Byline
+      var bylineEl = document.getElementById('av-byline');
+      var bylineParts = [];
+      if (data.sourceName) bylineParts.push('<span>Originally published by <strong>' + esc(data.sourceName) + '</strong></span>');
+      if (data.publishedAt) {
+        var rel = relativeTime(data.publishedAt);
+        var exact = uaeExactTime(data.publishedAt);
+        bylineParts.push('<span class="av-byline-sep">·</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
+      }
+      var rt = readTime(data.sections);
+      bylineParts.push('<span class="av-byline-sep">·</span><span class="av-readtime">' + esc(rt) + '</span>');
+      bylineEl.innerHTML = bylineParts.join('');
+
+      // Title
+      document.getElementById('av-title').textContent = data.calm_title || data.title || 'Update';
+
+      // Summary
+      document.getElementById('av-summary').textContent = data.summary || '';
+
+      // Hero image
+      if (data.imageUrl) {
+        var img = document.getElementById('av-hero-img');
+        img.src = '/api/image?url=' + encodeURIComponent(data.imageUrl);
+        img.alt = data.calm_title || '';
+        img.referrerPolicy = 'no-referrer';
+        img.onload = function () { img.style.display = 'block'; document.getElementById('av-img-credit').style.display = 'block'; };
+        img.onerror = function () { img.style.display = 'none'; };
+      }
+
+      // Resident impact
+      if (data.resident_impact) {
+        document.getElementById('av-impact-text').textContent = data.resident_impact;
+        document.getElementById('av-impact-box').style.display = 'block';
+      }
+
+      // Body sections
+      var sectionsEl = document.getElementById('av-sections');
+      var sectionsHTML = '';
+      (data.sections || []).forEach(function (s, i) {
+        var chartId = 'av-chart-' + i;
+        sectionsHTML += '<div class="av-section">';
+        if (s.heading) {
+          sectionsHTML += '<h2 class="av-section-heading">' + esc(s.heading) + '</h2>';
+        }
+        if (s.content) {
+          sectionsHTML += '<p class="av-section-content">' + esc(s.content) + '</p>';
+        }
+        if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+          sectionsHTML += '<div class="av-chart-wrap">';
+          if (s.data_title) sectionsHTML += '<div class="av-chart-title">' + esc(s.data_title) + '</div>';
+          sectionsHTML += '<canvas class="av-chart-canvas" id="' + chartId + '"></canvas>';
+          sectionsHTML += '</div>';
+        }
+        sectionsHTML += '</div>';
+      });
+      sectionsEl.innerHTML = sectionsHTML;
+
+      // Now render charts (canvas must be in DOM first)
+      (data.sections || []).forEach(function (s, i) {
+        if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+          renderChart('av-chart-' + i, s);
+        }
+      });
+
+      // Key facts
+      if (data.key_facts && data.key_facts.length) {
+        var factsList = document.getElementById('av-facts-list');
+        factsList.innerHTML = data.key_facts.map(function (f) {
+          return '<div class="av-fact-item"><span class="av-fact-check">&#10003;</span><span>' + esc(f) + '</span></div>';
+        }).join('');
+        document.getElementById('av-facts').style.display = 'block';
+      }
+
+      // What happens next
+      if (data.what_happens_next) {
+        document.getElementById('av-next-text').textContent = data.what_happens_next;
+        document.getElementById('av-next').style.display = 'block';
+      }
+
+      // Should I worry
+      if (data.should_i_worry) {
+        document.getElementById('av-worry-text').textContent = data.should_i_worry;
+        document.getElementById('av-worry').style.display = 'block';
+      }
+
+      // Source link
+      if (data.url) {
+        document.getElementById('av-source-link').href = data.url;
+      } else {
+        document.getElementById('av-source-link').style.display = 'none';
+      }
+
+      // Show content, hide skeleton
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-content').style.display = 'block';
+    }
+
+    // ── Share button ──────────────────────────────────────────────────────────
+    document.getElementById('av-share-btn').addEventListener('click', function () {
+      var btn = this;
+      navigator.clipboard.writeText(window.location.href).then(function () {
+        btn.textContent = '✓ Link copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = '🔗 Copy link';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function () {
+        btn.textContent = window.location.href;
+      });
+    });
+
+    // ── Relative time (full words for article page) ────────────────────────────
+    function relativeTime(iso) {
+      if (!iso) return 'Recently';
+      var d = new Date(iso), now = new Date();
+      var s = Math.floor((now - d) / 1000);
+      if (s < 60) return 'Just now';
+      var m = Math.floor(s / 60);
+      if (m < 60) return m + (m === 1 ? ' minute ago' : ' minutes ago');
+      var h = Math.floor(m / 60);
+      if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+      var days = Math.floor(h / 24);
+      if (days < 7) return days + (days === 1 ? ' day ago' : ' days ago');
+      return uaeExactTime(iso);
+    }
+
+    // ── Render basic (news cache fallback) ────────────────────────────────────
+    function renderBasic(a) {
+      document.title = (a.calmTitle || a.title || 'Article') + ' — CWN';
+
+      var cat = document.getElementById('av-category');
+      if (cat) cat.textContent = (a.topic || 'UAE').toUpperCase();
+
+      var bylineEl = document.getElementById('av-byline');
+      if (bylineEl) {
+        var parts = [];
+        if (a.sourceName) parts.push('<span>Originally published by <strong>' + esc(a.sourceName) + '</strong></span>');
+        if (a.publishedAt) {
+          var rel = relativeTime(a.publishedAt);
+          var exact = uaeExactTime(a.publishedAt);
+          parts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
+        }
+        bylineEl.innerHTML = parts.join('');
+      }
+
+      var titleEl = document.getElementById('av-title');
+      if (titleEl) titleEl.textContent = a.calmTitle || a.title || 'Update';
+
+      var summaryEl = document.getElementById('av-summary');
+      if (summaryEl) summaryEl.textContent = a.calmSummary || a.description || '';
+
+      if (a.imageUrl) {
+        var img = document.getElementById('av-hero-img');
+        img.src = '/api/image?url=' + encodeURIComponent(a.imageUrl);
+        img.alt = a.calmTitle || '';
+        img.referrerPolicy = 'no-referrer';
+        img.onload = function() { img.style.display = 'block'; document.getElementById('av-img-credit').style.display = 'block'; };
+        img.onerror = function() { img.style.display = 'none'; };
+      }
+
+      if (a.residentImpact) {
+        document.getElementById('av-impact-text').textContent = a.residentImpact;
+        document.getElementById('av-impact-box').style.display = 'block';
+      }
+
+      if (a.url) {
+        document.getElementById('av-source-link').href = a.url;
+      } else {
+        document.getElementById('av-source-link').style.display = 'none';
+      }
+
+      var notice = document.getElementById('av-basic-notice');
+      if (notice) notice.style.display = 'block';
+
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-content').style.display = 'block';
+    }
+
+    // ── Render related articles ───────────────────────────────────────────────
+    function renderRelated(topic, allItems) {
+      if (!topic || !allItems || !allItems.length) return;
+      var related = allItems.filter(function(a) {
+        return a.topic === topic && a.id !== ARTICLE_ID;
+      }).slice(0, 3);
+      if (!related.length) return;
+
+      var grid = document.getElementById('av-related-grid');
+      if (!grid) return;
+
+      grid.innerHTML = related.map(function(a) {
+        var imgHtml = a.imageUrl
+          ? '<img src="/api/image?url=' + encodeURIComponent(a.imageUrl) + '" alt="" onerror="this.style.display=\'none\'" />'
+          : '';
+        return '<a class="av-related-card" href="/article-view.html?id=' + encodeURIComponent(a.id) + '">'
+          + '<div class="av-related-img">' + imgHtml + '</div>'
+          + '<div class="av-related-text">'
+          + '<div class="av-related-cat">' + esc(a.topic || '') + '</div>'
+          + '<div class="av-related-title">' + esc(a.calmTitle || a.title || '') + '</div>'
+          + '<div class="av-related-meta" title="' + (a.publishedAt ? uaeExactTime(a.publishedAt) + ' UAE time' : '') + '">' + esc(a.sourceName || '') + (a.publishedAt ? ' \xb7 \uD83D\uDD50 ' + relativeTime(a.publishedAt) : '') + '</div>'
+          + '</div></a>';
+      }).join('');
+
+      document.getElementById('av-related-section').style.display = 'block';
+    }
+
+    // ── Load article (deep rewrite → fallback to news cache) ─────────────────
+    async function load() {
+      if (!ARTICLE_ID) { showError(); return; }
+
+      var allItems = null;
+
+      // Fetch news cache in parallel — needed for related articles + fallback
+      var newsPromise = fetch('/api/news').then(function(r) {
+        return r.ok ? r.json() : null;
+      }).catch(function() { return null; });
+
+      // 1. Try deep rewrite (requires server with article router running)
+      try {
+        var deepResp = await fetch('/article/deep/' + encodeURIComponent(ARTICLE_ID), { cache: 'no-cache' });
+        if (deepResp.ok) {
+          var data = await deepResp.json();
+          if (data && !data.error) {
+            render(data);
+            var newsData = await newsPromise;
+            if (newsData) allItems = newsData.items || [];
+            renderRelated(data.topic, allItems);
+            return;
+          }
+        }
+      } catch(e) {}
+
+      // 2. Fallback: use news cache
+      try {
+        var newsData2 = await newsPromise;
+        if (newsData2) {
+          allItems = newsData2.items || [];
+          var article = allItems.find(function(a) { return a.id === ARTICLE_ID; });
+          if (article) {
+            renderBasic(article);
+            renderRelated(article.topic, allItems);
+            return;
+          }
+        }
+      } catch(e) {}
+
+      showError();
+    }
+
+    load();
+  }());
+  </script>
+</body>
+</html>

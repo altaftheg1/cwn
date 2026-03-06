@@ -1,0 +1,3054 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clockwork News - UAE</title>
+  <meta name="description" content="Clockwork News - calm, timely summaries of UAE news and announcements from official and established sources." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --gold: #B8860B;
+      --radius-lg: 8px;
+      --radius-md: 6px;
+      --shadow-soft: 0 2px 8px rgba(0,0,0,0.08);
+      --max-width: 1320px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:#F7F4EF;
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .app-shell{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* ===== RAMADAN BANNER ===== */
+    .ramadan-banner{
+      background:#1A1208;
+      border-bottom:2px solid var(--gold);
+      padding:12px 24px;
+      text-align:center;
+      font-size:12px;
+      color:var(--gold);
+      font-family:'DM Sans',sans-serif;
+      letter-spacing:0.15em;
+      font-weight:500;
+    }
+
+    /* ===== UTILITY BAR ===== */
+    .utility-bar{
+      background:#000000;
+      color:#FFFFFF;
+      padding:10px 24px;
+      font-size:11.5px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .utility-left{
+      display:flex;
+      gap:24px;
+      align-items:center;
+    }
+    .utility-left span{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .utility-clock{
+      font-family:'Source Serif 4',serif;
+      font-weight:600;
+    }
+    .utility-right{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+    .utility-right a{
+      color:#FFFFFF;
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .utility-right a:hover{
+      color:var(--gold);
+    }
+
+    /* ===== STICKY NAVBAR ===== */
+    header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:var(--red);
+      border-bottom:3px solid #000000;
+      color:#FFFFFF;
+    }
+    .header-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      position:relative;
+    }
+    .logo-boxes{
+      display:flex;
+      gap:8px;
+    }
+    .logo-box{
+      width:42px;
+      height:42px;
+      border-radius:6px;
+      background:var(--red);
+      border:2px solid #FFFFFF; /* white border outline */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Playfair Display',serif;
+      font-size:18px;
+      font-weight:900;
+      color:#FFFFFF;
+      text-shadow:0 0 2px #000, 0 0 0 1px #FFFFFF; /* subtle white outline */
+      transition:background 0.2s ease;
+    }
+    .logo-box:hover{
+      background:rgba(200,0,0,0.9);
+      border-color:#FFFFFF;
+    }
+    .logo-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .logo-text-main{
+      font-family:'Source Serif 4',serif;
+      font-size:13px;
+      font-weight:600;
+      line-height:1;
+      color:#FFFFFF; /* white text */
+    }
+    .logo-text-sub{
+      font-family:'DM Sans',sans-serif;
+      font-size:10px;
+      opacity:0.9;
+      line-height:1;
+      color:#FFFFFF;
+    }
+
+    /* Nav bar */
+    nav.main-nav{
+      display:flex;
+      align-items:center;
+      gap:24px;
+      flex:1;
+      justify-content:center;
+    }
+    nav.main-nav a{
+      color:#FFFFFF;
+      text-decoration:none;
+      font-size:13px;
+      font-weight:500;
+      letter-spacing:0.02em;
+      padding:4px 0 6px 0;
+      border-bottom:3px solid transparent;
+      transition:border-color 0.2s ease;
+    }
+    nav.main-nav a:hover,
+    nav.main-nav a.active{
+      border-bottom-color:#FFFFFF;
+    }
+
+    .header-controls{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .search-box{
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      border-radius:4px;
+      padding:8px 12px;
+      color:#FFFFFF;
+      font-size:13px;
+      flex:0 0 200px;
+    }
+    .search-box::placeholder{
+      color:rgba(255,255,255,0.6);
+    }
+    .search-box:focus{
+      outline:none;
+      background:rgba(255,255,255,0.2);
+      border-color:rgba(255,255,255,0.5);
+    }
+    .notify-btn{
+      background:#FFFFFF;
+      color:var(--red);
+      border:none;
+      border-radius:3px;
+      padding:8px 16px;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+      transition:background 0.2s;
+    }
+    .notify-btn:hover{
+      background:rgba(255,255,255,0.9);
+    }
+
+    /* ===== LIVE TICKER BAR ===== */
+    .ticker-bar{
+      background:#000000;
+      border-bottom:3px solid var(--red);
+      padding:10px 24px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      overflow:hidden;
+    }
+    .ticker-label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      font-weight:600;
+      color:var(--red);
+      text-transform:uppercase;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+    .ticker-dot{
+      width:8px;
+      height:8px;
+      background:#FFFFFF;
+      border-radius:50%;
+      animation:blink 1s infinite;
+    }
+    @keyframes blink{
+      0%, 49%{opacity:1;}
+      50%, 100%{opacity:0.3;}
+    }
+    .ticker-content{
+      flex:1;
+      overflow:hidden;
+    }
+    .ticker-scroll{
+      display:flex;
+      gap:24px;
+      animation:scrollTicker 30s linear infinite;
+    }
+    .ticker-scroll:hover{
+      animation-play-state:paused;
+    }
+    @keyframes scrollTicker{
+      0%{transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+    .ticker-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+    .ticker-badge{
+      font-size:10px;
+      padding:3px 8px;
+      border-radius:3px;
+      background:var(--red);
+      color:#FFFFFF;
+      font-weight:600;
+      text-transform:uppercase;
+    }
+    .ticker-text{
+      color:#FFFFFF;
+      font-size:12px;
+      font-family:'Source Serif 4',serif;
+    }
+    .ticker-sep{
+      color:var(--red);
+      font-size:10px;
+    }
+
+    /* ===== TOPIC FILTER PILLS ===== */
+    .topic-filters{
+      background:#FFFFFF;
+      border-bottom:1px solid var(--border);
+      padding:16px 24px;
+      overflow-x:auto;
+      scroll-behavior:smooth;
+    }
+    .topic-filters::-webkit-scrollbar{
+      height:4px;
+    }
+    .topic-filters::-webkit-scrollbar-track{
+      background:#F7F4EF;
+    }
+    .topic-filters::-webkit-scrollbar-thumb{
+      background:var(--border);
+      border-radius:2px;
+    }
+    .filter-pills{
+      display:flex;
+      gap:8px;
+      min-width:min-content;
+    }
+    .filter-pill{
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#FFFFFF;
+      color:var(--ink);
+      font-size:12px;
+      font-weight:500;
+      cursor:pointer;
+      transition:all 0.2s;
+      white-space:nowrap;
+      font-family:'DM Sans',sans-serif;
+    }
+    .filter-pill:hover{
+      border-color:var(--red);
+      color:var(--red);
+    }
+    .filter-pill.active{
+      background:var(--red);
+      border-color:var(--red);
+      color:#FFFFFF;
+    }
+
+    /* ===== MAIN CONTENT AREA ===== */
+    .main-content{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:32px 24px;
+      flex:1;
+    }
+
+    /* Section header with label and update time */
+    .section-header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:24px;
+    }
+    .section-label{
+      font-size:11px;
+      font-weight:700;
+      text-transform:uppercase;
+      color:var(--ink);
+      letter-spacing:0.1em;
+      white-space:nowrap;
+    }
+    .section-divider{
+      flex:1;
+      height:2px;
+      background:var(--border);
+    }
+    .section-meta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:11px;
+      color:var(--ink-light);
+      white-space:nowrap;
+    }
+    .auto-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:3px 8px;
+      background:#E8F5E9;
+      color:#2E7D32;
+      font-size:10px;
+      border-radius:3px;
+      font-weight:500;
+    }
+    .auto-dot{
+      width:6px;
+      height:6px;
+      background:#2E7D32;
+      border-radius:50%;
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse{
+      0%, 100%{opacity:1;}
+      50%{opacity:0.5;}
+    }
+
+    /* ===== HERO GRID LAYOUT (2/3 + 1/3) ===== */
+    .hero-grid{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:28px;
+      margin-bottom:40px;
+      animation:fadeInUp 0.6s ease-out;
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(20px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    .hero-main{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+    }
+    .hero-image{
+      width:100%;
+      height:300px;
+      background:linear-gradient(135deg, #E3B0A8 0%, #D4A5A5 100%);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(0,0,0,0.2);
+      font-size:48px;
+      font-family:'Playfair Display',serif;
+    }
+    .hero-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .hero-content{
+      padding:24px;
+    }
+    .hero-meta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+      font-size:11px;
+    }
+    .hero-category{
+      display:inline-block;
+      padding:4px 8px;
+      background:#FFF3E0;
+      color:#E65100;
+      border-radius:3px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-size:10px;
+    }
+    .hero-source{
+      color:var(--ink-light);
+      font-weight:500;
+    }
+    .hero-title{
+      font-family:'Playfair Display',serif;
+      font-size:28px;
+      font-weight:900;
+      color:var(--ink);
+      line-height:1.2;
+      margin-bottom:12px;
+    }
+    .hero-deck{
+      font-family:'Source Serif 4',serif;
+      font-size:14px;
+      color:var(--ink-mid);
+      line-height:1.6;
+      margin-bottom:16px;
+    }
+    .hero-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:var(--ink-light);
+      padding-top:12px;
+      border-top:1px solid var(--border);
+    }
+    .hero-time{
+      font-style:italic;
+    }
+    .hero-link{
+      color:var(--red);
+      text-decoration:none;
+      font-weight:600;
+      transition:color 0.2s;
+    }
+    .hero-link:hover{
+      color:var(--red-dark);
+    }
+
+    /* Side stories (2 stacked) */
+    .hero-sides{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    .side-story{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      padding:16px;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:12px;
+      animation:fadeInUp 0.6s ease-out;
+      animation-delay:0.1s;
+      animation-fill-mode:both;
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .side-thumb{
+      position:relative;
+      width:120px;
+      height:80px;
+      background:#eee;
+      border-radius:8px;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+    .side-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .side-number{
+      position:absolute;
+      bottom:4px;
+      right:6px;
+      font-family:'Playfair Display',serif;
+      font-size:24px;
+      font-weight:900;
+      color:rgba(255,255,255,0.8);
+      text-shadow:0 0 2px rgba(0,0,0,0.4);
+      background:rgba(0,0,0,0.3);
+      padding:2px 4px;
+      border-radius:4px;
+    }
+    .side-story:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    }
+    .side-text{
+      min-width:0;
+    }
+    .side-category{
+      display:inline-block;
+      padding:3px 6px;
+      background:#FFF3E0;
+      color:#E65100;
+      border-radius:2px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-size:9px;
+      margin-bottom:6px;
+    }
+    .side-title{
+      font-family:'Playfair Display',serif;
+      font-size:16px;
+      font-weight:700;
+      color:var(--ink);
+      line-height:1.3;
+      margin-bottom:6px;
+    }
+    .side-deck{
+      font-family:'Source Serif 4',serif;
+      font-size:12px;
+      color:var(--ink-light);
+      line-height:1.4;
+      margin-bottom:8px;
+    }
+    .side-time{
+      font-size:10px;
+      color:var(--ink-light);
+      font-style:italic;
+    }
+
+    /* ===== STORY CARDS (3 columns) ===== */
+    .story-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+      margin-bottom:40px;
+      align-items:start;
+    }
+    .story-card{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+      animation:fadeInUp 0.6s ease-out;
+      animation-fill-mode:both;
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .story-card:nth-child(1){animation-delay:0.1s;}
+    .story-card:nth-child(2){animation-delay:0.2s;}
+    .story-card:nth-child(3){animation-delay:0.3s;}
+    .story-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
+    }
+    .story-image{
+      width:100%;
+      height:160px;
+      background:linear-gradient(135deg, #E3B0A8 0%, #D4A5A5 100%);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(0,0,0,0.2);
+      font-size:36px;
+      font-family:'Playfair Display',serif;
+    }
+    .story-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .story-content{
+      padding:16px;
+    }
+    .story-category{
+      display:inline-block;
+      padding:3px 6px;
+      background:#FFF3E0;
+      color:#E65100;
+      border-radius:2px;
+      font-weight:600;
+      text-transform:uppercase;
+      font-size:9px;
+      margin-bottom:8px;
+    }
+    .story-title{
+      font-family:'Playfair Display',serif;
+      font-size:16px;
+      font-weight:700;
+      color:var(--ink);
+      line-height:1.3;
+      margin-bottom:8px;
+    }
+    .story-deck{
+      font-family:'Source Serif 4',serif;
+      font-size:12px;
+      color:var(--ink-light);
+      line-height:1.5;
+      margin-bottom:12px;
+    }
+    .story-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:10px;
+      color:var(--ink-light);
+      padding-top:12px;
+      border-top:1px solid var(--border);
+    }
+    .story-time{
+      font-style:italic;
+    }
+    .story-source{
+      padding:3px 6px;
+      border-radius:2px;
+      font-weight:600;
+      text-transform:uppercase;
+      color:#FFFFFF;
+    }
+    .story-source.wam{background:#2E7D32;}
+    .story-source.gulf{background:#1565C0;}
+    .story-source.emirates{background:var(--red);}
+    .story-source.khaleej{background:#6A1B9A;}
+
+    /* ===== SIDEBAR WIDGETS ===== */
+    .sidebar{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:24px;
+      grid-row:1 / span 10;
+    }
+    .widget{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+      animation:fadeInUp 0.6s ease-out;
+    }
+    .widget-header{
+      padding:12px 16px;
+      font-size:11px;
+      font-weight:700;
+      text-transform:uppercase;
+      color:#FFFFFF;
+      letter-spacing:0.1em;
+    }
+    .widget-header.gold{background:var(--gold);}
+    .widget-header.red{background:var(--red);}
+    .widget-header.dark{background:var(--ink-mid);}
+    .widget-content{
+      padding:16px;
+    }
+
+    .weather-temp{
+      font-family:'Playfair Display',serif;
+      font-size:48px;
+      font-weight:900;
+      color:var(--ink);
+      text-align:center;
+      margin-bottom:8px;
+    }
+    .weather-icon{
+      font-size:48px;
+      text-align:center;
+      margin-bottom:12px;
+    }
+    .weather-meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      font-size:11px;
+      text-align:center;
+    }
+    .weather-meta-item{
+      color:var(--ink-light);
+    }
+    .weather-meta-label{
+      font-weight:600;
+      color:var(--ink);
+      font-size:10px;
+      text-transform:uppercase;
+    }
+
+    .trending-item{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:12px;
+      padding-bottom:12px;
+      margin-bottom:12px;
+      border-bottom:1px solid var(--border);
+    }
+    .trending-item:last-child{
+      margin-bottom:0;
+      padding-bottom:0;
+      border-bottom:none;
+    }
+    .trending-rank{
+      font-family:'Playfair Display',serif;
+      font-size:24px;
+      font-weight:900;
+      color:rgba(0,0,0,0.1);
+      line-height:1;
+      align-self:flex-start;
+    }
+    .trending-item:nth-child(-n+2) .trending-rank{
+      color:var(--red);
+    }
+    .trending-text{
+      min-width:0;
+    }
+    .trending-title{
+      font-family:'Source Serif 4',serif;
+      font-size:12px;
+      font-weight:600;
+      color:var(--ink);
+      line-height:1.3;
+      margin-bottom:3px;
+    }
+    .trending-time{
+      font-size:10px;
+      color:var(--ink-light);
+      font-style:italic;
+    }
+
+    .sources-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .source-card{
+      padding:12px;
+      background:var(--red-light);
+      border-radius:4px;
+      border:1px solid var(--border);
+    }
+    .source-name{
+      font-family:'Source Serif 4',serif;
+      font-size:12px;
+      font-weight:600;
+      color:var(--ink);
+      margin-bottom:4px;
+    }
+    .source-count{
+      font-size:10px;
+      color:var(--ink-light);
+    }
+
+    /* ===== MORE STORIES LIST ===== */
+    .more-stories{
+      margin-bottom:40px;
+    }
+    .more-stories-list{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    .more-story{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:12px;
+      padding:12px;
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      transition:all 0.2s;
+    }
+    .more-story:hover{
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+    .more-thumb{
+      width:80px;
+      height:72px;
+      border-radius:8px;
+      overflow:hidden;
+      flex-shrink:0;
+      background:#EDE4D6;
+    }
+    .more-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .more-number{
+      font-family:'Playfair Display',serif;
+      font-size:20px;
+      font-weight:900;
+      color:rgba(0,0,0,0.08);
+      line-height:1;
+      align-self:flex-start;
+    }
+    .more-text{
+      min-width:0;
+    }
+    .more-headline{
+      font-family:'Source Serif 4',serif;
+      font-size:13px;
+      font-weight:600;
+      color:var(--ink);
+      line-height:1.3;
+      margin-bottom:6px;
+    }
+    .more-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:10px;
+      gap:8px;
+    }
+    .more-category{
+      padding:2px 5px;
+      background:#FFF3E0;
+      color:#E65100;
+      border-radius:2px;
+      font-weight:600;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .more-source{
+      padding:2px 5px;
+      border-radius:2px;
+      font-weight:600;
+      text-transform:uppercase;
+      color:#FFFFFF;
+      white-space:nowrap;
+      font-size:9px;
+    }
+    .more-source.wam{background:#2E7D32;}
+    .more-source.gulf{background:#1565C0;}
+    .more-source.emirates{background:var(--red);}
+    .more-source.khaleej{background:#6A1B9A;}
+    .more-time{
+      color:var(--ink-light);
+      font-style:italic;
+    }
+
+    /* ===== FOOTER ===== */
+    footer{
+      background:var(--ink);
+      color:#FFFFFF;
+      padding:40px 24px;
+      margin-top:40px;
+    }
+    .footer-content{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:32px;
+      margin-bottom:32px;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      padding-bottom:32px;
+    }
+    .footer-section h3{
+      font-family:'Source Serif 4',serif;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:12px;
+      color:#FFFFFF;
+    }
+    .footer-section a{
+      display:block;
+      font-size:12px;
+      line-height:1.8;
+      color:rgba(255,255,255,0.8);
+      text-decoration:none;
+      transition:color 0.2s;
+    }
+    .footer-section a:hover{
+      color:#FFFFFF;
+    }
+    .subscribe-form{
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .subscribe-form input{
+      flex:1;
+      padding:8px 12px;
+      border:none;
+      border-radius:3px;
+      font-size:12px;
+    }
+    .subscribe-form button{
+      background:var(--red);
+      color:#FFFFFF;
+      border:none;
+      border-radius:3px;
+      padding:8px 12px;
+      cursor:pointer;
+      font-weight:600;
+      transition:background 0.2s;
+    }
+    .subscribe-form button:hover{
+      background:var(--red-dark);
+    }
+    .subscribe-topics{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:10px;
+    }
+    .subscribe-topics label{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:rgba(255,255,255,0.85);
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius:999px;
+      padding:4px 8px;
+      cursor:pointer;
+    }
+    .subscribe-topics input{
+      accent-color:#C8102E;
+    }
+    .subscribe-note{
+      font-size:11px;
+      color:rgba(255,255,255,0.65);
+      line-height:1.4;
+      min-height:16px;
+    }
+    .footer-bottom{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-top:1px solid rgba(255,255,255,0.1);
+      padding-top:20px;
+      font-size:11px;
+      color:rgba(255,255,255,0.7);
+    }
+    .footer-logo{
+      font-family:'Playfair Display',serif;
+      font-size:14px;
+      font-weight:900;
+      color:#FFFFFF;
+    }
+
+    /* ===== MODAL ===== */
+    .modal.hidden{display:none;}
+    .modal{position:fixed;top:0;left:0;width:100%;height:100%;z-index:10000;display:flex;align-items:center;justify-content:center;}
+    .modal-backdrop{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);}    
+    .modal-content{position:relative;background:#fff;padding:24px 30px;border-radius:8px;max-width:320px;width:90%;box-shadow:0 12px 28px rgba(0,0,0,0.15);text-align:center;}
+    .modal-content h2{margin-top:0;margin-bottom:12px;font-size:20px;color:var(--ink);}
+    .modal-content p{font-size:14px;color:var(--ink-light);margin-bottom:14px;}
+    .modal-content input{width:100%;padding:8px 10px;font-size:14px;border:1px solid var(--border);border-radius:6px;margin-bottom:14px;}
+    .modal-actions{display:flex;gap:10px;justify-content:center;}
+    .cwn-modal{
+      position:fixed;
+      inset:0;
+      z-index:12000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .cwn-modal.open{display:flex;}
+    .cwn-modal-overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.6);
+    }
+    .cwn-modal-card{
+      position:relative;
+      width:min(760px, 96vw);
+      max-height:92vh;
+      overflow:auto;
+      background:#FFFFFF;
+      border-radius:14px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.24);
+      padding:28px 26px 24px;
+    }
+    .cwn-modal-close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:32px;
+      height:32px;
+      border:none;
+      border-radius:50%;
+      background:#F7F4EF;
+      color:#1A1208;
+      font-size:18px;
+      cursor:pointer;
+    }
+    .cwn-modal-kicker{
+      text-align:center;
+      font-size:24px;
+      margin-bottom:10px;
+    }
+    .cwn-modal-title{
+      font-family:'Playfair Display',serif;
+      font-size:34px;
+      color:#1A1208;
+      margin:0 0 8px;
+      text-align:center;
+      line-height:1.15;
+    }
+    .cwn-modal-subtitle{
+      text-align:center;
+      color:#7A6E62;
+      font-size:14px;
+      margin:0 0 18px;
+    }
+    .cwn-modal-input{
+      width:100%;
+      border:1px solid #DDD8CF;
+      border-radius:8px;
+      padding:12px 14px;
+      font-size:15px;
+      margin-bottom:12px;
+    }
+    .cwn-modal-primary{
+      width:100%;
+      border:none;
+      border-radius:8px;
+      background:#C8102E;
+      color:#fff;
+      font-weight:700;
+      letter-spacing:0.03em;
+      padding:12px 14px;
+      cursor:pointer;
+    }
+    .cwn-modal-primary:disabled{opacity:0.6;cursor:not-allowed;}
+    .cwn-modal-error{
+      margin-top:10px;
+      color:#C8102E;
+      font-size:13px;
+      text-align:center;
+      min-height:18px;
+    }
+    .cwn-topics-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .cwn-inline-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:13px;
+      color:#3D3328;
+    }
+    .cwn-topic-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .cwn-topic-card{
+      border:1px solid #DDD8CF;
+      border-radius:10px;
+      background:#F7F4EF;
+      padding:12px 10px;
+      text-align:center;
+      cursor:pointer;
+      color:#1A1208;
+      font-size:13px;
+      font-weight:600;
+    }
+    .cwn-topic-card.selected{
+      background:#C8102E;
+      color:#fff;
+      border-color:#C8102E;
+    }
+    .cwn-topic-actions{
+      display:flex;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .cwn-topic-actions button{
+      border:1px solid #DDD8CF;
+      background:#fff;
+      border-radius:8px;
+      padding:8px 12px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .cwn-timing-list{
+      display:grid;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .cwn-timing-card{
+      border:1px solid #DDD8CF;
+      border-left:4px solid transparent;
+      border-radius:10px;
+      padding:12px;
+      cursor:pointer;
+      background:#fff;
+    }
+    .cwn-timing-card.selected{
+      border-left-color:#C8102E;
+      background:#fdf1f4;
+    }
+    .cwn-timing-head{
+      font-weight:700;
+      color:#1A1208;
+      margin-bottom:4px;
+    }
+    .cwn-timing-copy{
+      font-size:13px;
+      color:#7A6E62;
+      line-height:1.35;
+      white-space:pre-line;
+    }
+    .cwn-success-icon{
+      text-align:center;
+      font-size:34px;
+      margin-bottom:8px;
+    }
+    .cwn-summary{
+      margin:10px 0 16px;
+      border:1px solid #DDD8CF;
+      border-radius:10px;
+      padding:12px;
+      background:#F7F4EF;
+      font-size:13px;
+      color:#3D3328;
+      line-height:1.5;
+    }
+    @media (max-width:768px){
+      .cwn-modal-card{padding:24px 16px 18px;}
+      .cwn-modal-title{font-size:28px;}
+      .cwn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    }
+
+    /* ===== SPLASH SCREEN ===== */
+    .splash{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      pointer-events:auto;
+      cursor:pointer;
+      background:var(--red);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px;
+      transition:opacity .6s ease, transform .5s ease;
+      overflow:hidden;
+    }
+    .splash.exit{
+      opacity:0;
+      transform:scale(1.08);
+      pointer-events:none;
+    }
+    .splash-center{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      z-index:2;
+      padding:18px 24px;
+      background:linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.05));
+      border-radius:18px;
+      animation:splashCenterFadeIn .6s ease-out forwards;
+      backdrop-filter:blur(10px);
+    }
+    .splash-box{
+      width:72px;
+      height:72px;
+      border-radius:14px;
+      background:var(--red);
+      border:2.5px solid #FFFFFF;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Playfair Display',serif;
+      font-size:36px;
+      font-weight:900;
+      color:#FFFFFF;
+      box-shadow:0 6px 20px rgba(0,0,0,0.15);
+      animation:splashBoxSlideUp .5s cubic-bezier(.17,.67,.35,1.3) forwards;
+    }
+    .splash-box:nth-child(1){ animation-delay:.2s; }
+    .splash-box:nth-child(2){ animation-delay:.4s; }
+    .splash-box:nth-child(3){ animation-delay:.6s; }
+    @keyframes splashCenterFadeIn{
+      0%  { opacity:0; transform:scale(0.95); }
+      100%{ opacity:1; transform:scale(1); }
+    }
+    @keyframes splashBoxSlideUp{
+      0%  { opacity:0; transform:translateY(30px) scale(0.7) rotate(-8deg); }
+      60% { opacity:1; transform:translateY(-6px) scale(1.05) rotate(2deg); }
+      100%{ opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
+    }
+
+    /* Media queries */
+    @media (max-width:1400px){
+      .story-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+      .sidebar{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
+    @media (max-width:1024px){      .hero-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-sides{
+        flex-direction:row;
+      }
+      .story-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
+    @media (max-width:768px){      .utility-bar{
+        flex-direction:column;
+        gap:12px;
+        align-items:flex-start;
+      }
+      nav.main-nav{
+        display:none;
+      }
+      .story-grid{
+        grid-template-columns:1fr;
+      }
+      .sidebar{
+        display:none;
+      }
+      .more-stories-list{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+
+  <!-- ===== ON THE GROUND — Community Section Styles ===== -->
+  <style>
+    /* All classes prefixed .otg- to avoid any collision with existing styles */
+
+    .otg-section {
+      margin-bottom: 40px;
+    }
+
+    .otg-form-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .otg-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--cream);
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .otg-textarea:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+
+    .otg-form-meta {
+      display: flex;
+      justify-content: flex-end;
+      margin: 4px 0 12px;
+    }
+
+    .otg-char-counter {
+      font-size: 11px;
+      color: var(--ink-light);
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .otg-char-counter--warning {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .otg-form-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .otg-select {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--cream);
+      cursor: pointer;
+      flex: 1;
+      min-width: 150px;
+    }
+    .otg-select:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+
+    .otg-identity-toggles {
+      display: flex;
+      gap: 6px;
+    }
+
+    .otg-toggle {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 7px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      background: #FFFFFF;
+      color: var(--ink-light);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .otg-toggle--active {
+      background: var(--red);
+      color: #FFFFFF;
+      border-color: var(--red);
+    }
+    .otg-toggle:hover:not(.otg-toggle--active) {
+      border-color: var(--ink-light);
+      color: var(--ink);
+    }
+
+    .otg-name-fields {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .otg-name-fields--visible {
+      display: flex;
+    }
+
+    .otg-input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--cream);
+      box-sizing: border-box;
+    }
+    .otg-input:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+
+    .otg-privacy-note {
+      font-size: 11px;
+      color: var(--ink-light);
+      font-family: 'DM Sans', sans-serif;
+      font-style: italic;
+      margin: 0;
+    }
+
+    .otg-form-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .otg-submit-btn {
+      background: var(--red);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .otg-submit-btn:hover:not(:disabled) {
+      background: var(--red-dark);
+    }
+    .otg-submit-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .otg-status {
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink-mid);
+      flex: 1;
+    }
+    .otg-status--error { color: var(--red); }
+    .otg-status--success { color: #2E7D32; }
+
+    /* Post cards */
+    .otg-posts {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .otg-post-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .otg-post-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .otg-location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--red-light);
+      color: var(--red-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .otg-author {
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink-mid);
+      font-weight: 500;
+    }
+
+    .otg-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      color: #2E7D32;
+      margin-left: auto;
+    }
+    .otg-verified-dot {
+      width: 7px;
+      height: 7px;
+      background: #2E7D32;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .otg-post-content {
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      margin: 0 0 8px 0;
+    }
+
+    .otg-post-time {
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    .otg-empty {
+      text-align: center;
+      color: var(--ink-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 24px 0;
+    }
+
+    @media (max-width: 600px) {
+      .otg-form-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .otg-identity-toggles {
+        justify-content: stretch;
+      }
+      .otg-toggle {
+        flex: 1;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <!-- Language switcher styles -->
+  <style>
+    .lang-switcher{position:relative;}
+    .lang-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.4);
+      color:#fff;
+      padding:4px 10px;
+      border-radius:3px;
+      font-size:11px;
+      font-family:'DM Sans',sans-serif;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:5px;
+      white-space:nowrap;
+    }
+    .lang-btn:hover{border-color:rgba(255,255,255,0.8);}
+    .lang-dropdown{
+      position:absolute;
+      right:0;
+      top:calc(100% + 6px);
+      background:#111;
+      border:1px solid #333;
+      border-radius:5px;
+      min-width:148px;
+      z-index:9999;
+      overflow:hidden;
+      display:none;
+      box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    }
+    .lang-dropdown.open{display:block;}
+    .lang-option{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:9px 14px;
+      color:#eee;
+      font-size:13px;
+      font-family:'DM Sans',sans-serif;
+      cursor:pointer;
+      transition:background 0.12s;
+      border-bottom:1px solid #222;
+    }
+    .lang-option:last-child{border-bottom:none;}
+    .lang-option:hover{background:#222;}
+    .lang-option.active{color:var(--gold);font-weight:600;}
+    /* RTL layout support */
+    html[dir="rtl"] .header-inner{flex-direction:row-reverse;}
+    html[dir="rtl"] nav.main-nav{flex-direction:row-reverse;}
+    html[dir="rtl"] .utility-bar{flex-direction:row-reverse;}
+    html[dir="rtl"] .utility-left,html[dir="rtl"] .utility-right{flex-direction:row-reverse;}
+    html[dir="rtl"] .header-controls{flex-direction:row-reverse;}
+    html[dir="rtl"] .more-story{direction:rtl;}
+    html[dir="rtl"] .more-meta{flex-direction:row-reverse;}
+    html[dir="rtl"] .story-content{direction:rtl;}
+    html[dir="rtl"] .story-footer{flex-direction:row-reverse;}
+    html[dir="rtl"] .otg-form-row{flex-direction:row-reverse;}
+    html[dir="rtl"] .otg-form-meta{justify-content:flex-start;}
+    /* Script-specific fonts applied via JS body style */
+  </style>
+</head>
+<body>
+  <!-- Splash screen -->
+  <div class="splash" id="splash">
+    <div class="splash-center">
+      <div class="splash-box">C</div>
+      <div class="splash-box">W</div>
+      <div class="splash-box">N</div>
+    </div>
+  </div>
+
+  <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
+    <!-- Ramadan Banner -->
+    <div class="ramadan-banner">
+      ✦ رمضان كريم RAMADAN KAREEM — MUBARAK TO ALL رمضان كريم ✦
+    </div>
+
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+      <div class="utility-left">
+        <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
+        <span id="dateDisplay">Mar 2, 2026</span>
+        <span id="utilCity">Dubai, UAE</span>
+      </div>
+      <div class="utility-right">
+        <div class="lang-switcher" id="langSwitcher">
+          <button class="lang-btn" id="langBtn">🇬🇧 English ▾</button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option" data-lang="en">🇬🇧 English</div>
+            <div class="lang-option" data-lang="ml">🇮🇳 മലയാളം</div>
+            <div class="lang-option" data-lang="ar">🇦🇪 العربية</div>
+            <div class="lang-option" data-lang="hi">🇮🇳 हिन्दी</div>
+            <div class="lang-option" data-lang="tl">🇵🇭 Filipino</div>
+          </div>
+        </div>
+        <a href="/about.html" id="utilAbout">About</a>
+        <a href="#sources" id="utilSources">Sources</a>
+        <a href="#contact" id="utilContact">Contact</a>
+      </div>
+    </div>
+
+    <!-- Sticky Navbar -->
+    <header>
+      <div class="header-inner">
+        <a class="brand" href="/uae-calm-uae-news.html">
+          <div class="logo-boxes">
+            <div class="logo-box">C</div>
+            <div class="logo-box">W</div>
+            <div class="logo-box">N</div>
+          </div>
+          <div class="logo-text">
+            <div class="logo-text-main">Central Watch News</div>
+            <div class="logo-text-sub">UAE Official Sources</div>
+          </div>
+        </a>
+        <nav class="main-nav">
+          <a href="#" class="active">Home</a>
+          <a href="#" onclick="filterByCategory('Safety',null); return false;">Safety</a>
+          <a href="#" onclick="filterByCategory('Government',null); return false;">Government</a>
+          <a href="#" onclick="filterByCategory('Business',null); return false;">Business</a>
+          <a href="#" onclick="filterByCategory('Health &amp; Education',null); return false;">Health</a>
+          <a href="#" onclick="filterByCategory('Lifestyle',null); return false;">Lifestyle</a>
+        </nav>
+        <div class="header-controls">
+          <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
+          <button id="notifyBtn" class="notify-btn">🔔 Notify me</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Live Ticker -->
+    <div class="ticker-bar">
+      <div class="ticker-label">
+        <div class="ticker-dot"></div>
+        <span id="tickerLiveText">LIVE FEED</span>
+      </div>
+      <div class="ticker-content">
+        <div class="ticker-scroll" id="tickerScroll"><!-- Populated by JS --></div>
+      </div>
+    </div>
+
+    <!-- Topic Filters -->
+    <div class="topic-filters">
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-cat="all" onclick="filterByCategory('all',this);">All</button>
+        <button class="filter-pill" data-cat="Government" onclick="filterByCategory('Government',this);">Government</button>
+        <button class="filter-pill" data-cat="General News" onclick="filterByCategory('General News',this);">General</button>
+        <button class="filter-pill" data-cat="Business" onclick="filterByCategory('Business',this);">Business</button>
+        <button class="filter-pill" data-cat="Safety" onclick="filterByCategory('Safety',this);">Safety</button>
+        <button class="filter-pill" data-cat="Health &amp; Education" onclick="filterByCategory('Health &amp; Education',this);">Health</button>
+        <button class="filter-pill" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',this);">Lifestyle</button>
+        <button class="filter-pill" data-cat="Media" onclick="filterByCategory('Media',this);">Media</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="news-feed">
+      <div class="section-header">
+        <div class="section-label" id="sectionLabelTop">TOP STORIES</div>
+        <div class="section-divider"></div>
+        <div class="section-meta">
+          <span id="lastUpdated">Last updated: --:--</span>
+          <div class="auto-badge"><div class="auto-dot"></div>Auto 30s</div>
+        </div>
+      </div>
+
+      <div class="hero-grid" id="heroGrid"></div>
+      <div class="story-grid" id="storyGrid"></div>
+      <aside class="sidebar" id="sidebar"></aside>
+
+      <div class="more-stories">
+        <div class="section-header">
+          <div class="section-label" id="sectionLabelMore">MORE STORIES</div>
+          <div class="section-divider"></div>
+        </div>
+        <div class="more-stories-list" id="moreStoriesList"></div>
+      </div>
+
+      <!-- ===== ON THE GROUND — Community Section ===== -->
+      <section class="otg-section" id="onTheGround" aria-label="On The Ground community reports">
+
+        <div class="section-header">
+          <div class="section-label" id="otgSectionLabel" style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;letter-spacing:0.01em;">On The Ground &#127462;&#127466;</div>
+          <div class="section-divider"></div>
+          <div class="section-meta">
+            <span id="otgSubText" style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink-light);">Real observations from UAE residents</span>
+          </div>
+        </div>
+
+        <!-- Submission form -->
+        <div class="otg-form-card">
+          <textarea
+            id="otgContent"
+            class="otg-textarea"
+            placeholder="What are you seeing right now?"
+            maxlength="280"
+            rows="3"
+            aria-label="Your observation"
+          ></textarea>
+          <div class="otg-form-meta">
+            <span class="otg-char-counter" id="otgCharCounter">280 characters remaining</span>
+          </div>
+
+          <div class="otg-form-row">
+            <select id="otgLocation" class="otg-select" aria-label="Location">
+              <option value="">Select location&hellip;</option>
+              <option value="Dubai">Dubai</option>
+              <option value="Abu Dhabi">Abu Dhabi</option>
+              <option value="Sharjah">Sharjah</option>
+              <option value="Ajman">Ajman</option>
+              <option value="RAK">RAK</option>
+              <option value="Fujairah">Fujairah</option>
+              <option value="Um Al Quwain">Um Al Quwain</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <div class="otg-identity-toggles" role="group" aria-label="Identity options">
+              <button type="button" class="otg-toggle otg-toggle--active" id="otgAnonBtn" aria-pressed="true">
+                Stay Anonymous
+              </button>
+              <button type="button" class="otg-toggle" id="otgNameBtn" aria-pressed="false">
+                Add my name
+              </button>
+            </div>
+          </div>
+
+          <!-- Name / contact fields — hidden by default -->
+          <div class="otg-name-fields" id="otgNameFields" aria-hidden="true">
+            <input
+              type="text"
+              id="otgDisplayName"
+              class="otg-input"
+              placeholder="Your name or nickname (optional)"
+              maxlength="80"
+            />
+            <input
+              type="text"
+              id="otgContact"
+              class="otg-input"
+              placeholder="Email or phone (private, never shown publicly)"
+              maxlength="120"
+            />
+            <p class="otg-privacy-note">
+              Your contact info is never shown publicly. CWN stores it privately for verification only.
+            </p>
+          </div>
+
+          <div class="otg-form-footer">
+            <button type="button" id="otgSubmitBtn" class="otg-submit-btn" disabled>
+              Submit Report
+            </button>
+            <div class="otg-status" id="otgStatus" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- Approved posts feed -->
+        <div class="otg-posts" id="otgPostsFeed"></div>
+
+      </section>
+      <!-- ===== END ON THE GROUND ===== -->
+
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 id="footerH1">Sections</h3>
+          <a href="#">Safety</a>
+          <a href="#">Government</a>
+          <a href="#">Finance</a>
+          <a href="#">Health</a>
+        </div>
+        <div class="footer-section">
+          <h3 id="footerH2">Official Sources</h3>
+          <a href="#">Emirates News Agency</a>
+          <a href="#">UAE Government</a>
+          <a href="#">Khaleej Times</a>
+          <a href="#">Gulf News</a>
+        </div>
+        <div class="footer-section">
+          <h3 id="footerH3">About</h3>
+          <a href="#">Editorial Mission</a>
+          <a href="#">How We Work</a>
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-section">
+          <h3 id="footerH4">Subscribe</h3>
+          <form class="subscribe-form" id="digestSubscribeForm" onsubmit="return false;">
+            <input type="email" id="digestEmail" placeholder="Your email" required>
+            <button type="button" id="digestSubscribeBtn">Subscribe</button>
+          </form>
+          <div class="subscribe-note" id="footerSubNote">Choose topics and delivery timing in the popup.</div>
+        </div>
+      </div>
+      <!-- Disclaimer -->
+      <div style="max-width:var(--max-width);margin:0 auto 20px;padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.65;">
+        CWN paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. Central Watch News is an independent student project not affiliated with any government.
+      </div>
+      <!-- Footer nav links -->
+      <div style="max-width:var(--max-width);margin:0 auto 16px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px;">
+        <a href="/privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Privacy Policy</a>
+        <span style="color:rgba(255,255,255,0.2)">|</span>
+        <a href="/terms.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Terms of Use</a>
+        <span style="color:rgba(255,255,255,0.2)">|</span>
+        <a href="/about.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">About</a>
+        <span style="color:rgba(255,255,255,0.2)">|</span>
+        <a href="/status.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Regional Status</a>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-logo">CWN</span>
+        <span id="footerCopyright">© 2026 Clockwork News | Calm, factual UAE journalism</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="cwn-modal" id="cwnSubscribeModal" aria-hidden="true">
+    <div class="cwn-modal-overlay" id="cwnSubscribeOverlay"></div>
+    <div class="cwn-modal-card" id="cwnSubscribeCard">
+      <button class="cwn-modal-close" id="cwnSubscribeClose" aria-label="Close">×</button>
+      <div id="cwnSubscribeMount"></div>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let allNews = [];
+    let currentFilter = 'all';
+    let currentCategory = 'all';
+    let currentSearch = '';    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+
+    // Update clock every second
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const mo = now.toLocaleString('en-US', { month: 'short' });
+      const d = now.getDate();
+      const y = now.getFullYear();
+      if (document.getElementById('clockDisplay')) {
+        document.getElementById('clockDisplay').textContent = `${h}:${m} GST`;
+        document.getElementById('dateDisplay').textContent = `${mo} ${d}, ${y}`;
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // helper: gradient placeholder for topic when no image
+    function gradientForTopic(topic) {
+      switch ((topic||"").toLowerCase()) {
+        case 'safety': return 'linear-gradient(135deg, #1a1a2e, #c0392b)';
+        case 'health': return 'linear-gradient(135deg, #134e5e, #71b280)';
+        case 'finance': return 'linear-gradient(135deg, #373b44, #4286f4)';
+        case 'government':
+        case 'politics': return 'linear-gradient(135deg, #1a1208, #c8102e)';
+        case 'news': return 'linear-gradient(135deg, #0f2027, #2c5364)';
+        default: return 'linear-gradient(135deg, #2c3e50, #3498db)';
+      }
+    }
+
+    // construct HTML for any item's image area, falling back to gradient
+    function imageHtml(item) {
+      const grad = gradientForTopic(item.topic);
+      if (item.imageUrl) {
+        const proxied = `${API_BASE}/api/image?url=` + encodeURIComponent(item.imageUrl);
+        return `<div class="story-image"><img src="${proxied}" alt="" style="object-fit:cover;width:100%;height:100%;" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${grad}';" /></div>`;
+      } else {
+        return `<div class="story-image" style="background:${grad};"></div>`;
+      }
+    }
+
+    // Relative time format
+    function relativeTime(iso) {
+      if (!iso) return 'Recently';
+      const d = new Date(iso);
+      const now = new Date();
+      const s = Math.floor((now - d) / 1000);
+      if (s < 60) return 'Just now';
+      const m = Math.floor(s / 60);
+      if (m < 60) return `${m}m ago`;
+      const h = Math.floor(m / 60);
+      if (h < 24) return `${h}h ago`;
+      const days = Math.floor(h / 24);
+      if (days < 7) return `${days}d ago`;
+      return d.toLocaleDateString();
+    }
+
+    function uaeExactTime(iso) {
+      if (!iso) return '';
+      try {
+        const d = new Date(iso);
+        if (isNaN(d)) return '';
+        const timePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+        const datePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        return timePart + ', ' + datePart;
+      } catch {
+        return '';
+      }
+    }
+
+    // Topic classification
+    function classifyTopic(item) {
+      const text = `${item.calmTitle || ''} ${item.title || ''} ${item.calmSummary || ''} ${item.sourceName || ''}`.toLowerCase();
+      if (/school|university|student|education/.test(text)) return 'education';
+      if (/health|hospital|clinic|vaccine|medical/.test(text)) return 'health';
+      if (/stock|market|price|finance|salary|economy/.test(text)) return 'finance';
+      if (/president|cabinet|minister|diplomat|parliament/.test(text)) return 'politics';
+      if (/missile|drone|defence|emergency|incident|crisis/.test(text)) return 'safety';
+      if (/flight|airport|traffic|transport|road/.test(text)) return 'transport';
+      if (/family|community|resident|travel|ramadan/.test(text)) return 'community';
+      return 'news';
+    }
+
+    // Source badge color class
+    function sourceClass(src) {
+      const s = (src || '').toLowerCase();
+      if (s.includes('wam')) return 'wam';
+      if (s.includes('gulf')) return 'gulf';
+      if (s.includes('emirates') || s.includes('emirates24')) return 'emirates';
+      if (s.includes('khaleej')) return 'khaleej';
+      return 'emirates';
+    }    // Splash logic
+    (function() {
+      const splash = document.getElementById('splash');
+      const app = document.getElementById('appShell');
+      if (!app) return;
+
+      let isReload = false;
+      let isFirst = true;
+      try {
+        const nav = performance.getEntriesByType('navigation')[0];
+        isReload = !!(nav && nav.type === 'reload');
+      } catch {}
+      try {
+        isFirst = !sessionStorage.getItem('cwn_visited');
+      } catch {
+        isFirst = true;
+      }
+
+      const showApp = () => {
+        app.style.opacity = '1';
+        if (splash) {
+          splash.classList.add('exit');
+          setTimeout(() => splash.remove(), 600);
+        }
+      };
+
+      if (isReload || isFirst) {
+        try { sessionStorage.setItem('cwn_visited', '1'); } catch {}
+        setTimeout(showApp, 1500);
+        if (splash) splash.onclick = showApp;
+      } else {
+        if (splash) splash.remove();
+        app.style.opacity = '1';
+      }
+    })();
+
+    // Load and render news
+    async function loadNews() {
+      try {
+        const r = await fetch(`${API_BASE}/api/news`, { cache: 'no-store' });
+        if (!r.ok) throw new Error('Failed to fetch');
+        const d = await r.json();
+        allNews = (Array.isArray(d.items) ? d.items : []).map(item => ({
+          ...item,
+          topic: classifyTopic(item)
+        }));
+        if (!allNews.length) {
+          document.getElementById('heroGrid').innerHTML = '<div class="hero-main" style="padding:24px;">No stories are available right now. Please refresh shortly.</div>';
+          document.getElementById('storyGrid').innerHTML = '';
+          document.getElementById('moreStoriesList').innerHTML = '';
+          return;
+        }
+        renderContent();
+        populateTicker();
+        updateTime();
+      } catch (e) {
+        console.error('Error:', e);
+        document.getElementById('heroGrid').innerHTML = '<div class="hero-main" style="padding:24px;">Unable to load news. If you opened this file directly, run <code>npm start</code> and open <code>http://localhost:3000/uae-calm-uae-news.html</code>.</div>';
+        document.getElementById('storyGrid').innerHTML = '';
+        document.getElementById('moreStoriesList').innerHTML = '';
+      }
+    }
+
+    function renderContent() {
+      const items = allNews.filter(item => {
+        const catMatch = currentCategory === 'all' || (item.category || '') === currentCategory;
+        const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
+        return catMatch && search;
+      }).slice(0, 20);
+
+      // Hero grid: item 0 = hero, items 1-2 = sides
+      if (items.length > 0) {
+        const hero = items[0];
+        const heroHTML = `
+          <div class="hero-main" onclick="location.href='/article-view.html?id=${encodeURIComponent(hero.id)}'">
+            <div class="hero-image">
+              ${hero.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(hero.imageUrl)}" alt="" style="object-fit:cover;width:100%;height:100%;" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${gradientForTopic(hero.topic)}';" />` : `<div style="width:100%;height:100%;background:${gradientForTopic(hero.topic)};"></div>`}
+            </div>
+            <div class="hero-content">
+              <div class="hero-meta">
+                <div class="hero-category">${(hero.category || hero.topic || '').toUpperCase()}</div>
+                <div class="hero-source">${hero.sourceName || 'Official'}</div>
+              </div>
+              <h1 class="hero-title">${hero.calmTitle || hero.title || 'Update'}</h1>
+              <p class="hero-deck">${hero.calmSummary || ''}</p>
+              ${hero.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${hero.residentImpact}</div>` : ''}
+              ${hero.alsoReportedBy && hero.alsoReportedBy.length ? `<div style="font-size:11px;color:#888;margin-top:4px;">Also reported by: ${hero.alsoReportedBy.join(', ')}</div>` : ''}
+              <div class="hero-footer">
+                <span class="hero-time" title="${uaeExactTime(hero.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(hero.publishedAt)}</span>
+                <a href="${hero.url || '#'}" class="hero-link" target="_blank">Read full →</a>
+              </div>
+            </div>
+          </div>
+        `;
+        const sidesHTML = items.slice(1, 3).map((item, i) => `
+          <div class="side-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+            <div class="side-thumb" style="background:${item.imageUrl ? '' : gradientForTopic(item.topic)}">
+              ${item.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" />` : ``}
+              <div class="side-number">0${i + 2}</div>
+            </div>
+            <div class="side-text">
+              <div class="side-category">${(item.category || item.topic || '').toUpperCase()}</div>
+              <h3 class="side-title">${item.calmTitle || item.title}</h3>
+              <p class="side-deck">${item.calmSummary || ''}</p>
+              <div class="side-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</div>
+            </div>
+          </div>
+        `).join('');
+        document.getElementById('heroGrid').innerHTML = `${heroHTML}<div class="hero-sides">${sidesHTML}</div>`;
+      }
+
+      // Story cards: items 3-8 (3-column grid)
+      const cardHTML = items.slice(3, 9).map(item => `
+        <article class="story-card" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+          ${imageHtml(item)}
+          <div class="story-content">
+            <div class="story-category">${(item.category || item.topic || '').toUpperCase()}</div>
+            <h3 class="story-title">${item.calmTitle || item.title}</h3>
+            <p class="story-deck">${(item.calmSummary || '').substring(0, 80)}...</p>
+            ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${item.residentImpact}</div>` : ''}
+            ${item.alsoReportedBy && item.alsoReportedBy.length ? `<div style="font-size:11px;color:#999;margin-top:3px;">+${item.alsoReportedBy.length} more source${item.alsoReportedBy.length > 1 ? 's' : ''}</div>` : ''}
+            <div class="story-footer">
+              <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
+              <span class="story-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').substr(0, 8).toUpperCase()}</span>
+              ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
+            </div>
+          </div>
+        </article>
+      `).join('');
+      document.getElementById('storyGrid').innerHTML = cardHTML;
+
+      // More stories: items 9+ (2-col list)
+      const moreHTML = items.slice(9).map((item, i) => `
+        <div class="more-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+          <div class="more-thumb">
+            ${item.imageUrl
+              ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
+              : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`
+            }
+          </div>
+          <div class="more-text">
+            <h4 class="more-headline">${item.calmTitle || item.title}</h4>
+            <div class="more-meta">
+              <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
+              <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').substr(0, 8).toUpperCase()}</span>
+              <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
+              ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
+            </div>
+            ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${item.residentImpact}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('moreStoriesList').innerHTML = moreHTML;
+    }
+
+    function populateTicker() {
+      let ticker = allNews.slice(0, 10).map(item => `
+        <div class="ticker-item">
+          <span class="ticker-badge">${(item.sourceName || '').substr(0, 3).toUpperCase()}</span>
+          <span class="ticker-text">${item.calmTitle || item.title}</span>
+          <span class="ticker-sep">◆</span>
+        </div>
+      `).join('');
+      ticker += ticker; // duplicate for seamless loop
+      document.getElementById('tickerScroll').innerHTML = ticker;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      const t = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+      document.getElementById('lastUpdated').textContent = `Last updated: ${t}`;
+    }
+
+    function filterByTopic(topic) {
+      // Legacy — kept for any old callers
+      currentFilter = topic;
+      renderContent();
+    }
+
+    function filterByCategory(cat, btnEl) {
+      currentCategory = cat;
+      document.querySelectorAll('#filterPills .filter-pill').forEach(p => p.classList.remove('active'));
+      if (btnEl) {
+        btnEl.classList.add('active');
+      } else {
+        // Try to find the matching pill by data-cat
+        const match = document.querySelector(`#filterPills .filter-pill[data-cat="${CSS.escape ? CSS.escape(cat) : cat}"]`);
+        if (match) match.classList.add('active');
+      }
+      renderContent();
+    }
+
+    // Search
+    document.getElementById('headerSearch').addEventListener('input', (e) => {
+      currentSearch = e.target.value;
+      renderContent();
+    });
+
+    // Unified subscription modal (navbar + footer)
+    const subscribeState = {
+      step: 'email',
+      email: '',
+      allTopics: false,
+      topics: [],
+      timing: [],
+      status: '',
+      submitting: false,
+    };
+    const TOPIC_OPTIONS = [
+      { id: 'safety', icon: '🛡️', label: 'Safety' },
+      { id: 'politics', icon: '🏛️', label: 'Government' },
+      { id: 'finance', icon: '💰', label: 'Finance' },
+      { id: 'health', icon: '🏥', label: 'Health' },
+      { id: 'transport', icon: '🚌', label: 'Transport' },
+      { id: 'community', icon: '🌍', label: 'World Affairs' },
+    ];
+    const TIMING_OPTIONS = [
+      { id: 'morning', head: '🌅 Morning Digest', body: "Top stories from overnight\nDelivered 7:00 AM GST" },
+      { id: 'evening', head: '🌆 Evening Digest', body: "Top stories from the day\nDelivered 8:00 PM GST" },
+      { id: 'breaking', head: '⚡ Breaking Only', body: "Only major stories\nMax 3 per day" },
+      { id: 'weekly', head: '🔕 Weekly Summary', body: "One email every Friday\nThe week's top 10 stories" },
+    ];
+
+    const subscribeModal = document.getElementById('cwnSubscribeModal');
+    const subscribeMount = document.getElementById('cwnSubscribeMount');
+    const notifyBtn = document.getElementById('notifyBtn');
+    const footerSubscribeBtn = document.getElementById('digestSubscribeBtn');
+    const footerEmailInput = document.getElementById('digestEmail');
+
+    function openSubscribeModal(prefillEmail = '') {
+      if (prefillEmail) subscribeState.email = prefillEmail;
+      subscribeState.step = 'email';
+      subscribeState.status = '';
+      subscribeModal.classList.add('open');
+      subscribeModal.setAttribute('aria-hidden', 'false');
+      renderSubscribeModal();
+    }
+
+    function closeSubscribeModal() {
+      subscribeModal.classList.remove('open');
+      subscribeModal.setAttribute('aria-hidden', 'true');
+      subscribeState.step = 'email';
+      subscribeState.status = '';
+      subscribeState.submitting = false;
+      renderSubscribeModal();
+    }
+
+    function toggleArrayValue(arr, value) {
+      const has = arr.includes(value);
+      return has ? arr.filter((x) => x !== value) : [...arr, value];
+    }
+
+    function isValidEmail(email) {
+      return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(email || '').trim());
+    }
+
+    function prettyTopic(id) {
+      const found = TOPIC_OPTIONS.find((t) => t.id === id);
+      return found ? found.label : id;
+    }
+
+    function prettyTiming(id) {
+      const found = TIMING_OPTIONS.find((t) => t.id === id);
+      return found ? found.head.replace(/^.\s/, '') : id;
+    }
+
+    function summarizeTiming(ids) {
+      if (!ids.length) return 'daily digest';
+      return ids.map(prettyTiming).join(' + ').toLowerCase();
+    }
+
+    function nextStep() {
+      if (subscribeState.step === 'email') {
+        if (!isValidEmail(subscribeState.email)) {
+          subscribeState.status = 'Please enter a valid email address.';
+          renderSubscribeModal();
+          return;
+        }
+        subscribeState.status = '';
+        subscribeState.step = 'topics';
+        renderSubscribeModal();
+        return;
+      }
+      if (subscribeState.step === 'topics') {
+        subscribeState.step = 'timing';
+        renderSubscribeModal();
+        return;
+      }
+      if (subscribeState.step === 'timing') {
+        finishSubscription();
+      }
+    }
+
+    async function finishSubscription() {
+      const selectedTopics = subscribeState.allTopics ? [] : subscribeState.topics;
+      const selectedTiming = subscribeState.timing.length ? subscribeState.timing : ['morning', 'evening'];
+      subscribeState.submitting = true;
+      subscribeState.status = '';
+      renderSubscribeModal();
+      try {
+        const r = await fetch(`${API_BASE}/api/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: subscribeState.email.trim(),
+            topics: selectedTopics,
+            timing: selectedTiming,
+          }),
+        });
+        const payload = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(payload.error || 'Could not save subscription');
+        if (payload.status === 'exists') {
+          subscribeState.step = 'exists';
+        } else {
+          subscribeState.step = 'success';
+        }
+      } catch (err) {
+        subscribeState.status = err.message || 'Subscription failed';
+      } finally {
+        subscribeState.submitting = false;
+        renderSubscribeModal();
+      }
+    }
+
+    function renderSubscribeModal() {
+      if (!subscribeMount) return;
+      let html = '';
+      if (subscribeState.step === 'email') {
+        html = `
+          <div class="cwn-modal-kicker">🇦🇪</div>
+          <h2 class="cwn-modal-title">Stay informed. No panic.</h2>
+          <p class="cwn-modal-subtitle">Get UAE news delivered to you, rewritten in calm plain English.</p>
+          <input id="cwnModalEmail" class="cwn-modal-input" type="email" placeholder="Your email address" value="${(subscribeState.email || '').replace(/"/g, '&quot;')}" />
+          <button id="cwnModalContinueEmail" class="cwn-modal-primary">Continue →</button>
+          <div class="cwn-modal-error">${subscribeState.status || ''}</div>
+        `;
+      } else if (subscribeState.step === 'topics') {
+        const topicCards = TOPIC_OPTIONS.map((topic) => {
+          const selected = subscribeState.topics.includes(topic.id);
+          return `<button type="button" class="cwn-topic-card ${selected ? 'selected' : ''}" data-topic="${topic.id}">${topic.icon}<div>${topic.label}</div></button>`;
+        }).join('');
+        html = `
+          <h2 class="cwn-modal-title">What do you want to hear about?</h2>
+          <p class="cwn-modal-subtitle">Pick as many as you like.</p>
+          <div class="cwn-topics-header">
+            <label class="cwn-inline-toggle"><input type="checkbox" id="cwnAllTopics" ${subscribeState.allTopics ? 'checked' : ''}/> All topics</label>
+          </div>
+          <div class="cwn-topic-grid">${topicCards}</div>
+          <div class="cwn-topic-actions">
+            <button type="button" id="cwnSelectAllTopics">Select All</button>
+            <button type="button" id="cwnClearTopics">Clear</button>
+          </div>
+          <button id="cwnModalContinueTopics" class="cwn-modal-primary">Continue →</button>
+          <div class="cwn-modal-error">${subscribeState.status || ''}</div>
+        `;
+      } else if (subscribeState.step === 'timing') {
+        const timingCards = TIMING_OPTIONS.map((opt) => {
+          const selected = subscribeState.timing.includes(opt.id);
+          return `<button type="button" class="cwn-timing-card ${selected ? 'selected' : ''}" data-timing="${opt.id}">
+            <div class="cwn-timing-head">${opt.head}</div>
+            <div class="cwn-timing-copy">${opt.body}</div>
+          </button>`;
+        }).join('');
+        html = `
+          <h2 class="cwn-modal-title">When do you want updates?</h2>
+          <p class="cwn-modal-subtitle">We only send when there's something worth reading.</p>
+          <div class="cwn-timing-list">${timingCards}</div>
+          <button id="cwnModalFinish" class="cwn-modal-primary" ${subscribeState.submitting ? 'disabled' : ''}>${subscribeState.submitting ? 'Saving...' : 'Finish →'}</button>
+          <div class="cwn-modal-error">${subscribeState.status || ''}</div>
+        `;
+      } else if (subscribeState.step === 'success') {
+        const topicText = subscribeState.allTopics ? 'All Topics' : (subscribeState.topics.length ? subscribeState.topics.map(prettyTopic).join(', ') : 'All Topics');
+        const timingText = summarizeTiming(subscribeState.timing);
+        html = `
+          <div class="cwn-success-icon">✅</div>
+          <h2 class="cwn-modal-title">You're all set!</h2>
+          <p class="cwn-modal-subtitle">You'll receive ${timingText} updates about ${topicText}.</p>
+          <div class="cwn-summary">
+            <div>📧 ${timingText}</div>
+            <div>📋 ${topicText}</div>
+          </div>
+          <button id="cwnModalDone" class="cwn-modal-primary">Done</button>
+        `;
+      } else if (subscribeState.step === 'exists') {
+        html = `
+          <div class="cwn-success-icon">✅</div>
+          <h2 class="cwn-modal-title">Already subscribed!</h2>
+          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g,'&lt;')} is already on the CWN list. You're good — we'll keep sending you calm UAE updates.</p>
+          <button id="cwnModalDone" class="cwn-modal-primary">Got it</button>
+        `;
+      }
+      subscribeMount.innerHTML = html;
+
+      const emailEl = document.getElementById('cwnModalEmail');
+      if (emailEl) emailEl.addEventListener('input', (e) => { subscribeState.email = e.target.value; });
+      const continueEmailBtn = document.getElementById('cwnModalContinueEmail');
+      if (continueEmailBtn) continueEmailBtn.addEventListener('click', nextStep);
+
+      const allTopicsToggle = document.getElementById('cwnAllTopics');
+      if (allTopicsToggle) {
+        allTopicsToggle.addEventListener('change', (e) => {
+          subscribeState.allTopics = !!e.target.checked;
+          if (subscribeState.allTopics) subscribeState.topics = TOPIC_OPTIONS.map((t) => t.id);
+          renderSubscribeModal();
+        });
+      }
+      document.querySelectorAll('.cwn-topic-card').forEach((el) => {
+        el.addEventListener('click', () => {
+          const topic = el.getAttribute('data-topic');
+          subscribeState.topics = toggleArrayValue(subscribeState.topics, topic);
+          subscribeState.allTopics = subscribeState.topics.length === TOPIC_OPTIONS.length;
+          renderSubscribeModal();
+        });
+      });
+      const selectAllBtn = document.getElementById('cwnSelectAllTopics');
+      if (selectAllBtn) selectAllBtn.addEventListener('click', () => {
+        subscribeState.topics = TOPIC_OPTIONS.map((t) => t.id);
+        subscribeState.allTopics = true;
+        renderSubscribeModal();
+      });
+      const clearBtn = document.getElementById('cwnClearTopics');
+      if (clearBtn) clearBtn.addEventListener('click', () => {
+        subscribeState.topics = [];
+        subscribeState.allTopics = false;
+        renderSubscribeModal();
+      });
+      const continueTopicsBtn = document.getElementById('cwnModalContinueTopics');
+      if (continueTopicsBtn) continueTopicsBtn.addEventListener('click', nextStep);
+
+      document.querySelectorAll('.cwn-timing-card').forEach((el) => {
+        el.addEventListener('click', () => {
+          const timing = el.getAttribute('data-timing');
+          subscribeState.timing = toggleArrayValue(subscribeState.timing, timing);
+          renderSubscribeModal();
+        });
+      });
+      const finishBtn = document.getElementById('cwnModalFinish');
+      if (finishBtn) finishBtn.addEventListener('click', nextStep);
+      const doneBtn = document.getElementById('cwnModalDone');
+      if (doneBtn) doneBtn.addEventListener('click', closeSubscribeModal);
+    }
+
+    notifyBtn?.addEventListener('click', () => openSubscribeModal());
+    footerSubscribeBtn?.addEventListener('click', () => openSubscribeModal(String(footerEmailInput?.value || '').trim()));
+    document.getElementById('cwnSubscribeClose')?.addEventListener('click', closeSubscribeModal);
+    document.getElementById('cwnSubscribeOverlay')?.addEventListener('click', closeSubscribeModal);
+
+    // Initial load + refresh every 30s
+    loadNews();
+    setInterval(loadNews, 30000);
+  </script>
+
+  <!-- ===== ON THE GROUND — Community Section JS ===== -->
+  <script>
+  (function () {
+    'use strict';
+
+    // ── DOM refs ────────────────────────────────────────────────────────────
+    var el = {};
+    var otgIsAnonymous = true;
+
+    function init() {
+      el.textarea    = document.getElementById('otgContent');
+      el.counter     = document.getElementById('otgCharCounter');
+      el.location    = document.getElementById('otgLocation');
+      el.anonBtn     = document.getElementById('otgAnonBtn');
+      el.nameBtn     = document.getElementById('otgNameBtn');
+      el.nameFields  = document.getElementById('otgNameFields');
+      el.displayName = document.getElementById('otgDisplayName');
+      el.contact     = document.getElementById('otgContact');
+      el.submitBtn   = document.getElementById('otgSubmitBtn');
+      el.status      = document.getElementById('otgStatus');
+      el.feed        = document.getElementById('otgPostsFeed');
+
+      if (!el.textarea) return; // section not present
+
+      el.textarea.addEventListener('input', onTextareaInput);
+      el.anonBtn.addEventListener('click', function () { setAnonymous(true); });
+      el.nameBtn.addEventListener('click', function () { setAnonymous(false); });
+      el.submitBtn.addEventListener('click', onSubmit);
+
+      loadPosts();
+      setInterval(loadPosts, 60000);
+    }
+
+    // ── Character counter ────────────────────────────────────────────────────
+    function onTextareaInput() {
+      var remaining = 280 - el.textarea.value.length;
+      el.counter.textContent = remaining + ' character' + (remaining !== 1 ? 's' : '') + ' remaining';
+      el.counter.classList.toggle('otg-char-counter--warning', remaining < 20);
+      el.submitBtn.disabled = el.textarea.value.trim().length === 0;
+    }
+
+    // ── Identity toggles ─────────────────────────────────────────────────────
+    function setAnonymous(anon) {
+      otgIsAnonymous = anon;
+      el.anonBtn.classList.toggle('otg-toggle--active', anon);
+      el.anonBtn.setAttribute('aria-pressed', String(anon));
+      el.nameBtn.classList.toggle('otg-toggle--active', !anon);
+      el.nameBtn.setAttribute('aria-pressed', String(!anon));
+      el.nameFields.classList.toggle('otg-name-fields--visible', !anon);
+      el.nameFields.setAttribute('aria-hidden', String(anon));
+    }
+
+    // ── Status message ───────────────────────────────────────────────────────
+    function setStatus(msg, type) {
+      el.status.textContent = msg;
+      el.status.className = 'otg-status' + (type ? ' otg-status--' + type : '');
+    }
+
+    // ── Submit ───────────────────────────────────────────────────────────────
+    function onSubmit() {
+      var content = el.textarea.value.trim();
+      var location = el.location.value;
+
+      if (!content) { setStatus('Please enter your observation.', 'error'); return; }
+      if (!location) { setStatus('Please select your location.', 'error'); return; }
+
+      el.submitBtn.disabled = true;
+      setStatus('Submitting\u2026', '');
+
+      var payload = {
+        content: content,
+        location: location,
+        is_anonymous: otgIsAnonymous,
+        display_name: otgIsAnonymous ? '' : (el.displayName ? el.displayName.value.trim() : ''),
+        contact:      otgIsAnonymous ? '' : (el.contact      ? el.contact.value.trim()      : ''),
+      };
+
+      fetch('/api/community/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      .then(function (resp) {
+        return resp.json().then(function (data) {
+          return { status: resp.status, data: data };
+        });
+      })
+      .then(function (result) {
+        var status = result.status;
+        var data   = result.data;
+
+        if (status === 429) {
+          setStatus(data.error || 'Please wait before submitting another report.', 'error');
+          el.submitBtn.disabled = false;
+          return;
+        }
+        if (status >= 400) {
+          setStatus(data.error || 'Something went wrong. Please try again.', 'error');
+          el.submitBtn.disabled = false;
+          return;
+        }
+        if (!data.approved) {
+          setStatus(
+            "Your post doesn\u2019t meet our community guidelines. CWN accepts calm factual observations only.",
+            'error'
+          );
+          el.submitBtn.disabled = false;
+          return;
+        }
+
+        // Success
+        setStatus('Report submitted! It will appear below shortly.', 'success');
+        el.textarea.value = '';
+        el.counter.textContent = '280 characters remaining';
+        el.counter.classList.remove('otg-char-counter--warning');
+        if (el.displayName) el.displayName.value = '';
+        if (el.contact)     el.contact.value = '';
+        el.submitBtn.disabled = true;
+        setTimeout(loadPosts, 1500);
+      })
+      .catch(function () {
+        setStatus('Network error. Please try again.', 'error');
+        el.submitBtn.disabled = false;
+      });
+    }
+
+    // ── Load & render posts ──────────────────────────────────────────────────
+    function loadPosts() {
+      fetch('/api/community/posts', { cache: 'no-store' })
+        .then(function (resp) {
+          if (!resp.ok) throw new Error('HTTP ' + resp.status);
+          return resp.json();
+        })
+        .then(function (data) {
+          renderPosts(Array.isArray(data.posts) ? data.posts : []);
+        })
+        .catch(function () {
+          if (!el.feed.children.length) {
+            el.feed.innerHTML = '<p class="otg-empty">Could not load community reports.</p>';
+          }
+        });
+    }
+
+    function renderPosts(posts) {
+      if (!posts.length) {
+        el.feed.innerHTML = '<p class="otg-empty">No community reports yet. Be the first to share what you\'re seeing!</p>';
+        return;
+      }
+
+      el.feed.innerHTML = posts.map(function (post) {
+        var author = (post.is_anonymous || !post.display_name)
+          ? 'Anonymous Resident \uD83C\uDDE6\uD83C\uDDEA'
+          : escapeHtml(post.display_name);
+
+        var timeAgo = (typeof relativeTime === 'function') ? relativeTime(post.created_at) : post.created_at;
+        var exactTime = (typeof uaeExactTime === 'function') ? uaeExactTime(post.created_at) : '';
+        var timeDisplay = exactTime
+          ? '\uD83D\uDD50 ' + timeAgo + ' \xb7 ' + exactTime + ' UAE time'
+          : '\uD83D\uDD50 ' + timeAgo;
+
+        return [
+          '<article class="otg-post-card">',
+          '  <div class="otg-post-header">',
+          '    <span class="otg-location-badge">\uD83D\uDCCD ' + escapeHtml(post.location) + '</span>',
+          '    <span class="otg-author">Submitted by ' + author + '</span>',
+          '    <span class="otg-verified"><span class="otg-verified-dot"></span>Verified by AI \u2713</span>',
+          '  </div>',
+          '  <p class="otg-post-content">' + escapeHtml(post.content) + '</p>',
+          '  <div class="otg-post-time" style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;font-size:12px;">' + timeDisplay + '</div>',
+          '</article>',
+        ].join('\n');
+      }).join('\n');
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Run immediately — script is at end of body, DOM is ready
+    init();
+  }());
+  </script>
+
+  <!-- ===== LANGUAGE SWITCHER + FULL TRANSLATION ===== -->
+  <script>
+  (function () {
+    'use strict';
+
+    var LANGS = [
+      { code: 'en', label: 'English',  flag: '🇬🇧' },
+      { code: 'ml', label: 'മലയാളം',   flag: '🇮🇳' },
+      { code: 'ar', label: 'العربية',   flag: '🇦🇪' },
+      { code: 'hi', label: 'हिन्दी',     flag: '🇮🇳' },
+      { code: 'tl', label: 'Filipino',  flag: '🇵🇭' },
+    ];
+
+    var T = {
+      en: {
+        nav:            ['Home','Safety','Government','Finance','Health','World'],
+        pills:          ['All Topics','Safety','Government','Finance','Health','Community','Transport'],
+        topStories:     'TOP STORIES',
+        moreStories:    'MORE STORIES',
+        search:         'Search news...',
+        notify:         '🔔 Notify me',
+        live:           'LIVE FEED',
+        lastUpdated:    'Last updated',
+        city:           'Dubai, UAE',
+        otgTitle:       'On The Ground 🇦🇪',
+        otgSub:         'Real observations from UAE residents',
+        otgPlaceholder: 'What are you seeing right now?',
+        otgCharLeft:    'characters remaining',
+        otgSelectLoc:   'Select location\u2026',
+        otgStayAnon:    'Stay Anonymous',
+        otgAddName:     'Add my name',
+        otgNamePh:      'Your name or nickname (optional)',
+        otgContactPh:   'Email or phone (private, never shown publicly)',
+        otgPrivacy:     'Your contact info is never shown publicly. CWN stores it privately for verification only.',
+        otgSubmit:      'Submit Report',
+        about:          'About', sources: 'Sources', contact: 'Contact',
+        footerH1:       'Sections', footerH2: 'Official Sources', footerH3: 'About', footerH4: 'Subscribe',
+        footerEmailPh:  'Your email',
+        footerSubBtn:   'Subscribe',
+        footerSubNote:  'Choose topics and delivery timing in the popup.',
+        footerCopy:     '\u00a9 2026 Clockwork News | Calm, factual UAE journalism',
+        dir: 'ltr', font: null, bodyFont: null,
+      },
+      ml: {
+        nav:            ['ഹോം','സുരക്ഷ','സർക്കാർ','ധനകാര്യം','ആരോഗ്യം','ലോകം'],
+        pills:          ['എല്ലാം','സുരക്ഷ','സർക്കാർ','ധനകാര്യം','ആരോഗ്യം','കമ്മ്യൂണിറ്റി','ഗതാഗതം'],
+        topStories:     'പ്രധാന വാർത്തകൾ',
+        moreStories:    'കൂടുതൽ വാർത്തകൾ',
+        search:         'വാർത്ത തിരയൂ...',
+        notify:         '🔔 അറിയിക്കൂ',
+        live:           'തൽസമയം',
+        lastUpdated:    'അവസാനം അപ്ഡേറ്റ് ചെയ്തത്',
+        city:           'ദുബൈ, UAE',
+        otgTitle:       'നേരിട്ടറിഞ്ഞത് 🇦🇪',
+        otgSub:         'UAE നിവാസികളുടെ നേരിട്ടുള്ള നിരീക്ഷണങ്ങൾ',
+        otgPlaceholder: 'ഇപ്പോൾ എന്ത് കാണുന്നു?',
+        otgCharLeft:    'അക്ഷരങ്ങൾ ബാക്കി',
+        otgSelectLoc:   'സ്ഥലം തിരഞ്ഞെടുക്കൂ\u2026',
+        otgStayAnon:    'അജ്ഞാതനായി തുടരൂ',
+        otgAddName:     'പേര് ചേർക്കൂ',
+        otgNamePh:      'നിങ്ങളുടെ പേര് (ഐഛികം)',
+        otgContactPh:   'ഇമെയിൽ അല്ലെങ്കിൽ ഫോൺ (സ്വകാര്യം)',
+        otgPrivacy:     'നിങ്ങളുടെ ബന്ധപ്പെടൽ വിവരം പരസ്യമായി കാണിക്കില്ല.',
+        otgSubmit:      'റിപ്പോർട്ട് സമർപ്പിക്കൂ',
+        about:          'ഞങ്ങളെ കുറിച്ച്', sources: 'ഉറവിടങ്ങൾ', contact: 'ബന്ധപ്പെടുക',
+        footerH1:       'വിഭാഗങ്ങൾ', footerH2: 'ഔദ്യോഗിക ഉറവിടങ്ങൾ', footerH3: 'ഞങ്ങളെ കുറിച്ച്', footerH4: 'സബ്സ്ക്രൈബ്',
+        footerEmailPh:  'നിങ്ങളുടെ ഇമെയിൽ',
+        footerSubBtn:   'സബ്സ്ക്രൈബ്',
+        footerSubNote:  'പ്രത്യേക വിഷയങ്ങളും ഡെലിവറി സമയവും പോപ്പ്അപ്പിൽ തിരഞ്ഞെടുക്കൂ.',
+        footerCopy:     '\u00a9 2026 Clockwork News | UAE വാർത്ത, ശാന്തമായി',
+        dir: 'ltr',
+        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600&display=swap',
+        bodyFont: "'Noto Sans Malayalam','DM Sans',sans-serif",
+      },
+      ar: {
+        nav:            ['الرئيسية','السلامة','الحكومة','المال','الصحة','العالم'],
+        pills:          ['الكل','السلامة','الحكومة','المال','الصحة','المجتمع','النقل'],
+        topStories:     'أبرز الأخبار',
+        moreStories:    'المزيد من الأخبار',
+        search:         'ابحث في الأخبار...',
+        notify:         '🔔 أخبرني',
+        live:           'مباشر',
+        lastUpdated:    'آخر تحديث',
+        city:           'دبي، الإمارات',
+        otgTitle:       'على أرض الواقع 🇦🇪',
+        otgSub:         'ملاحظات مباشرة من مقيمي الإمارات',
+        otgPlaceholder: 'ماذا ترى الآن؟',
+        otgCharLeft:    'حرف متبقٍ',
+        otgSelectLoc:   'اختر موقعاً\u2026',
+        otgStayAnon:    'ابقَ مجهولاً',
+        otgAddName:     'أضف اسمك',
+        otgNamePh:      'اسمك أو لقبك (اختياري)',
+        otgContactPh:   'بريد إلكتروني أو هاتف (خاص)',
+        otgPrivacy:     'لن يُعرض معلومات التواصل الخاصة بك علناً.',
+        otgSubmit:      'إرسال التقرير',
+        about:          'عنّا', sources: 'المصادر', contact: 'اتصل',
+        footerH1:       'الأقسام', footerH2: 'المصادر الرسمية', footerH3: 'عنّا', footerH4: 'اشترك',
+        footerEmailPh:  'بريدك الإلكتروني',
+        footerSubBtn:   'اشترك',
+        footerSubNote:  'اختر المواضيع وموعد الاستلام في النافذة المنبثقة.',
+        footerCopy:     '\u00a9 2026 Clockwork News | صحافة إماراتية هادئة',
+        dir: 'rtl',
+        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600&display=swap',
+        bodyFont: "'Noto Sans Arabic','DM Sans',sans-serif",
+      },
+      hi: {
+        nav:            ['होम','सुरक्षा','सरकार','वित्त','स्वास्थ्य','विश्व'],
+        pills:          ['सभी','सुरक्षा','सरकार','वित्त','स्वास्थ्य','समुदाय','परिवहन'],
+        topStories:     'मुख्य समाचार',
+        moreStories:    'और समाचार',
+        search:         'समाचार खोजें...',
+        notify:         '🔔 सूचित करें',
+        live:           'लाइव',
+        lastUpdated:    'अंतिम अपडेट',
+        city:           'दुबई, UAE',
+        otgTitle:       'जमीनी रिपोर्ट 🇦🇪',
+        otgSub:         'UAE निवासियों की प्रत्यक्ष रिपोर्ट',
+        otgPlaceholder: 'अभी आप क्या देख रहे हैं?',
+        otgCharLeft:    'अक्षर शेष',
+        otgSelectLoc:   'स्थान चुनें\u2026',
+        otgStayAnon:    'गुमनाम रहें',
+        otgAddName:     'नाम जोड़ें',
+        otgNamePh:      'आपका नाम (वैकल्पिक)',
+        otgContactPh:   'ईमेल या फोन (निजी)',
+        otgPrivacy:     'आपकी संपर्क जानकारी कभी सार्वजनिक नहीं की जाएगी।',
+        otgSubmit:      'रिपोर्ट सबमिट करें',
+        about:          'हमारे बारे में', sources: 'स्रोत', contact: 'संपर्क',
+        footerH1:       'अनुभाग', footerH2: 'आधिकारिक स्रोत', footerH3: 'हमारे बारे में', footerH4: 'सदस्यता',
+        footerEmailPh:  'आपका ईमेल',
+        footerSubBtn:   'सदस्य बनें',
+        footerSubNote:  'पॉपअप में विषय और समय चुनें।',
+        footerCopy:     '\u00a9 2026 Clockwork News | शांत UAE पत्रकारिता',
+        dir: 'ltr',
+        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap',
+        bodyFont: "'Noto Sans Devanagari','DM Sans',sans-serif",
+      },
+      tl: {
+        nav:            ['Tahanan','Kaligtasan','Pamahalaan','Pananalapi','Kalusugan','Mundo'],
+        pills:          ['Lahat','Kaligtasan','Pamahalaan','Pananalapi','Kalusugan','Komunidad','Transport'],
+        topStories:     'MGA PANGUNAHING BALITA',
+        moreStories:    'IBA PANG BALITA',
+        search:         'Maghanap ng balita...',
+        notify:         '🔔 Abisuhan ako',
+        live:           'LIVE',
+        lastUpdated:    'Huling na-update',
+        city:           'Dubai, UAE',
+        otgTitle:       'Sa Larangan 🇦🇪',
+        otgSub:         'Mga direktang ulat mula sa mga residente ng UAE',
+        otgPlaceholder: 'Ano ang nakikita mo ngayon?',
+        otgCharLeft:    'mga karakter na natitira',
+        otgSelectLoc:   'Pumili ng lokasyon\u2026',
+        otgStayAnon:    'Manatiling Anonymous',
+        otgAddName:     'Idagdag ang aking pangalan',
+        otgNamePh:      'Iyong pangalan o palayaw (opsyonal)',
+        otgContactPh:   'Email o telepono (pribado)',
+        otgPrivacy:     'Hindi kailanman ipapakita ang iyong impormasyon sa publiko.',
+        otgSubmit:      'Isumite ang Ulat',
+        about:          'Tungkol', sources: 'Mga Pinagkukunan', contact: 'Makipag-ugnayan',
+        footerH1:       'Mga Seksyon', footerH2: 'Opisyal na Pinagkukunan', footerH3: 'Tungkol', footerH4: 'Mag-subscribe',
+        footerEmailPh:  'Ang iyong email',
+        footerSubBtn:   'Mag-subscribe',
+        footerSubNote:  'Pumili ng mga paksa at oras ng paghahatid sa popup.',
+        footerCopy:     '\u00a9 2026 Clockwork News | Mahinahong balita ng UAE',
+        dir: 'ltr', font: null, bodyFont: null,
+      },
+    };
+
+    // ── Article translation (Claude Haiku via /api/translate + Supabase cache) ──
+    var _origArticle     = {};   // articleId → { calmTitle, calmSummary, residentImpact }
+    var _transArticleCache = {}; // 'lang|articleUrl' → { headline, summary, resident_impact }
+    var _translating     = false;
+    var _suppressObserver = false; // prevents MutationObserver re-entry loop (BUG 1 fix)
+
+    var loadedFonts = {};
+    function loadFont(url) {
+      if (!url || loadedFonts[url]) return;
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = url;
+      document.head.appendChild(l); loadedFonts[url] = true;
+    }
+
+    // Render safely: suppress the observer so it doesn't retrigger translateArticles
+    function safeRender() {
+      _suppressObserver = true;
+      if (typeof renderContent === 'function') renderContent();
+      // Reset after a tick so real auto-refresh mutations can still be caught
+      setTimeout(function() { _suppressObserver = false; }, 50);
+    }
+
+    async function translateArticles(lang) {
+      if (_translating) return;
+      _translating = true;
+
+      var news = typeof allNews !== 'undefined' ? allNews : [];
+
+      // Save originals once
+      news.forEach(function(item) {
+        if (!_origArticle[item.id]) {
+          _origArticle[item.id] = {
+            calmTitle:      item.calmTitle      || item.title || '',
+            calmSummary:    item.calmSummary    || '',
+            residentImpact: item.residentImpact || '',
+          };
+        }
+      });
+
+      if (lang === 'en') {
+        news.forEach(function(item) {
+          var o = _origArticle[item.id];
+          if (o) { item.calmTitle = o.calmTitle; item.calmSummary = o.calmSummary; item.residentImpact = o.residentImpact; }
+        });
+        safeRender();
+        _translating = false;
+        return;
+      }
+
+      // Immediately show "loading" placeholder for untranslated items, render, then fill in
+      var toTranslate = [];
+      news.slice(0, 20).forEach(function(item) {
+        var cacheKey = lang + '|' + item.url;
+        var cached = _transArticleCache[cacheKey];
+        if (cached) {
+          // Already translated — apply immediately
+          item.calmTitle      = cached.headline;
+          item.calmSummary    = cached.summary;
+          if (cached.resident_impact) item.residentImpact = cached.resident_impact;
+        } else {
+          // Not yet translated — show loading placeholder
+          var o = _origArticle[item.id];
+          item.calmTitle   = '\u23F3 Translating\u2026';
+          item.calmSummary = o ? o.calmSummary : '';
+          toTranslate.push(item);
+        }
+      });
+
+      safeRender(); // Show "Translating..." placeholders immediately
+
+      // Translate in batches of 3 (avoids hammering API)
+      var MAX = 3;
+      var idx = 0;
+      async function worker() {
+        while (idx < toTranslate.length) {
+          var item = toTranslate[idx++];
+          var cacheKey = lang + '|' + item.url;
+          var orig = _origArticle[item.id];
+          if (!orig || !item.url) continue;
+          try {
+            var r = await fetch('/api/translate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                articleUrl:     item.url,
+                lang:           lang,
+                headline:       orig.calmTitle,
+                summary:        orig.calmSummary,
+                residentImpact: orig.residentImpact || '',
+              }),
+            });
+            if (r.ok) {
+              var data = await r.json();
+              _transArticleCache[cacheKey] = data;
+              item.calmTitle      = data.headline      || orig.calmTitle;
+              item.calmSummary    = data.summary       || orig.calmSummary;
+              if (data.resident_impact) item.residentImpact = data.resident_impact;
+            } else {
+              item.calmTitle   = orig.calmTitle;
+              item.calmSummary = orig.calmSummary;
+            }
+          } catch(e) {
+            item.calmTitle   = orig ? orig.calmTitle   : item.calmTitle;
+            item.calmSummary = orig ? orig.calmSummary : item.calmSummary;
+          }
+          safeRender(); // Progressive update after each article
+        }
+      }
+
+      var workers = [];
+      for (var w = 0; w < MAX; w++) workers.push(worker());
+      await Promise.all(workers);
+
+      _translating = false;
+    }
+
+    // ── UI string helpers ─────────────────────────────────────────────────────
+    function set(id, text) { var e = document.getElementById(id); if (e) e.textContent = text; }
+    function setPh(id, text) { var e = document.getElementById(id); if (e) e.placeholder = text; }
+
+    function applyUI(t) {
+      // Nav
+      document.querySelectorAll('nav.main-nav a').forEach(function(el, i) {
+        if (t.nav[i] !== undefined) el.textContent = t.nav[i];
+      });
+      // Pills
+      document.querySelectorAll('#filterPills .filter-pill').forEach(function(el, i) {
+        if (t.pills[i] !== undefined) el.textContent = t.pills[i];
+      });
+      // Section headers
+      set('sectionLabelTop', t.topStories);
+      set('sectionLabelMore', t.moreStories);
+      // Header
+      setPh('headerSearch', t.search);
+      set('notifyBtn', t.notify);
+      // Ticker
+      set('tickerLiveText', t.live);
+      // Last updated — preserve time value
+      var lu = document.getElementById('lastUpdated');
+      if (lu) {
+        var ci = lu.textContent.indexOf(': ');
+        lu.textContent = t.lastUpdated + ': ' + (ci >= 0 ? lu.textContent.slice(ci + 2) : '--:--');
+      }
+      // Utility bar
+      set('utilCity', t.city); set('utilAbout', t.about);
+      set('utilSources', t.sources); set('utilContact', t.contact);
+      // OTG
+      set('otgSectionLabel', t.otgTitle); set('otgSubText', t.otgSub);
+      setPh('otgContent', t.otgPlaceholder);
+      var cc = document.getElementById('otgCharCounter');
+      if (cc) cc.textContent = '280 ' + t.otgCharLeft;
+      var ls = document.getElementById('otgLocation');
+      if (ls && ls.options[0]) ls.options[0].text = t.otgSelectLoc;
+      set('otgAnonBtn', t.otgStayAnon); set('otgNameBtn', t.otgAddName);
+      setPh('otgDisplayName', t.otgNamePh); setPh('otgContact', t.otgContactPh);
+      var pn = document.querySelector('.otg-privacy-note'); if (pn) pn.textContent = t.otgPrivacy;
+      set('otgSubmitBtn', t.otgSubmit);
+      // Footer
+      set('footerH1', t.footerH1); set('footerH2', t.footerH2);
+      set('footerH3', t.footerH3); set('footerH4', t.footerH4);
+      setPh('digestEmail', t.footerEmailPh);
+      set('digestSubscribeBtn', t.footerSubBtn);
+      set('footerSubNote', t.footerSubNote);
+      set('footerCopyright', t.footerCopy);
+    }
+
+    function applyLang(code) {
+      var t = T[code] || T.en;
+      localStorage.setItem('cwn-lang', code);
+
+      if (t.font) loadFont(t.font);
+      document.documentElement.setAttribute('dir', t.dir);
+      document.documentElement.setAttribute('lang', code);
+      document.body.style.fontFamily = t.bodyFont || "'DM Sans',sans-serif";
+
+      applyUI(t);
+
+      // Lang button label
+      var btn = document.getElementById('langBtn');
+      var meta = LANGS.find(function(l){ return l.code === code; });
+      if (btn && meta) btn.textContent = meta.flag + ' ' + meta.label + ' \u25be';
+      document.querySelectorAll('.lang-option').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.lang === code);
+      });
+
+      // Translate article content (async — mutates allNews then re-renders)
+      translateArticles(code);
+    }
+
+    // ── Patch updateTime so "Last updated" prefix stays translated ────────────
+    var _origUT = typeof updateTime === 'function' ? updateTime : null;
+    if (_origUT) {
+      updateTime = function() {
+        _origUT();
+        var code = localStorage.getItem('cwn-lang') || 'en';
+        if (code !== 'en') {
+          var t = T[code] || T.en;
+          var el = document.getElementById('lastUpdated');
+          if (el) {
+            var ci = el.textContent.indexOf(': ');
+            el.textContent = t.lastUpdated + ': ' + (ci >= 0 ? el.textContent.slice(ci + 2) : '--:--');
+          }
+        }
+      };
+    }
+
+    // ── Watch heroGrid: re-translate when auto-refresh loads new articles ─────
+    // _suppressObserver is set true during our own safeRender() calls to
+    // prevent the observer from calling translateArticles in an infinite loop.
+    var _observer = null;
+    function watchForRefresh() {
+      var grid = document.getElementById('heroGrid');
+      if (!grid || _observer) return;
+      _observer = new MutationObserver(function() {
+        if (_suppressObserver) return; // BUG 1 FIX: skip re-entry during our own renders
+        var code = localStorage.getItem('cwn-lang') || 'en';
+        if (code !== 'en' && !_translating) translateArticles(code);
+      });
+      _observer.observe(grid, { childList: true });
+    }
+
+    function init() {
+      var btn      = document.getElementById('langBtn');
+      var dropdown = document.getElementById('langDropdown');
+      if (!btn) return;
+
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+      document.addEventListener('click', function() { dropdown.classList.remove('open'); });
+      document.querySelectorAll('.lang-option').forEach(function(el) {
+        el.addEventListener('click', function() {
+          applyLang(el.dataset.lang);
+          dropdown.classList.remove('open');
+        });
+      });
+
+      // Restore saved language
+      applyLang(localStorage.getItem('cwn-lang') || 'en');
+
+      // Start watching for news refresh (heroGrid may not be populated yet)
+      watchForRefresh();
+      setTimeout(watchForRefresh, 3000); // retry after news loads
+    }
+
+    init();
+  }());
+  </script>
+</body>
+</html>
+
+
+
+
+
+

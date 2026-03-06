@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clockwork News - Article</title>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F5F3ED;
+      --surface:#FFFCF7;
+      --ink:#1C1612;
+      --ink-muted:#6C5B4E;
+      --border:rgba(36,24,16,0.14);
+      --radius-lg:18px;
+      --shadow:0 18px 45px rgba(20,12,4,0.13);
+      --max-width:980px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Outfit',sans-serif;
+      background:radial-gradient(circle at top left,#FDF9F1 0,#F5F3ED 48%,#EDE4D6 100%);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    header{
+      background:linear-gradient(135deg,#B3001B,#7D0013);
+      border-bottom:2px solid rgba(255,255,255,0.8);
+      color:#fff;
+      padding:14px 18px;
+    }
+    .header-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      text-decoration:none;
+    }
+    .logo-box{
+      width:34px;
+      height:34px;
+      border-radius:8px;
+      background:rgba(255,255,255,0.15);
+      border:2px solid rgba(255,255,255,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Righteous',cursive;
+      font-size:18px;
+      color:#FFFFFF;
+    }
+    .back{
+      color:#fff;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.6);
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+    main{
+      max-width:var(--max-width);
+      margin:20px auto 34px;
+      padding:0 18px;
+    }
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .meta{
+      font-size:12px;
+      color:var(--ink-muted);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      margin-bottom:10px;
+    }
+    .title{
+      font-family:'Outfit',sans-serif;
+      font-weight:700;
+      font-size:26px;
+      line-height:1.2;
+      margin-bottom:10px;
+    }
+    .summary{
+      font-size:14px;
+      line-height:1.75;
+      color:var(--ink-muted);
+    }
+    .sourceLink{
+      display:inline-flex;
+      margin-top:14px;
+      gap:8px;
+      align-items:center;
+      color:#7D0013;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(125,0,19,0.25);
+      background:rgba(179,0,27,0.06);
+      padding:10px 12px;
+      border-radius:12px;
+    }
+    .article-img{
+      width:100%;
+      max-height:420px;
+      object-fit:cover;
+      border-radius:14px;
+      margin-bottom:14px;
+    }
+    .error{
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(179,0,27,0.25);
+      background:rgba(179,0,27,0.06);
+      color:#7D0013;
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/uae-calm-uae-news.html">
+        <div class="logo-box">C</div>
+        <div class="logo-box">W</div>
+        <div class="logo-box">N</div>
+      </a>
+      <a class="back" href="/uae-calm-uae-news.html">← Back to latest</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <img id="articleImg" class="article-img" style="display:none;" />
+      <div id="meta" class="meta"></div>
+      <h1 id="title" class="title">Loading…</h1>
+      <p id="summary" class="summary"></p>
+      <a id="sourceLink" class="sourceLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
+        Open original source
+      </a>
+      <div id="err" class="error" style="display:none;"></div>
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+
+    function qs(name){
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name) || "";
+    }
+
+    function formatDate(iso){
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleString([], { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    }
+
+    async function load(){
+      const id = qs("id");
+      if(!id){
+        document.getElementById("title").textContent = "Article not found";
+        document.getElementById("err").style.display = "block";
+        document.getElementById("err").textContent = "Missing article id.";
+        return;
+      }
+      const res = await fetch(`${API_BASE}/api/article?id=` + encodeURIComponent(id));
+      if(!res.ok){
+        document.getElementById("title").textContent = "Article not found";
+        document.getElementById("err").style.display = "block";
+        document.getElementById("err").textContent = "Could not load this article yet. Try refreshing in a moment.";
+        return;
+      }
+      const a = await res.json();
+
+      // Show image if available
+      if (a.imageUrl) {
+        const imgEl = document.getElementById("articleImg");
+        imgEl.src = a.imageUrl;
+        imgEl.alt = a.calmTitle || a.title || "Article image";
+        imgEl.referrerPolicy = "no-referrer";
+        imgEl.onerror = function(){ this.style.display = "none"; };
+        imgEl.onload = function(){ this.style.display = "block"; };
+      }
+
+      const fullTitle = a.calmTitle || a.calm_headline || a.title || "Update";
+      document.getElementById("title").textContent = fullTitle;
+      // set browser tab title
+      document.title = fullTitle + " - Central Watch News";
+      document.getElementById("summary").textContent =
+        a.calmSummary || a.summary || a.summarizedContent || a.description || a.excerpt || "";
+
+
+      const metaBits = [];
+      if (a.sourceName) metaBits.push("Source: " + a.sourceName);
+      if (a.publishedAt) metaBits.push("Posted: " + formatDate(a.publishedAt));
+      if (a.url) metaBits.push("Link verified: yes");
+      document.getElementById("meta").textContent = metaBits.join(" · ");
+
+      if (a.url){
+        const link = document.getElementById("sourceLink");
+        link.href = a.url;
+        link.style.display = "inline-flex";
+      }
+    }
+
+    load().catch(() => {
+      document.getElementById("title").textContent = "Could not load article";
+      document.getElementById("err").style.display = "block";
+      document.getElementById("err").textContent = "Please refresh and try again.";
+    });
+  </script>
+</body>
+</html>
+

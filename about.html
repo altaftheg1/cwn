@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Central Watch News</title>
+  <meta name="description" content="CWN is an independent student project delivering calm, clear UAE news to residents and expats." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
+      --cream:#F7F4EF; --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
+      --border:#DDD8CF; --gold:#B8860B; --surface:#FFFFFF;
+      --radius:10px; --shadow:0 2px 12px rgba(0,0,0,0.07); --max:840px;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased; }
+
+    /* ── Top bar ── */
+    .topbar { background:#000; color:#fff; font-size:11px; padding:8px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .topbar a { color:var(--gold); text-decoration:none; }
+
+    /* ── Header ── */
+    header { background:var(--red); border-bottom:3px solid #000; padding:16px 24px; }
+    .header-inner { max-width:var(--max); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .logo-boxes { display:flex; gap:6px; }
+    .logo-box { width:36px; height:36px; border-radius:5px; background:var(--red); border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:16px; font-weight:900; color:#fff; }
+    .brand-text { color:#fff; font-size:13px; font-weight:600; }
+    .brand-sub { color:rgba(255,255,255,0.8); font-size:10px; }
+    .back-link { color:#fff; text-decoration:none; font-size:13px; font-weight:500; border:1px solid rgba(255,255,255,0.5); padding:7px 14px; border-radius:4px; transition:background 0.15s; }
+    .back-link:hover { background:rgba(255,255,255,0.12); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1A1208 0%, var(--red-dark) 60%, #1A1208 100%);
+      padding: 72px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: 'CWN';
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 280px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.03);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .hero-tag { display:inline-block; background:var(--gold); color:#000; font-size:10px; font-weight:700; letter-spacing:0.15em; padding:4px 14px; border-radius:2px; margin-bottom:20px; text-transform:uppercase; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,6vw,3.6rem); font-weight:900; color:#fff; line-height:1.1; margin-bottom:18px; }
+    .hero h1 span { color:var(--gold); }
+    .hero-sub { font-family:'Source Serif 4',serif; font-size:1.1rem; color:rgba(255,255,255,0.75); max-width:520px; margin:0 auto 28px; line-height:1.65; font-style:italic; }
+    .hero-stats { display:flex; justify-content:center; gap:32px; flex-wrap:wrap; }
+    .hero-stat { text-align:center; }
+    .hero-stat-num { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--gold); line-height:1; }
+    .hero-stat-label { font-size:11px; color:rgba(255,255,255,0.55); margin-top:4px; letter-spacing:0.06em; text-transform:uppercase; }
+
+    /* ── Main ── */
+    main { max-width:var(--max); margin:0 auto; padding:56px 24px 80px; }
+
+    /* ── Mission card ── */
+    .mission-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--red);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+    }
+    .mission-card h2 { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--ink); margin-bottom:16px; }
+    .mission-card p { font-family:'Source Serif 4',serif; font-size:16px; color:var(--ink-mid); margin-bottom:14px; }
+    .mission-card p:last-child { margin-bottom:0; }
+
+    /* ── Pillars ── */
+    .pillars { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:48px; }
+    .pillar {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .pillar-icon { font-size:2rem; margin-bottom:10px; }
+    .pillar h3 { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--ink); margin-bottom:8px; }
+    .pillar p { font-size:13px; color:var(--ink-light); line-height:1.5; }
+
+    /* ── Section heading ── */
+    .section-label { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
+    .section-heading { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:700; color:var(--ink); margin-bottom:20px; }
+
+    /* ── Sources ── */
+    .sources-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:48px; }
+    .source-card {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px 20px;
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      box-shadow:var(--shadow);
+    }
+    .source-icon {
+      width:40px; height:40px; border-radius:8px;
+      background:var(--red); color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:11px; flex-shrink:0;
+      font-family:'DM Sans',sans-serif; letter-spacing:0.05em;
+    }
+    .source-name { font-weight:600; font-size:14px; color:var(--ink); margin-bottom:3px; }
+    .source-desc { font-size:12px; color:var(--ink-light); line-height:1.4; }
+    .source-tag { display:inline-block; margin-top:5px; font-size:10px; font-weight:700; padding:2px 7px; border-radius:2px; background:rgba(200,16,46,0.1); color:var(--red); }
+
+    /* ── How it works ── */
+    .steps { display:grid; gap:0; margin-bottom:48px; }
+    .step {
+      display:flex;
+      align-items:flex-start;
+      gap:20px;
+      padding:20px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .step:last-child { border-bottom:none; }
+    .step-num {
+      width:36px; height:36px; border-radius:50%;
+      background:var(--red); color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:14px; flex-shrink:0;
+      font-family:'Playfair Display',serif;
+    }
+    .step h4 { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px; }
+    .step p { font-size:13px; color:var(--ink-light); line-height:1.5; }
+
+    /* ── Quote ── */
+    .quote-block {
+      background: var(--ink);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .quote-block blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .quote-block cite { color: var(--gold); font-size: 13px; font-style: normal; }
+
+    /* ── Contact ── */
+    .contact-section {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:36px 40px;
+      box-shadow:var(--shadow);
+    }
+    .contact-section h2 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--ink); margin-bottom:16px; }
+    .contact-section p { font-family:'Source Serif 4',serif; font-size:15px; color:var(--ink-mid); margin-bottom:16px; }
+    .contact-links { display:flex; gap:12px; flex-wrap:wrap; }
+    .contact-link {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--red); color:#fff;
+      text-decoration:none; padding:10px 20px;
+      border-radius:4px; font-weight:600; font-size:13px;
+      transition:background 0.15s;
+    }
+    .contact-link:hover { background:var(--red-dark); }
+    .contact-link.secondary {
+      background:transparent; color:var(--ink);
+      border:1px solid var(--border);
+    }
+    .contact-link.secondary:hover { background:var(--cream); }
+
+    footer { background:#000; color:rgba(255,255,255,0.5); text-align:center; padding:20px 24px; font-size:12px; }
+    footer a { color:var(--gold); text-decoration:none; }
+
+    @media (max-width:700px) {
+      .pillars { grid-template-columns:1fr; }
+      .sources-grid { grid-template-columns:1fr; }
+      .mission-card, .contact-section { padding:24px 20px; }
+      .hero-stats { gap:20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span>Central Watch News &mdash; UAE</span>
+    <span><a href="/uae-calm-uae-news.html">Back to Homepage</a></span>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/uae-calm-uae-news.html">
+        <div class="logo-boxes">
+          <div class="logo-box">C</div>
+          <div class="logo-box">W</div>
+          <div class="logo-box">N</div>
+        </div>
+        <div>
+          <div class="brand-text">Central Watch News</div>
+          <div class="brand-sub">UAE Official Sources</div>
+        </div>
+      </a>
+      <a class="back-link" href="/uae-calm-uae-news.html">&#8592; Back to CWN</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">About CWN</div>
+    <h1>Calm news for <span>UAE</span> residents</h1>
+    <p class="hero-sub">
+      No panic. No agenda. Just clear, plain-English summaries of what is
+      actually happening in the UAE — every day.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Official Sources</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">AI</div>
+        <div class="hero-stat-label">Plain English Rewrites</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">24/7</div>
+        <div class="hero-stat-label">Auto-updating Feed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">0</div>
+        <div class="hero-stat-label">Ads or Trackers</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Mission -->
+    <div class="mission-card">
+      <h2>Our Mission</h2>
+      <p>
+        Living in the UAE means reading news from dozens of different sources, each written for different
+        audiences, in different styles, and often with different levels of alarm. For residents and expats —
+        especially those whose first language isn&rsquo;t English — it can be hard to know what is actually
+        important and what just sounds scary.
+      </p>
+      <p>
+        Central Watch News was built to solve that. CWN collects the most important UAE news from trusted
+        official sources and rewrites every story in calm, plain English using AI. No jargon. No clickbait.
+        No panic. Just the facts, clearly explained.
+      </p>
+      <p>
+        CWN is built and maintained by a student living in Dubai, as a personal project for the community.
+        It is not affiliated with any government, company, or media organisation.
+      </p>
+    </div>
+
+    <!-- Pillars -->
+    <div style="margin-bottom:16px;">
+      <div class="section-label">What we stand for</div>
+      <div class="section-heading">Three pillars</div>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">&#129300;</div>
+        <h3>No Panic</h3>
+        <p>Every headline is rewritten to be calm and factual. We strip out alarming language that adds fear without adding information.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">&#127919;</div>
+        <h3>No Agenda</h3>
+        <p>CWN has no political stance, no commercial interests, and no advertisers. We report what happened, not what someone wants you to think about it.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">&#128214;</div>
+        <h3>Just Facts</h3>
+        <p>Every story links back to its original official source. We summarise; the source provides the authority. You can always verify.</p>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div style="margin-bottom:16px;">
+      <div class="section-label">Under the hood</div>
+      <div class="section-heading">How CWN works</div>
+    </div>
+    <div class="steps" style="margin-bottom:48px;">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Collect from official sources</h4>
+          <p>CWN monitors WAM, Gulf News, Khaleej Times, Emirates 24|7, and the UAE Government Portal every 30 minutes for new stories.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h4>AI rewrites every headline in plain English</h4>
+          <p>Each article is sent to Claude (Anthropic&rsquo;s AI) which rewrites the title and summary in simple, calm language that anyone can understand.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h4>Full article deep analysis</h4>
+          <p>When you click a story, Claude reads the full article and produces a structured breakdown: key facts, what it means for residents, what happens next, and whether you should be concerned.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h4>Community observations</h4>
+          <p>UAE residents can submit short ground observations via &ldquo;On The Ground.&rdquo; Every post is AI-moderated before appearing publicly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h4>Original source always linked</h4>
+          <p>Every story displays its source and includes a direct link to the original article. CWN summarises; the source provides the authority.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block">
+      <blockquote>
+        &ldquo;The UAE has 200+ nationalities. Every one of them deserves to understand what is happening
+        around them &mdash; without fear, without confusion, and without a news degree.&rdquo;
+      </blockquote>
+      <cite>CWN &mdash; Built in Dubai, for Dubai and beyond</cite>
+    </div>
+
+    <!-- Sources -->
+    <div style="margin-bottom:16px;">
+      <div class="section-label">Where we get our news</div>
+      <div class="section-heading">Our sources</div>
+    </div>
+    <div class="sources-grid">
+      <div class="source-card">
+        <div class="source-icon">WAM</div>
+        <div>
+          <div class="source-name">Emirates News Agency (WAM)</div>
+          <div class="source-desc">The official UAE state news agency. All government announcements, laws, and official statements.</div>
+          <span class="source-tag">Official Government</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon" style="font-size:9px;">GULF</div>
+        <div>
+          <div class="source-name">Gulf News</div>
+          <div class="source-desc">UAE&rsquo;s largest English-language newspaper. Broad coverage of UAE, regional, and international news.</div>
+          <span class="source-tag">Established Newsroom</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon" style="font-size:9px;">KT</div>
+        <div>
+          <div class="source-name">Khaleej Times</div>
+          <div class="source-desc">English-language UAE daily newspaper covering business, society, and local news.</div>
+          <span class="source-tag">Established Newsroom</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon" style="font-size:9px;">E247</div>
+        <div>
+          <div class="source-name">Emirates 24|7</div>
+          <div class="source-desc">UAE English-language digital news portal with breaking news and lifestyle coverage.</div>
+          <span class="source-tag">Digital Newsroom</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon" style="font-size:9px;">U.AE</div>
+        <div>
+          <div class="source-name">UAE Government Portal</div>
+          <div class="source-desc">Official UAE federal government portal. Authoritative source for laws, services, and announcements.</div>
+          <span class="source-tag">Official Government</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-section">
+      <h2>Get in touch</h2>
+      <p>
+        CWN is a one-person student project. Feedback, suggestions, corrections, and press enquiries
+        are all welcome. If you spot an error in a summary or have a source recommendation, please reach out.
+      </p>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:hello@centralwatchnews.com">&#9993; Email us</a>
+        <a class="contact-link secondary" href="/privacy.html">Privacy Policy</a>
+        <a class="contact-link secondary" href="/terms.html">Terms of Use</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>
+      &copy; 2026 Central Watch News &mdash; Built by a student in Dubai &mdash;
+      <a href="/uae-calm-uae-news.html">Home</a> &middot;
+      <a href="/privacy.html">Privacy</a> &middot;
+      <a href="/terms.html">Terms</a>
+    </span>
+  </footer>
+
+</body>
+</html>
