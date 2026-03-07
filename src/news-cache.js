@@ -215,7 +215,7 @@ async function rewriteArticle(article) {
   if (claudeCache[key]) return claudeCache[key];
   if (!process.env.CLAUDE_API_KEY) return null;
   console.log('Processing article with Claude API:', article.title);
-  const systemPrompt = `You are the friendly editor of Central Watch News, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
+  const systemPrompt = `You are the friendly editor of TheDubaiBrief, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
 
 Rules you must always follow:
 - Use simple everyday words only. If a word has a simpler version, always use the simpler one.

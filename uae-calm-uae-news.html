@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Clockwork News - UAE</title>
-  <meta name="description" content="Clockwork News - calm, timely summaries of UAE news and announcements from official and established sources." />
+  <title>TheDubaiBrief - UAE</title>
+  <meta name="description" content="TheDubaiBrief - calm, timely summaries of UAE news and announcements from official and established sources." />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -1845,12 +1845,12 @@
       <div class="header-inner">
         <a class="brand" href="/uae-calm-uae-news.html">
           <div class="logo-boxes">
-            <div class="logo-box">C</div>
-            <div class="logo-box">W</div>
-            <div class="logo-box">N</div>
+            <div class="logo-box">D</div>
+            <div class="logo-box">B</div>
+            <div class="logo-box">B</div>
           </div>
           <div class="logo-text">
-            <div class="logo-text-main">Central Watch News</div>
+            <div class="logo-text-main">TheDubaiBrief</div>
             <div class="logo-text-sub">UAE Official Sources</div>
           </div>
         </a>
@@ -1863,7 +1863,7 @@
           <a href="#" onclick="filterByCategory('Lifestyle',null); return false;">Lifestyle</a>
         </nav>
         <div class="header-controls">
-          <div class="live-visitors" id="liveVisitors" title="People viewing CWN right now">
+          <div class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
             <div class="live-visitors-dot"></div>
             <span id="liveVisitorCount">–</span> online
           </div>
@@ -2009,7 +2009,7 @@
               maxlength="120"
             />
             <p class="otg-privacy-note">
-              Your contact info is never shown publicly. CWN stores it privately for verification only.
+              Your contact info is never shown publicly. TheDubaiBrief stores it privately for verification only.
             </p>
           </div>
 
@@ -2064,12 +2064,12 @@
       </div>
       <!-- Disclaimer -->
       <div style="max-width:var(--max-width);margin:0 auto 20px;padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.65;">
-        CWN paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. Central Watch News is an independent student project not affiliated with any government.
+        TheDubaiBrief paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. TheDubaiBrief is an independent student project not affiliated with any government.
       </div>
       <!-- Coffee / support button -->
       <div style="max-width:var(--max-width);margin:0 auto 22px;text-align:center;">
         <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer" class="cwn-coffee-btn">
-          ☕ Support CWN — Keep it free for everyone
+          ☕ Support TheDubaiBrief — Keep it free for everyone
         </a>
       </div>
 
@@ -2084,8 +2084,8 @@
         <a href="/status.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Regional Status</a>
       </div>
       <div class="footer-bottom">
-        <span class="footer-logo">CWN</span>
-        <span id="footerCopyright">© 2026 Clockwork News | Calm, factual UAE journalism</span>
+        <span class="footer-logo">TheDubaiBrief</span>
+        <span id="footerCopyright">© 2026 TheDubaiBrief | Calm, factual UAE journalism</span>
       </div>
     </footer>
   </div>
@@ -2595,7 +2595,7 @@
         html = `
           <div class="cwn-success-icon">✅</div>
           <h2 class="cwn-modal-title">Already subscribed!</h2>
-          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g,'&lt;')} is already on the CWN list. You're good — we'll keep sending you calm UAE updates.</p>
+          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g,'&lt;')} is already on the TheDubaiBrief list. You're good — we'll keep sending you calm UAE updates.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Got it</button>
         `;
       }
@@ -2900,7 +2900,7 @@
             el.submitBtn.disabled = false; return;
           }
           if (!data.approved) {
-            setStatus("Your post doesn’t meet our community guidelines. CWN accepts calm factual observations only.", 'error');
+            setStatus("Your post doesn’t meet our community guidelines. TheDubaiBrief accepts calm factual observations only.", 'error');
             el.submitBtn.disabled = false; return;
           }
           // Success
@@ -3219,14 +3219,14 @@
         otgAddName:     'Add my name',
         otgNamePh:      'Your name or nickname (optional)',
         otgContactPh:   'Email or phone (private, never shown publicly)',
-        otgPrivacy:     'Your contact info is never shown publicly. CWN stores it privately for verification only.',
+        otgPrivacy:     'Your contact info is never shown publicly. TheDubaiBrief stores it privately for verification only.',
         otgSubmit:      'Submit Report',
         about:          'About', sources: 'Sources', contact: 'Contact',
         footerH1:       'Sections', footerH2: 'Official Sources', footerH3: 'About', footerH4: 'Subscribe',
         footerEmailPh:  'Your email',
         footerSubBtn:   'Subscribe',
         footerSubNote:  'Choose topics and delivery timing in the popup.',
-        footerCopy:     '\u00a9 2026 Clockwork News | Calm, factual UAE journalism',
+        footerCopy:     '\u00a9 2026 TheDubaiBrief | Calm, factual UAE journalism',
         dir: 'ltr', font: null, bodyFont: null,
       },
       ml: {
@@ -3255,7 +3255,7 @@
         footerEmailPh:  'നിങ്ങളുടെ ഇമെയിൽ',
         footerSubBtn:   'സബ്സ്ക്രൈബ്',
         footerSubNote:  'പ്രത്യേക വിഷയങ്ങളും ഡെലിവറി സമയവും പോപ്പ്അപ്പിൽ തിരഞ്ഞെടുക്കൂ.',
-        footerCopy:     '\u00a9 2026 Clockwork News | UAE വാർത്ത, ശാന്തമായി',
+        footerCopy:     '\u00a9 2026 TheDubaiBrief | UAE വാർത്ത, ശാന്തമായി',
         dir: 'ltr',
         font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600&display=swap',
         bodyFont: "'Noto Sans Malayalam','DM Sans',sans-serif",
@@ -3286,7 +3286,7 @@
         footerEmailPh:  'بريدك الإلكتروني',
         footerSubBtn:   'اشترك',
         footerSubNote:  'اختر المواضيع وموعد الاستلام في النافذة المنبثقة.',
-        footerCopy:     '\u00a9 2026 Clockwork News | صحافة إماراتية هادئة',
+        footerCopy:     '\u00a9 2026 TheDubaiBrief | صحافة إماراتية هادئة',
         dir: 'rtl',
         font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600&display=swap',
         bodyFont: "'Noto Sans Arabic','DM Sans',sans-serif",
@@ -3317,7 +3317,7 @@
         footerEmailPh:  'आपका ईमेल',
         footerSubBtn:   'सदस्य बनें',
         footerSubNote:  'पॉपअप में विषय और समय चुनें।',
-        footerCopy:     '\u00a9 2026 Clockwork News | शांत UAE पत्रकारिता',
+        footerCopy:     '\u00a9 2026 TheDubaiBrief | शांत UAE पत्रकारिता',
         dir: 'ltr',
         font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap',
         bodyFont: "'Noto Sans Devanagari','DM Sans',sans-serif",
@@ -3348,7 +3348,7 @@
         footerEmailPh:  'Ang iyong email',
         footerSubBtn:   'Mag-subscribe',
         footerSubNote:  'Pumili ng mga paksa at oras ng paghahatid sa popup.',
-        footerCopy:     '\u00a9 2026 Clockwork News | Mahinahong balita ng UAE',
+        footerCopy:     '\u00a9 2026 TheDubaiBrief | Mahinahong balita ng UAE',
         dir: 'ltr', font: null, bodyFont: null,
       },
     };
@@ -3607,13 +3607,13 @@
 
   <!-- ===== DONATION BANNER ===== -->
   <div id="cwnDonationBanner" class="cwn-donation-banner" role="dialog"
-       aria-label="Support CWN" style="display:none;">
+       aria-label="Support TheDubaiBrief" style="display:none;">
     <p class="cwn-donation-text">
-      CWN is free and independent. If it helps you stay informed, consider buying us a coffee ☕
+      TheDubaiBrief is free and independent. If it helps you stay informed, consider buying us a coffee ☕
     </p>
     <div class="cwn-donation-actions">
       <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer"
-         class="cwn-donation-support">Support CWN</a>
+         class="cwn-donation-support">Support TheDubaiBrief</a>
       <button type="button" class="cwn-donation-later" id="cwnDonationDismiss">Maybe later</button>
     </div>
   </div>

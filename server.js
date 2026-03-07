@@ -275,8 +275,8 @@ function buildDigestHtml({ greeting, stories, recipientEmail, dateStr }) {
 <html><body style="margin:0;padding:20px;background:#F7F4EF;font-family:Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;">
   <div style="background:#C8102E;border-radius:12px 12px 0 0;padding:22px 24px;text-align:center;">
-    <div style="color:white;font-size:22px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">CWN</div>
-    <p style="color:rgba(255,255,255,0.8);font-size:12px;margin:4px 0 0;">Central Watch News</p>
+    <div style="color:white;font-size:22px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">TheDubaiBrief</div>
+    <p style="color:rgba(255,255,255,0.8);font-size:12px;margin:4px 0 0;">TheDubaiBrief</p>
   </div>
   <div style="background:#1A1208;padding:18px 24px;">
     <h1 style="color:white;font-size:20px;font-family:Georgia,serif;margin:0 0 4px;">${escapeHtml(greeting)}</h1>
@@ -286,16 +286,16 @@ function buildDigestHtml({ greeting, stories, recipientEmail, dateStr }) {
     ${storyItems || '<p style="color:#888;padding:24px 0;text-align:center;">No new stories in your selected topics yet. Check back soon.</p>'}
   </div>
   <div style="background:white;border-top:1px solid #E8E4DF;padding:20px 24px;text-align:center;">
-    <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:12px 28px;border-radius:6px;font-weight:700;font-size:14px;">Read all stories on CWN &rarr;</a>
+    <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:12px 28px;border-radius:6px;font-weight:700;font-size:14px;">Read all stories on TheDubaiBrief &rarr;</a>
   </div>
   <div style="background:#F7F4EF;border-radius:0 0 12px 12px;padding:18px 24px;text-align:center;border-top:1px solid #E8E4DF;">
     <p style="font-size:13px;color:#888;margin:0 0 6px;">
-      <a href="https://buymeacoffee.com/cwn" style="color:#C8102E;text-decoration:none;font-weight:600;">&curren; Support CWN</a>
+      <a href="https://buymeacoffee.com/cwn" style="color:#C8102E;text-decoration:none;font-weight:600;">&curren; Support TheDubaiBrief</a>
     </p>
     <p style="font-size:11px;color:#aaa;margin:0;">
       <a href="${unsub}" style="color:#aaa;">Unsubscribe</a> &nbsp;&middot;&nbsp;
       <a href="${APP_BASE_URL}/privacy.html" style="color:#aaa;">Privacy Policy</a>
-      &nbsp;&middot;&nbsp; Central Watch News &middot; Dubai, UAE
+      &nbsp;&middot;&nbsp; TheDubaiBrief &middot; Dubai, UAE
     </p>
   </div>
 </div>
@@ -310,7 +310,7 @@ function buildDigestText({ greeting, stories, recipientEmail, dateStr }) {
     const url     = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
     return `${i + 1}. ${title}\n${summary}\n${url}`;
   }).join("\n\n");
-  return `${greeting}\nCentral Watch News · Dubai, UAE\n${dateStr}\n\n${items}\n\n---\nRead all: ${APP_BASE_URL}\nSupport CWN: https://buymeacoffee.com/cwn\nUnsubscribe: ${unsub}`;
+  return `${greeting}\nTheDubaiBrief · Dubai, UAE\n${dateStr}\n\n${items}\n\n---\nRead all: ${APP_BASE_URL}\nSupport TheDubaiBrief: https://buymeacoffee.com/cwn\nUnsubscribe: ${unsub}`;
 }
 
 // ── Dispatch a digest slot to all matching active subscribers ─────────────────
@@ -358,7 +358,7 @@ cron.schedule("0 3 * * *", async () => {
   await sendDigestToSubscribers({
     slotKey: "morning",
     greeting: "Good Morning, UAE 🇦🇪",
-    subject:  "CWN Morning Digest 🇦🇪",
+    subject:  "TheDubaiBrief Morning Digest 🇦🇪",
     fromMs: now - 12 * 60 * 60 * 1000,
     toMs: now,
   });
@@ -371,7 +371,7 @@ cron.schedule("0 16 * * *", async () => {
   await sendDigestToSubscribers({
     slotKey: "evening",
     greeting: "Good Evening, UAE 🇦🇪",
-    subject:  "CWN Evening Digest 🇦🇪",
+    subject:  "TheDubaiBrief Evening Digest 🇦🇪",
     fromMs: dubaiLocalToUtcMs(parts.year, parts.month, parts.day, 0, 0, 0),
     toMs: Date.now(),
   });
@@ -384,7 +384,7 @@ cron.schedule("0 5 * * 5", async () => {
   await sendDigestToSubscribers({
     slotKey: "weekly",
     greeting: "Your Weekly UAE News Roundup 🇦🇪",
-    subject:  "CWN Weekly Summary — Top Stories This Week",
+    subject:  "TheDubaiBrief Weekly Summary — Top Stories This Week",
     fromMs: now - 7 * 24 * 60 * 60 * 1000,
     toMs: now,
   });
@@ -671,8 +671,8 @@ async function sendWelcomeEmail({ email, topics, timing }) {
   const html = `<!DOCTYPE html>
 <html><body style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;">
   <div style="text-align:center;margin-bottom:32px;">
-    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;">CWN</div>
-    <p style="color:#666;font-size:13px;margin-top:8px;">Central Watch News</p>
+    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;">TheDubaiBrief</div>
+    <p style="color:#666;font-size:13px;margin-top:8px;">TheDubaiBrief</p>
   </div>
   <h1 style="font-size:28px;color:#1A1208;text-align:center;margin-bottom:8px;">You're all set! 🇦🇪</h1>
   <p style="text-align:center;color:#666;margin-bottom:32px;">UAE news — calm, clear, and in plain English.</p>
@@ -689,11 +689,11 @@ async function sendWelcomeEmail({ email, topics, timing }) {
   <p style="text-align:center;color:#999;font-size:12px;">
     Your first digest arrives ${escapeHtml(nextTime)}.<br><br>
     <a href="${unsub}" style="color:#aaa;">Unsubscribe anytime</a><br><br>
-    Central Watch News &middot; Dubai, UAE 🇦🇪
+    TheDubaiBrief &middot; Dubai, UAE 🇦🇪
   </p>
 </body></html>`;
 
-  const text = `Central Watch News
+  const text = `TheDubaiBrief
 
 You're all set!
 
@@ -708,7 +708,7 @@ Unsubscribe: ${unsub}`;
 
   await sendResendEmail({
     to: email,
-    subject: "Welcome to Central Watch News 🇦🇪",
+    subject: "Welcome to TheDubaiBrief 🇦🇪",
     html,
     text,
   });
@@ -721,19 +721,19 @@ async function sendUnsubscribeConfirmEmail(email) {
   const html = `<!DOCTYPE html>
 <html><body style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;text-align:center;">
   <div style="margin-bottom:24px;">
-    <div style="background:#C8102E;color:white;display:inline-block;padding:10px 22px;font-size:22px;font-weight:900;letter-spacing:2px;">CWN</div>
+    <div style="background:#C8102E;color:white;display:inline-block;padding:10px 22px;font-size:22px;font-weight:900;letter-spacing:2px;">TheDubaiBrief</div>
   </div>
   <h1 style="font-size:24px;color:#1A1208;">You've been unsubscribed</h1>
-  <p style="color:#666;margin:16px 0 28px;">You won't receive any more emails from Central Watch News.</p>
+  <p style="color:#666;margin:16px 0 28px;">You won't receive any more emails from TheDubaiBrief.</p>
   <a href="${resubUrl}" style="display:inline-block;background:#C8102E;color:white;padding:12px 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Changed your mind? Resubscribe here</a>
-  <p style="color:#aaa;font-size:12px;margin-top:28px;">Central Watch News &middot; Dubai, UAE</p>
+  <p style="color:#aaa;font-size:12px;margin-top:28px;">TheDubaiBrief &middot; Dubai, UAE</p>
 </body></html>`;
-  const text = `You've been unsubscribed from Central Watch News.
+  const text = `You've been unsubscribed from TheDubaiBrief.
 
 You won't receive any more emails.
 
 Changed your mind? Visit: ${resubUrl}`;
-  await sendResendEmail({ to: email, subject: "You've been unsubscribed from CWN", html, text });
+  await sendResendEmail({ to: email, subject: "You've been unsubscribed from TheDubaiBrief", html, text });
 }
 
 // endpoint for subscribing email notifications
@@ -805,7 +805,7 @@ app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article
 app.use('/article', articleRouter);
 
 app.listen(PORT, '0.0.0.0', async () => {
-  console.log(`Clockwork News server running on port ${PORT}`);
+  console.log(`TheDubaiBrief server running on port ${PORT}`);
   
   // Prime cache on startup
   console.log('Priming cache on startup...');
