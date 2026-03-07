@@ -14,11 +14,15 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Anthropic from "@anthropic-ai/sdk";
 import cron from "node-cron";
 
+if (!process.env.SUPABASE_URL) console.warn('WARNING: SUPABASE_URL not set — database features disabled');
+if (!process.env.SUPABASE_KEY) console.warn('WARNING: SUPABASE_KEY not set — database features disabled');
+if (!process.env.CLAUDE_API_KEY) console.warn('WARNING: CLAUDE_API_KEY not set — AI features disabled');
+
 const _supabase = createSupabaseClient(
-  process.env.SUPABASE_URL || "",
-  process.env.SUPABASE_KEY || ""
+  process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_KEY || 'placeholder'
 );
-const _anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY || "" });
+const _anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY || 'placeholder' });
 import articleRouter from "./src/article-router.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -408,11 +412,11 @@ cron.schedule("*/5 * * * *", async () => {
   saveDigestState();
 }, { timezone: "UTC" });
 
+// Health check FIRST — before all middleware so it always responds
+app.get('/healthz', (req, res) => res.status(200).send('ok'));
+
 app.use(cors());
 app.use(express.json({ limit: "30mb" })); // 30mb needed for base64-encoded video uploads
-
-// Health check for Railway
-app.get('/healthz', (req, res) => res.status(200).send('ok'));
 
 // Root → main page
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'uae-calm-uae-news.html')));

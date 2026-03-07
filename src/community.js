@@ -7,11 +7,11 @@ import { randomUUID } from 'crypto';
 const router = express.Router();
 
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
+  process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_KEY || 'placeholder'
 );
 
-const anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY });
+const anthropic = new Anthropic({ apiKey: process.env.CLAUDE_API_KEY || 'placeholder' });
 
 // ── Rate limiter ──────────────────────────────────────────────────────────────
 const rateLimitMap = new Map();
