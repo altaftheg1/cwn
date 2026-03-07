@@ -25,18 +25,24 @@
 
     *{box-sizing:border-box;margin:0;padding:0;}
     html,body{height:100%;}
+    html{ overflow-x:hidden; }
     body{
       font-family:'DM Sans',sans-serif;
       background:#F7F4EF;
       color:var(--ink);
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
     }
+    /* Global: images never overflow their container */
+    img{ max-width:100%; height:auto; }
 
     .app-shell{
       min-height:100vh;
       display:flex;
       flex-direction:column;
+      max-width:100vw;
+      overflow-x:hidden;
     }
 
     /* ===== UTILITY BAR ===== */
@@ -1364,11 +1370,25 @@
       .utility-bar{ display:none; }
 
       /* Navbar */
-      .header-inner{ padding:10px 16px; gap:8px; }
-      .logo-boxes{ gap:4px; }
+      .header-inner{
+        padding:10px 16px;
+        gap:8px;
+        width:100%;
+        box-sizing:border-box;
+        overflow:hidden;
+      }
+      .brand{ flex-shrink:0; min-width:0; }
+      .logo-boxes{ gap:4px; flex-shrink:0; }
       .logo-box{ width:30px; height:30px; font-size:13px; border-radius:4px; }
-      .logo-text-main{ font-size:11px; }
+      .logo-text-main{ font-size:11px; white-space:nowrap; }
       .logo-text-sub{ display:none; }
+      .header-controls{
+        display:flex;
+        align-items:center;
+        gap:6px;
+        flex-shrink:0;
+        min-width:0;
+      }
       .live-visitors{ display:none; }
       .search-box{ display:none; }
       .notify-btn{
@@ -1376,8 +1396,9 @@
         padding:6px 10px;
         min-height:36px;
         white-space:nowrap;
+        flex-shrink:0;
       }
-      .hamburger-btn{ display:flex; }
+      .hamburger-btn{ display:flex; flex-shrink:0; }
 
       /* Ticker */
       .ticker-bar{ overflow:hidden; }
@@ -1387,14 +1408,22 @@
       .ticker-badge{ font-size:8px; }
 
       /* Topic filter pills: horizontal scroll, no wrap */
-      .topic-filters{ padding:8px 12px; overflow:hidden; }
+      .topic-filters{
+        padding:8px 12px;
+        overflow-x:auto;
+        overflow-y:hidden;
+        max-width:100vw;
+        box-sizing:border-box;
+      }
       .filter-pills{
+        min-width:0;          /* override min-width:min-content that breaks layout */
         overflow-x:auto;
         flex-wrap:nowrap;
         -webkit-overflow-scrolling:touch;
         scrollbar-width:none;
         padding-bottom:4px;
         gap:6px;
+        width:max-content;    /* let pills be naturally wide, parent scrolls */
       }
       .filter-pills::-webkit-scrollbar{ display:none; }
       .filter-pill{
@@ -1406,7 +1435,12 @@
       }
 
       /* Main layout */
-      .main-content{ padding:0 12px; gap:16px; margin-top:16px; }
+      .main-content{
+        padding:16px 12px;
+        box-sizing:border-box;
+        width:100%;
+        max-width:100vw;
+      }
 
       /* Hero section */
       .hero-grid{ grid-template-columns:1fr; gap:12px; }
