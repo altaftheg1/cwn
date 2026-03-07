@@ -1259,6 +1259,20 @@
       60% { opacity:1; transform:translateY(-6px) scale(1.05) rotate(2deg); }
       100%{ opacity:1; transform:translateY(0) scale(1) rotate(0deg); }
     }
+    .splash-name{
+      position:absolute;
+      bottom:calc(50% - 80px);
+      left:50%;
+      transform:translateX(-50%);
+      color:rgba(255,255,255,0.75);
+      font-family:'Source Serif 4',serif;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      animation:splashCenterFadeIn .8s ease-out .7s both;
+    }
 
     /* Media queries */
     @media (max-width:1400px){
@@ -1296,6 +1310,159 @@
       .more-stories-list{
         grid-template-columns:1fr;
       }
+    }
+
+    /* ===== HAMBURGER BUTTON (hidden on desktop) ===== */
+    .hamburger-btn{
+      display:none;
+      background:none;
+      border:none;
+      color:#FFFFFF;
+      font-size:22px;
+      cursor:pointer;
+      padding:6px 8px;
+      min-width:44px;
+      min-height:44px;
+      align-items:center;
+      justify-content:center;
+      border-radius:4px;
+      flex-shrink:0;
+    }
+
+    /* ===== MOBILE NAV DROPDOWN ===== */
+    .mobile-nav{
+      display:none;
+      flex-direction:column;
+      background:var(--red);
+      border-top:1px solid rgba(0,0,0,0.25);
+      position:sticky;
+      top:0;
+      z-index:99;
+    }
+    .mobile-nav.open{ display:flex; }
+    .mobile-nav a{
+      color:#FFFFFF;
+      text-decoration:none;
+      padding:14px 20px;
+      font-family:'DM Sans',sans-serif;
+      font-size:15px;
+      font-weight:500;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      min-height:44px;
+      display:flex;
+      align-items:center;
+    }
+    .mobile-nav a:hover{ background:rgba(0,0,0,0.15); }
+
+    /* ===== COMPREHENSIVE MOBILE FIXES ===== */
+    @media (max-width:768px){
+      /* Prevent horizontal scroll */
+      html, body{ overflow-x:hidden; max-width:100%; }
+      *, *::before, *::after{ box-sizing:border-box; }
+
+      /* Utility bar: hide on mobile */
+      .utility-bar{ display:none; }
+
+      /* Navbar */
+      .header-inner{ padding:10px 16px; gap:8px; }
+      .logo-boxes{ gap:4px; }
+      .logo-box{ width:30px; height:30px; font-size:13px; border-radius:4px; }
+      .logo-text-main{ font-size:11px; }
+      .logo-text-sub{ display:none; }
+      .live-visitors{ display:none; }
+      .search-box{ display:none; }
+      .notify-btn{
+        font-size:11px;
+        padding:6px 10px;
+        min-height:36px;
+        white-space:nowrap;
+      }
+      .hamburger-btn{ display:flex; }
+
+      /* Ticker */
+      .ticker-bar{ overflow:hidden; }
+      .ticker-content{ overflow:hidden; flex:1; min-width:0; }
+      .ticker-scroll{ font-size:12px; }
+      .ticker-label{ font-size:10px; padding:0 8px; }
+      .ticker-badge{ font-size:8px; }
+
+      /* Topic filter pills: horizontal scroll, no wrap */
+      .topic-filters{ padding:8px 12px; overflow:hidden; }
+      .filter-pills{
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+        padding-bottom:4px;
+        gap:6px;
+      }
+      .filter-pills::-webkit-scrollbar{ display:none; }
+      .filter-pill{
+        flex-shrink:0;
+        font-size:12px;
+        padding:5px 12px;
+        min-height:36px;
+        white-space:nowrap;
+      }
+
+      /* Main layout */
+      .main-content{ padding:0 12px; gap:16px; margin-top:16px; }
+
+      /* Hero section */
+      .hero-grid{ grid-template-columns:1fr; gap:12px; }
+      .hero-card{ border-radius:8px; overflow:hidden; }
+      .hero-content{ padding:14px; }
+      .hero-title{ font-size:20px; line-height:1.3; }
+      .hero-summary{ font-size:14px; }
+      .hero-img{ height:180px; object-fit:cover; width:100%; }
+      .hero-source{ font-size:10px; }
+      .hero-sides{ flex-direction:column; gap:12px; }
+      .hero-side-card{ flex:none; width:100%; }
+
+      /* Story cards: single column */
+      .story-grid{ grid-template-columns:1fr; gap:12px; }
+      .story-card{ margin:0; overflow:hidden; }
+      .story-card img{ width:100%; max-width:100%; height:auto; max-height:180px; object-fit:cover; }
+      .story-title{ font-size:16px; line-height:1.35; }
+      .story-summary{ font-size:13px; }
+      .story-source{ font-size:8px; }
+
+      /* More stories */
+      .more-stories-list{ grid-template-columns:1fr; }
+      .more-card img{ max-width:100%; height:auto; }
+
+      /* Footer */
+      footer{ padding:28px 16px 20px; }
+      .footer-grid{ grid-template-columns:1fr; gap:24px; }
+      .footer-section{ min-width:0; }
+      .footer-section h3{ font-size:14px; }
+      .footer-bottom{
+        flex-direction:column;
+        gap:6px;
+        text-align:center;
+        font-size:12px;
+      }
+      .subscribe-form{ flex-direction:column; gap:8px; }
+      .subscribe-form input,
+      .subscribe-form button{ width:100%; min-height:44px; font-size:14px; }
+
+      /* OTG community section */
+      .otg-submit-btn{ width:100%; min-height:44px; }
+      .otg-textarea{ font-size:14px; }
+      .otg-post-card{ padding:12px; }
+      .otg-toggle{ min-height:44px; }
+
+      /* Splash screen */
+      .splash-box{ width:54px; height:54px; font-size:26px; }
+      .splash-center{ gap:10px; padding:14px 18px; }
+    }
+
+    /* ===== EXTRA SMALL (iPhone SE 375px) ===== */
+    @media (max-width:390px){
+      .logo-box{ width:26px; height:26px; font-size:11px; }
+      .logo-text-main{ font-size:10px; }
+      .header-inner{ padding:8px 12px; }
+      .main-content{ padding:0 10px; }
     }
   </style>
 
@@ -1809,10 +1976,11 @@
   <!-- Splash screen -->
   <div class="splash" id="splash">
     <div class="splash-center">
-      <div class="splash-box">C</div>
-      <div class="splash-box">W</div>
-      <div class="splash-box">N</div>
+      <div class="splash-box">D</div>
+      <div class="splash-box">B</div>
+      <div class="splash-box">B</div>
     </div>
+    <div class="splash-name">TheDubaiBrief</div>
   </div>
 
   <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
@@ -1869,9 +2037,23 @@
           </div>
           <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
           <button id="notifyBtn" class="notify-btn">🔔 Notify me</button>
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
         </div>
       </div>
     </header>
+    <!-- Mobile nav dropdown (toggled by hamburger) -->
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;">Home</a>
+      <a href="#" onclick="filterByCategory('Safety',null);closeMobileNav();return false;">Safety</a>
+      <a href="#" onclick="filterByCategory('Government',null);closeMobileNav();return false;">Government</a>
+      <a href="#" onclick="filterByCategory('Business',null);closeMobileNav();return false;">Business</a>
+      <a href="#" onclick="filterByCategory('Health &amp; Education',null);closeMobileNav();return false;">Health</a>
+      <a href="#" onclick="filterByCategory('Lifestyle',null);closeMobileNav();return false;">Lifestyle</a>
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/status.html">Status</a>
+    </div>
 
     <!-- Live Ticker -->
     <div class="ticker-bar">
@@ -3664,6 +3846,34 @@
       setupDismiss();
     }
   }());
+  </script>
+  <script>
+    // ===== HAMBURGER MENU =====
+    (function() {
+      const btn = document.getElementById('hamburgerBtn');
+      const nav = document.getElementById('mobileNav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function() {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        nav.setAttribute('aria-hidden', !open);
+        btn.innerHTML = open ? '&#10005;' : '&#9776;';
+      });
+      // Close when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !nav.contains(e.target)) {
+          closeMobileNav();
+        }
+      });
+    }());
+    function closeMobileNav() {
+      const btn = document.getElementById('hamburgerBtn');
+      const nav = document.getElementById('mobileNav');
+      if (!nav) return;
+      nav.classList.remove('open');
+      nav.setAttribute('aria-hidden', 'true');
+      if (btn) { btn.setAttribute('aria-expanded', 'false'); btn.innerHTML = '&#9776;'; }
+    }
   </script>
 </body>
 </html>
