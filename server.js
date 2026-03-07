@@ -411,6 +411,12 @@ cron.schedule("*/5 * * * *", async () => {
 app.use(cors());
 app.use(express.json({ limit: "30mb" })); // 30mb needed for base64-encoded video uploads
 
+// Health check for Railway
+app.get('/healthz', (req, res) => res.status(200).send('ok'));
+
+// Root → main page
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'uae-calm-uae-news.html')));
+
 // Serve static files from project root (so you can open the HTML via http://localhost:3000/uae-calm-uae-news.html)
 app.use(express.static(__dirname, { extensions: ["html"] }));
 
@@ -794,8 +800,8 @@ app.post("/api/resubscribe", (req, res) => {
 app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article-view.html')));
 app.use('/article', articleRouter);
 
-app.listen(PORT, async () => {
-  console.log(`Clockwork News server running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', async () => {
+  console.log(`Clockwork News server running on port ${PORT}`);
   
   // Prime cache on startup
   console.log('Priming cache on startup...');
