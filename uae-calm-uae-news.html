@@ -681,7 +681,9 @@
       padding:3px 6px;
       border-radius:2px;
       font-weight:600;
+      font-size:9px;
       text-transform:uppercase;
+      white-space:nowrap;
       color:#FFFFFF;
     }
     .story-source.wam{background:#2E7D32;}
@@ -2329,7 +2331,7 @@
             ${item.alsoReportedBy && item.alsoReportedBy.length ? `<div style="font-size:11px;color:#999;margin-top:3px;">+${item.alsoReportedBy.length} more source${item.alsoReportedBy.length > 1 ? 's' : ''}</div>` : ''}
             <div class="story-footer">
               <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
-              <span class="story-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').substr(0, 8).toUpperCase()}</span>
+              <span class="story-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
               ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
             </div>
           </div>
@@ -2350,7 +2352,7 @@
             <h4 class="more-headline">${item.calmTitle || item.title}</h4>
             <div class="more-meta">
               <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
-              <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').substr(0, 8).toUpperCase()}</span>
+              <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
               <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
               ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
             </div>
