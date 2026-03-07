@@ -6,6 +6,16 @@
   <title>TheDubaiBrief - UAE</title>
   <meta name="description" content="TheDubaiBrief - calm, timely summaries of UAE news and announcements from official and established sources." />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'ar,ml,hi,tl,en',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <style>
     :root{
       --red: #C8102E;
@@ -1319,32 +1329,44 @@
     }
 
     /* ===== MOBILE SEARCH BAR (hidden on desktop) ===== */
-    .mobile-search-bar{
-      display:none;
+    .mobile-search-bar{ display:none; }
+    .mobile-search-wrap{ position:relative; }
+    .mobile-search-wrap::before{
+      content:'';
+      position:absolute;
+      left:13px;
+      top:50%;
+      transform:translateY(-50%);
+      width:16px;
+      height:16px;
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23B8860B' stroke-width='2.2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+      pointer-events:none;
     }
     .mobile-search-input{
       width:100%;
       box-sizing:border-box;
-      background:#FFFFFF;
-      border:none;
-      border-bottom:2px solid var(--border);
-      padding:10px 16px;
+      background:rgba(255,255,255,0.15);
+      border:1.5px solid rgba(255,255,255,0.35);
+      border-radius:10px;
+      padding:11px 14px 11px 38px;
       font-family:'DM Sans',sans-serif;
-      font-size:15px;
-      color:var(--ink);
+      font-size:14px;
+      color:#FFFFFF;
       outline:none;
+      transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      -webkit-appearance:none;
     }
+    .mobile-search-input::placeholder{ color:rgba(255,255,255,0.6); }
     .mobile-search-input:focus{
-      border-bottom-color:var(--red);
+      border-color:rgba(255,255,255,0.8);
+      background:rgba(255,255,255,0.22);
+      box-shadow:0 0 0 3px rgba(255,255,255,0.12);
     }
     @media(max-width:768px){
       .mobile-search-bar{
         display:block;
-        position:sticky;
-        top:0;
-        z-index:98;
-        background:#FFFFFF;
-        box-shadow:0 1px 4px rgba(0,0,0,0.08);
+        background:var(--red);
+        padding:8px 14px 10px;
       }
     }
 
@@ -1887,20 +1909,26 @@
     .cwn-coffee-btn {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      background: var(--cream);
-      color: var(--ink);
-      border: 1px solid rgba(247,244,239,0.35);
-      border-radius: 6px;
-      padding: 9px 18px;
+      gap: 8px;
+      background: #FFDD00;
+      color: #000000;
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       text-decoration: none;
-      transition: background 0.18s, transform 0.12s;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
       cursor: pointer;
     }
-    .cwn-coffee-btn:hover { background: #fffdf8; transform: translateY(-1px); }
+    .cwn-coffee-btn:hover {
+      background: #FFE733;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    }
 
     /* ── Donation banner ──────────────────────────────────────────────────── */
     .cwn-donation-banner {
@@ -2037,6 +2065,9 @@
   </style>
 </head>
 <body>
+  <!-- Google Translate widget (hidden, required for API) -->
+  <div id="google_translate_element" style="display:none"></div>
+
   <!-- Splash screen -->
   <div class="splash" id="splash">
     <div class="splash-center">
@@ -2107,7 +2138,9 @@
     </header>
     <!-- Mobile search bar (always visible on mobile, hidden on desktop) -->
     <div class="mobile-search-bar" id="mobileSearchBar">
-      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+      <div class="mobile-search-wrap">
+        <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+      </div>
     </div>
     <!-- Mobile nav dropdown (toggled by hamburger) -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
@@ -2319,7 +2352,8 @@
       <!-- Coffee / support button -->
       <div style="max-width:var(--max-width);margin:0 auto 22px;text-align:center;">
         <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer" class="cwn-coffee-btn">
-          ☕ Support TheDubaiBrief — Keep it free for everyone
+          <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="" width="20" height="20" style="display:block;flex-shrink:0;">
+          Buy me a coffee
         </a>
       </div>
 
@@ -2965,9 +2999,6 @@
     var otgCurrentPosts  = [];     // posts currently in feed
     var otgMediaFile     = null;   // selected File object
     var otgMediaType     = null;   // 'image' | 'video'
-    var otgCurrentLang   = localStorage.getItem('cwn-lang') || 'en';
-    var otgPostTransCache = {};    // "postId|lang" -> translated string
-    var otgTransFailCache = {};    // "postId|lang" -> true (gave up)
     var otgSearchActive  = false;
     var otgSearchOffset  = 0;
     var otgSearchTotal   = 0;
@@ -3011,11 +3042,6 @@
       el.backBtn.addEventListener('click', clearSearch);
       el.loadMoreBtn.addEventListener('click', loadMorePosts);
 
-      // Listen for language change from the switcher script
-      document.addEventListener('cwn-lang-change', function (e) {
-        otgCurrentLang = e.detail.lang;
-        // Re-render with new language; translations will fill in async
-        renderPosts(otgCurrentPosts, otgSearchActive ? otgSearchQuery : '');
       });
 
       loadPosts(false);
@@ -3247,7 +3273,7 @@
       el.searchLabel.textContent  = 'Searching…';
       if (offset === 0) el.feed.innerHTML = '<p class="otg-empty">Searching…</p>';
 
-      fetch('/api/community/search?q=' + encodeURIComponent(q) + '&lang=' + otgCurrentLang + '&offset=' + offset, { cache: 'no-store' })
+      fetch('/api/community/search?q=' + encodeURIComponent(q)  + '&offset=' + offset, { cache: 'no-store' })
         .then(function (r) { return r.json(); })
         .then(function (data) {
           var posts = Array.isArray(data.posts) ? data.posts : [];
@@ -3293,7 +3319,6 @@
         el.feed.innerHTML = '<p class="otg-empty">No community reports yet. Be the first to share what you\'re seeing!</p>';
         return;
       }
-      var isRtl = (otgCurrentLang === 'ar');
 
       el.feed.innerHTML = posts.map(function (post) {
         var author = (post.is_anonymous || !post.display_name)
@@ -3307,20 +3332,8 @@
           : '🕐 ' + timeAgo;
 
         var content = getPostContent(post);
-        var needsTranslation = (otgCurrentLang !== 'en') && (content === post.content) &&
-          !otgPostTransCache[post.id + '|' + otgCurrentLang] &&
-          !otgTransFailCache[post.id + '|' + otgCurrentLang];
-
-        var displayContent;
-        if (needsTranslation) {
-          displayContent = '<span class="otg-translating">⏳ Translating…</span>';
-        } else if (highlight) {
-          displayContent = highlightText(content, highlight);
-        } else {
-          displayContent = escapeHtml(content);
-        }
-
-        var rtlAttr = isRtl ? ' dir="rtl" style="text-align:right;"' : '';
+        var displayContent = highlight ? highlightText(content, highlight) : escapeHtml(content);
+        var rtlAttr = '';
 
         var mediaHtml = '';
         if (post.media_url && post.media_type === 'image') {
@@ -3343,77 +3356,11 @@
         ].join('\n');
       }).join('\n');
 
-      // Kick off async translation for any untranslated posts
-      if (otgCurrentLang !== 'en') translateVisiblePosts(posts, otgCurrentLang, highlight);
     }
 
-    // ── Get post content for current language ──────────────────────────────────
+    // ── Get post content (Google Translate handles language switching) ──────────
     function getPostContent(post) {
-      if (otgCurrentLang === 'en') return post.content;
-      var colMap = { ml: 'malayalam_content', ar: 'arabic_content', hi: 'hindi_content', tl: 'tagalog_content' };
-      var col = colMap[otgCurrentLang];
-      if (col && post[col]) return post[col];
-      var ck = post.id + '|' + otgCurrentLang;
-      if (otgPostTransCache[ck]) return otgPostTransCache[ck];
-      return post.content; // English fallback
-    }
-
-    // ── Translate visible posts async, update DOM nodes directly ──────────────
-    function translateVisiblePosts(posts, lang, highlight) {
-      var colMap = { ml: 'malayalam_content', ar: 'arabic_content', hi: 'hindi_content', tl: 'tagalog_content' };
-      var col = colMap[lang];
-      if (!col) return;
-
-      var toTranslate = posts.filter(function (p) {
-        var ck = p.id + '|' + lang;
-        return !p[col] && !otgPostTransCache[ck] && !otgTransFailCache[ck];
-      });
-      if (!toTranslate.length) return;
-
-      var isRtl = (lang === 'ar');
-      var idx = 0;
-
-      function next() {
-        if (idx >= toTranslate.length) return;
-        var post = toTranslate[idx++];
-        var ck = post.id + '|' + lang;
-        fetch('/api/community/translate-post', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ post_id: post.id, lang: lang }),
-        })
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (data) {
-          if (data && data.translated) {
-            otgPostTransCache[ck] = data.translated;
-            post[col] = data.translated;
-            // Update the specific DOM node without re-rendering the whole feed
-            var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
-            if (node) {
-              if (isRtl) { node.dir = 'rtl'; node.style.textAlign = 'right'; }
-              node.innerHTML = highlight ? highlightText(data.translated, highlight) : escapeHtml(data.translated);
-            }
-          } else {
-            otgTransFailCache[ck] = true;
-            // Fallback: show English content in the node
-            var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
-            if (node && node.querySelector('.otg-translating')) {
-              node.innerHTML = escapeHtml(post.content);
-            }
-          }
-          next();
-        })
-        .catch(function () {
-          otgTransFailCache[ck] = true;
-          var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
-          if (node && node.querySelector('.otg-translating')) {
-            node.innerHTML = escapeHtml(post.content);
-          }
-          next();
-        });
-      }
-      // 2 parallel workers
-      next(); next();
+      return post.content;
     }
 
     // ── Highlight matching keyword ────────────────────────────────────────────
@@ -3446,7 +3393,7 @@
   }());
   </script>
 
-  <!-- ===== LANGUAGE SWITCHER + FULL TRANSLATION ===== -->
+  <!-- ===== LANGUAGE SWITCHER (Google Translate) ===== -->
   <script>
   (function () {
     'use strict';
@@ -3454,386 +3401,57 @@
     var LANGS = [
       { code: 'en', label: 'English',  flag: '🇬🇧' },
       { code: 'ml', label: 'മലയാളം',   flag: '🇮🇳' },
-      { code: 'ar', label: 'العربية',   flag: '🇦🇪' },
-      { code: 'hi', label: 'हिन्दी',     flag: '🇮🇳' },
-      { code: 'tl', label: 'Filipino',  flag: '🇵🇭' },
+      { code: 'ar', label: 'العربية', flag: '🇦🇪' },
+      { code: 'hi', label: 'हिन्दी',   flag: '🇮🇳' },
+      { code: 'tl', label: 'Filipino', flag: '🇵🇭' },
     ];
 
-    var T = {
-      en: {
-        nav:            ['Home','Safety','Government','Finance','Health','World'],
-        pills:          ['All Topics','Safety','Government','Finance','Health','Community','Transport'],
-        topStories:     'TOP STORIES',
-        moreStories:    'MORE STORIES',
-        search:         'Search news...',
-        notify:         '🔔 Notify me',
-        live:           'LIVE FEED',
-        lastUpdated:    'Last updated',
-        city:           'Dubai, UAE',
-        otgTitle:       'On The Ground 🇦🇪',
-        otgSub:         'Real observations from UAE residents',
-        otgPlaceholder: 'What are you seeing right now?',
-        otgCharLeft:    'characters remaining',
-        otgSelectLoc:   'Select location\u2026',
-        otgStayAnon:    'Stay Anonymous',
-        otgAddName:     'Add my name',
-        otgNamePh:      'Your name or nickname (optional)',
-        otgContactPh:   'Email or phone (private, never shown publicly)',
-        otgPrivacy:     'Your contact info is never shown publicly. TheDubaiBrief stores it privately for verification only.',
-        otgSubmit:      'Submit Report',
-        about:          'About', sources: 'Sources', contact: 'Contact',
-        footerH1:       'Sections', footerH2: 'Official Sources', footerH3: 'About', footerH4: 'Subscribe',
-        footerEmailPh:  'Your email',
-        footerSubBtn:   'Subscribe',
-        footerSubNote:  'Choose topics and delivery timing in the popup.',
-        footerCopy:     '\u00a9 2026 TheDubaiBrief | Calm, factual UAE journalism',
-        dir: 'ltr', font: null, bodyFont: null,
-      },
-      ml: {
-        nav:            ['ഹോം','സുരക്ഷ','സർക്കാർ','ധനകാര്യം','ആരോഗ്യം','ലോകം'],
-        pills:          ['എല്ലാം','സുരക്ഷ','സർക്കാർ','ധനകാര്യം','ആരോഗ്യം','കമ്മ്യൂണിറ്റി','ഗതാഗതം'],
-        topStories:     'പ്രധാന വാർത്തകൾ',
-        moreStories:    'കൂടുതൽ വാർത്തകൾ',
-        search:         'വാർത്ത തിരയൂ...',
-        notify:         '🔔 അറിയിക്കൂ',
-        live:           'തൽസമയം',
-        lastUpdated:    'അവസാനം അപ്ഡേറ്റ് ചെയ്തത്',
-        city:           'ദുബൈ, UAE',
-        otgTitle:       'നേരിട്ടറിഞ്ഞത് 🇦🇪',
-        otgSub:         'UAE നിവാസികളുടെ നേരിട്ടുള്ള നിരീക്ഷണങ്ങൾ',
-        otgPlaceholder: 'ഇപ്പോൾ എന്ത് കാണുന്നു?',
-        otgCharLeft:    'അക്ഷരങ്ങൾ ബാക്കി',
-        otgSelectLoc:   'സ്ഥലം തിരഞ്ഞെടുക്കൂ\u2026',
-        otgStayAnon:    'അജ്ഞാതനായി തുടരൂ',
-        otgAddName:     'പേര് ചേർക്കൂ',
-        otgNamePh:      'നിങ്ങളുടെ പേര് (ഐഛികം)',
-        otgContactPh:   'ഇമെയിൽ അല്ലെങ്കിൽ ഫോൺ (സ്വകാര്യം)',
-        otgPrivacy:     'നിങ്ങളുടെ ബന്ധപ്പെടൽ വിവരം പരസ്യമായി കാണിക്കില്ല.',
-        otgSubmit:      'റിപ്പോർട്ട് സമർപ്പിക്കൂ',
-        about:          'ഞങ്ങളെ കുറിച്ച്', sources: 'ഉറവിടങ്ങൾ', contact: 'ബന്ധപ്പെടുക',
-        footerH1:       'വിഭാഗങ്ങൾ', footerH2: 'ഔദ്യോഗിക ഉറവിടങ്ങൾ', footerH3: 'ഞങ്ങളെ കുറിച്ച്', footerH4: 'സബ്സ്ക്രൈബ്',
-        footerEmailPh:  'നിങ്ങളുടെ ഇമെയിൽ',
-        footerSubBtn:   'സബ്സ്ക്രൈബ്',
-        footerSubNote:  'പ്രത്യേക വിഷയങ്ങളും ഡെലിവറി സമയവും പോപ്പ്അപ്പിൽ തിരഞ്ഞെടുക്കൂ.',
-        footerCopy:     '\u00a9 2026 TheDubaiBrief | UAE വാർത്ത, ശാന്തമായി',
-        dir: 'ltr',
-        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600&display=swap',
-        bodyFont: "'Noto Sans Malayalam','DM Sans',sans-serif",
-      },
-      ar: {
-        nav:            ['الرئيسية','السلامة','الحكومة','المال','الصحة','العالم'],
-        pills:          ['الكل','السلامة','الحكومة','المال','الصحة','المجتمع','النقل'],
-        topStories:     'أبرز الأخبار',
-        moreStories:    'المزيد من الأخبار',
-        search:         'ابحث في الأخبار...',
-        notify:         '🔔 أخبرني',
-        live:           'مباشر',
-        lastUpdated:    'آخر تحديث',
-        city:           'دبي، الإمارات',
-        otgTitle:       'على أرض الواقع 🇦🇪',
-        otgSub:         'ملاحظات مباشرة من مقيمي الإمارات',
-        otgPlaceholder: 'ماذا ترى الآن؟',
-        otgCharLeft:    'حرف متبقٍ',
-        otgSelectLoc:   'اختر موقعاً\u2026',
-        otgStayAnon:    'ابقَ مجهولاً',
-        otgAddName:     'أضف اسمك',
-        otgNamePh:      'اسمك أو لقبك (اختياري)',
-        otgContactPh:   'بريد إلكتروني أو هاتف (خاص)',
-        otgPrivacy:     'لن يُعرض معلومات التواصل الخاصة بك علناً.',
-        otgSubmit:      'إرسال التقرير',
-        about:          'عنّا', sources: 'المصادر', contact: 'اتصل',
-        footerH1:       'الأقسام', footerH2: 'المصادر الرسمية', footerH3: 'عنّا', footerH4: 'اشترك',
-        footerEmailPh:  'بريدك الإلكتروني',
-        footerSubBtn:   'اشترك',
-        footerSubNote:  'اختر المواضيع وموعد الاستلام في النافذة المنبثقة.',
-        footerCopy:     '\u00a9 2026 TheDubaiBrief | صحافة إماراتية هادئة',
-        dir: 'rtl',
-        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600&display=swap',
-        bodyFont: "'Noto Sans Arabic','DM Sans',sans-serif",
-      },
-      hi: {
-        nav:            ['होम','सुरक्षा','सरकार','वित्त','स्वास्थ्य','विश्व'],
-        pills:          ['सभी','सुरक्षा','सरकार','वित्त','स्वास्थ्य','समुदाय','परिवहन'],
-        topStories:     'मुख्य समाचार',
-        moreStories:    'और समाचार',
-        search:         'समाचार खोजें...',
-        notify:         '🔔 सूचित करें',
-        live:           'लाइव',
-        lastUpdated:    'अंतिम अपडेट',
-        city:           'दुबई, UAE',
-        otgTitle:       'जमीनी रिपोर्ट 🇦🇪',
-        otgSub:         'UAE निवासियों की प्रत्यक्ष रिपोर्ट',
-        otgPlaceholder: 'अभी आप क्या देख रहे हैं?',
-        otgCharLeft:    'अक्षर शेष',
-        otgSelectLoc:   'स्थान चुनें\u2026',
-        otgStayAnon:    'गुमनाम रहें',
-        otgAddName:     'नाम जोड़ें',
-        otgNamePh:      'आपका नाम (वैकल्पिक)',
-        otgContactPh:   'ईमेल या फोन (निजी)',
-        otgPrivacy:     'आपकी संपर्क जानकारी कभी सार्वजनिक नहीं की जाएगी।',
-        otgSubmit:      'रिपोर्ट सबमिट करें',
-        about:          'हमारे बारे में', sources: 'स्रोत', contact: 'संपर्क',
-        footerH1:       'अनुभाग', footerH2: 'आधिकारिक स्रोत', footerH3: 'हमारे बारे में', footerH4: 'सदस्यता',
-        footerEmailPh:  'आपका ईमेल',
-        footerSubBtn:   'सदस्य बनें',
-        footerSubNote:  'पॉपअप में विषय और समय चुनें।',
-        footerCopy:     '\u00a9 2026 TheDubaiBrief | शांत UAE पत्रकारिता',
-        dir: 'ltr',
-        font: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap',
-        bodyFont: "'Noto Sans Devanagari','DM Sans',sans-serif",
-      },
-      tl: {
-        nav:            ['Tahanan','Kaligtasan','Pamahalaan','Pananalapi','Kalusugan','Mundo'],
-        pills:          ['Lahat','Kaligtasan','Pamahalaan','Pananalapi','Kalusugan','Komunidad','Transport'],
-        topStories:     'MGA PANGUNAHING BALITA',
-        moreStories:    'IBA PANG BALITA',
-        search:         'Maghanap ng balita...',
-        notify:         '🔔 Abisuhan ako',
-        live:           'LIVE',
-        lastUpdated:    'Huling na-update',
-        city:           'Dubai, UAE',
-        otgTitle:       'Sa Larangan 🇦🇪',
-        otgSub:         'Mga direktang ulat mula sa mga residente ng UAE',
-        otgPlaceholder: 'Ano ang nakikita mo ngayon?',
-        otgCharLeft:    'mga karakter na natitira',
-        otgSelectLoc:   'Pumili ng lokasyon\u2026',
-        otgStayAnon:    'Manatiling Anonymous',
-        otgAddName:     'Idagdag ang aking pangalan',
-        otgNamePh:      'Iyong pangalan o palayaw (opsyonal)',
-        otgContactPh:   'Email o telepono (pribado)',
-        otgPrivacy:     'Hindi kailanman ipapakita ang iyong impormasyon sa publiko.',
-        otgSubmit:      'Isumite ang Ulat',
-        about:          'Tungkol', sources: 'Mga Pinagkukunan', contact: 'Makipag-ugnayan',
-        footerH1:       'Mga Seksyon', footerH2: 'Opisyal na Pinagkukunan', footerH3: 'Tungkol', footerH4: 'Mag-subscribe',
-        footerEmailPh:  'Ang iyong email',
-        footerSubBtn:   'Mag-subscribe',
-        footerSubNote:  'Pumili ng mga paksa at oras ng paghahatid sa popup.',
-        footerCopy:     '\u00a9 2026 TheDubaiBrief | Mahinahong balita ng UAE',
-        dir: 'ltr', font: null, bodyFont: null,
-      },
-    };
+    function changeLanguage(langCode) {
+      // RTL for Arabic
+      document.body.dir = (langCode === 'ar') ? 'rtl' : 'ltr';
 
-    // ── Article translation (Claude Haiku via /api/translate + Supabase cache) ──
-    var _origArticle     = {};   // articleId → { calmTitle, calmSummary, residentImpact }
-    var _transArticleCache = {}; // 'lang|articleUrl' → { headline, summary, resident_impact }
-    var _translating     = false;
-    var _suppressObserver = false; // prevents MutationObserver re-entry loop (BUG 1 fix)
+      // Update button label
+      var meta = LANGS.find(function(l) { return l.code === langCode; });
+      var btn = document.getElementById('langBtn');
+      if (btn && meta) btn.textContent = meta.flag + ' ' + meta.label + ' ▾';
 
-    var loadedFonts = {};
-    function loadFont(url) {
-      if (!url || loadedFonts[url]) return;
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = url;
-      document.head.appendChild(l); loadedFonts[url] = true;
-    }
-
-    // Render safely: suppress the observer so it doesn't retrigger translateArticles
-    function safeRender() {
-      _suppressObserver = true;
-      if (typeof renderContent === 'function') renderContent();
-      // Reset after a tick so real auto-refresh mutations can still be caught
-      setTimeout(function() { _suppressObserver = false; }, 50);
-    }
-
-    async function translateArticles(lang) {
-      if (_translating) return;
-      _translating = true;
-
-      var news = typeof allNews !== 'undefined' ? allNews : [];
-
-      // Save originals once
-      news.forEach(function(item) {
-        if (!_origArticle[item.id]) {
-          _origArticle[item.id] = {
-            calmTitle:      item.calmTitle      || item.title || '',
-            calmSummary:    item.calmSummary    || '',
-            residentImpact: item.residentImpact || '',
-          };
-        }
+      // Highlight active option
+      document.querySelectorAll('.lang-option').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.lang === langCode);
       });
 
-      if (lang === 'en') {
-        news.forEach(function(item) {
-          var o = _origArticle[item.id];
-          if (o) { item.calmTitle = o.calmTitle; item.calmSummary = o.calmSummary; item.residentImpact = o.residentImpact; }
-        });
-        safeRender();
-        _translating = false;
+      // Reset to English first if switching back
+      if (langCode === 'en') {
+        var frame = document.querySelector('.goog-te-banner-frame');
+        if (frame) {
+          var frameDoc = frame.contentDocument || frame.contentWindow.document;
+          var restoreBtn = frameDoc.querySelector('.goog-te-banner-frame');
+          if (restoreBtn) restoreBtn.click();
+        }
+        // Use cookie reset method
+        var cookieParts = document.cookie.split(';');
+        for (var i = 0; i < cookieParts.length; i++) {
+          var c = cookieParts[i].trim();
+          if (c.indexOf('googtrans=') === 0) {
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + location.hostname;
+          }
+        }
+        location.reload();
         return;
       }
 
-      // Immediately show "loading" placeholder for untranslated items, render, then fill in
-      var toTranslate = [];
-      news.slice(0, 20).forEach(function(item) {
-        var cacheKey = lang + '|' + item.url;
-        var cached = _transArticleCache[cacheKey];
-        if (cached) {
-          // Already translated — apply immediately
-          item.calmTitle      = cached.headline;
-          item.calmSummary    = cached.summary;
-          if (cached.resident_impact) item.residentImpact = cached.resident_impact;
-        } else {
-          // Not yet translated — show loading placeholder
-          var o = _origArticle[item.id];
-          item.calmTitle   = '\u23F3 Translating\u2026';
-          item.calmSummary = o ? o.calmSummary : '';
-          toTranslate.push(item);
-        }
-      });
-
-      safeRender(); // Show "Translating..." placeholders immediately
-
-      // Translate in batches of 3 (avoids hammering API)
-      var MAX = 3;
-      var idx = 0;
-      async function worker() {
-        while (idx < toTranslate.length) {
-          var item = toTranslate[idx++];
-          var cacheKey = lang + '|' + item.url;
-          var orig = _origArticle[item.id];
-          if (!orig || !item.url) continue;
-          try {
-            var r = await fetch('/api/translate', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                articleUrl:     item.url,
-                lang:           lang,
-                headline:       orig.calmTitle,
-                summary:        orig.calmSummary,
-                residentImpact: orig.residentImpact || '',
-              }),
-            });
-            if (r.ok) {
-              var data = await r.json();
-              _transArticleCache[cacheKey] = data;
-              item.calmTitle      = data.headline      || orig.calmTitle;
-              item.calmSummary    = data.summary       || orig.calmSummary;
-              if (data.resident_impact) item.residentImpact = data.resident_impact;
-            } else {
-              item.calmTitle   = orig.calmTitle;
-              item.calmSummary = orig.calmSummary;
-            }
-          } catch(e) {
-            item.calmTitle   = orig ? orig.calmTitle   : item.calmTitle;
-            item.calmSummary = orig ? orig.calmSummary : item.calmSummary;
-          }
-          // No per-article render — avoids 20× DOM rebuilds that cause UI glitching
+      // Trigger Google Translate
+      function tryTranslate(attempts) {
+        var select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = langCode;
+          select.dispatchEvent(new Event('change'));
+        } else if (attempts > 0) {
+          setTimeout(function() { tryTranslate(attempts - 1); }, 300);
         }
       }
-
-      var workers = [];
-      for (var w = 0; w < MAX; w++) workers.push(worker());
-      await Promise.all(workers);
-
-      safeRender(); // One single render after all translations complete
-      _translating = false;
-    }
-
-    // ── UI string helpers ─────────────────────────────────────────────────────
-    function set(id, text) { var e = document.getElementById(id); if (e) e.textContent = text; }
-    function setPh(id, text) { var e = document.getElementById(id); if (e) e.placeholder = text; }
-
-    function applyUI(t) {
-      // Nav
-      document.querySelectorAll('nav.main-nav a').forEach(function(el, i) {
-        if (t.nav[i] !== undefined) el.textContent = t.nav[i];
-      });
-      // Pills
-      document.querySelectorAll('#filterPills .filter-pill').forEach(function(el, i) {
-        if (t.pills[i] !== undefined) el.textContent = t.pills[i];
-      });
-      // Section headers
-      set('sectionLabelTop', t.topStories);
-      set('sectionLabelMore', t.moreStories);
-      // Header
-      setPh('headerSearch', t.search);
-      set('notifyBtn', t.notify);
-      // Ticker
-      set('tickerLiveText', t.live);
-      // Last updated — preserve time value
-      var lu = document.getElementById('lastUpdated');
-      if (lu) {
-        var ci = lu.textContent.indexOf(': ');
-        lu.textContent = t.lastUpdated + ': ' + (ci >= 0 ? lu.textContent.slice(ci + 2) : '--:--');
-      }
-      // Utility bar
-      set('utilCity', t.city); set('utilAbout', t.about);
-      set('utilSources', t.sources); set('utilContact', t.contact);
-      // OTG
-      set('otgSectionLabel', t.otgTitle); set('otgSubText', t.otgSub);
-      setPh('otgContent', t.otgPlaceholder);
-      var cc = document.getElementById('otgCharCounter');
-      if (cc) cc.textContent = '280 ' + t.otgCharLeft;
-      var ls = document.getElementById('otgLocation');
-      if (ls && ls.options[0]) ls.options[0].text = t.otgSelectLoc;
-      set('otgAnonBtn', t.otgStayAnon); set('otgNameBtn', t.otgAddName);
-      setPh('otgDisplayName', t.otgNamePh); setPh('otgContact', t.otgContactPh);
-      var pn = document.querySelector('.otg-privacy-note'); if (pn) pn.textContent = t.otgPrivacy;
-      set('otgSubmitBtn', t.otgSubmit);
-      // Footer
-      set('footerH1', t.footerH1); set('footerH2', t.footerH2);
-      set('footerH3', t.footerH3); set('footerH4', t.footerH4);
-      setPh('digestEmail', t.footerEmailPh);
-      set('digestSubscribeBtn', t.footerSubBtn);
-      set('footerSubNote', t.footerSubNote);
-      set('footerCopyright', t.footerCopy);
-    }
-
-    function applyLang(code) {
-      var t = T[code] || T.en;
-      localStorage.setItem('cwn-lang', code);
-
-      if (t.font) loadFont(t.font);
-      document.documentElement.setAttribute('dir', t.dir);
-      document.documentElement.setAttribute('lang', code);
-      document.body.style.fontFamily = t.bodyFont || "'DM Sans',sans-serif";
-
-      applyUI(t);
-
-      // Lang button label
-      var btn = document.getElementById('langBtn');
-      var meta = LANGS.find(function(l){ return l.code === code; });
-      if (btn && meta) btn.textContent = meta.flag + ' ' + meta.label + ' \u25be';
-      document.querySelectorAll('.lang-option').forEach(function(el) {
-        el.classList.toggle('active', el.dataset.lang === code);
-      });
-
-      // Translate article content (async — mutates allNews then re-renders)
-      translateArticles(code);
-      // Notify OTG section of language change
-      document.dispatchEvent(new CustomEvent('cwn-lang-change', { detail: { lang: code } }));
-    }
-
-    // ── Patch updateTime so "Last updated" prefix stays translated ────────────
-    var _origUT = typeof updateTime === 'function' ? updateTime : null;
-    if (_origUT) {
-      updateTime = function() {
-        _origUT();
-        var code = localStorage.getItem('cwn-lang') || 'en';
-        if (code !== 'en') {
-          var t = T[code] || T.en;
-          var el = document.getElementById('lastUpdated');
-          if (el) {
-            var ci = el.textContent.indexOf(': ');
-            el.textContent = t.lastUpdated + ': ' + (ci >= 0 ? el.textContent.slice(ci + 2) : '--:--');
-          }
-        }
-      };
-    }
-
-    // ── Watch heroGrid: re-translate when auto-refresh loads new articles ─────
-    // _suppressObserver is set true during our own safeRender() calls to
-    // prevent the observer from calling translateArticles in an infinite loop.
-    var _observer = null;
-    function watchForRefresh() {
-      var grid = document.getElementById('heroGrid');
-      if (!grid || _observer) return;
-      _observer = new MutationObserver(function() {
-        if (_suppressObserver) return; // BUG 1 FIX: skip re-entry during our own renders
-        var code = localStorage.getItem('cwn-lang') || 'en';
-        if (code !== 'en' && !_translating) translateArticles(code);
-      });
-      _observer.observe(grid, { childList: true });
+      tryTranslate(10);
     }
 
     function init() {
@@ -3848,24 +3466,17 @@
       document.addEventListener('click', function() { dropdown.classList.remove('open'); });
       document.querySelectorAll('.lang-option').forEach(function(el) {
         el.addEventListener('click', function() {
-          applyLang(el.dataset.lang);
+          changeLanguage(el.dataset.lang);
           dropdown.classList.remove('open');
         });
       });
-
-      // Restore saved language
-      applyLang(localStorage.getItem('cwn-lang') || 'en');
-
-      // Start watching for news refresh (heroGrid may not be populated yet)
-      watchForRefresh();
-      setTimeout(watchForRefresh, 3000); // retry after news loads
     }
 
     init();
   }());
   </script>
 
-  <!-- ===== DONATION BANNER ===== -->
+    <!-- ===== DONATION BANNER ===== -->
   <div id="cwnDonationBanner" class="cwn-donation-banner" role="dialog"
        aria-label="Support TheDubaiBrief" style="display:none;">
     <p class="cwn-donation-text">

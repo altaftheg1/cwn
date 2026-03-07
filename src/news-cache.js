@@ -2,25 +2,17 @@ import { fetchSourceArticles } from "./sources.js";
 import { calmifyArticle } from "./tone.js";
 import { normalizeArticle, stableId } from "./util.js";
 import { load } from "cheerio";            // for parsing remote article pages
-import fs from "fs";
-import path from "path";
+import { createClient } from "@supabase/supabase-js";
 
-// path for caching Claude API responses
-const CLAUDE_CACHE_FILE = path.join(path.dirname(new URL(import.meta.url).pathname), "..", "claude-cache.json");
-let claudeCache = {};
-function loadClaudeCache() {
-  try {
-    claudeCache = JSON.parse(fs.readFileSync(CLAUDE_CACHE_FILE, "utf8"));
-  } catch {
-    claudeCache = {};
-  }
+// ─── Supabase client (replaces claude-cache.json) ────────────────────────────
+const supabase = createClient(
+  process.env.SUPABASE_URL || "https://placeholder.supabase.co",
+  process.env.SUPABASE_KEY || "placeholder"
+);
+
+function supabaseReady() {
+  return process.env.SUPABASE_URL && process.env.SUPABASE_URL !== "https://placeholder.supabase.co";
 }
-function saveClaudeCache() {
-  try {
-    fs.writeFileSync(CLAUDE_CACHE_FILE, JSON.stringify(claudeCache, null, 2));
-  } catch {}
-}
-loadClaudeCache();
 
 // ─── All UAE News Sources ─────────────────────────────────────────────────────
 // rssUrl   = RSS/Atom feed (tried first)
@@ -212,8 +204,24 @@ export function getSourceStatus() {
 
 async function rewriteArticle(article) {
   const key = article.url;
-  if (claudeCache[key]) return claudeCache[key];
   if (!process.env.CLAUDE_API_KEY) return null;
+
+  // ── Check Supabase cache first ────────────────────────────────────────────
+  if (supabaseReady()) {
+    try {
+      const { data } = await supabase
+        .from("articles")
+        .select("calm_headline, summary, resident_impact")
+        .eq("url", key)
+        .maybeSingle();
+      if (data?.calm_headline) {
+        return { calm_headline: data.calm_headline, summary: data.summary, resident_impact: data.resident_impact };
+      }
+    } catch (err) {
+      console.warn("[supabase] cache check failed:", err.message);
+    }
+  }
+
   console.log('Processing article with Claude API:', article.title);
   const systemPrompt = `You are the friendly editor of TheDubaiBrief, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
 
@@ -266,16 +274,28 @@ Return ONLY this JSON, nothing else:
     let obj = null;
     try { obj = JSON.parse(text); } catch {}
     if (obj && obj.calm_headline) {
-      claudeCache[key] = obj;
-      saveClaudeCache();
+      // ── Persist to Supabase (upsert so conflicts on url are handled) ────────
+      if (supabaseReady()) {
+        supabase.from("articles").upsert({
+          url: key,
+          original_title: article.title,
+          calm_headline: obj.calm_headline,
+          summary: obj.summary,
+          resident_impact: obj.resident_impact || null,
+          category: article.category || null,
+          source: article.sourceName || null,
+          image_url: article.imageUrl || null,
+          published_at: article.publishedAt ? new Date(article.publishedAt).toISOString() : null,
+        }, { onConflict: "url" }).then(({ error }) => {
+          if (error) console.warn("[supabase] upsert error:", error.message);
+        });
+      }
       console.log('✓ Rewrite cached for:', article.title);
       return obj;
     }
   } catch (err) {
     console.error("Rewrite error for", key, err.message);
   }
-  claudeCache[key] = null;
-  saveClaudeCache();
   console.log('✗ Rewrite failed for:', article.title);
   return null;
 }
@@ -577,15 +597,52 @@ async function performBuild() {
     }
   });
 
+  // ── Persist all processed articles to Supabase (archive) ─────────────────
+  persistArticles(deduped.slice(0, 40)).catch(() => {});
+
+  // ── Filter to last 24 hours for homepage feed ─────────────────────────────
+  const cutoffMs = Date.now() - 24 * 60 * 60 * 1000;
+  const recent = deduped.filter(a => (a.publishedAtMs || 0) >= cutoffMs);
+  // Fall back to all articles if fewer than 10 in last 24h (e.g. slow news day)
+  const feedItems = recent.length >= 10 ? recent : deduped;
+
   const payload = {
     generatedAtMs: Date.now(),
-    items: deduped.slice(0, 40),
+    items: feedItems.slice(0, 40),
     sourceStatus: Object.fromEntries(sourceStatus),
   };
 
   cache = payload;
   buildInFlight = null;
   return cache;
+}
+
+// ─── Persist articles to Supabase for archive ─────────────────────────────────
+async function persistArticles(items) {
+  if (!supabaseReady()) return;
+  const rows = items
+    .filter(item => item.url)
+    .map(item => ({
+      url: item.url,
+      original_title: item.title || null,
+      calm_headline: item.calmTitle || null,
+      summary: item.calmSummary || null,
+      resident_impact: item.residentImpact || null,
+      category: item.category || null,
+      source: item.sourceName || null,
+      image_url: item.imageUrl || null,
+      published_at: item.publishedAt ? new Date(item.publishedAt).toISOString() : null,
+    }));
+
+  // Batch in chunks of 50 to stay within Supabase request limits
+  for (let i = 0; i < rows.length; i += 50) {
+    const chunk = rows.slice(i, i + 50);
+    const { error } = await supabase
+      .from("articles")
+      .upsert(chunk, { onConflict: "url", ignoreDuplicates: false });
+    if (error) console.warn("[supabase] persist batch error:", error.message);
+  }
+  console.log(`[supabase] persisted ${rows.length} articles to archive`);
 }
 
 export function startBackgroundBuild() {

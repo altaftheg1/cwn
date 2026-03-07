@@ -454,6 +454,42 @@ app.get("/api/source-status", (req, res) => {
   res.json(getSourceStatus());
 });
 
+// ── Archive: query all historical articles from Supabase ──────────────────────
+app.get("/api/archive", async (req, res) => {
+  try {
+    const { q, category, source, date, page = "1" } = req.query;
+    const PAGE_SIZE = 20;
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const offset = (pageNum - 1) * PAGE_SIZE;
+
+    let query = _supabase
+      .from("articles")
+      .select("id, url, original_title, calm_headline, summary, resident_impact, category, source, image_url, published_at, created_at", { count: "exact" })
+      .order("published_at", { ascending: false, nullsFirst: false })
+      .range(offset, offset + PAGE_SIZE - 1);
+
+    if (q && q.trim()) {
+      const safe = q.trim();
+      query = query.or(
+        `calm_headline.ilike.%${safe}%,original_title.ilike.%${safe}%,summary.ilike.%${safe}%`
+      );
+    }
+    if (category && category !== "all") query = query.eq("category", category);
+    if (source && source.trim()) query = query.ilike("source", `%${source.trim()}%`);
+    if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      const dayStart = new Date(date + "T00:00:00Z").toISOString();
+      const dayEnd   = new Date(date + "T23:59:59Z").toISOString();
+      query = query.gte("published_at", dayStart).lte("published_at", dayEnd);
+    }
+
+    const { data, count, error } = await query;
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ articles: data || [], total: count || 0, page: pageNum, pageSize: PAGE_SIZE });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Live visitor tracking ─────────────────────────────────────────────────────
 const activeSessions = new Map(); // sessionId → lastSeenMs
 const VISITOR_TTL_MS = 60 * 1000; // 60s — session expires if no ping received
@@ -803,6 +839,7 @@ app.post("/api/resubscribe", (req, res) => {
 });
 app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article-view.html')));
 app.use('/article', articleRouter);
+app.get('/archive', (req, res) => res.sendFile(path.join(__dirname, 'archive.html')));
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`TheDubaiBrief server running on port ${PORT}`);
