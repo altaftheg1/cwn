@@ -19,5 +19,29 @@
     ],
     "subscribedAt": "2026-03-06T11:00:32.507Z",
     "active": true
+  },
+  {
+    "email": "sulafarafeeqk@gmail.com",
+    "topics": [],
+    "timing": [
+      "morning",
+      "evening",
+      "breaking",
+      "weekly"
+    ],
+    "subscribedAt": "2026-03-06T15:49:22.563Z",
+    "active": true
+  },
+  {
+    "email": "rafmohgil@gmail.com",
+    "topics": [],
+    "timing": [
+      "morning",
+      "evening",
+      "breaking",
+      "weekly"
+    ],
+    "subscribedAt": "2026-03-06T18:42:09.569Z",
+    "active": true
   }
 ]

@@ -105,7 +105,27 @@
       color: var(--ink-light);
       font-size: 13px;
       margin-top: 24px;
-      font-style: italic;
+    }
+    .av-skel-notice-text { font-style: italic; margin-bottom: 10px; }
+    .av-skel-progress-wrap {
+      background: #ddd8cf;
+      border-radius: 99px;
+      height: 4px;
+      overflow: hidden;
+      margin: 10px auto 8px;
+      max-width: 280px;
+    }
+    .av-skel-progress-bar {
+      height: 100%;
+      background: var(--red);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.9s linear;
+    }
+    .av-skel-timer {
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-top: 4px;
     }
 
     /* ── ARTICLE CONTENT ── */
@@ -369,6 +389,16 @@
     .av-share-btn:hover { background: var(--cream); }
     .av-share-btn.copied { color: #2E7D32; border-color: #2E7D32; }
 
+    /* ── Typewriter cursor ── */
+    .av-tw-cursor {
+      display: inline-block;
+      color: var(--red);
+      font-weight: 300;
+      animation: av-tw-blink 0.65s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes av-tw-blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
     /* Error */
     .av-error {
       background: var(--red-light);
@@ -450,9 +480,101 @@
       .av-related-grid { grid-template-columns: 1fr; }
     }
   </style>
+<style>
+  /* ===== CWN UNIVERSAL HEADER ===== */
+  .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
+  .cwn-util-left{display:flex;gap:24px;align-items:center;}
+  .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;}
+  .cwn-util-right{display:flex;gap:20px;align-items:center;}
+  .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;}
+  .cwn-util-right a:hover{color:#B8860B;}
+  .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;}
+  .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .cwn-logo-boxes{display:flex;gap:8px;}
+  .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;}
+  .cwn-logo-text{display:flex;flex-direction:column;gap:2px;}
+  .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;}
+  .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;}
+  .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;}
+  .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;}
+  .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;}
+  .cwn-header-controls{display:flex;align-items:center;gap:12px;}
+  .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;}
+  .cwn-search::placeholder{color:rgba(255,255,255,0.6);}
+  .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+  .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+  .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);}
+  .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
+  .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;}
+  @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}}
+  .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;}
+  .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;}
+  .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;}
+  @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}}
+  .cwn-ticker-content{flex:1;overflow:hidden;}
+  .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;}
+  .cwn-ticker-scroll:hover{animation-play-state:paused;}
+  @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}}
+  @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
+</style>
 </head>
 <body>
+<div class="cwn-utility-bar">
+  <div class="cwn-util-left">
+    <span class="cwn-util-clock" id="cwnClock">00:00 GST</span>
+    <span id="cwnDate">Loading…</span>
+    <span>Dubai, UAE</span>
+  </div>
+  <div class="cwn-util-right">
+    <a href="/about.html">About</a>
+    <a href="/sources.html">Sources</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</div>
 
+<header class="cwn-header">
+  <div class="cwn-header-inner">
+    <a class="cwn-brand" href="/uae-calm-uae-news.html">
+      <div class="cwn-logo-boxes">
+        <div class="cwn-logo-box">C</div>
+        <div class="cwn-logo-box">W</div>
+        <div class="cwn-logo-box">N</div>
+      </div>
+      <div class="cwn-logo-text">
+        <div class="cwn-logo-main">Central Watch News</div>
+        <div class="cwn-logo-sub">UAE Official Sources</div>
+      </div>
+    </a>
+    <nav class="cwn-main-nav">
+      <a href="/uae-calm-uae-news.html">Home</a>
+      <a href="/uae-calm-uae-news.html">Safety</a>
+      <a href="/uae-calm-uae-news.html">Government</a>
+      <a href="/uae-calm-uae-news.html">Finance</a>
+      <a href="/uae-calm-uae-news.html">Health</a>
+      <a href="/uae-calm-uae-news.html">World</a>
+    </nav>
+    <div class="cwn-header-controls">
+      <div class="cwn-live-pill" id="cwnLivePill">
+        <div class="cwn-live-dot"></div>
+        <span id="cwnVisitorCount">–</span> online
+      </div>
+      <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news...">
+      <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button>
+    </div>
+  </div>
+</header>
+
+<div class="cwn-ticker">
+  <div class="cwn-ticker-label">
+    <div class="cwn-ticker-dot"></div>
+    <span>LIVE FEED</span>
+  </div>
+  <div class="cwn-ticker-content">
+    <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div>
+  </div>
+</div>
   <!-- Navigation -->
   <nav class="av-nav">
     <a class="av-nav-brand" href="/uae-calm-uae-news.html">CWN</a>
@@ -482,7 +604,13 @@
       <span class="av-skel-block av-skel-para"></span>
       <span class="av-skel-block av-skel-para-2"></span>
       <span class="av-skel-block av-skel-para-3"></span>
-      <p class="av-skel-notice">CWN is rewriting this story in plain English&hellip;</p>
+      <div class="av-skel-notice">
+        <p class="av-skel-notice-text" id="av-countdown-text">AI is analyzing this article&hellip;</p>
+        <div class="av-skel-progress-wrap">
+          <div class="av-skel-progress-bar" id="av-progress-bar"></div>
+        </div>
+        <p class="av-skel-timer" id="av-countdown-timer"></p>
+      </div>
     </div>
 
     <!-- Article content -->
@@ -561,6 +689,72 @@
     }());
 
     var chartInstances = [];
+    var _countdownInterval = null;
+
+    // ── Countdown timer ────────────────────────────────────────────────────────
+    var DEEP_ESTIMATE_S = 18; // estimated seconds for Claude to respond
+    function startCountdown() {
+      var elapsed = 0;
+      var progressBar = document.getElementById('av-progress-bar');
+      var timerEl    = document.getElementById('av-countdown-timer');
+      var textEl     = document.getElementById('av-countdown-text');
+      var steps = [
+        [0,  'AI is analyzing this article\u2026'],
+        [3,  'Fetching full article text\u2026'],
+        [7,  'Claude is reading the story\u2026'],
+        [12, 'Writing your plain-English summary\u2026'],
+        [17, 'Generating charts from any numbers found\u2026'],
+        [22, 'Finishing up\u2026'],
+      ];
+      if (timerEl) timerEl.textContent = 'About ' + DEEP_ESTIMATE_S + 's remaining';
+      _countdownInterval = setInterval(function () {
+        elapsed++;
+        var remaining = Math.max(0, DEEP_ESTIMATE_S - elapsed);
+        var pct = Math.min(93, (elapsed / DEEP_ESTIMATE_S) * 100);
+        if (progressBar) progressBar.style.width = pct + '%';
+        if (timerEl) timerEl.textContent = remaining > 0 ? 'About ' + remaining + 's remaining' : 'Almost there\u2026';
+        for (var i = steps.length - 1; i >= 0; i--) {
+          if (elapsed >= steps[i][0]) { if (textEl) textEl.textContent = steps[i][1]; break; }
+        }
+      }, 1000);
+    }
+    function stopCountdown() {
+      if (_countdownInterval) { clearInterval(_countdownInterval); _countdownInterval = null; }
+      var progressBar = document.getElementById('av-progress-bar');
+      if (progressBar) { progressBar.style.width = '100%'; progressBar.style.transition = 'width 0.3s ease'; }
+    }
+
+    // ── Animation helpers ──────────────────────────────────────────────────────
+    function typewrite(el, text, speed, done) {
+      el.textContent = '';
+      var cursor = document.createElement('span');
+      cursor.className = 'av-tw-cursor';
+      cursor.textContent = '|';
+      el.appendChild(cursor);
+      var i = 0;
+      var t = setInterval(function () {
+        el.insertBefore(document.createTextNode(text[i]), cursor);
+        i++;
+        if (i >= text.length) {
+          clearInterval(t);
+          setTimeout(function () {
+            if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+            if (done) done();
+          }, 250);
+        }
+      }, speed);
+    }
+
+    function animateIn(el, delayMs) {
+      if (!el) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(10px)';
+      setTimeout(function () {
+        el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, delayMs || 0);
+    }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
     function esc(str) {
@@ -676,110 +870,153 @@
       chartInstances.push(instance);
     }
 
-    // ── Render article ────────────────────────────────────────────────────────
+    // ── Render article (animated) ─────────────────────────────────────────────
     function render(data) {
-      // Tab title
       document.title = (data.calm_title || data.title || 'Article') + ' — CWN';
 
-      // Category
+      // Reveal content pane immediately so animations are visible
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-content').style.display = 'block';
+
+      // Category badge — instant
       var cat = document.getElementById('av-category');
       cat.textContent = (data.topic || 'UAE').toUpperCase();
+      animateIn(cat, 0);
 
-      // Byline
+      // Byline — fades in after category
       var bylineEl = document.getElementById('av-byline');
       var bylineParts = [];
       if (data.sourceName) bylineParts.push('<span>Originally published by <strong>' + esc(data.sourceName) + '</strong></span>');
       if (data.publishedAt) {
         var rel = relativeTime(data.publishedAt);
         var exact = uaeExactTime(data.publishedAt);
-        bylineParts.push('<span class="av-byline-sep">·</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
+        bylineParts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
       }
       var rt = readTime(data.sections);
-      bylineParts.push('<span class="av-byline-sep">·</span><span class="av-readtime">' + esc(rt) + '</span>');
+      bylineParts.push('<span class="av-byline-sep">\xb7</span><span class="av-readtime">' + esc(rt) + '</span>');
       bylineEl.innerHTML = bylineParts.join('');
+      animateIn(bylineEl, 120);
 
-      // Title
-      document.getElementById('av-title').textContent = data.calm_title || data.title || 'Update';
+      // Title — typewriter effect (fast, ~32ms/char)
+      var titleEl = document.getElementById('av-title');
+      var titleText = data.calm_title || data.title || 'Update';
+      setTimeout(function () {
+        typewrite(titleEl, titleText, 32, function () {
+          // After title finishes, reveal rest of article sequentially
+          var delay = 80;
 
-      // Summary
-      document.getElementById('av-summary').textContent = data.summary || '';
+          // Summary fades in
+          var summaryEl = document.getElementById('av-summary');
+          summaryEl.textContent = data.summary || '';
+          animateIn(summaryEl, delay); delay += 350;
 
-      // Hero image
-      if (data.imageUrl) {
-        var img = document.getElementById('av-hero-img');
-        img.src = '/api/image?url=' + encodeURIComponent(data.imageUrl);
-        img.alt = data.calm_title || '';
-        img.referrerPolicy = 'no-referrer';
-        img.onload = function () { img.style.display = 'block'; document.getElementById('av-img-credit').style.display = 'block'; };
-        img.onerror = function () { img.style.display = 'none'; };
-      }
+          // Hero image
+          if (data.imageUrl) {
+            var img = document.getElementById('av-hero-img');
+            img.src = '/api/image?url=' + encodeURIComponent(data.imageUrl);
+            img.alt = titleText;
+            img.referrerPolicy = 'no-referrer';
+            img.onload = function () {
+              img.style.display = 'block';
+              animateIn(img, 0);
+              document.getElementById('av-img-credit').style.display = 'block';
+            };
+            img.onerror = function () { img.style.display = 'none'; };
+          }
 
-      // Resident impact
-      if (data.resident_impact) {
-        document.getElementById('av-impact-text').textContent = data.resident_impact;
-        document.getElementById('av-impact-box').style.display = 'block';
-      }
+          // Resident impact box
+          if (data.resident_impact) {
+            var impactBox = document.getElementById('av-impact-box');
+            document.getElementById('av-impact-text').textContent = data.resident_impact;
+            impactBox.style.display = 'block';
+            animateIn(impactBox, delay); delay += 300;
+          }
 
-      // Body sections
-      var sectionsEl = document.getElementById('av-sections');
-      var sectionsHTML = '';
-      (data.sections || []).forEach(function (s, i) {
-        var chartId = 'av-chart-' + i;
-        sectionsHTML += '<div class="av-section">';
-        if (s.heading) {
-          sectionsHTML += '<h2 class="av-section-heading">' + esc(s.heading) + '</h2>';
-        }
-        if (s.content) {
-          sectionsHTML += '<p class="av-section-content">' + esc(s.content) + '</p>';
-        }
-        if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
-          sectionsHTML += '<div class="av-chart-wrap">';
-          if (s.data_title) sectionsHTML += '<div class="av-chart-title">' + esc(s.data_title) + '</div>';
-          sectionsHTML += '<canvas class="av-chart-canvas" id="' + chartId + '"></canvas>';
-          sectionsHTML += '</div>';
-        }
-        sectionsHTML += '</div>';
-      });
-      sectionsEl.innerHTML = sectionsHTML;
+          // Divider
+          var divider = document.querySelector('.av-divider');
+          animateIn(divider, delay); delay += 150;
 
-      // Now render charts (canvas must be in DOM first)
-      (data.sections || []).forEach(function (s, i) {
-        if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
-          renderChart('av-chart-' + i, s);
-        }
-      });
+          // Body sections — each one fades in with a stagger
+          var sectionsEl = document.getElementById('av-sections');
+          var sectionsHTML = '';
+          (data.sections || []).forEach(function (s, i) {
+            sectionsHTML += '<div class="av-section" id="av-sec-' + i + '" style="opacity:0;transform:translateY(10px);">';
+            if (s.heading) sectionsHTML += '<h2 class="av-section-heading">' + esc(s.heading) + '</h2>';
+            if (s.content)  sectionsHTML += '<p class="av-section-content">' + esc(s.content) + '</p>';
+            if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+              sectionsHTML += '<div class="av-chart-wrap">';
+              if (s.data_title) sectionsHTML += '<div class="av-chart-title">' + esc(s.data_title) + '</div>';
+              sectionsHTML += '<canvas class="av-chart-canvas" id="av-chart-' + i + '"></canvas>';
+              sectionsHTML += '</div>';
+            }
+            sectionsHTML += '</div>';
+          });
+          sectionsEl.innerHTML = sectionsHTML;
 
-      // Key facts
-      if (data.key_facts && data.key_facts.length) {
-        var factsList = document.getElementById('av-facts-list');
-        factsList.innerHTML = data.key_facts.map(function (f) {
-          return '<div class="av-fact-item"><span class="av-fact-check">&#10003;</span><span>' + esc(f) + '</span></div>';
-        }).join('');
-        document.getElementById('av-facts').style.display = 'block';
-      }
+          (data.sections || []).forEach(function (s, i) {
+            var secDelay = delay + i * 280;
+            var secEl = document.getElementById('av-sec-' + i);
+            setTimeout(function () {
+              if (secEl) {
+                secEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                secEl.style.opacity = '1';
+                secEl.style.transform = 'translateY(0)';
+              }
+            }, secDelay);
+            // Render chart after the section appears
+            if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+              setTimeout(function () { renderChart('av-chart-' + i, s); }, secDelay + 520);
+            }
+          });
+          delay += (data.sections || []).length * 280 + 400;
 
-      // What happens next
-      if (data.what_happens_next) {
-        document.getElementById('av-next-text').textContent = data.what_happens_next;
-        document.getElementById('av-next').style.display = 'block';
-      }
+          // Key facts — card slides in, then each row ticks in
+          if (data.key_facts && data.key_facts.length) {
+            var factsCard = document.getElementById('av-facts');
+            var factsList = document.getElementById('av-facts-list');
+            factsList.innerHTML = data.key_facts.map(function (f) {
+              return '<div class="av-fact-item" style="opacity:0;transform:translateX(-8px);">' +
+                '<span class="av-fact-check">&#10003;</span><span>' + esc(f) + '</span></div>';
+            }).join('');
+            factsCard.style.display = 'block';
+            animateIn(factsCard, delay);
+            data.key_facts.forEach(function (f, i) {
+              setTimeout(function () {
+                var items = factsList.querySelectorAll('.av-fact-item');
+                if (items[i]) {
+                  items[i].style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                  items[i].style.opacity = '1';
+                  items[i].style.transform = 'translateX(0)';
+                }
+              }, delay + 200 + i * 110);
+            });
+            delay += 300 + data.key_facts.length * 110;
+          }
 
-      // Should I worry
-      if (data.should_i_worry) {
-        document.getElementById('av-worry-text').textContent = data.should_i_worry;
-        document.getElementById('av-worry').style.display = 'block';
-      }
+          // What happens next
+          if (data.what_happens_next) {
+            var nextEl = document.getElementById('av-next');
+            document.getElementById('av-next-text').textContent = data.what_happens_next;
+            nextEl.style.display = 'block';
+            animateIn(nextEl, delay); delay += 350;
+          }
 
-      // Source link
-      if (data.url) {
-        document.getElementById('av-source-link').href = data.url;
-      } else {
-        document.getElementById('av-source-link').style.display = 'none';
-      }
+          // Should I worry
+          if (data.should_i_worry) {
+            var worryEl = document.getElementById('av-worry');
+            document.getElementById('av-worry-text').textContent = data.should_i_worry;
+            worryEl.style.display = 'block';
+            animateIn(worryEl, delay);
+          }
 
-      // Show content, hide skeleton
-      document.getElementById('av-skeleton').style.display = 'none';
-      document.getElementById('av-content').style.display = 'block';
+          // Source link
+          if (data.url) {
+            document.getElementById('av-source-link').href = data.url;
+          } else {
+            document.getElementById('av-source-link').style.display = 'none';
+          }
+        });
+      }, 100);
     }
 
     // ── Share button ──────────────────────────────────────────────────────────
@@ -902,9 +1139,14 @@
         return r.ok ? r.json() : null;
       }).catch(function() { return null; });
 
-      // 1. Try deep rewrite (requires server with article router running)
+      // 1. Try deep rewrite (allow up to 45s — Claude needs time to read + write)
+      startCountdown();
       try {
-        var deepResp = await fetch('/article/deep/' + encodeURIComponent(ARTICLE_ID), { cache: 'no-cache' });
+        var _ctrl = new AbortController();
+        var _timer = setTimeout(function() { _ctrl.abort(); }, 45000);
+        var deepResp = await fetch('/article/deep/' + encodeURIComponent(ARTICLE_ID), { cache: 'no-cache', signal: _ctrl.signal });
+        clearTimeout(_timer);
+        stopCountdown();
         if (deepResp.ok) {
           var data = await deepResp.json();
           if (data && !data.error) {
@@ -915,7 +1157,7 @@
             return;
           }
         }
-      } catch(e) {}
+      } catch(e) { stopCountdown(); /* timeout or network error — fall through */ }
 
       // 2. Fallback: use news cache
       try {
@@ -937,5 +1179,68 @@
     load();
   }());
   </script>
+
+  <script>
+  (function () {
+    // Clock + date
+    function cwnUpdateTime() {
+      var now = new Date();
+      var cl = document.getElementById('cwnClock');
+      if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
+      var dl = document.getElementById('cwnDate');
+      if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    cwnUpdateTime();
+    setInterval(cwnUpdateTime, 1000);
+
+    // Search → redirect to homepage
+    var cwnSrch = document.getElementById('cwnSearch');
+    if (cwnSrch) {
+      cwnSrch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && cwnSrch.value.trim()) {
+          location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim());
+        }
+      });
+    }
+
+    // Notify → go to homepage (subscribe modal is there)
+    var cwnNBtn = document.getElementById('cwnNotifyBtn');
+    if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; };
+
+    // Live visitor ping
+    var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
+    localStorage.setItem('cwn-sid', cwnSid);
+    function cwnPing() {
+      fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+        .catch(function () {});
+    }
+    cwnPing();
+    setInterval(cwnPing, 30000);
+
+    // Ticker
+    fetch('/api/news')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var items = (d.items || []).slice(0, 15);
+        if (!items.length) return;
+        var ticker = document.getElementById('cwnTickerScroll');
+        if (!ticker) return;
+        var half = items.map(function (item) {
+          var src = ((item.sourceName || '').substr(0, 3)).toUpperCase();
+          var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90);
+          return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' +
+            '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' +
+            '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' +
+            '<span style="color:#444;font-size:10px;">&#9670;</span>' +
+            '</span>';
+        }).join('');
+        ticker.innerHTML = half + half; // duplicate for seamless loop
+      })
+      .catch(function () {});
+  }());
+  </script>
+
 </body>
 </html>

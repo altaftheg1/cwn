@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Central Watch News</title>
+  <meta name="description" content="Get in touch with Central Watch News — feedback, corrections, or general enquiries." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
+      --cream:#F7F4EF; --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
+      --border:#DDD8CF; --gold:#B8860B; --surface:#FFFFFF;
+      --radius:10px; --shadow:0 2px 12px rgba(0,0,0,0.07); --max:760px;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased; }
+
+    /* ── Top bar ── */
+    .topbar { background:#000; color:#fff; font-size:11px; padding:8px 24px; display:flex; justify-content:space-between; align-items:center; }
+    .topbar a { color:var(--gold); text-decoration:none; margin-left:14px; }
+    .topbar a:hover { color:#fff; }
+
+    /* ── Header ── */
+    header { background:var(--red); border-bottom:3px solid #000; padding:14px 24px; }
+    .header-inner { max-width:var(--max); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .logo-boxes { display:flex; gap:6px; }
+    .logo-box { width:34px; height:34px; border-radius:5px; background:var(--red); border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:15px; font-weight:900; color:#fff; }
+    .brand-text { color:#fff; font-size:13px; font-weight:600; }
+    .brand-sub { color:rgba(255,255,255,0.8); font-size:10px; }
+    .header-nav { display:flex; gap:4px; }
+    .header-nav a { color:rgba(255,255,255,0.85); text-decoration:none; font-size:13px; font-weight:500; padding:7px 13px; border-radius:4px; transition:background 0.15s,color 0.15s; }
+    .header-nav a:hover { background:rgba(255,255,255,0.15); color:#fff; }
+    .header-nav a.active { background:rgba(0,0,0,0.25); color:#fff; }
+
+    /* ── Hero ── */
+    .hero { background:linear-gradient(135deg,#1A1208 0%,var(--red-dark) 60%,#1A1208 100%); padding:64px 24px 52px; text-align:center; }
+    .hero-tag { display:inline-block; background:var(--gold); color:#000; font-size:10px; font-weight:700; letter-spacing:0.15em; padding:4px 14px; border-radius:2px; margin-bottom:18px; text-transform:uppercase; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3rem); font-weight:900; color:#fff; line-height:1.1; margin-bottom:14px; }
+    .hero h1 span { color:var(--gold); }
+    .hero-sub { font-family:'Source Serif 4',serif; font-size:1rem; color:rgba(255,255,255,0.7); max-width:480px; margin:0 auto; line-height:1.65; font-style:italic; }
+
+    /* ── Main ── */
+    main { max-width:var(--max); margin:0 auto; padding:52px 24px 80px; display:flex; flex-direction:column; gap:28px; }
+
+    /* ── Cards ── */
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:32px 36px; box-shadow:var(--shadow); }
+    .card h2 { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:14px; }
+    .card p { font-family:'Source Serif 4',serif; font-size:15px; color:var(--ink-mid); margin-bottom:14px; line-height:1.7; }
+    .card p:last-child { margin-bottom:0; }
+
+    /* ── Contact options ── */
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:28px; }
+    .contact-item { background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:20px 22px; }
+    .contact-item-icon { font-size:24px; margin-bottom:8px; }
+    .contact-item-label { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--red); margin-bottom:4px; }
+    .contact-item-value { font-size:14px; font-weight:600; color:var(--ink); }
+    .contact-item-sub { font-size:12px; color:var(--ink-light); margin-top:3px; }
+
+    /* ── Buttons ── */
+    .btn-primary { display:inline-block; background:var(--red); color:#fff; text-decoration:none; padding:11px 24px; border-radius:6px; font-weight:600; font-size:14px; transition:background 0.15s; }
+    .btn-primary:hover { background:var(--red-dark); }
+    .btn-row { display:flex; gap:12px; flex-wrap:wrap; }
+
+    /* ── Topics list ── */
+    .topic-list { list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+    .topic-list li { display:flex; gap:10px; align-items:flex-start; font-size:14px; color:var(--ink-mid); }
+    .topic-list li::before { content:''; display:block; width:7px; height:7px; border-radius:50%; background:var(--red); margin-top:7px; flex-shrink:0; }
+
+    /* ── Footer ── */
+    footer { background:#000; color:rgba(255,255,255,0.5); text-align:center; padding:20px 24px; font-size:12px; }
+    footer a { color:var(--gold); text-decoration:none; }
+    footer a:hover { color:#fff; }
+
+    @media (max-width:600px) {
+      .contact-grid { grid-template-columns:1fr; }
+      .card { padding:24px 20px; }
+      .header-nav a { padding:6px 9px; font-size:12px; }
+    }
+  </style>
+<style>
+  /* ===== CWN UNIVERSAL HEADER ===== */
+  .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
+  .cwn-util-left{display:flex;gap:24px;align-items:center;}
+  .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;}
+  .cwn-util-right{display:flex;gap:20px;align-items:center;}
+  .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;}
+  .cwn-util-right a:hover{color:#B8860B;}
+  .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;}
+  .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .cwn-logo-boxes{display:flex;gap:8px;}
+  .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;}
+  .cwn-logo-text{display:flex;flex-direction:column;gap:2px;}
+  .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;}
+  .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;}
+  .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;}
+  .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;}
+  .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;}
+  .cwn-header-controls{display:flex;align-items:center;gap:12px;}
+  .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;}
+  .cwn-search::placeholder{color:rgba(255,255,255,0.6);}
+  .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+  .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+  .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);}
+  .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
+  .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;}
+  @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}}
+  .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;}
+  .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;}
+  .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;}
+  @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}}
+  .cwn-ticker-content{flex:1;overflow:hidden;}
+  .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;}
+  .cwn-ticker-scroll:hover{animation-play-state:paused;}
+  @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}}
+  @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
+</style>
+</head>
+<body>
+<div class="cwn-utility-bar">
+  <div class="cwn-util-left">
+    <span class="cwn-util-clock" id="cwnClock">00:00 GST</span>
+    <span id="cwnDate">Loading…</span>
+    <span>Dubai, UAE</span>
+  </div>
+  <div class="cwn-util-right">
+    <a href="/about.html">About</a>
+    <a href="/sources.html">Sources</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</div>
+
+<header class="cwn-header">
+  <div class="cwn-header-inner">
+    <a class="cwn-brand" href="/uae-calm-uae-news.html">
+      <div class="cwn-logo-boxes">
+        <div class="cwn-logo-box">C</div>
+        <div class="cwn-logo-box">W</div>
+        <div class="cwn-logo-box">N</div>
+      </div>
+      <div class="cwn-logo-text">
+        <div class="cwn-logo-main">Central Watch News</div>
+        <div class="cwn-logo-sub">UAE Official Sources</div>
+      </div>
+    </a>
+    <nav class="cwn-main-nav">
+      <a href="/uae-calm-uae-news.html">Home</a>
+      <a href="/uae-calm-uae-news.html">Safety</a>
+      <a href="/uae-calm-uae-news.html">Government</a>
+      <a href="/uae-calm-uae-news.html">Finance</a>
+      <a href="/uae-calm-uae-news.html">Health</a>
+      <a href="/uae-calm-uae-news.html">World</a>
+    </nav>
+    <div class="cwn-header-controls">
+      <div class="cwn-live-pill" id="cwnLivePill">
+        <div class="cwn-live-dot"></div>
+        <span id="cwnVisitorCount">–</span> online
+      </div>
+      <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news...">
+      <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button>
+    </div>
+  </div>
+</header>
+
+<div class="cwn-ticker">
+  <div class="cwn-ticker-label">
+    <div class="cwn-ticker-dot"></div>
+    <span>LIVE FEED</span>
+  </div>
+  <div class="cwn-ticker-content">
+    <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div>
+  </div>
+</div>
+  <div class="hero">
+    <div class="hero-tag">Get in touch</div>
+    <h1>We'd love to hear <span>from you</span></h1>
+    <p class="hero-sub">Corrections, feedback, tips, or just saying hello — we read everything.</p>
+  </div>
+
+  <main>
+
+    <div class="card">
+      <h2>How to reach us</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">hello@cwn-uae.com</div>
+          <div class="contact-item-sub">We aim to reply within 24 hours</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-label">Based in</div>
+          <div class="contact-item-value">Dubai, UAE</div>
+          <div class="contact-item-sub">Independent student project</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <a href="mailto:hello@cwn-uae.com" class="btn-primary">Send us an email</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What to contact us about</h2>
+      <ul class="topic-list">
+        <li><strong>Corrections</strong> — If you spotted a factual error in a story, please let us know. We take accuracy seriously and will correct it quickly.</li>
+        <li><strong>Feedback</strong> — Tell us what you like, what you don't, and what we should cover more of.</li>
+        <li><strong>Source suggestions</strong> — Know a reliable UAE source we're not monitoring? We'd love to add it.</li>
+        <li><strong>Community reports</strong> — For ground observations (traffic, weather, events), use the "On The Ground" section on the homepage.</li>
+        <li><strong>Subscription issues</strong> — Not receiving your digest emails? Email us with the address you subscribed with.</li>
+        <li><strong>General enquiries</strong> — Anything else — we're happy to chat.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Support CWN</h2>
+      <p>CWN is a free, independent project run by a student in Dubai. There are no ads, no paywalls, and no sponsored content. If the site is useful to you, a small contribution helps keep it running.</p>
+      <div class="btn-row">
+        <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer" class="btn-primary">☕ Buy us a coffee</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>
+      &copy; 2026 Central Watch News &mdash; Built by a student in Dubai &mdash;
+      <a href="/uae-calm-uae-news.html">Home</a> &middot;
+      <a href="/about.html">About</a> &middot;
+      <a href="/sources.html">Sources</a> &middot;
+      <a href="/contact.html">Contact</a> &middot;
+      <a href="/privacy.html">Privacy</a> &middot;
+      <a href="/terms.html">Terms</a>
+    </span>
+  </footer>
+
+
+  <script>
+  (function () {
+    // Clock + date
+    function cwnUpdateTime() {
+      var now = new Date();
+      var cl = document.getElementById('cwnClock');
+      if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
+      var dl = document.getElementById('cwnDate');
+      if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    cwnUpdateTime();
+    setInterval(cwnUpdateTime, 1000);
+
+    // Search → redirect to homepage
+    var cwnSrch = document.getElementById('cwnSearch');
+    if (cwnSrch) {
+      cwnSrch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && cwnSrch.value.trim()) {
+          location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim());
+        }
+      });
+    }
+
+    // Notify → go to homepage (subscribe modal is there)
+    var cwnNBtn = document.getElementById('cwnNotifyBtn');
+    if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; };
+
+    // Live visitor ping
+    var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
+    localStorage.setItem('cwn-sid', cwnSid);
+    function cwnPing() {
+      fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+        .catch(function () {});
+    }
+    cwnPing();
+    setInterval(cwnPing, 30000);
+
+    // Ticker
+    fetch('/api/news')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var items = (d.items || []).slice(0, 15);
+        if (!items.length) return;
+        var ticker = document.getElementById('cwnTickerScroll');
+        if (!ticker) return;
+        var half = items.map(function (item) {
+          var src = ((item.sourceName || '').substr(0, 3)).toUpperCase();
+          var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90);
+          return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' +
+            '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' +
+            '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' +
+            '<span style="color:#444;font-size:10px;">&#9670;</span>' +
+            '</span>';
+        }).join('');
+        ticker.innerHTML = half + half; // duplicate for seamless loop
+      })
+      .catch(function () {});
+  }());
+  </script>
+
+</body>
+</html>

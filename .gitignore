@@ -1,3 +1,8 @@
 .env
 node_modules/
 claude-cache.json
+node_modules/
+.env
+claude-cache.json
+subscribers.json
+digest-state.json

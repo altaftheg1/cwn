@@ -29,56 +29,64 @@ loadClaudeCache();
 // category = display category for frontend filter pills
 // tier     = priority (lower = higher priority for deduplication)
 
+// Google News RSS helper — returns verified working feed URL for any domain
+function gnRss(site, extra) {
+  return `https://news.google.com/rss/search?q=site:${site}${extra ? "+" + encodeURIComponent(extra) : ""}&hl=en-US&gl=US&ceid=US:en`;
+}
+
 const ALL_SOURCES = [
   // TIER 1 — OFFICIAL GOVERNMENT (highest priority)
   {
     key: "wam", name: "Emirates News Agency (WAM)", tier: 1, category: "Government",
-    rssUrl: "https://www.wam.ae/en/rss",
+    rssUrl: gnRss("wam.ae"),
     scrapeUrl: "https://www.wam.ae/en/home/main",
   },
   {
     key: "uaegov", name: "UAE Government Portal", tier: 1, category: "Government",
+    rssUrl: gnRss("u.ae", "UAE government news"),
     scrapeUrl: "https://u.ae/en/information-and-services/news",
     scrapeType: "uae",
   },
   {
     key: "dmo", name: "Dubai Media Office", tier: 1, category: "Government",
-    rssUrl: "https://mediaoffice.ae/rss",
+    rssUrl: gnRss("mediaoffice.ae"),
     scrapeUrl: "https://mediaoffice.ae/en/news/",
   },
   {
     key: "adgov", name: "Abu Dhabi Government", tier: 1, category: "Government",
+    rssUrl: gnRss("abudhabi.ae"),
     scrapeUrl: "https://www.abudhabi.ae/en/news",
   },
   {
     key: "shgov", name: "Sharjah Government", tier: 1, category: "Government",
+    rssUrl: gnRss("sharjah.ae"),
     scrapeUrl: "https://www.sharjah.ae/en/news",
   },
 
   // TIER 2 — MAJOR NEWS OUTLETS
   {
     key: "gn", name: "Gulf News", tier: 2, category: "General News",
-    rssUrl: "https://gulfnews.com/rss",
-    scrapeUrl: "https://gulfnews.com/",
+    rssUrl: gnRss("gulfnews.com", "UAE"),
+    scrapeUrl: "https://gulfnews.com/uae",
   },
   {
     key: "kt", name: "Khaleej Times", tier: 2, category: "General News",
-    rssUrl: "https://khaleejtimes.com/rss",
-    scrapeUrl: "https://www.khaleejtimes.com/",
+    rssUrl: gnRss("khaleejtimes.com"),
+    scrapeUrl: "https://www.khaleejtimes.com/uae",
   },
   {
     key: "nat", name: "The National", tier: 2, category: "General News",
-    rssUrl: "https://www.thenationalnews.com/rss",
+    rssUrl: "https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml",
     scrapeUrl: "https://www.thenationalnews.com/",
   },
   {
     key: "e247", name: "Emirates 24/7", tier: 2, category: "General News",
-    rssUrl: "https://www.emirates247.com/rss",
+    rssUrl: gnRss("emirates247.com"),
     scrapeUrl: "https://www.emirates247.com/",
   },
   {
     key: "arabnews", name: "Arab News UAE", tier: 2, category: "General News",
-    rssUrl: "https://www.arabnews.com/rss/uae",
+    rssUrl: gnRss("arabnews.com", "UAE"),
     scrapeUrl: "https://www.arabnews.com/node/uae",
   },
   {
@@ -88,26 +96,26 @@ const ALL_SOURCES = [
   },
   {
     key: "arabbiz", name: "Arabian Business", tier: 2, category: "Business",
-    rssUrl: "https://www.arabianbusiness.com/rss",
+    rssUrl: gnRss("arabianbusiness.com"),
     scrapeUrl: "https://www.arabianbusiness.com/",
   },
 
   // TIER 3 — BROADCAST & RADIO
   {
     key: "alarabiya", name: "Al Arabiya English", tier: 3, category: "Media",
-    rssUrl: "https://english.alarabiya.net/tools/rss",
+    rssUrl: gnRss("english.alarabiya.net", "UAE"),
     scrapeUrl: "https://english.alarabiya.net/",
   },
   {
     key: "dubaieye", name: "Dubai Eye 103.8", tier: 3, category: "Media",
-    rssUrl: "https://www.dubaieye1038.com/rss",
+    rssUrl: gnRss("dubaieye1038.com"),
     scrapeUrl: "https://www.dubaieye1038.com/",
   },
 
   // TIER 4 — CITY & LIFESTYLE
   {
     key: "timeout", name: "Time Out Dubai", tier: 4, category: "Lifestyle",
-    rssUrl: "https://www.timeoutdubai.com/rss",
+    rssUrl: "https://www.timeoutdubai.com/feed",
     scrapeUrl: "https://www.timeoutdubai.com/",
   },
   {
@@ -117,60 +125,73 @@ const ALL_SOURCES = [
   },
   {
     key: "visitdubai", name: "Visit Dubai", tier: 4, category: "Lifestyle",
+    rssUrl: gnRss("visitdubai.com"),
     scrapeUrl: "https://www.visitdubai.com/en/whats-on",
   },
 
   // TIER 5 — SAFETY & EMERGENCY
   {
     key: "dubaipolice", name: "Dubai Police", tier: 5, category: "Safety",
+    rssUrl: gnRss("dubaipolice.gov.ae"),
     scrapeUrl: "https://www.dubaipolice.gov.ae/wps/portal/home/news",
   },
   {
     key: "adpolice", name: "Abu Dhabi Police", tier: 5, category: "Safety",
+    rssUrl: gnRss("adpolice.gov.ae"),
     scrapeUrl: "https://www.adpolice.gov.ae/en/news",
   },
   {
     key: "rta", name: "RTA Dubai", tier: 5, category: "Safety",
+    rssUrl: gnRss("rta.ae"),
     scrapeUrl: "https://www.rta.ae/wps/portal/rta/ae/news-events",
   },
   {
     key: "dcda", name: "Dubai Civil Defence", tier: 5, category: "Safety",
+    rssUrl: gnRss("dcda.gov.ae"),
     scrapeUrl: "https://www.dcda.gov.ae/en/news",
   },
 
   // TIER 6 — BUSINESS & FINANCE
   {
     key: "dubaichamber", name: "Dubai Chamber", tier: 6, category: "Business",
+    rssUrl: gnRss("dubaichamber.com"),
     scrapeUrl: "https://www.dubaichamber.com/en/news/",
   },
   {
     key: "adgm", name: "ADGM", tier: 6, category: "Business",
+    rssUrl: gnRss("adgm.com"),
     scrapeUrl: "https://www.adgm.com/news",
   },
   {
     key: "dfm", name: "Dubai Financial Market", tier: 6, category: "Business",
+    rssUrl: gnRss("dfm.ae"),
     scrapeUrl: "https://www.dfm.ae/news",
   },
   {
     key: "difc", name: "DIFC", tier: 6, category: "Business",
+    rssUrl: gnRss("difc.ae"),
     scrapeUrl: "https://www.difc.ae/newsroom/",
   },
 
   // TIER 7 — HEALTH & EDUCATION
   {
     key: "mohap", name: "UAE Ministry of Health", tier: 7, category: "Health & Education",
+    rssUrl: gnRss("mohap.gov.ae"),
     scrapeUrl: "https://www.mohap.gov.ae/en/media-centre/news",
   },
   {
     key: "dha", name: "Dubai Health Authority", tier: 7, category: "Health & Education",
+    rssUrl: gnRss("dha.gov.ae"),
     scrapeUrl: "https://www.dha.gov.ae/en/news",
   },
   {
     key: "khda", name: "KHDA", tier: 7, category: "Health & Education",
+    rssUrl: gnRss("khda.gov.ae"),
     scrapeUrl: "https://www.khda.gov.ae/en/news",
   },
   {
     key: "uaemoe", name: "UAE Ministry of Education", tier: 7, category: "Health & Education",
+    rssUrl: gnRss("moe.gov.ae"),
     scrapeUrl: "https://www.moe.gov.ae/en/mediaCenter/News",
   },
 ];
@@ -293,14 +314,17 @@ async function fetchOgImage(url) {
 }
 
 async function fetchAllImages(items) {
-  await Promise.all(items.map(async (item) => {
-    if (item.imageUrl && item.imageUrl !== item.url) return;
-    if (!item.imageUrl) {
-      try {
-        const img = await fetchOgImage(item.url);
-        if (img) item.imageUrl = img;
-      } catch {}
-    }
+  // Only fetch images for the first 20 items (those visible in the UI).
+  // Items beyond that already have gradient placeholders and the extra
+  // HTTP requests were the biggest cause of slow builds.
+  const candidates = items.slice(0, 20).filter(
+    (item) => !item.imageUrl || item.imageUrl === item.url
+  );
+  await Promise.all(candidates.map(async (item) => {
+    try {
+      const img = await fetchOgImage(item.url);
+      if (img) item.imageUrl = img;
+    } catch {}
   }));
   return items;
 }
@@ -388,8 +412,8 @@ function deduplicateArticles(articles) {
 
 // ─── Cache plumbing ───────────────────────────────────────────────────────────
 
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes (matches user request)
-const SOURCE_CACHE_TTL_MS = 5 * 60 * 1000;
+const CACHE_TTL_MS = 10 * 60 * 1000; // 10 min — serve stale, rebuild in background
+const SOURCE_CACHE_TTL_MS = 10 * 60 * 1000;
 
 let cache = null;
 let sourceCache = null;
@@ -527,11 +551,22 @@ async function performBuild() {
   // Step 2: Title-similarity deduplication across sources
   const deduped = deduplicateArticles(urlUnique);
 
-  // Fetch images in parallel
+  // Sort first so Claude rewrites the most important articles (top 15 visible ones)
+  deduped.sort((a, b) => {
+    const ta = a.publishedAtMs || 0;
+    const tb = b.publishedAtMs || 0;
+    const boostA = (a.tier || 99) <= 1 ? 30 * 60 * 1000 : 0;
+    const boostB = (b.tier || 99) <= 1 ? 30 * 60 * 1000 : 0;
+    return (tb + boostB) - (ta + boostA);
+  });
+
+  // Fetch images only for visible articles (first 20)
   await fetchAllImages(deduped);
 
-  // Rewrite with Claude (max 3 concurrent)
-  await processConcurrently(deduped, 3, async (item) => {
+  // Rewrite top 15 with Claude — the ones the user actually sees on load.
+  // Articles beyond position 15 keep their calmified titles and get rewritten
+  // on the next build cycle once the cache warms up.
+  await processConcurrently(deduped.slice(0, 15), 3, async (item) => {
     const rew = await rewriteArticle(item);
     if (rew) {
       item.calmTitle = rew.calm_headline || item.calmTitle;
@@ -542,19 +577,9 @@ async function performBuild() {
     }
   });
 
-  // Sort: newest first, gov sources boosted slightly
-  deduped.sort((a, b) => {
-    const ta = a.publishedAtMs || 0;
-    const tb = b.publishedAtMs || 0;
-    // Gov tier articles get a 30-minute boost for freshness ranking
-    const boostA = (a.tier || 99) <= 1 ? 30 * 60 * 1000 : 0;
-    const boostB = (b.tier || 99) <= 1 ? 30 * 60 * 1000 : 0;
-    return (tb + boostB) - (ta + boostA);
-  });
-
   const payload = {
     generatedAtMs: Date.now(),
-    items: deduped.slice(0, 80),
+    items: deduped.slice(0, 40),
     sourceStatus: Object.fromEntries(sourceStatus),
   };
 

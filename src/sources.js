@@ -16,10 +16,6 @@ async function fetchHtmlWithCurl(url) {
       "-s",
       "--compressed",
       "--http1.1",
-      "--retry",
-      "2",
-      "--retry-delay",
-      "1",
       "-A",
       USER_AGENT,
       "-H",
@@ -27,7 +23,7 @@ async function fetchHtmlWithCurl(url) {
       "-H",
       "Accept-Language: en-US,en;q=0.9",
       "--max-time",
-      "15",
+      "8",
       url,
     ],
     { maxBuffer: 8 * 1024 * 1024 }
@@ -38,7 +34,7 @@ async function fetchHtmlWithCurl(url) {
 async function fetchHtml(url) {
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000);
+    const timer = setTimeout(() => controller.abort(), 5000);
     try {
       const res = await fetch(url, {
         signal: controller.signal,
@@ -79,6 +75,14 @@ function parseRss(xml, baseUrl) {
     });
     if (!link) link = $(el).find("guid").text().trim();
     if (!link) link = $(el).find("feedburner\\:origLink").text().trim();
+
+    // Google News RSS wraps original URLs — extract real URL from <source url="...">
+    if (link && link.includes("news.google.com")) {
+      const srcUrl = $("source", el).attr("url") || "";
+      if (srcUrl && srcUrl.startsWith("http") && !srcUrl.includes("news.google.com")) {
+        link = srcUrl;
+      }
+    }
 
     const description = $("description", el).first().text().trim();
     const pubDate =
@@ -151,14 +155,14 @@ function parseRss(xml, baseUrl) {
     });
   }
 
-  return items.length > 0 ? items.slice(0, 20) : null;
+  return items.length > 0 ? items.slice(0, 10) : null;
 }
 
 async function fetchRss(rssUrl) {
   let xml;
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000);
+    const timer = setTimeout(() => controller.abort(), 6000);
     try {
       const res = await fetch(rssUrl, {
         signal: controller.signal,
@@ -378,7 +382,8 @@ function isProbablyArticleUrl(url, allowedHosts) {
 async function enrichArticles(candidates) {
   const out = [];
   const queue = [...candidates];
-  const workers = new Array(4).fill(0).map(async () => {
+  // 2 workers max to avoid flooding the network during a build
+  const workers = new Array(2).fill(0).map(async () => {
     while (queue.length) {
       const c = queue.shift();
       if (!c) break;
@@ -549,7 +554,7 @@ export async function fetchSourceArticles(source) {
       .filter((x) => isProbablyArticleUrl(x.url, allowedHosts));
   }
 
-  candidates = candidates.slice(0, 12);
+  candidates = candidates.slice(0, 6);
   if (candidates.length === 0) {
     console.warn(`[scrape] ${source.name}: 0 candidates`);
     return [];

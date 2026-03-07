@@ -12,6 +12,7 @@ import { calmifyArticle } from "./src/tone.js";
 import communityRouter from "./src/community.js";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Anthropic from "@anthropic-ai/sdk";
+import cron from "node-cron";
 
 const _supabase = createSupabaseClient(
   process.env.SUPABASE_URL || "",
@@ -34,7 +35,7 @@ const TIMING_KEYS = new Set(["morning", "evening", "breaking", "weekly"]);
 const SUB_FILE = path.join(__dirname, "subscribers.json");
 const DIGEST_STATE_FILE = path.join(__dirname, "digest-state.json");
 let subscribers = [];
-let digestState = { morningDate: "", eveningDate: "" };
+let digestState = { morningDate: "", eveningDate: "", weeklyDate: "", breakingLastMs: 0 };
 
 function normalizeTopics(topics) {
   if (!Array.isArray(topics)) return [];
@@ -117,6 +118,7 @@ async function sendResendEmail({ to, subject, html, text }) {
   if (!RESEND_API_KEY) {
     throw new Error("Missing RESEND_API_KEY");
   }
+  console.log(`[Resend] Sending to: ${to} | from: ${RESEND_FROM} | subject: ${subject}`);
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -131,10 +133,12 @@ async function sendResendEmail({ to, subject, html, text }) {
       text,
     }),
   });
+  const body = await response.text().catch(() => "");
+  console.log(`[Resend] Status: ${response.status} | Body: ${body}`);
   if (!response.ok) {
-    const errText = await response.text().catch(() => "");
-    throw new Error(`Resend ${response.status}: ${errText}`);
+    throw new Error(`Resend ${response.status}: ${body}`);
   }
+  return body;
 }
 
 function classifyTopic(item) {
@@ -224,7 +228,13 @@ function nextScheduledTimeLabel(timing) {
   return "on the next digest cycle";
 }
 
-function getDigestStories({ fromMs, toMs, topics }) {
+// ── Unsubscribe link helper ──────────────────────────────────────────────────
+function unsubLink(email) {
+  return `${APP_BASE_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
+}
+
+// ── Get stories for a digest window ──────────────────────────────────────────
+function getDigestStories({ fromMs, toMs, topics, limit = 5 }) {
   const items = getCachedNews()?.items || [];
   return items
     .filter((item) => {
@@ -235,80 +245,171 @@ function getDigestStories({ fromMs, toMs, topics }) {
       return topics.includes(classifyTopic(item));
     })
     .sort((a, b) => Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0))
-    .slice(0, 5);
+    .slice(0, limit);
 }
 
-function buildDigestEmail(slotLabel, stories) {
-  const headline = `CWN ${slotLabel} digest`;
-  const htmlItems = stories.map((s) => {
-    const title = s.calmTitle || s.title || "Update";
-    const summary = s.calmSummary || s.description || "";
-    const url = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
-    return `<li style="margin-bottom:14px;"><a href="${url}" style="color:#C8102E;font-weight:700;text-decoration:none;">${title}</a><div style="color:#444;margin-top:4px;">${summary}</div></li>`;
+// ── Rich digest email builders ────────────────────────────────────────────────
+function buildDigestHtml({ greeting, stories, recipientEmail, dateStr }) {
+  const unsub = unsubLink(recipientEmail);
+  const storyItems = stories.map((s) => {
+    const title   = escapeHtml(s.calmTitle || s.title || "Update");
+    const summary = escapeHtml(s.calmSummary || s.description || "");
+    const impact  = s.residentImpact ? escapeHtml(s.residentImpact) : "";
+    const source  = escapeHtml(s.sourceName || "");
+    const url     = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
+    return `
+    <div style="border-bottom:1px solid #E8E4DF;padding:20px 0;">
+      ${source ? `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#C8102E;font-weight:700;margin-bottom:8px;font-family:Arial,sans-serif;">${source}</div>` : ""}
+      <h3 style="font-family:Georgia,serif;font-size:18px;color:#1A1208;margin:0 0 10px;line-height:1.35;font-weight:700;">${title}</h3>
+      <p style="color:#3D3328;font-size:14px;line-height:1.6;margin:0 0 12px;">${summary}</p>
+      ${impact ? `<div style="background:#F7F4EF;border-left:3px solid #C8102E;padding:10px 14px;font-size:13px;color:#444;margin:0 0 12px;"><strong>What this means for you:</strong> ${impact}</div>` : ""}
+      <a href="${url}" style="color:#C8102E;font-size:13px;font-weight:700;text-decoration:none;">Read full story &rarr;</a>
+    </div>`;
   }).join("");
-  const textItems = stories.map((s, i) => {
-    const title = s.calmTitle || s.title || "Update";
+
+  return `<!DOCTYPE html>
+<html><body style="margin:0;padding:20px;background:#F7F4EF;font-family:Arial,sans-serif;">
+<div style="max-width:600px;margin:0 auto;">
+  <div style="background:#C8102E;border-radius:12px 12px 0 0;padding:22px 24px;text-align:center;">
+    <div style="color:white;font-size:22px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">CWN</div>
+    <p style="color:rgba(255,255,255,0.8);font-size:12px;margin:4px 0 0;">Central Watch News</p>
+  </div>
+  <div style="background:#1A1208;padding:18px 24px;">
+    <h1 style="color:white;font-size:20px;font-family:Georgia,serif;margin:0 0 4px;">${escapeHtml(greeting)}</h1>
+    <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;">${escapeHtml(dateStr)}</p>
+  </div>
+  <div style="background:white;padding:8px 24px 8px;">
+    ${storyItems || '<p style="color:#888;padding:24px 0;text-align:center;">No new stories in your selected topics yet. Check back soon.</p>'}
+  </div>
+  <div style="background:white;border-top:1px solid #E8E4DF;padding:20px 24px;text-align:center;">
+    <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:12px 28px;border-radius:6px;font-weight:700;font-size:14px;">Read all stories on CWN &rarr;</a>
+  </div>
+  <div style="background:#F7F4EF;border-radius:0 0 12px 12px;padding:18px 24px;text-align:center;border-top:1px solid #E8E4DF;">
+    <p style="font-size:13px;color:#888;margin:0 0 6px;">
+      <a href="https://buymeacoffee.com/cwn" style="color:#C8102E;text-decoration:none;font-weight:600;">&curren; Support CWN</a>
+    </p>
+    <p style="font-size:11px;color:#aaa;margin:0;">
+      <a href="${unsub}" style="color:#aaa;">Unsubscribe</a> &nbsp;&middot;&nbsp;
+      <a href="${APP_BASE_URL}/privacy.html" style="color:#aaa;">Privacy Policy</a>
+      &nbsp;&middot;&nbsp; Central Watch News &middot; Dubai, UAE
+    </p>
+  </div>
+</div>
+</body></html>`;
+}
+
+function buildDigestText({ greeting, stories, recipientEmail, dateStr }) {
+  const unsub = unsubLink(recipientEmail);
+  const items = stories.map((s, i) => {
+    const title   = s.calmTitle || s.title || "Update";
     const summary = s.calmSummary || s.description || "";
-    const url = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
+    const url     = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
     return `${i + 1}. ${title}\n${summary}\n${url}`;
   }).join("\n\n");
-  return {
-    subject: `${headline} - top ${stories.length} stories`,
-    html: `<div style="font-family:Arial,sans-serif;line-height:1.5;"><h2 style="margin:0 0 12px;">${headline}</h2><ul style="padding-left:18px;">${htmlItems}</ul></div>`,
-    text: `${headline}\n\n${textItems}`,
-  };
+  return `${greeting}\nCentral Watch News · Dubai, UAE\n${dateStr}\n\n${items}\n\n---\nRead all: ${APP_BASE_URL}\nSupport CWN: https://buymeacoffee.com/cwn\nUnsubscribe: ${unsub}`;
 }
 
-async function sendDigestToSubscribers(slotLabel, rangeBuilder) {
-  if (!RESEND_API_KEY || !subscribers.length) return;
-  const now = new Date();
-  for (const sub of subscribers) {
-    if (sub.active === false) continue;
+// ── Dispatch a digest slot to all matching active subscribers ─────────────────
+async function sendDigestToSubscribers({ slotKey, greeting, subject, fromMs, toMs }) {
+  if (!RESEND_API_KEY) { console.log(`[Digest:${slotKey}] No RESEND_API_KEY — skipping.`); return; }
+  const active = subscribers.filter((s) => s.active !== false);
+  if (!active.length) { console.log(`[Digest:${slotKey}] No active subscribers.`); return; }
+
+  const parts   = getDubaiParts();
+  const dateStr = new Date().toLocaleDateString("en-GB", {
+    timeZone: "Asia/Dubai", weekday: "long", day: "numeric", month: "long", year: "numeric",
+  });
+  let sent = 0, skipped = 0, failed = 0;
+
+  for (const sub of active) {
     const timings = normalizeTiming(sub.timing);
-    if (timings.length && !timings.includes(slotLabel)) continue;
-    const range = rangeBuilder(now);
-    const stories = getDigestStories({
-      fromMs: range.fromMs,
-      toMs: range.toMs,
-      topics: sub.topics,
-    });
-    if (!stories.length) continue;
-    const payload = buildDigestEmail(slotLabel, stories);
+    // Default (no preference saved) → gets morning + evening
+    const wantsSlot = timings.length === 0
+      ? ["morning", "evening"].includes(slotKey)
+      : timings.includes(slotKey);
+    if (!wantsSlot) { skipped++; continue; }
+
+    const limit   = slotKey === "weekly" ? 10 : 5;
+    const stories = getDigestStories({ fromMs, toMs, topics: sub.topics, limit });
+    if (!stories.length) { skipped++; continue; }
+
+    const html = buildDigestHtml({ greeting, stories, recipientEmail: sub.email, dateStr });
+    const text = buildDigestText({ greeting, stories, recipientEmail: sub.email, dateStr });
     try {
-      await sendResendEmail({ to: sub.email, ...payload });
+      await sendResendEmail({ to: sub.email, subject, html, text });
+      sent++;
     } catch (err) {
-      console.error(`Digest send failed for ${sub.email}:`, err.message);
+      failed++;
+      console.error(`[Digest:${slotKey}] Failed for ${sub.email}:`, err.message);
     }
   }
+  console.log(`[Digest:${slotKey}] sent=${sent} skipped=${skipped} failed=${failed}`);
 }
 
-async function maybeSendScheduledDigests() {
+// ── Cron-based scheduler (all times UTC, Dubai = UTC+4) ───────────────────────
+// Morning digest — 7:00 AM Dubai = 03:00 UTC
+cron.schedule("0 3 * * *", async () => {
+  console.log("[Cron] Morning digest starting…");
+  const now = Date.now();
+  await sendDigestToSubscribers({
+    slotKey: "morning",
+    greeting: "Good Morning, UAE 🇦🇪",
+    subject:  "CWN Morning Digest 🇦🇪",
+    fromMs: now - 12 * 60 * 60 * 1000,
+    toMs: now,
+  });
+}, { timezone: "UTC" });
+
+// Evening digest — 8:00 PM Dubai = 16:00 UTC
+cron.schedule("0 16 * * *", async () => {
+  console.log("[Cron] Evening digest starting…");
   const parts = getDubaiParts();
-  const dateKey = formatDubaiDateKey(parts);
-  if (parts.hour === 7 && parts.minute === 0 && digestState.morningDate !== dateKey) {
-    await sendDigestToSubscribers("morning", () => {
-      const toMs = Date.now();
-      const fromMs = toMs - (12 * 60 * 60 * 1000);
-      return { fromMs, toMs };
-    });
-    digestState.morningDate = dateKey;
-    saveDigestState();
-    console.log("Morning digest processed for", dateKey);
-  }
-  if (parts.hour === 20 && parts.minute === 0 && digestState.eveningDate !== dateKey) {
-    await sendDigestToSubscribers("evening", () => {
-      const fromMs = dubaiLocalToUtcMs(parts.year, parts.month, parts.day, 0, 0, 0);
-      const toMs = Date.now();
-      return { fromMs, toMs };
-    });
-    digestState.eveningDate = dateKey;
-    saveDigestState();
-    console.log("Evening digest processed for", dateKey);
-  }
-}
+  await sendDigestToSubscribers({
+    slotKey: "evening",
+    greeting: "Good Evening, UAE 🇦🇪",
+    subject:  "CWN Evening Digest 🇦🇪",
+    fromMs: dubaiLocalToUtcMs(parts.year, parts.month, parts.day, 0, 0, 0),
+    toMs: Date.now(),
+  });
+}, { timezone: "UTC" });
+
+// Weekly digest — Friday 9:00 AM Dubai = Friday 05:00 UTC
+cron.schedule("0 5 * * 5", async () => {
+  console.log("[Cron] Weekly digest starting…");
+  const now = Date.now();
+  await sendDigestToSubscribers({
+    slotKey: "weekly",
+    greeting: "Your Weekly UAE News Roundup 🇦🇪",
+    subject:  "CWN Weekly Summary — Top Stories This Week",
+    fromMs: now - 7 * 24 * 60 * 60 * 1000,
+    toMs: now,
+  });
+}, { timezone: "UTC" });
+
+// Breaking news check — every 5 minutes
+cron.schedule("*/5 * * * *", async () => {
+  if (!RESEND_API_KEY) return;
+  const BREAKING_COOLDOWN_MS = 60 * 60 * 1000; // max 1 breaking alert per hour
+  if (Date.now() - (digestState.breakingLastMs || 0) < BREAKING_COOLDOWN_MS) return;
+  const items    = getCachedNews()?.items || [];
+  const cutoffMs = Date.now() - 5 * 60 * 1000;
+  const urgent   = items.filter((i) => Number(i.publishedAtMs || 0) > cutoffMs && i.severity === "high");
+  if (!urgent.length) return;
+  console.log(`[Cron] Breaking: ${urgent.length} urgent item(s) found — alerting subscribers`);
+  const now = Date.now();
+  await sendDigestToSubscribers({
+    slotKey: "breaking",
+    greeting: "🚨 Breaking UAE Update",
+    subject:  `Breaking: ${urgent[0].calmTitle || urgent[0].title || "Urgent UAE Update"} — CWN`,
+    fromMs: cutoffMs,
+    toMs: now,
+  });
+  digestState.breakingLastMs = now;
+  saveDigestState();
+}, { timezone: "UTC" });
 
 app.use(cors());
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "30mb" })); // 30mb needed for base64-encoded video uploads
 
 // Serve static files from project root (so you can open the HTML via http://localhost:3000/uae-calm-uae-news.html)
 app.use(express.static(__dirname, { extensions: ["html"] }));
@@ -341,6 +442,29 @@ app.get("/api/news", async (req, res) => {
 
 app.get("/api/source-status", (req, res) => {
   res.json(getSourceStatus());
+});
+
+// ── Live visitor tracking ─────────────────────────────────────────────────────
+const activeSessions = new Map(); // sessionId → lastSeenMs
+const VISITOR_TTL_MS = 60 * 1000; // 60s — session expires if no ping received
+
+function pruneVisitors() {
+  const now = Date.now();
+  for (const [id, t] of activeSessions) {
+    if (now - t > VISITOR_TTL_MS) activeSessions.delete(id);
+  }
+}
+
+app.post("/api/ping", (req, res) => {
+  const sid = String(req.body?.sid || "").trim().slice(0, 128);
+  pruneVisitors();
+  if (sid) activeSessions.set(sid, Date.now());
+  res.json({ visitors: activeSessions.size });
+});
+
+app.get("/api/visitors", (req, res) => {
+  pruneVisitors();
+  res.json({ visitors: activeSessions.size });
 });
 
 // ── Article translation endpoint (Claude Haiku + Supabase cache) ──────────────
@@ -525,28 +649,81 @@ app.get("/api/article", async (req, res) => {
 });
 
 async function sendWelcomeEmail({ email, topics, timing }) {
-  if (!RESEND_API_KEY) return;
+  if (!RESEND_API_KEY) {
+    console.warn("[Email] No RESEND_API_KEY — welcome email skipped for", email);
+    return;
+  }
   const topicsList = topics.length ? topics.map(prettyTopic) : ["All Topics"];
   const timingList = timing.length ? timing.map(prettyTiming) : ["Morning Digest (7:00 AM GST)", "Evening Digest (8:00 PM GST)"];
-  const nextTime = nextScheduledTimeLabel(timing);
-  const html = `
-    <div style="font-family:Arial,sans-serif;max-width:620px;margin:0 auto;color:#1A1208;">
-      <div style="padding:18px 0;border-bottom:1px solid #eee;font-weight:700;font-size:18px;">Central Watch News 🇦🇪</div>
-      <h2 style="font-family:'Playfair Display',Georgia,serif;margin:18px 0 8px;">You're subscribed!</h2>
-      <p style="margin:0 0 12px;">Welcome to calm UAE updates from CWN.</p>
-      <p style="margin:0 0 6px;"><strong>Topics:</strong> ${escapeHtml(topicsList.join(", "))}</p>
-      <p style="margin:0 0 6px;"><strong>Timing:</strong> ${escapeHtml(timingList.join(", "))}</p>
-      <p style="margin:0 0 16px;">Your first digest will arrive ${escapeHtml(nextTime)}.</p>
-      <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:#fff;text-decoration:none;padding:10px 16px;border-radius:6px;">Read CWN</a>
-      <p style="margin-top:18px;color:#666;font-size:12px;">Unsubscribe anytime.</p>
-    </div>`;
-  const text = `Central Watch News\n\nYou're subscribed!\nTopics: ${topicsList.join(", ")}\nTiming: ${timingList.join(", ")}\nYour first digest will arrive ${nextTime}.\n\n${APP_BASE_URL}\n\nUnsubscribe anytime.`;
+  const nextTime   = nextScheduledTimeLabel(timing);
+  const unsub      = unsubLink(email);
+
+  const html = `<!DOCTYPE html>
+<html><body style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;">
+  <div style="text-align:center;margin-bottom:32px;">
+    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;">CWN</div>
+    <p style="color:#666;font-size:13px;margin-top:8px;">Central Watch News</p>
+  </div>
+  <h1 style="font-size:28px;color:#1A1208;text-align:center;margin-bottom:8px;">You're all set! 🇦🇪</h1>
+  <p style="text-align:center;color:#666;margin-bottom:32px;">UAE news — calm, clear, and in plain English.</p>
+  <div style="background:white;border-radius:12px;padding:24px;margin-bottom:24px;">
+    <h2 style="font-size:16px;color:#1A1208;margin-bottom:16px;">Your subscription summary:</h2>
+    <p style="color:#444;margin-bottom:8px;">📋 Topics: ${escapeHtml(topicsList.join(", "))}</p>
+    <p style="color:#444;margin-bottom:8px;">🕐 Timing: ${escapeHtml(timingList.join(", "))}</p>
+    <p style="color:#444;">📧 Email: ${escapeHtml(email)}</p>
+  </div>
+  <div style="background:#C8102E;border-radius:12px;padding:24px;margin-bottom:24px;text-align:center;">
+    <p style="color:white;font-size:15px;margin-bottom:16px;">"No panic. No agenda. Just clear UAE news for residents."</p>
+    <a href="${APP_BASE_URL}" style="background:white;color:#C8102E;padding:12px 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Read Today's News &rarr;</a>
+  </div>
+  <p style="text-align:center;color:#999;font-size:12px;">
+    Your first digest arrives ${escapeHtml(nextTime)}.<br><br>
+    <a href="${unsub}" style="color:#aaa;">Unsubscribe anytime</a><br><br>
+    Central Watch News &middot; Dubai, UAE 🇦🇪
+  </p>
+</body></html>`;
+
+  const text = `Central Watch News
+
+You're all set!
+
+Topics: ${topicsList.join(", ")}
+Timing: ${timingList.join(", ")}
+Email: ${email}
+
+Your first digest arrives ${nextTime}.
+
+Read Today's News: ${APP_BASE_URL}
+Unsubscribe: ${unsub}`;
+
   await sendResendEmail({
     to: email,
     subject: "Welcome to Central Watch News 🇦🇪",
     html,
     text,
   });
+}
+
+// ── Unsubscribe confirmation email ────────────────────────────────────────────
+async function sendUnsubscribeConfirmEmail(email) {
+  if (!RESEND_API_KEY) return;
+  const resubUrl = `${APP_BASE_URL}/uae-calm-uae-news.html`;
+  const html = `<!DOCTYPE html>
+<html><body style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;text-align:center;">
+  <div style="margin-bottom:24px;">
+    <div style="background:#C8102E;color:white;display:inline-block;padding:10px 22px;font-size:22px;font-weight:900;letter-spacing:2px;">CWN</div>
+  </div>
+  <h1 style="font-size:24px;color:#1A1208;">You've been unsubscribed</h1>
+  <p style="color:#666;margin:16px 0 28px;">You won't receive any more emails from Central Watch News.</p>
+  <a href="${resubUrl}" style="display:inline-block;background:#C8102E;color:white;padding:12px 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Changed your mind? Resubscribe here</a>
+  <p style="color:#aaa;font-size:12px;margin-top:28px;">Central Watch News &middot; Dubai, UAE</p>
+</body></html>`;
+  const text = `You've been unsubscribed from Central Watch News.
+
+You won't receive any more emails.
+
+Changed your mind? Visit: ${resubUrl}`;
+  await sendResendEmail({ to: email, subject: "You've been unsubscribed from CWN", html, text });
 }
 
 // endpoint for subscribing email notifications
@@ -585,6 +762,35 @@ app.post("/api/subscribe", async (req, res) => {
 });
 
 app.use('/api/community', communityRouter);
+
+// ── GET /unsubscribe ──────────────────────────────────────────────────────────
+app.get("/unsubscribe", async (req, res) => {
+  const email = String(req.query.email || "").trim().toLowerCase();
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return res.status(400).sendFile(path.join(__dirname, "unsubscribe.html"));
+  }
+  const sub = subscribers.find((s) => s.email === email);
+  if (sub && sub.active !== false) {
+    sub.active = false;
+    saveSubscribers();
+    console.log("[Unsubscribe] Deactivated:", email);
+    sendUnsubscribeConfirmEmail(email).catch((e) =>
+      console.error("[Unsub confirm email failed]", e.message)
+    );
+  }
+  res.sendFile(path.join(__dirname, "unsubscribe.html"));
+});
+
+// ── POST /api/resubscribe ─────────────────────────────────────────────────────
+app.post("/api/resubscribe", (req, res) => {
+  const email = String(req.body?.email || "").trim().toLowerCase();
+  const sub = subscribers.find((s) => s.email === email);
+  if (!sub) return res.status(404).json({ error: "Subscriber not found." });
+  sub.active = true;
+  saveSubscribers();
+  console.log("[Resubscribe] Reactivated:", email);
+  res.json({ status: "ok" });
+});
 app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article-view.html')));
 app.use('/article', articleRouter);
 
@@ -600,12 +806,6 @@ app.listen(PORT, async () => {
     console.error('Error priming cache on startup:', err.message);
   }
 
-  try {
-    await maybeSendScheduledDigests();
-  } catch (err) {
-    console.error("Initial digest check error:", err.message);
-  }
-
   // Run background rebuild every 30 seconds
   setInterval(async () => {
     console.log('Triggering scheduled background rebuild...');
@@ -617,13 +817,6 @@ app.listen(PORT, async () => {
     }
   }, 30000); // 30 seconds
 
-  // Check Dubai-time digest schedule every 30 seconds
-  setInterval(async () => {
-    try {
-      await maybeSendScheduledDigests();
-    } catch (err) {
-      console.error("Digest scheduler error:", err.message);
-    }
-  }, 30000);
+  // Digest scheduling handled by node-cron (see cron.schedule calls above)
 });
 

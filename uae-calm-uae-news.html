@@ -39,19 +39,6 @@
       flex-direction:column;
     }
 
-    /* ===== RAMADAN BANNER ===== */
-    .ramadan-banner{
-      background:#1A1208;
-      border-bottom:2px solid var(--gold);
-      padding:12px 24px;
-      text-align:center;
-      font-size:12px;
-      color:var(--gold);
-      font-family:'DM Sans',sans-serif;
-      letter-spacing:0.15em;
-      font-weight:500;
-    }
-
     /* ===== UTILITY BAR ===== */
     .utility-bar{
       background:#000000;
@@ -217,6 +204,34 @@
     }
     .notify-btn:hover{
       background:rgba(255,255,255,0.9);
+    }
+    .live-visitors{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      background:rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.25);
+      border-radius:20px;
+      padding:5px 11px;
+      font-family:'DM Sans',sans-serif;
+      font-size:12px;
+      font-weight:600;
+      color:#fff;
+      white-space:nowrap;
+      cursor:default;
+      user-select:none;
+    }
+    .live-visitors-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#4ade80;
+      flex-shrink:0;
+      animation:lv-pulse 2s ease-in-out infinite;
+    }
+    @keyframes lv-pulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}
+      50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}
     }
 
     /* ===== LIVE TICKER BAR ===== */
@@ -1555,6 +1570,175 @@
         text-align: center;
       }
     }
+
+    /* ── Media upload buttons ─────────────────────────────────────────── */
+    .otg-upload-row { display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+    .otg-upload-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      border:2px dashed var(--border); border-radius:var(--radius-md);
+      padding:8px 14px; font-family:'DM Sans',sans-serif; font-size:13px;
+      font-weight:500; color:var(--ink-light); background:var(--cream);
+      cursor:pointer; transition:border-color 0.2s, color 0.2s;
+    }
+    .otg-upload-btn:hover { border-color:var(--red); color:var(--ink); }
+    .otg-media-preview { margin-bottom:12px; position:relative; }
+    .otg-media-preview-img {
+      width:100%; max-height:220px; object-fit:cover;
+      border-radius:var(--radius-md); display:block;
+    }
+    .otg-media-preview-video {
+      width:100%; max-height:220px;
+      border-radius:var(--radius-md); display:block;
+    }
+    .otg-media-remove {
+      margin-top:6px; background:none; border:1px solid var(--border);
+      border-radius:var(--radius-md); padding:4px 10px; font-size:12px;
+      color:var(--ink-light); cursor:pointer; font-family:'DM Sans',sans-serif;
+    }
+    .otg-media-remove:hover { color:var(--red); border-color:var(--red); }
+
+    /* ── Search bar ───────────────────────────────────────────────────── */
+    .otg-search-wrap { position:relative; margin-bottom:12px; }
+    .otg-search-input {
+      width:100%; box-sizing:border-box;
+      border:1px solid var(--border); border-radius:var(--radius-md);
+      padding:10px 38px 10px 14px; font-family:'DM Sans',sans-serif;
+      font-size:14px; color:var(--ink); background:#FFFFFF;
+      transition:border-color 0.2s;
+    }
+    .otg-search-input:focus { outline:none; border-color:var(--red); }
+    .otg-search-clear {
+      position:absolute; right:10px; top:50%; transform:translateY(-50%);
+      background:none; border:none; font-size:15px; color:var(--ink-light);
+      cursor:pointer; padding:2px 4px; line-height:1;
+    }
+    .otg-search-clear:hover { color:var(--ink); }
+    .otg-search-label {
+      font-family:'DM Sans',sans-serif; font-size:13px;
+      color:var(--ink-mid); margin-bottom:10px; font-style:italic;
+    }
+    .otg-back-btn {
+      background:none; border:none; color:var(--red);
+      font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+      cursor:pointer; padding:0; margin-bottom:12px;
+    }
+    .otg-back-btn:hover { text-decoration:underline; }
+
+    /* ── Load more ────────────────────────────────────────────────────── */
+    .otg-load-more-btn {
+      display:block; width:100%; margin-top:14px; padding:10px 20px;
+      background:#FFFFFF; border:1px solid var(--border);
+      border-radius:var(--radius-md); font-family:'DM Sans',sans-serif;
+      font-size:13px; font-weight:500; color:var(--ink); cursor:pointer;
+      text-align:center; transition:border-color 0.2s, color 0.2s;
+    }
+    .otg-load-more-btn:hover { border-color:var(--red); color:var(--red); }
+    .otg-load-more-btn:disabled { opacity:0.45; cursor:not-allowed; }
+
+    /* ── Post media display ───────────────────────────────────────────── */
+    .otg-media-display { margin-bottom:10px; overflow:hidden; }
+    .otg-media-img {
+      width:100%; max-height:280px; object-fit:cover;
+      border-radius:var(--radius-md); display:block;
+    }
+    .otg-media-video { width:100%; border-radius:var(--radius-md); display:block; }
+
+    /* ── Misc ─────────────────────────────────────────────────────────── */
+    .otg-highlight { background:#fff3cd; color:var(--ink); border-radius:2px; padding:0 2px; }
+    .otg-translating { color:var(--ink-light); font-style:italic; }
+  </style>
+
+  <!-- ===== SUPPORT / DONATION STYLES ===== -->
+  <style>
+    /* ── Footer coffee button ─────────────────────────────────────────────── */
+    .cwn-coffee-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--cream);
+      color: var(--ink);
+      border: 1px solid rgba(247,244,239,0.35);
+      border-radius: 6px;
+      padding: 9px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.18s, transform 0.12s;
+      cursor: pointer;
+    }
+    .cwn-coffee-btn:hover { background: #fffdf8; transform: translateY(-1px); }
+
+    /* ── Donation banner ──────────────────────────────────────────────────── */
+    .cwn-donation-banner {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1A1208;
+      color: #FFFFFF;
+      border: 1px solid rgba(184,134,11,0.35);
+      border-radius: 10px;
+      padding: 15px 18px;
+      max-width: 480px;
+      width: calc(100% - 32px);
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+      animation: cwn-slide-up 0.38s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes cwn-slide-up {
+      from { opacity:0; transform:translateX(-50%) translateY(18px); }
+      to   { opacity:1; transform:translateX(-50%) translateY(0); }
+    }
+    .cwn-donation-text {
+      flex: 1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.88);
+    }
+    .cwn-donation-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .cwn-donation-support {
+      display: block;
+      background: #F7F4EF;
+      color: #1A1208;
+      border: none;
+      border-radius: 5px;
+      padding: 7px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .cwn-donation-support:hover { background: #fff; }
+    .cwn-donation-later {
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 3px 0;
+      text-align: center;
+      transition: color 0.15s;
+    }
+    .cwn-donation-later:hover { color: rgba(255,255,255,0.82); }
+    @media (max-width: 520px) {
+      .cwn-donation-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .cwn-donation-actions { flex-direction: row; }
+    }
   </style>
 
   <!-- Language switcher styles -->
@@ -1630,11 +1814,6 @@
   </div>
 
   <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
-    <!-- Ramadan Banner -->
-    <div class="ramadan-banner">
-      ✦ رمضان كريم RAMADAN KAREEM — MUBARAK TO ALL رمضان كريم ✦
-    </div>
-
     <!-- Utility Bar -->
     <div class="utility-bar">
       <div class="utility-left">
@@ -1654,8 +1833,8 @@
           </div>
         </div>
         <a href="/about.html" id="utilAbout">About</a>
-        <a href="#sources" id="utilSources">Sources</a>
-        <a href="#contact" id="utilContact">Contact</a>
+        <a href="/sources.html" id="utilSources">Sources</a>
+        <a href="/contact.html" id="utilContact">Contact</a>
       </div>
     </div>
 
@@ -1682,6 +1861,10 @@
           <a href="#" onclick="filterByCategory('Lifestyle',null); return false;">Lifestyle</a>
         </nav>
         <div class="header-controls">
+          <div class="live-visitors" id="liveVisitors" title="People viewing CWN right now">
+            <div class="live-visitors-dot"></div>
+            <span id="liveVisitorCount">–</span> online
+          </div>
           <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
           <button id="notifyBtn" class="notify-btn">🔔 Notify me</button>
         </div>
@@ -1747,8 +1930,17 @@
           </div>
         </div>
 
+        <!-- Search bar -->
+        <div class="otg-search-wrap">
+          <input type="text" id="otgSearchInput" class="otg-search-input"
+            placeholder="🔍 Search community reports..." autocomplete="off" aria-label="Search community reports">
+          <button id="otgSearchClear" class="otg-search-clear" aria-label="Clear search" style="display:none;">✕</button>
+        </div>
+        <button id="otgBackBtn" class="otg-back-btn" style="display:none;">&#8592; Back to community</button>
+        <div id="otgSearchLabel" class="otg-search-label" style="display:none;"></div>
+
         <!-- Submission form -->
-        <div class="otg-form-card">
+        <div class="otg-form-card" id="otgFormCard">
           <textarea
             id="otgContent"
             class="otg-textarea"
@@ -1760,6 +1952,20 @@
           <div class="otg-form-meta">
             <span class="otg-char-counter" id="otgCharCounter">280 characters remaining</span>
           </div>
+
+          <!-- Media upload buttons -->
+          <div class="otg-upload-row">
+            <label class="otg-upload-btn" for="otgPhotoInput">
+              &#128247; Add Photo
+              <input type="file" id="otgPhotoInput" accept=".jpg,.jpeg,.png,.webp" style="display:none;">
+            </label>
+            <label class="otg-upload-btn" for="otgVideoInput">
+              &#127909; Add Video
+              <input type="file" id="otgVideoInput" accept=".mp4,.mov" style="display:none;">
+            </label>
+          </div>
+          <div id="otgMediaPreview" class="otg-media-preview" style="display:none;"></div>
+          <div id="otgMediaError" class="otg-status otg-status--error" style="display:none; margin-bottom:8px;"></div>
 
           <div class="otg-form-row">
             <select id="otgLocation" class="otg-select" aria-label="Location">
@@ -1815,6 +2021,7 @@
 
         <!-- Approved posts feed -->
         <div class="otg-posts" id="otgPostsFeed"></div>
+        <button id="otgLoadMoreBtn" class="otg-load-more-btn" style="display:none;">Load older posts</button>
 
       </section>
       <!-- ===== END ON THE GROUND ===== -->
@@ -1857,6 +2064,13 @@
       <div style="max-width:var(--max-width);margin:0 auto 20px;padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.65;">
         CWN paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. Central Watch News is an independent student project not affiliated with any government.
       </div>
+      <!-- Coffee / support button -->
+      <div style="max-width:var(--max-width);margin:0 auto 22px;text-align:center;">
+        <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer" class="cwn-coffee-btn">
+          ☕ Support CWN — Keep it free for everyone
+        </a>
+      </div>
+
       <!-- Footer nav links -->
       <div style="max-width:var(--max-width);margin:0 auto 16px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px;">
         <a href="/privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Privacy Policy</a>
@@ -2041,8 +2255,11 @@
           document.getElementById('moreStoriesList').innerHTML = '';
           return;
         }
-        renderContent();
-        populateTicker();
+        // Skip re-render if articles haven't changed (prevents mid-click DOM rebuilds)
+        const _sig = allNews.slice(0, 5).map(i => i.id).join(',');
+        const _changed = _sig !== window._lastNewsSig;
+        window._lastNewsSig = _sig;
+        if (_changed) { renderContent(); populateTicker(); }
         updateTime();
       } catch (e) {
         console.error('Error:', e);
@@ -2439,6 +2656,38 @@
     // Initial load + refresh every 30s
     loadNews();
     setInterval(loadNews, 30000);
+
+    // ── Live visitor count ────────────────────────────────────────────────────
+    (function () {
+      // Stable session ID for this browser tab (expires when tab closes)
+      var sid = sessionStorage.getItem('cwn-sid');
+      if (!sid) {
+        sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        sessionStorage.setItem('cwn-sid', sid);
+      }
+
+      var countEl = document.getElementById('liveVisitorCount');
+
+      function updateCount(n) {
+        if (!countEl) return;
+        countEl.textContent = typeof n === 'number' ? n.toLocaleString() : '–';
+      }
+
+      function ping() {
+        fetch('/api/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sid: sid }),
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) { if (d && typeof d.visitors === 'number') updateCount(d.visitors); })
+          .catch(function () {});
+      }
+
+      // First ping immediately, then every 20 s
+      ping();
+      setInterval(ping, 20000);
+    }());
   </script>
 
   <!-- ===== ON THE GROUND — Community Section JS ===== -->
@@ -2446,35 +2695,72 @@
   (function () {
     'use strict';
 
-    // ── DOM refs ────────────────────────────────────────────────────────────
+    // ── State ────────────────────────────────────────────────────────────────
     var el = {};
-    var otgIsAnonymous = true;
+    var otgIsAnonymous   = true;
+    var otgOffset        = 0;      // pagination offset for normal view
+    var otgTotalPosts    = 0;      // total count from server
+    var otgCurrentPosts  = [];     // posts currently in feed
+    var otgMediaFile     = null;   // selected File object
+    var otgMediaType     = null;   // 'image' | 'video'
+    var otgCurrentLang   = localStorage.getItem('cwn-lang') || 'en';
+    var otgPostTransCache = {};    // "postId|lang" -> translated string
+    var otgTransFailCache = {};    // "postId|lang" -> true (gave up)
+    var otgSearchActive  = false;
+    var otgSearchOffset  = 0;
+    var otgSearchTotal   = 0;
+    var otgSearchQuery   = '';
+    var otgSearchTimer   = null;
 
+    // ── Init ─────────────────────────────────────────────────────────────────
     function init() {
-      el.textarea    = document.getElementById('otgContent');
-      el.counter     = document.getElementById('otgCharCounter');
-      el.location    = document.getElementById('otgLocation');
-      el.anonBtn     = document.getElementById('otgAnonBtn');
-      el.nameBtn     = document.getElementById('otgNameBtn');
-      el.nameFields  = document.getElementById('otgNameFields');
-      el.displayName = document.getElementById('otgDisplayName');
-      el.contact     = document.getElementById('otgContact');
-      el.submitBtn   = document.getElementById('otgSubmitBtn');
-      el.status      = document.getElementById('otgStatus');
-      el.feed        = document.getElementById('otgPostsFeed');
+      el.textarea     = document.getElementById('otgContent');
+      el.counter      = document.getElementById('otgCharCounter');
+      el.location     = document.getElementById('otgLocation');
+      el.anonBtn      = document.getElementById('otgAnonBtn');
+      el.nameBtn      = document.getElementById('otgNameBtn');
+      el.nameFields   = document.getElementById('otgNameFields');
+      el.displayName  = document.getElementById('otgDisplayName');
+      el.contact      = document.getElementById('otgContact');
+      el.submitBtn    = document.getElementById('otgSubmitBtn');
+      el.status       = document.getElementById('otgStatus');
+      el.feed         = document.getElementById('otgPostsFeed');
+      el.photoInput   = document.getElementById('otgPhotoInput');
+      el.videoInput   = document.getElementById('otgVideoInput');
+      el.mediaPreview = document.getElementById('otgMediaPreview');
+      el.mediaError   = document.getElementById('otgMediaError');
+      el.searchInput  = document.getElementById('otgSearchInput');
+      el.searchClear  = document.getElementById('otgSearchClear');
+      el.searchLabel  = document.getElementById('otgSearchLabel');
+      el.backBtn      = document.getElementById('otgBackBtn');
+      el.loadMoreBtn  = document.getElementById('otgLoadMoreBtn');
+      el.formCard     = document.getElementById('otgFormCard');
 
-      if (!el.textarea) return; // section not present
+      if (!el.textarea) return;
 
       el.textarea.addEventListener('input', onTextareaInput);
       el.anonBtn.addEventListener('click', function () { setAnonymous(true); });
       el.nameBtn.addEventListener('click', function () { setAnonymous(false); });
       el.submitBtn.addEventListener('click', onSubmit);
+      el.photoInput.addEventListener('change', function () { onFileSelect(this, 'image'); });
+      el.videoInput.addEventListener('change', function () { onFileSelect(this, 'video'); });
+      el.searchInput.addEventListener('input', onSearchInput);
+      el.searchClear.addEventListener('click', clearSearch);
+      el.backBtn.addEventListener('click', clearSearch);
+      el.loadMoreBtn.addEventListener('click', loadMorePosts);
 
-      loadPosts();
-      setInterval(loadPosts, 60000);
+      // Listen for language change from the switcher script
+      document.addEventListener('cwn-lang-change', function (e) {
+        otgCurrentLang = e.detail.lang;
+        // Re-render with new language; translations will fill in async
+        renderPosts(otgCurrentPosts, otgSearchActive ? otgSearchQuery : '');
+      });
+
+      loadPosts(false);
+      setInterval(function () { if (!otgSearchActive) loadPosts(true); }, 60000);
     }
 
-    // ── Character counter ────────────────────────────────────────────────────
+    // ── Character counter ─────────────────────────────────────────────────────
     function onTextareaInput() {
       var remaining = 280 - el.textarea.value.length;
       el.counter.textContent = remaining + ' character' + (remaining !== 1 ? 's' : '') + ' remaining';
@@ -2482,7 +2768,7 @@
       el.submitBtn.disabled = el.textarea.value.trim().length === 0;
     }
 
-    // ── Identity toggles ─────────────────────────────────────────────────────
+    // ── Identity toggles ──────────────────────────────────────────────────────
     function setAnonymous(anon) {
       otgIsAnonymous = anon;
       el.anonBtn.classList.toggle('otg-toggle--active', anon);
@@ -2493,138 +2779,407 @@
       el.nameFields.setAttribute('aria-hidden', String(anon));
     }
 
-    // ── Status message ───────────────────────────────────────────────────────
+    // ── Status helper ─────────────────────────────────────────────────────────
     function setStatus(msg, type) {
       el.status.textContent = msg;
       el.status.className = 'otg-status' + (type ? ' otg-status--' + type : '');
     }
 
-    // ── Submit ───────────────────────────────────────────────────────────────
-    function onSubmit() {
-      var content = el.textarea.value.trim();
-      var location = el.location.value;
+    // ── Media file selection ──────────────────────────────────────────────────
+    function onFileSelect(input, type) {
+      var file = input.files[0];
+      if (!file) return;
 
-      if (!content) { setStatus('Please enter your observation.', 'error'); return; }
-      if (!location) { setStatus('Please select your location.', 'error'); return; }
+      var maxBytes = type === 'image' ? 5 * 1024 * 1024 : 20 * 1024 * 1024;
+      var maxLabel = type === 'image' ? '5MB' : '20MB';
 
-      el.submitBtn.disabled = true;
-      setStatus('Submitting\u2026', '');
-
-      var payload = {
-        content: content,
-        location: location,
-        is_anonymous: otgIsAnonymous,
-        display_name: otgIsAnonymous ? '' : (el.displayName ? el.displayName.value.trim() : ''),
-        contact:      otgIsAnonymous ? '' : (el.contact      ? el.contact.value.trim()      : ''),
-      };
-
-      fetch('/api/community/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      .then(function (resp) {
-        return resp.json().then(function (data) {
-          return { status: resp.status, data: data };
-        });
-      })
-      .then(function (result) {
-        var status = result.status;
-        var data   = result.data;
-
-        if (status === 429) {
-          setStatus(data.error || 'Please wait before submitting another report.', 'error');
-          el.submitBtn.disabled = false;
-          return;
-        }
-        if (status >= 400) {
-          setStatus(data.error || 'Something went wrong. Please try again.', 'error');
-          el.submitBtn.disabled = false;
-          return;
-        }
-        if (!data.approved) {
-          setStatus(
-            "Your post doesn\u2019t meet our community guidelines. CWN accepts calm factual observations only.",
-            'error'
-          );
-          el.submitBtn.disabled = false;
-          return;
-        }
-
-        // Success
-        setStatus('Report submitted! It will appear below shortly.', 'success');
-        el.textarea.value = '';
-        el.counter.textContent = '280 characters remaining';
-        el.counter.classList.remove('otg-char-counter--warning');
-        if (el.displayName) el.displayName.value = '';
-        if (el.contact)     el.contact.value = '';
-        el.submitBtn.disabled = true;
-        setTimeout(loadPosts, 1500);
-      })
-      .catch(function () {
-        setStatus('Network error. Please try again.', 'error');
-        el.submitBtn.disabled = false;
-      });
-    }
-
-    // ── Load & render posts ──────────────────────────────────────────────────
-    function loadPosts() {
-      fetch('/api/community/posts', { cache: 'no-store' })
-        .then(function (resp) {
-          if (!resp.ok) throw new Error('HTTP ' + resp.status);
-          return resp.json();
-        })
-        .then(function (data) {
-          renderPosts(Array.isArray(data.posts) ? data.posts : []);
-        })
-        .catch(function () {
-          if (!el.feed.children.length) {
-            el.feed.innerHTML = '<p class="otg-empty">Could not load community reports.</p>';
-          }
-        });
-    }
-
-    function renderPosts(posts) {
-      if (!posts.length) {
-        el.feed.innerHTML = '<p class="otg-empty">No community reports yet. Be the first to share what you\'re seeing!</p>';
+      if (file.size > maxBytes) {
+        el.mediaError.textContent = (type === 'image' ? 'Photo' : 'Video') + ' must be under ' + maxLabel;
+        el.mediaError.style.display = 'block';
+        input.value = '';
+        el.mediaPreview.style.display = 'none';
+        el.mediaPreview.innerHTML = '';
+        otgMediaFile = null; otgMediaType = null;
         return;
       }
 
+      el.mediaError.style.display = 'none';
+      otgMediaFile = file;
+      otgMediaType = type;
+
+      // Clear the other input
+      if (type === 'image') el.videoInput.value = '';
+      else el.photoInput.value = '';
+
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var removeBtn = '<br><button type="button" class="otg-media-remove" id="otgMediaRemoveBtn">✕ Remove</button>';
+        if (type === 'image') {
+          el.mediaPreview.innerHTML = '<img src="' + e.target.result + '" class="otg-media-preview-img" alt="Preview">' + removeBtn;
+        } else {
+          el.mediaPreview.innerHTML = '<video src="' + e.target.result + '" class="otg-media-preview-video" controls muted></video>' + removeBtn;
+        }
+        el.mediaPreview.style.display = 'block';
+        document.getElementById('otgMediaRemoveBtn').addEventListener('click', clearMedia);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearMedia() {
+      otgMediaFile = null; otgMediaType = null;
+      el.photoInput.value = ''; el.videoInput.value = '';
+      el.mediaPreview.innerHTML = ''; el.mediaPreview.style.display = 'none';
+      el.mediaError.style.display = 'none';
+    }
+
+    // ── Upload media to server ────────────────────────────────────────────────
+    function uploadMedia() {
+      return new Promise(function (resolve, reject) {
+        if (!otgMediaFile) { resolve(null); return; }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var dataUrl  = e.target.result;
+          var base64   = dataUrl.split(',')[1];
+          var mimeType = otgMediaFile.type;
+          var extension = (otgMediaFile.name.split('.').pop() || 'bin').toLowerCase();
+          fetch('/api/community/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ base64: base64, mimeType: mimeType, extension: extension, mediaType: otgMediaType }),
+          })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.url) { resolve({ url: data.url, mediaType: data.mediaType }); }
+            else { reject(new Error(data.error || 'Upload failed.')); }
+          })
+          .catch(reject);
+        };
+        reader.readAsDataURL(otgMediaFile);
+      });
+    }
+
+    // ── Submit ────────────────────────────────────────────────────────────────
+    function onSubmit() {
+      var content  = el.textarea.value.trim();
+      var location = el.location.value;
+      if (!content)  { setStatus('Please enter your observation.', 'error'); return; }
+      if (!location) { setStatus('Please select your location.', 'error');   return; }
+
+      el.submitBtn.disabled = true;
+      setStatus(otgMediaFile ? 'Uploading media…' : 'Submitting…', '');
+
+      uploadMedia()
+        .then(function (mediaResult) {
+          return fetch('/api/community/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              content:      content,
+              location:     location,
+              is_anonymous: otgIsAnonymous,
+              display_name: otgIsAnonymous ? '' : (el.displayName ? el.displayName.value.trim() : ''),
+              contact:      otgIsAnonymous ? '' : (el.contact     ? el.contact.value.trim()     : ''),
+              media_url:    mediaResult ? mediaResult.url       : null,
+              media_type:   mediaResult ? mediaResult.mediaType : null,
+            }),
+          });
+        })
+        .then(function (resp) {
+          return resp.json().then(function (data) { return { status: resp.status, data: data }; });
+        })
+        .then(function (result) {
+          var data = result.data;
+          if (result.status === 429) {
+            setStatus(data.error || 'Please wait before submitting another report.', 'error');
+            el.submitBtn.disabled = false; return;
+          }
+          if (result.status >= 400) {
+            setStatus(data.error || 'Something went wrong. Please try again.', 'error');
+            el.submitBtn.disabled = false; return;
+          }
+          if (!data.approved) {
+            setStatus("Your post doesn’t meet our community guidelines. CWN accepts calm factual observations only.", 'error');
+            el.submitBtn.disabled = false; return;
+          }
+          // Success
+          setStatus('Report submitted! It will appear below shortly.', 'success');
+          el.textarea.value = '';
+          el.counter.textContent = '280 characters remaining';
+          el.counter.classList.remove('otg-char-counter--warning');
+          if (el.displayName) el.displayName.value = '';
+          if (el.contact)     el.contact.value = '';
+          el.submitBtn.disabled = true;
+          clearMedia();
+          otgOffset = 0; otgCurrentPosts = [];
+          setTimeout(function () { loadPosts(false); }, 1500);
+        })
+        .catch(function (err) {
+          setStatus(err.message || 'Network error. Please try again.', 'error');
+          el.submitBtn.disabled = false;
+        });
+    }
+
+    // ── Load posts ────────────────────────────────────────────────────────────
+    function loadPosts(silent) {
+      if (!silent) el.feed.innerHTML = '<p class="otg-empty">Loading…</p>';
+      fetch('/api/community/posts?offset=' + otgOffset, { cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (data) {
+          var posts = Array.isArray(data.posts) ? data.posts : [];
+          otgTotalPosts = data.total || 0;
+          otgCurrentPosts = otgOffset === 0 ? posts : otgCurrentPosts.concat(posts);
+          renderPosts(otgCurrentPosts, '');
+          updateLoadMoreBtn();
+        })
+        .catch(function () {
+          if (!silent) el.feed.innerHTML = '<p class="otg-empty">Could not load community reports.</p>';
+        });
+    }
+
+    function loadMorePosts() {
+      otgOffset += 10;
+      el.loadMoreBtn.textContent = 'Loading…';
+      el.loadMoreBtn.disabled = true;
+      fetch('/api/community/posts?offset=' + otgOffset, { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var posts = Array.isArray(data.posts) ? data.posts : [];
+          otgTotalPosts = data.total || 0;
+          otgCurrentPosts = otgCurrentPosts.concat(posts);
+          renderPosts(otgCurrentPosts, '');
+          el.loadMoreBtn.textContent = 'Load older posts';
+          el.loadMoreBtn.disabled = false;
+          updateLoadMoreBtn();
+        })
+        .catch(function () {
+          el.loadMoreBtn.textContent = 'Load older posts';
+          el.loadMoreBtn.disabled = false;
+        });
+    }
+
+    function updateLoadMoreBtn() {
+      if (!otgSearchActive) {
+        el.loadMoreBtn.onclick = loadMorePosts;
+        el.loadMoreBtn.textContent = 'Load older posts';
+        el.loadMoreBtn.style.display = otgCurrentPosts.length < otgTotalPosts ? 'block' : 'none';
+      }
+    }
+
+    // ── Search ────────────────────────────────────────────────────────────────
+    function onSearchInput() {
+      var q = el.searchInput.value.trim();
+      el.searchClear.style.display = q ? 'block' : 'none';
+      clearTimeout(otgSearchTimer);
+      if (!q) { clearSearch(); return; }
+      otgSearchTimer = setTimeout(function () { doSearch(q, 0); }, 300);
+    }
+
+    function doSearch(q, offset) {
+      otgSearchActive  = true;
+      otgSearchQuery   = q;
+      otgSearchOffset  = offset;
+      if (el.formCard)  el.formCard.style.display = 'none';
+      el.backBtn.style.display    = 'block';
+      el.searchLabel.style.display = 'block';
+      el.loadMoreBtn.style.display = 'none';
+      el.searchLabel.textContent  = 'Searching…';
+      if (offset === 0) el.feed.innerHTML = '<p class="otg-empty">Searching…</p>';
+
+      fetch('/api/community/search?q=' + encodeURIComponent(q) + '&lang=' + otgCurrentLang + '&offset=' + offset, { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var posts = Array.isArray(data.posts) ? data.posts : [];
+          otgSearchTotal = data.total || 0;
+          otgCurrentPosts = offset === 0 ? posts : otgCurrentPosts.concat(posts);
+
+          if (!posts.length && offset === 0) {
+            el.searchLabel.textContent = 'No results found for “' + escapeHtml(q) + '”';
+            el.feed.innerHTML = '<p class="otg-empty">No results found.</p>';
+            return;
+          }
+          el.searchLabel.textContent = otgSearchTotal + ' result' + (otgSearchTotal !== 1 ? 's' : '') + ' found for “' + escapeHtml(q) + '”';
+          renderPosts(otgCurrentPosts, q);
+
+          var loaded = otgCurrentPosts.length;
+          el.loadMoreBtn.textContent   = 'Load more results';
+          el.loadMoreBtn.disabled      = false;
+          el.loadMoreBtn.style.display = loaded < otgSearchTotal ? 'block' : 'none';
+          el.loadMoreBtn.onclick       = function () { doSearch(q, otgSearchOffset + 10); };
+        })
+        .catch(function () {
+          el.searchLabel.textContent = 'Search failed. Please try again.';
+          el.feed.innerHTML = '<p class="otg-empty">Search failed.</p>';
+        });
+    }
+
+    function clearSearch() {
+      otgSearchActive  = false;
+      otgSearchQuery   = '';
+      otgSearchOffset  = 0;
+      el.searchInput.value         = '';
+      el.searchClear.style.display = 'none';
+      el.searchLabel.style.display = 'none';
+      el.backBtn.style.display     = 'none';
+      if (el.formCard) el.formCard.style.display = '';
+      otgOffset = 0; otgCurrentPosts = [];
+      loadPosts(false);
+    }
+
+    // ── Render posts ──────────────────────────────────────────────────────────
+    function renderPosts(posts, highlight) {
+      if (!posts || !posts.length) {
+        el.feed.innerHTML = '<p class="otg-empty">No community reports yet. Be the first to share what you\'re seeing!</p>';
+        return;
+      }
+      var isRtl = (otgCurrentLang === 'ar');
+
       el.feed.innerHTML = posts.map(function (post) {
         var author = (post.is_anonymous || !post.display_name)
-          ? 'Anonymous Resident \uD83C\uDDE6\uD83C\uDDEA'
+          ? 'Anonymous Resident 🇦🇪'
           : escapeHtml(post.display_name);
 
-        var timeAgo = (typeof relativeTime === 'function') ? relativeTime(post.created_at) : post.created_at;
-        var exactTime = (typeof uaeExactTime === 'function') ? uaeExactTime(post.created_at) : '';
+        var timeAgo    = (typeof relativeTime  === 'function') ? relativeTime(post.created_at)  : post.created_at;
+        var exactTime  = (typeof uaeExactTime  === 'function') ? uaeExactTime(post.created_at)  : '';
         var timeDisplay = exactTime
-          ? '\uD83D\uDD50 ' + timeAgo + ' \xb7 ' + exactTime + ' UAE time'
-          : '\uD83D\uDD50 ' + timeAgo;
+          ? '🕐 ' + timeAgo + ' · ' + exactTime + ' UAE time'
+          : '🕐 ' + timeAgo;
+
+        var content = getPostContent(post);
+        var needsTranslation = (otgCurrentLang !== 'en') && (content === post.content) &&
+          !otgPostTransCache[post.id + '|' + otgCurrentLang] &&
+          !otgTransFailCache[post.id + '|' + otgCurrentLang];
+
+        var displayContent;
+        if (needsTranslation) {
+          displayContent = '<span class="otg-translating">⏳ Translating…</span>';
+        } else if (highlight) {
+          displayContent = highlightText(content, highlight);
+        } else {
+          displayContent = escapeHtml(content);
+        }
+
+        var rtlAttr = isRtl ? ' dir="rtl" style="text-align:right;"' : '';
+
+        var mediaHtml = '';
+        if (post.media_url && post.media_type === 'image') {
+          mediaHtml = '<div class="otg-media-display"><img src="' + escapeHtml(post.media_url) + '" class="otg-media-img" alt="Community photo" loading="lazy"></div>';
+        } else if (post.media_url && post.media_type === 'video') {
+          mediaHtml = '<div class="otg-media-display"><video src="' + escapeHtml(post.media_url) + '" class="otg-media-video" controls muted playsinline></video></div>';
+        }
 
         return [
           '<article class="otg-post-card">',
           '  <div class="otg-post-header">',
-          '    <span class="otg-location-badge">\uD83D\uDCCD ' + escapeHtml(post.location) + '</span>',
+          '    <span class="otg-location-badge">📍 ' + escapeHtml(post.location) + '</span>',
           '    <span class="otg-author">Submitted by ' + author + '</span>',
-          '    <span class="otg-verified"><span class="otg-verified-dot"></span>Verified by AI \u2713</span>',
+          '    <span class="otg-verified"><span class="otg-verified-dot"></span>Verified by AI ✓</span>',
           '  </div>',
-          '  <p class="otg-post-content">' + escapeHtml(post.content) + '</p>',
+          mediaHtml,
+          '  <p class="otg-post-content" data-post-id="' + escapeHtml(post.id) + '"' + rtlAttr + '>' + displayContent + '</p>',
           '  <div class="otg-post-time" style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;font-size:12px;">' + timeDisplay + '</div>',
           '</article>',
         ].join('\n');
       }).join('\n');
+
+      // Kick off async translation for any untranslated posts
+      if (otgCurrentLang !== 'en') translateVisiblePosts(posts, otgCurrentLang, highlight);
+    }
+
+    // ── Get post content for current language ──────────────────────────────────
+    function getPostContent(post) {
+      if (otgCurrentLang === 'en') return post.content;
+      var colMap = { ml: 'malayalam_content', ar: 'arabic_content', hi: 'hindi_content', tl: 'tagalog_content' };
+      var col = colMap[otgCurrentLang];
+      if (col && post[col]) return post[col];
+      var ck = post.id + '|' + otgCurrentLang;
+      if (otgPostTransCache[ck]) return otgPostTransCache[ck];
+      return post.content; // English fallback
+    }
+
+    // ── Translate visible posts async, update DOM nodes directly ──────────────
+    function translateVisiblePosts(posts, lang, highlight) {
+      var colMap = { ml: 'malayalam_content', ar: 'arabic_content', hi: 'hindi_content', tl: 'tagalog_content' };
+      var col = colMap[lang];
+      if (!col) return;
+
+      var toTranslate = posts.filter(function (p) {
+        var ck = p.id + '|' + lang;
+        return !p[col] && !otgPostTransCache[ck] && !otgTransFailCache[ck];
+      });
+      if (!toTranslate.length) return;
+
+      var isRtl = (lang === 'ar');
+      var idx = 0;
+
+      function next() {
+        if (idx >= toTranslate.length) return;
+        var post = toTranslate[idx++];
+        var ck = post.id + '|' + lang;
+        fetch('/api/community/translate-post', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ post_id: post.id, lang: lang }),
+        })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (data && data.translated) {
+            otgPostTransCache[ck] = data.translated;
+            post[col] = data.translated;
+            // Update the specific DOM node without re-rendering the whole feed
+            var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
+            if (node) {
+              if (isRtl) { node.dir = 'rtl'; node.style.textAlign = 'right'; }
+              node.innerHTML = highlight ? highlightText(data.translated, highlight) : escapeHtml(data.translated);
+            }
+          } else {
+            otgTransFailCache[ck] = true;
+            // Fallback: show English content in the node
+            var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
+            if (node && node.querySelector('.otg-translating')) {
+              node.innerHTML = escapeHtml(post.content);
+            }
+          }
+          next();
+        })
+        .catch(function () {
+          otgTransFailCache[ck] = true;
+          var node = el.feed.querySelector('[data-post-id="' + post.id + '"]');
+          if (node && node.querySelector('.otg-translating')) {
+            node.innerHTML = escapeHtml(post.content);
+          }
+          next();
+        });
+      }
+      // 2 parallel workers
+      next(); next();
+    }
+
+    // ── Highlight matching keyword ────────────────────────────────────────────
+    function highlightText(text, keyword) {
+      if (!keyword) return escapeHtml(text);
+      var safe   = escapeHtml(text);
+      var safeK  = escapeHtml(keyword);
+      if (!safeK) return safe;
+      var lower  = safe.toLowerCase();
+      var lowerK = safeK.toLowerCase();
+      var result = '';
+      var i = 0;
+      while (i < safe.length) {
+        var found = lower.indexOf(lowerK, i);
+        if (found === -1) { result += safe.slice(i); break; }
+        result += safe.slice(i, found);
+        result += '<mark class="otg-highlight">' + safe.slice(found, found + lowerK.length) + '</mark>';
+        i = found + lowerK.length;
+      }
+      return result;
     }
 
     function escapeHtml(str) {
       return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    // Run immediately — script is at end of body, DOM is ready
     init();
   }());
   </script>
@@ -2900,7 +3455,7 @@
             item.calmTitle   = orig ? orig.calmTitle   : item.calmTitle;
             item.calmSummary = orig ? orig.calmSummary : item.calmSummary;
           }
-          safeRender(); // Progressive update after each article
+          // No per-article render — avoids 20× DOM rebuilds that cause UI glitching
         }
       }
 
@@ -2908,6 +3463,7 @@
       for (var w = 0; w < MAX; w++) workers.push(worker());
       await Promise.all(workers);
 
+      safeRender(); // One single render after all translations complete
       _translating = false;
     }
 
@@ -2982,6 +3538,8 @@
 
       // Translate article content (async — mutates allNews then re-renders)
       translateArticles(code);
+      // Notify OTG section of language change
+      document.dispatchEvent(new CustomEvent('cwn-lang-change', { detail: { lang: code } }));
     }
 
     // ── Patch updateTime so "Last updated" prefix stays translated ────────────
@@ -3042,6 +3600,67 @@
     }
 
     init();
+  }());
+  </script>
+
+  <!-- ===== DONATION BANNER ===== -->
+  <div id="cwnDonationBanner" class="cwn-donation-banner" role="dialog"
+       aria-label="Support CWN" style="display:none;">
+    <p class="cwn-donation-text">
+      CWN is free and independent. If it helps you stay informed, consider buying us a coffee ☕
+    </p>
+    <div class="cwn-donation-actions">
+      <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer"
+         class="cwn-donation-support">Support CWN</a>
+      <button type="button" class="cwn-donation-later" id="cwnDonationDismiss">Maybe later</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+    var VISIT_KEY   = 'cwn-visit-count';
+    var DISMISS_KEY = 'cwn-coffee-dismissed';
+    var MIN_VISITS  = 3;
+    var DISMISS_MS  = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+    // Increment visit count (once per page load)
+    var visits = (parseInt(localStorage.getItem(VISIT_KEY), 10) || 0) + 1;
+    localStorage.setItem(VISIT_KEY, String(visits));
+
+    // Decide whether to show
+    var dismissedAt = parseInt(localStorage.getItem(DISMISS_KEY), 10) || 0;
+    var dismissExpired = dismissedAt === 0 || (Date.now() - dismissedAt) > DISMISS_MS;
+
+    if (visits >= MIN_VISITS && dismissExpired) {
+      // Show after 3 s so it doesn't distract on page load
+      setTimeout(function () {
+        var banner = document.getElementById('cwnDonationBanner');
+        if (banner) banner.style.display = 'flex';
+      }, 3000);
+    }
+
+    // Dismiss handler
+    function setupDismiss() {
+      var btn = document.getElementById('cwnDonationDismiss');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        localStorage.setItem(DISMISS_KEY, String(Date.now()));
+        var banner = document.getElementById('cwnDonationBanner');
+        if (banner) {
+          banner.style.transition = 'opacity 0.3s, transform 0.3s';
+          banner.style.opacity = '0';
+          banner.style.transform = 'translateX(-50%) translateY(16px)';
+          setTimeout(function () { banner.style.display = 'none'; }, 320);
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupDismiss);
+    } else {
+      setupDismiss();
+    }
   }());
   </script>
 </body>
