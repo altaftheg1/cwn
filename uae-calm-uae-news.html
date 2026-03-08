@@ -342,8 +342,8 @@
 
     /* ===== SUBNAV BAR (below ticker) ===== */
     .subnav-bar{
-      background:#FFFFFF;
-      border-bottom:2px solid var(--border);
+      background:var(--red);
+      border-bottom:3px solid var(--red-dark);
       position:sticky;
       top:67px; /* height of main header */
       z-index:90;
@@ -360,7 +360,7 @@
     }
     .subnav-inner::-webkit-scrollbar{ display:none; }
     .subnav-link{
-      color:var(--ink-mid);
+      color:rgba(255,255,255,0.8);
       text-decoration:none;
       font-size:13px;
       font-weight:500;
@@ -371,18 +371,18 @@
       flex-shrink:0;
     }
     .subnav-link:hover{
-      color:var(--red);
-      border-bottom-color:var(--red);
+      color:#FFFFFF;
+      border-bottom-color:rgba(255,255,255,0.6);
     }
     .subnav-link.active{
-      color:var(--red);
+      color:#FFFFFF;
       font-weight:600;
-      border-bottom-color:var(--red);
+      border-bottom-color:#FFFFFF;
     }
-    body.dark .subnav-bar{ background:#111111; border-color:#2A2A2A; }
-    body.dark .subnav-link{ color:#AAAAAA; }
+    body.dark .subnav-bar{ background:var(--red-dark); border-color:#000; }
+    body.dark .subnav-link{ color:rgba(255,255,255,0.75); }
     body.dark .subnav-link:hover,
-    body.dark .subnav-link.active{ color:#FFFFFF; border-bottom-color:var(--red); }
+    body.dark .subnav-link.active{ color:#FFFFFF; border-bottom-color:#FFFFFF; }
 
     /* ===== TOPIC FILTER PILLS ===== */
     .topic-filters{
