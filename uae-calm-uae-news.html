@@ -68,14 +68,14 @@
 
     /* ===== UTILITY BAR ===== */
     .utility-bar{
-      background:#000000;
+      background:var(--red-dark);
       color:#FFFFFF;
       padding:6px 24px;
       font-size:12px;
       display:flex;
       justify-content:space-between;
       align-items:center;
-      border-bottom:1px solid rgba(255,255,255,0.1);
+      border-bottom:1px solid rgba(0,0,0,0.15);
     }
     .utility-left{
       display:flex;
@@ -111,7 +111,7 @@
       top:0;
       z-index:100;
       background:var(--red);
-      border-bottom:3px solid #000000;
+      border-bottom:1px solid rgba(0,0,0,0.15);
       color:#FFFFFF;
     }
     .header-inner{
@@ -2143,8 +2143,8 @@
     /* ── Dark mode variables & overrides ─────────────────────────────────── */
     body.dark { background: #0A0A0A; color: #F0F0F0; }
     body.dark .app-shell { background: #0A0A0A; }
-    body.dark header { background: #111111; border-bottom-color: #000; }
-    body.dark .utility-bar { background: #111111; }
+    body.dark header { background: var(--red); border-bottom-color: rgba(0,0,0,0.3); }
+    body.dark .utility-bar { background: var(--red-dark); }
     body.dark .ticker-bar { background: #111111; }
     body.dark .mobile-search-bar { background: #111111; }
     body.dark .mobile-search-input { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #F0F0F0; }
