@@ -430,6 +430,39 @@ function deduplicateArticles(articles) {
   return kept;
 }
 
+// ─── Smart article categorization ─────────────────────────────────────────────
+const CATEGORY_RULES = [
+  { name: 'Safety & Security', keywords: ['police','crime','arrest','safety','security','warning','alert','emergency','accident','fire','flood','danger','threat','military','defence','defense','attack','explosion','shooting','robbery','fraud','scam','disaster','rescue'] },
+  { name: 'Government & Politics', keywords: ['government','minister','ministry','president','ruler','sheikh','law','policy','decree','cabinet','federal','municipality','election','diplomatic','ambassador','summit','agreement','bilateral','official','authority','parliament','court','legislation'] },
+  { name: 'Business & Finance', keywords: ['economy','market','stock','bank','finance','investment','trade','gdp','inflation','price','cost','budget','revenue','profit','company','startup','billion','million','dirham','dollar','property','real estate','adgm','dfm','difc','chamber','shares','funding','ipo'] },
+  { name: 'Transport & Travel', keywords: ['road','traffic','metro','bus','rta','airport','flight','airline','etihad','flydubai','air arabia','visa','travel','highway','bridge','parking','delay','closure','toll','salik','transport','train','taxi'] },
+  { name: 'Health & Medicine', keywords: ['health','hospital','doctor','medicine','virus','disease','vaccine','dha','mohap','clinic','treatment','mental health','nutrition','fitness','outbreak','patient','surgery','cancer','medical','healthcare','wellness','pharmacy'] },
+  { name: 'Education', keywords: ['school','university','student','teacher','khda','adek','moe','exam','graduation','scholarship','curriculum','admission','campus','education','degree','gems','taaleem','college','learning','academic'] },
+  { name: 'Sport', keywords: ['sport','football','cricket','tennis','golf','national team','al ain','al jazira','dubai fc','world cup','olympics','marathon','cycling','swimming','formula','horse racing','championship','tournament','league','player','coach','stadium','match','score'] },
+  { name: 'Weather & Environment', keywords: ['weather','rain','temperature','humidity','forecast','storm','wind','cloud','sunny','hot','cold','ncm','environment','sustainability','solar','green','recycling','climate','flooding','pollution'] },
+  { name: 'Lifestyle & Entertainment', keywords: ['restaurant','food','cafe','shopping','mall','hotel','tourism','concert','festival','event','exhibition','movie','music','art','culture','fashion','beauty','weekend','dubai frame','burj khalifa','museum','beach','park','leisure','entertainment'] },
+  { name: 'Technology', keywords: ['tech','ai','artificial intelligence','digital','app','software','innovation','smart city','5g','cyber','blockchain','cryptocurrency','robot','automation','gitex','dubai future','fintech','data','internet'] },
+  { name: 'World & Region', keywords: ['iran','israel','lebanon','saudi','qatar','kuwait','bahrain','oman','egypt','jordan','syria','iraq','yemen','gaza','palestine','regional','international','global','world','foreign','overseas','un','nato','opec','arab league'] },
+  { name: 'Community', keywords: ['expat','resident','golden visa','citizenship','community','social','family','children','women','charity','volunteer','mosque','church','temple','ramadan','eid','celebration','housing','landlord','tenant'] },
+];
+
+function categorizeArticle(title, summary) {
+  const text = `${title || ''} ${summary || ''}`.toLowerCase();
+  let bestCategory = 'General News';
+  let bestCount = 0;
+  for (const rule of CATEGORY_RULES) {
+    let count = 0;
+    for (const kw of rule.keywords) {
+      if (text.includes(kw)) count++;
+    }
+    if (count > bestCount) {
+      bestCount = count;
+      bestCategory = rule.name;
+    }
+  }
+  return bestCategory;
+}
+
 // ─── Cache plumbing ───────────────────────────────────────────────────────────
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 min — serve stale, rebuild in background
@@ -596,6 +629,14 @@ async function performBuild() {
       item.rewriteFailed = true;
     }
   });
+
+  // ── Smart categorization (uses calm titles for best accuracy) ────────────
+  for (const item of deduped) {
+    item.category = categorizeArticle(
+      item.calmTitle || item.title || '',
+      item.calmSummary || item.description || ''
+    );
+  }
 
   // ── Persist all processed articles to Supabase (archive) ─────────────────
   persistArticles(deduped.slice(0, 40)).catch(() => {});

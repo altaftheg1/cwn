@@ -166,19 +166,20 @@
     nav.main-nav{
       display:flex;
       align-items:center;
-      gap:24px;
+      gap:14px;
       flex:1;
       justify-content:center;
     }
     nav.main-nav a{
       color:#FFFFFF;
       text-decoration:none;
-      font-size:13px;
+      font-size:12px;
       font-weight:500;
-      letter-spacing:0.02em;
+      letter-spacing:0.01em;
       padding:4px 0 6px 0;
       border-bottom:3px solid transparent;
       transition:border-color 0.2s ease;
+      white-space:nowrap;
     }
     nav.main-nav a:hover,
     nav.main-nav a.active{
@@ -1367,6 +1368,15 @@
         display:block;
         background:var(--red);
         padding:8px 14px 10px;
+        width:100%;
+        max-width:100vw;
+        box-sizing:border-box;
+        overflow:hidden;
+      }
+      .mobile-search-wrap{
+        width:100%;
+        box-sizing:border-box;
+        max-width:100%;
       }
     }
 
@@ -1519,7 +1529,7 @@
 
       /* Footer */
       footer{ padding:28px 16px 20px; }
-      .footer-grid{ grid-template-columns:1fr; gap:24px; }
+      .footer-content{ grid-template-columns:1fr; gap:20px; }
       .footer-section{ min-width:0; }
       .footer-section h3{ font-size:14px; }
       .footer-bottom{
@@ -2063,6 +2073,189 @@
     html[dir="rtl"] .otg-form-meta{justify-content:flex-start;}
     /* Script-specific fonts applied via JS body style */
   </style>
+
+  <!-- ===== DARK MODE + CATEGORY SECTIONS ===== -->
+  <style>
+    /* Dark mode toggle button */
+    .dark-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      padding: 5px 9px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      line-height: 1;
+      min-width: 34px;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .dark-toggle:hover { border-color: rgba(255,255,255,0.9); }
+
+    /* ── Dark mode variables & overrides ─────────────────────────────────── */
+    body.dark { background: #0A0A0A; color: #F0F0F0; }
+    body.dark .app-shell { background: #0A0A0A; }
+    body.dark header { background: #111111; border-bottom-color: #000; }
+    body.dark .utility-bar { background: #111111; }
+    body.dark .ticker-bar { background: #111111; }
+    body.dark .mobile-search-bar { background: #111111; }
+    body.dark .mobile-search-input { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #F0F0F0; }
+    body.dark .mobile-search-input::placeholder { color: rgba(255,255,255,0.4); }
+    body.dark .topic-filters { background: #1A1A1A; border-color: #2A2A2A; }
+    body.dark .filter-pill { background: #1A1A1A; border-color: #2A2A2A; color: #F0F0F0; }
+    body.dark .filter-pill:hover { border-color: var(--red); color: var(--red); }
+    body.dark .filter-pill.active { background: var(--red); border-color: var(--red); color: #fff; }
+    body.dark .main-content { background: #0A0A0A; }
+    body.dark .section-divider { background: #2A2A2A; }
+    body.dark .section-label { color: #F0F0F0; }
+    body.dark .section-meta { color: #888888; }
+
+    /* Cards */
+    body.dark .hero-main,
+    body.dark .side-story,
+    body.dark .story-card,
+    body.dark .more-story,
+    body.dark .widget,
+    body.dark .otg-form-card,
+    body.dark .otg-post-card,
+    body.dark .cat-section-card { background: #1A1A1A; border-color: #2A2A2A; }
+
+    /* Text */
+    body.dark .hero-title,
+    body.dark .side-title,
+    body.dark .story-title,
+    body.dark .more-headline,
+    body.dark .cat-section-card-title,
+    body.dark .cat-section-title { color: #F0F0F0; }
+    body.dark .hero-deck,
+    body.dark .story-deck,
+    body.dark .side-deck,
+    body.dark .cat-section-card-meta { color: #888888; }
+    body.dark .hero-source,
+    body.dark .hero-time,
+    body.dark .side-time,
+    body.dark .story-time,
+    body.dark .more-time { color: #888888; }
+    body.dark .hero-footer,
+    body.dark .story-footer { border-color: #2A2A2A; }
+    body.dark .trending-item { border-color: #2A2A2A; }
+    body.dark .more-story { background: #1A1A1A; border-color: #2A2A2A; }
+    body.dark .more-category { background: rgba(200,16,46,0.15); color: #ff6b6b; }
+    body.dark .more-headline { color: #F0F0F0; }
+    body.dark .more-time { color: #888888; }
+
+    /* Footer */
+    body.dark footer { background: #111111; }
+    body.dark .footer-bottom { border-color: rgba(255,255,255,0.08); }
+
+    /* Inputs */
+    body.dark .otg-textarea,
+    body.dark .otg-select,
+    body.dark .otg-input,
+    body.dark .otg-search-input { background: #0A0A0A; border-color: #2A2A2A; color: #F0F0F0; }
+    body.dark .otg-textarea:focus,
+    body.dark .otg-select:focus,
+    body.dark .otg-input:focus,
+    body.dark .otg-search-input:focus { border-color: var(--red); }
+    body.dark .otg-toggle { background: #1A1A1A; border-color: #2A2A2A; color: #888; }
+    body.dark .otg-load-more-btn { background: #1A1A1A; border-color: #2A2A2A; color: #F0F0F0; }
+
+    /* Modal */
+    body.dark .cwn-modal-card { background: #1A1A1A; }
+    body.dark .cwn-modal-title,
+    body.dark .cwn-modal-subtitle { color: #F0F0F0; }
+    body.dark .cwn-topic-card { color: #F0F0F0; background: #0A0A0A; border-color: #2A2A2A; }
+    body.dark .cwn-timing-card { background: #0A0A0A; border-color: #2A2A2A; }
+    body.dark .cwn-timing-head { color: #F0F0F0; }
+    body.dark .cwn-timing-copy { color: #888888; }
+    body.dark .cwn-modal-input { background: #0A0A0A; border-color: #2A2A2A; color: #F0F0F0; }
+    body.dark .cwn-modal-close { background: #0A0A0A; color: #F0F0F0; }
+    body.dark .cwn-summary { background: #0A0A0A; border-color: #2A2A2A; color: #F0F0F0; }
+
+    /* ── Category sections ────────────────────────────────────────────────── */
+    .cat-section { margin-bottom: 40px; }
+    .cat-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    body.dark .cat-section-header { border-color: #2A2A2A; }
+    .cat-section-icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
+    .cat-section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .cat-section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-left: 4px;
+    }
+    body.dark .cat-section-line { background: #2A2A2A; }
+    .cat-section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+    .cat-section-more {
+      float: right;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      text-decoration: none;
+      padding: 4px 0;
+    }
+    .cat-section-more:hover { color: var(--red-dark); text-decoration: underline; }
+    .cat-section-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .cat-section-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .cat-section-card-img {
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    .cat-section-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cat-section-card-body { padding: 12px; flex: 1; }
+    .cat-section-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .cat-section-card-meta { font-size: 10.5px; color: var(--ink-light); }
+    .cat-section-clearfix::after { content: ''; display: table; clear: both; }
+
+    @media (max-width: 768px) {
+      .cat-section-grid { grid-template-columns: 1fr; gap: 10px; }
+    }
+    @media (max-width: 1024px) {
+      .cat-section-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
 </head>
 <body>
   <!-- Google Translate widget (hidden, required for API) -->
@@ -2118,12 +2311,19 @@
           </div>
         </a>
         <nav class="main-nav">
-          <a href="#" class="active">Home</a>
-          <a href="#" onclick="filterByCategory('Safety',null); return false;">Safety</a>
-          <a href="#" onclick="filterByCategory('Government',null); return false;">Government</a>
-          <a href="#" onclick="filterByCategory('Business',null); return false;">Business</a>
-          <a href="#" onclick="filterByCategory('Health &amp; Education',null); return false;">Health</a>
-          <a href="#" onclick="filterByCategory('Lifestyle',null); return false;">Lifestyle</a>
+          <a href="#" data-cat="all" class="active" onclick="filterByCategory('all',null);return false;">Home</a>
+          <a href="#" data-cat="Safety &amp; Security" onclick="filterByCategory('Safety & Security',null);return false;">Safety</a>
+          <a href="#" data-cat="Government &amp; Politics" onclick="filterByCategory('Government & Politics',null);return false;">Gov</a>
+          <a href="#" data-cat="Business &amp; Finance" onclick="filterByCategory('Business & Finance',null);return false;">Business</a>
+          <a href="#" data-cat="Transport &amp; Travel" onclick="filterByCategory('Transport & Travel',null);return false;">Transport</a>
+          <a href="#" data-cat="Health &amp; Medicine" onclick="filterByCategory('Health & Medicine',null);return false;">Health</a>
+          <a href="#" data-cat="Sport" onclick="filterByCategory('Sport',null);return false;">Sport</a>
+          <a href="#" data-cat="Weather &amp; Environment" onclick="filterByCategory('Weather & Environment',null);return false;">Weather</a>
+          <a href="#" data-cat="Lifestyle &amp; Entertainment" onclick="filterByCategory('Lifestyle & Entertainment',null);return false;">Lifestyle</a>
+          <a href="#" data-cat="Technology" onclick="filterByCategory('Technology',null);return false;">Tech</a>
+          <a href="#" data-cat="World &amp; Region" onclick="filterByCategory('World & Region',null);return false;">World</a>
+          <a href="#" data-cat="Community" onclick="filterByCategory('Community',null);return false;">Community</a>
+          <a href="/archive">Archive</a>
         </nav>
         <div class="header-controls">
           <div class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
@@ -2132,6 +2332,7 @@
           </div>
           <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
           <button id="notifyBtn" class="notify-btn">🔔 Notify me</button>
+          <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
           <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
         </div>
       </div>
@@ -2144,16 +2345,21 @@
     </div>
     <!-- Mobile nav dropdown (toggled by hamburger) -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-      <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;">Home</a>
-      <a href="#" onclick="filterByCategory('Safety',null);closeMobileNav();return false;">Safety</a>
-      <a href="#" onclick="filterByCategory('Government',null);closeMobileNav();return false;">Government</a>
-      <a href="#" onclick="filterByCategory('Business',null);closeMobileNav();return false;">Business</a>
-      <a href="#" onclick="filterByCategory('Health &amp; Education',null);closeMobileNav();return false;">Health</a>
-      <a href="#" onclick="filterByCategory('Lifestyle',null);closeMobileNav();return false;">Lifestyle</a>
+      <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;">🗞️ All News</a>
+      <a href="#" onclick="filterByCategory('Safety & Security',null);closeMobileNav();return false;">🛡️ Safety &amp; Security</a>
+      <a href="#" onclick="filterByCategory('Government & Politics',null);closeMobileNav();return false;">🏛️ Government</a>
+      <a href="#" onclick="filterByCategory('Business & Finance',null);closeMobileNav();return false;">💰 Business &amp; Finance</a>
+      <a href="#" onclick="filterByCategory('Transport & Travel',null);closeMobileNav();return false;">✈️ Transport &amp; Travel</a>
+      <a href="#" onclick="filterByCategory('Health & Medicine',null);closeMobileNav();return false;">🏥 Health</a>
+      <a href="#" onclick="filterByCategory('Education',null);closeMobileNav();return false;">📚 Education</a>
+      <a href="#" onclick="filterByCategory('Sport',null);closeMobileNav();return false;">⚽ Sport</a>
+      <a href="#" onclick="filterByCategory('Weather & Environment',null);closeMobileNav();return false;">🌤️ Weather</a>
+      <a href="#" onclick="filterByCategory('Lifestyle & Entertainment',null);closeMobileNav();return false;">🎭 Lifestyle</a>
+      <a href="#" onclick="filterByCategory('Technology',null);closeMobileNav();return false;">💻 Tech</a>
+      <a href="#" onclick="filterByCategory('World & Region',null);closeMobileNav();return false;">🌍 World &amp; Region</a>
+      <a href="#" onclick="filterByCategory('Community',null);closeMobileNav();return false;">👥 Community</a>
+      <a href="/archive">📁 Archive</a>
       <a href="/about.html">About</a>
-      <a href="/sources.html">Sources</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/status.html">Status</a>
     </div>
 
     <!-- Live Ticker -->
@@ -2170,14 +2376,19 @@
     <!-- Topic Filters -->
     <div class="topic-filters">
       <div class="filter-pills" id="filterPills">
-        <button class="filter-pill active" data-cat="all" onclick="filterByCategory('all',this);">All</button>
-        <button class="filter-pill" data-cat="Government" onclick="filterByCategory('Government',this);">Government</button>
-        <button class="filter-pill" data-cat="General News" onclick="filterByCategory('General News',this);">General</button>
-        <button class="filter-pill" data-cat="Business" onclick="filterByCategory('Business',this);">Business</button>
-        <button class="filter-pill" data-cat="Safety" onclick="filterByCategory('Safety',this);">Safety</button>
-        <button class="filter-pill" data-cat="Health &amp; Education" onclick="filterByCategory('Health &amp; Education',this);">Health</button>
-        <button class="filter-pill" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',this);">Lifestyle</button>
-        <button class="filter-pill" data-cat="Media" onclick="filterByCategory('Media',this);">Media</button>
+        <button class="filter-pill active" data-cat="all" onclick="filterByCategory('all',this);">🗞️ All</button>
+        <button class="filter-pill" data-cat="Safety &amp; Security" onclick="filterByCategory('Safety & Security',this);">🛡️ Safety</button>
+        <button class="filter-pill" data-cat="Government &amp; Politics" onclick="filterByCategory('Government & Politics',this);">🏛️ Government</button>
+        <button class="filter-pill" data-cat="Business &amp; Finance" onclick="filterByCategory('Business & Finance',this);">💰 Business</button>
+        <button class="filter-pill" data-cat="Transport &amp; Travel" onclick="filterByCategory('Transport & Travel',this);">✈️ Transport</button>
+        <button class="filter-pill" data-cat="Health &amp; Medicine" onclick="filterByCategory('Health & Medicine',this);">🏥 Health</button>
+        <button class="filter-pill" data-cat="Education" onclick="filterByCategory('Education',this);">📚 Education</button>
+        <button class="filter-pill" data-cat="Sport" onclick="filterByCategory('Sport',this);">⚽ Sport</button>
+        <button class="filter-pill" data-cat="Weather &amp; Environment" onclick="filterByCategory('Weather & Environment',this);">🌤️ Weather</button>
+        <button class="filter-pill" data-cat="Lifestyle &amp; Entertainment" onclick="filterByCategory('Lifestyle & Entertainment',this);">🎭 Lifestyle</button>
+        <button class="filter-pill" data-cat="Technology" onclick="filterByCategory('Technology',this);">💻 Tech</button>
+        <button class="filter-pill" data-cat="World &amp; Region" onclick="filterByCategory('World & Region',this);">🌍 World</button>
+        <button class="filter-pill" data-cat="Community" onclick="filterByCategory('Community',this);">👥 Community</button>
       </div>
     </div>
 
@@ -2203,6 +2414,9 @@
         </div>
         <div class="more-stories-list" id="moreStoriesList"></div>
       </div>
+
+      <!-- Category sections (homepage only) -->
+      <div id="categorySections"></div>
 
       <!-- ===== ON THE GROUND — Community Section ===== -->
       <section class="otg-section" id="onTheGround" aria-label="On The Ground community reports">
@@ -2560,51 +2774,57 @@
         const catMatch = currentCategory === 'all' || (item.category || '') === currentCategory;
         const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
         return catMatch && search;
-      }).slice(0, 20);
+      }).slice(0, 50);
 
-      // Hero grid: item 0 = hero, items 1-2 = sides
-      if (items.length > 0) {
-        const hero = items[0];
-        const heroHTML = `
-          <div class="hero-main" onclick="location.href='/article-view.html?id=${encodeURIComponent(hero.id)}'">
-            <div class="hero-image">
-              ${hero.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(hero.imageUrl)}" alt="" style="object-fit:cover;width:100%;height:100%;" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${gradientForTopic(hero.topic)}';" />` : `<div style="width:100%;height:100%;background:${gradientForTopic(hero.topic)};"></div>`}
-            </div>
-            <div class="hero-content">
-              <div class="hero-meta">
-                <div class="hero-category">${(hero.category || hero.topic || '').toUpperCase()}</div>
-                <div class="hero-source">${hero.sourceName || 'Official'}</div>
-              </div>
-              <h1 class="hero-title">${hero.calmTitle || hero.title || 'Update'}</h1>
-              <p class="hero-deck">${hero.calmSummary || ''}</p>
-              ${hero.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${hero.residentImpact}</div>` : ''}
-              ${hero.alsoReportedBy && hero.alsoReportedBy.length ? `<div style="font-size:11px;color:#888;margin-top:4px;">Also reported by: ${hero.alsoReportedBy.join(', ')}</div>` : ''}
-              <div class="hero-footer">
-                <span class="hero-time" title="${uaeExactTime(hero.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(hero.publishedAt)}</span>
-                <a href="${hero.url || '#'}" class="hero-link" target="_blank">Read full →</a>
-              </div>
-            </div>
-          </div>
-        `;
-        const sidesHTML = items.slice(1, 3).map((item, i) => `
-          <div class="side-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
-            <div class="side-thumb" style="background:${item.imageUrl ? '' : gradientForTopic(item.topic)}">
-              ${item.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" />` : ``}
-              <div class="side-number">0${i + 2}</div>
-            </div>
-            <div class="side-text">
-              <div class="side-category">${(item.category || item.topic || '').toUpperCase()}</div>
-              <h3 class="side-title">${item.calmTitle || item.title}</h3>
-              <p class="side-deck">${item.calmSummary || ''}</p>
-              <div class="side-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</div>
-            </div>
-          </div>
-        `).join('');
-        document.getElementById('heroGrid').innerHTML = `${heroHTML}<div class="hero-sides">${sidesHTML}</div>`;
+      const catSecEl = document.getElementById('categorySections');
+
+      if (!items.length) {
+        document.getElementById('heroGrid').innerHTML = '<div class="hero-main" style="padding:24px;"><p style="color:var(--ink-light);font-family:\'DM Sans\',sans-serif;">No stories match your filter. Check back soon.</p></div>';
+        document.getElementById('storyGrid').innerHTML = '';
+        document.getElementById('moreStoriesList').innerHTML = '';
+        if (catSecEl) catSecEl.innerHTML = '';
+        return;
       }
 
-      // Story cards: items 3-8 (3-column grid)
-      const cardHTML = items.slice(3, 9).map(item => `
+      // ── Hero: item[0] + sides item[1-2] ────────────────────────────────────
+      const hero = items[0];
+      const heroHTML = `
+        <div class="hero-main" onclick="location.href='/article-view.html?id=${encodeURIComponent(hero.id)}'">
+          <div class="hero-image">
+            ${hero.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(hero.imageUrl)}" alt="" style="object-fit:cover;width:100%;height:100%;" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${gradientForTopic(hero.topic)}';" />` : `<div style="width:100%;height:100%;background:${gradientForTopic(hero.topic)};"></div>`}
+          </div>
+          <div class="hero-content">
+            <div class="hero-meta">
+              <div class="hero-category">${(hero.category || hero.topic || '').toUpperCase()}</div>
+              <div class="hero-source">${hero.sourceName || 'Official'}</div>
+            </div>
+            <h1 class="hero-title">${hero.calmTitle || hero.title || 'Update'}</h1>
+            <p class="hero-deck">${hero.calmSummary || ''}</p>
+            ${hero.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${hero.residentImpact}</div>` : ''}
+            ${hero.alsoReportedBy && hero.alsoReportedBy.length ? `<div style="font-size:11px;color:#888;margin-top:4px;">Also reported by: ${hero.alsoReportedBy.join(', ')}</div>` : ''}
+            <div class="hero-footer">
+              <span class="hero-time" title="${uaeExactTime(hero.publishedAt)} UAE time">🕐 ${relativeTime(hero.publishedAt)}</span>
+              <a href="${hero.url || '#'}" class="hero-link" target="_blank">Read full →</a>
+            </div>
+          </div>
+        </div>`;
+      const sidesHTML = items.slice(1, 3).map((item, i) => `
+        <div class="side-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+          <div class="side-thumb" style="background:${item.imageUrl ? '' : gradientForTopic(item.topic)}">
+            ${item.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" />` : ''}
+            <div class="side-number">0${i + 2}</div>
+          </div>
+          <div class="side-text">
+            <div class="side-category">${(item.category || item.topic || '').toUpperCase()}</div>
+            <h3 class="side-title">${item.calmTitle || item.title}</h3>
+            <p class="side-deck">${item.calmSummary || ''}</p>
+            <div class="side-time" title="${uaeExactTime(item.publishedAt)} UAE time">🕐 ${relativeTime(item.publishedAt)}</div>
+          </div>
+        </div>`).join('');
+      document.getElementById('heroGrid').innerHTML = `${heroHTML}<div class="hero-sides">${sidesHTML}</div>`;
+
+      // ── Top 3 story cards below hero: items[3-5] ───────────────────────────
+      const cardHTML = items.slice(3, 6).map(item => `
         <article class="story-card" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
           ${imageHtml(item)}
           <div class="story-content">
@@ -2614,37 +2834,40 @@
             ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${item.residentImpact}</div>` : ''}
             ${item.alsoReportedBy && item.alsoReportedBy.length ? `<div style="font-size:11px;color:#999;margin-top:3px;">+${item.alsoReportedBy.length} more source${item.alsoReportedBy.length > 1 ? 's' : ''}</div>` : ''}
             <div class="story-footer">
-              <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
+              <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time">🕐 ${relativeTime(item.publishedAt)}</span>
               <span class="story-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
-              ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
             </div>
           </div>
-        </article>
-      `).join('');
+        </article>`).join('');
       document.getElementById('storyGrid').innerHTML = cardHTML;
 
-      // More stories: items 9+ (2-col list)
-      const moreHTML = items.slice(9).map((item, i) => `
-        <div class="more-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
-          <div class="more-thumb">
-            ${item.imageUrl
-              ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
-              : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`
-            }
-          </div>
-          <div class="more-text">
-            <h4 class="more-headline">${item.calmTitle || item.title}</h4>
-            <div class="more-meta">
-              <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
-              <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
-              <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time">\uD83D\uDD50 ${relativeTime(item.publishedAt)}</span>
-              ${item.rewriteFailed ? '<span style="color:#888;font-size:12px;margin-left:4px;">•</span>' : ''}
-            </div>
-            ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${item.residentImpact}</div>` : ''}
-          </div>
-        </div>
-      `).join('');
-      document.getElementById('moreStoriesList').innerHTML = moreHTML;
+      // ── Homepage: category sections | Filtered: flat more-stories list ──────
+      if (catSecEl) {
+        if (currentCategory === 'all' && !currentSearch) {
+          catSecEl.innerHTML = renderCategorySectionsHTML(items.slice(6));
+          document.getElementById('moreStoriesList').innerHTML = '';
+        } else {
+          catSecEl.innerHTML = '';
+          const moreHTML = items.slice(6).map(item => `
+            <div class="more-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+              <div class="more-thumb">
+                ${item.imageUrl
+                  ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
+                  : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`}
+              </div>
+              <div class="more-text">
+                <h4 class="more-headline">${item.calmTitle || item.title}</h4>
+                <div class="more-meta">
+                  <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
+                  <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
+                  <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time">🕐 ${relativeTime(item.publishedAt)}</span>
+                </div>
+                ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;">🏠 ${item.residentImpact}</div>` : ''}
+              </div>
+            </div>`).join('');
+          document.getElementById('moreStoriesList').innerHTML = moreHTML;
+        }
+      }
     }
 
     function populateTicker() {
@@ -2665,23 +2888,105 @@
       document.getElementById('lastUpdated').textContent = `Last updated: ${t}`;
     }
 
+    // ── Category icons & order ────────────────────────────────────────────────
+    const CAT_ICONS = {
+      'Safety & Security': '🛡️',
+      'Government & Politics': '🏛️',
+      'Business & Finance': '💰',
+      'Transport & Travel': '✈️',
+      'Health & Medicine': '🏥',
+      'Education': '📚',
+      'Sport': '⚽',
+      'Weather & Environment': '🌤️',
+      'Lifestyle & Entertainment': '🎭',
+      'Technology': '💻',
+      'World & Region': '🌍',
+      'Community': '👥',
+      'General News': '📰',
+      // Legacy
+      'Government': '🏛️', 'Business': '💰', 'Safety': '🛡️',
+      'Health & Education': '🏥', 'Lifestyle': '🎭', 'Media': '📺',
+    };
+    const CAT_ORDER = [
+      'Safety & Security','Government & Politics','Business & Finance',
+      'Transport & Travel','Health & Medicine','Education','Sport',
+      'Weather & Environment','Lifestyle & Entertainment','Technology',
+      'World & Region','Community','General News',
+      'Government','Business','Safety','Health & Education','Lifestyle','Media',
+    ];
+
     function filterByTopic(topic) {
-      // Legacy — kept for any old callers
       currentFilter = topic;
       renderContent();
     }
 
     function filterByCategory(cat, btnEl) {
       currentCategory = cat;
+      // Update filter pills
       document.querySelectorAll('#filterPills .filter-pill').forEach(p => p.classList.remove('active'));
       if (btnEl) {
         btnEl.classList.add('active');
       } else {
-        // Try to find the matching pill by data-cat
-        const match = document.querySelector(`#filterPills .filter-pill[data-cat="${CSS.escape ? CSS.escape(cat) : cat}"]`);
+        const esc = cat.replace(/[&]/g, '\\&');
+        const match = document.querySelector(`#filterPills .filter-pill[data-cat="${cat}"]`);
         if (match) match.classList.add('active');
+        else {
+          // Fallback: match by encoded value
+          const all = document.querySelectorAll('#filterPills .filter-pill');
+          all.forEach(p => { if (p.dataset.cat === cat) p.classList.add('active'); });
+        }
       }
+      // Update desktop nav links
+      document.querySelectorAll('nav.main-nav a[data-cat]').forEach(a => {
+        a.classList.toggle('active', a.dataset.cat === cat);
+      });
       renderContent();
+    }
+
+    // ── Category section renderer ─────────────────────────────────────────────
+    function renderCategorySectionsHTML(items) {
+      if (!items.length) return '';
+      // Group by category
+      const groups = {};
+      for (const item of items) {
+        const cat = item.category || 'General News';
+        if (!groups[cat]) groups[cat] = [];
+        groups[cat].push(item);
+      }
+      const orderedCats = CAT_ORDER.filter(c => groups[c] && groups[c].length);
+      Object.keys(groups).forEach(c => { if (!orderedCats.includes(c)) orderedCats.push(c); });
+
+      return orderedCats.map(cat => {
+        const catItems = groups[cat].slice(0, 3);
+        const icon = CAT_ICONS[cat] || '📰';
+        const escapedCat = cat.replace(/'/g, "\\'");
+        const cards = catItems.map(item => {
+          const grad = gradientForTopic(item.topic);
+          const imgPart = item.imageUrl
+            ? `<div class="cat-section-card-img"><img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" loading="lazy" onerror="this.onerror=null;this.parentNode.style.background='${grad}';this.style.display='none';"></div>`
+            : `<div class="cat-section-card-img" style="background:${grad};"></div>`;
+          return `<div class="cat-section-card" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+            ${imgPart}
+            <div class="cat-section-card-body">
+              <div class="cat-section-card-title">${item.calmTitle || item.title || ''}</div>
+              <div class="cat-section-card-meta">${item.sourceName || ''} · ${relativeTime(item.publishedAt)}</div>
+              ${item.residentImpact ? `<div style="border-left:2px solid #C8102E;padding:3px 6px;margin-top:5px;font-size:11px;font-style:italic;color:var(--ink-light);">🏠 ${item.residentImpact}</div>` : ''}
+            </div>
+          </div>`;
+        }).join('');
+
+        return `<div class="cat-section">
+          <div class="cat-section-header">
+            <span class="cat-section-icon">${icon}</span>
+            <span class="cat-section-title">${cat.toUpperCase()}</span>
+            <div class="cat-section-line"></div>
+          </div>
+          <div class="cat-section-grid">${cards}</div>
+          <div class="cat-section-clearfix">
+            <a href="#" class="cat-section-more" onclick="filterByCategory('${escapedCat}',null);window.scrollTo(0,0);return false;">See all ${cat} news →</a>
+          </div>
+        </div>`;
+      }).join('');
     }
 
     // Search
@@ -2948,6 +3253,22 @@
     footerSubscribeBtn?.addEventListener('click', () => openSubscribeModal(String(footerEmailInput?.value || '').trim()));
     document.getElementById('cwnSubscribeClose')?.addEventListener('click', closeSubscribeModal);
     document.getElementById('cwnSubscribeOverlay')?.addEventListener('click', closeSubscribeModal);
+
+    // ── Dark mode ─────────────────────────────────────────────────────────────
+    (function() {
+      const toggle = document.getElementById('darkToggle');
+      if (!toggle) return;
+      function applyDark(dark) {
+        document.body.classList.toggle('dark', dark);
+        toggle.textContent = dark ? '☀️' : '🌙';
+      }
+      applyDark(localStorage.getItem('theme') === 'dark');
+      toggle.addEventListener('click', function() {
+        const dark = !document.body.classList.contains('dark');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        applyDark(dark);
+      });
+    })();
 
     // Initial load + refresh every 30s
     loadNews();

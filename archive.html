@@ -67,6 +67,34 @@
       padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color .2s;
     }
     nav.main-nav a:hover,nav.main-nav a.active{border-bottom-color:#fff;}
+    .dark-toggle{
+      background:none;border:1px solid rgba(255,255,255,0.4);color:#fff;
+      padding:5px 9px;border-radius:4px;font-size:16px;cursor:pointer;
+      line-height:1;min-width:34px;min-height:34px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .dark-toggle:hover{border-color:rgba(255,255,255,0.9);}
+    /* Dark mode */
+    body.dark{background:#0A0A0A;color:#F0F0F0;}
+    body.dark header{background:#111111;border-bottom-color:#000;}
+    body.dark .filters-card{background:#1A1A1A;border-color:#2A2A2A;}
+    body.dark .filter-group input,body.dark .filter-group select{background:#0A0A0A;border-color:#2A2A2A;color:#F0F0F0;}
+    body.dark .filter-group label{color:#888888;}
+    body.dark .arc-card{background:#1A1A1A;border-color:#2A2A2A;}
+    body.dark .arc-headline{color:#F0F0F0;}
+    body.dark .arc-summary{color:#888888;}
+    body.dark .arc-date,body.dark .arc-source{color:#888888;}
+    body.dark .arc-impact{border-color:#2A2A2A;color:#888888;}
+    body.dark .results-meta{color:#888888;}
+    body.dark .results-meta strong{color:#F0F0F0;}
+    body.dark .page-btn{background:#1A1A1A;border-color:#2A2A2A;color:#F0F0F0;}
+    body.dark .page-btn:hover:not(:disabled){background:#2A2A2A;}
+    body.dark .page-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+    body.dark .archive-header h1{color:#F0F0F0;}
+    body.dark .archive-header p{color:#888888;}
+    body.dark .state-box{color:#888888;}
+    body.dark .btn-clear{color:#888888;border-color:#2A2A2A;}
+    body.dark .btn-clear:hover{color:var(--red);border-color:var(--red);}
 
     /* ── PAGE WRAPPER ── */
     .page-wrapper{
@@ -289,6 +317,7 @@
       <a href="/">Home</a>
       <a href="/archive" class="active">Archive</a>
     </nav>
+    <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
   </div>
 </header>
 
@@ -309,17 +338,19 @@
         <label>Category</label>
         <select id="category">
           <option value="">All categories</option>
-          <option value="Government">Government</option>
-          <option value="Business">Business</option>
-          <option value="Infrastructure">Infrastructure</option>
-          <option value="Health">Health</option>
-          <option value="Community">Community</option>
-          <option value="Weather">Weather</option>
-          <option value="Technology">Technology</option>
-          <option value="Culture">Culture</option>
-          <option value="Sports">Sports</option>
-          <option value="Environment">Environment</option>
-          <option value="General">General</option>
+          <option value="Safety &amp; Security">🛡️ Safety &amp; Security</option>
+          <option value="Government &amp; Politics">🏛️ Government &amp; Politics</option>
+          <option value="Business &amp; Finance">💰 Business &amp; Finance</option>
+          <option value="Transport &amp; Travel">✈️ Transport &amp; Travel</option>
+          <option value="Health &amp; Medicine">🏥 Health &amp; Medicine</option>
+          <option value="Education">📚 Education</option>
+          <option value="Sport">⚽ Sport</option>
+          <option value="Weather &amp; Environment">🌤️ Weather &amp; Environment</option>
+          <option value="Lifestyle &amp; Entertainment">🎭 Lifestyle &amp; Entertainment</option>
+          <option value="Technology">💻 Technology</option>
+          <option value="World &amp; Region">🌍 World &amp; Region</option>
+          <option value="Community">👥 Community</option>
+          <option value="General News">📰 General News</option>
         </select>
       </div>
       <div class="filter-group">
@@ -547,6 +578,22 @@
   }
 
 })();
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('darkToggle');
+  if(!toggle) return;
+  function applyDark(dark){
+    document.body.classList.toggle('dark', dark);
+    toggle.textContent = dark ? '☀️' : '🌙';
+  }
+  applyDark(localStorage.getItem('theme') === 'dark');
+  toggle.addEventListener('click', function(){
+    var dark = !document.body.classList.contains('dark');
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+    applyDark(dark);
+  });
+}());
 </script>
 </body>
 </html>
