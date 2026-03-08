@@ -121,7 +121,7 @@
       height:64px;
       display:flex;
       align-items:center;
-      position:relative;  /* needed for absolute-centered nav */
+      justify-content:space-between;
     }
     /* Left section */
     .navbar-left{
@@ -213,8 +213,9 @@
       color:#FFFFFF;
     }
 
-    /* Legacy nav.main-nav — kept for RTL dir overrides only, not used in layout */
+    /* Legacy — not used in layout */
     nav.main-nav{ display:none; }
+    .navbar-center{ display:none; }
 
     .header-controls{
       display:flex;
@@ -338,6 +339,50 @@
       color:var(--red);
       font-size:10px;
     }
+
+    /* ===== SUBNAV BAR (below ticker) ===== */
+    .subnav-bar{
+      background:#FFFFFF;
+      border-bottom:2px solid var(--border);
+      position:sticky;
+      top:67px; /* height of main header */
+      z-index:90;
+    }
+    .subnav-inner{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 24px;
+      display:flex;
+      align-items:center;
+      gap:0;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+    .subnav-inner::-webkit-scrollbar{ display:none; }
+    .subnav-link{
+      color:var(--ink-mid);
+      text-decoration:none;
+      font-size:13px;
+      font-weight:500;
+      padding:12px 14px;
+      border-bottom:3px solid transparent;
+      white-space:nowrap;
+      transition:color 0.2s, border-color 0.2s;
+      flex-shrink:0;
+    }
+    .subnav-link:hover{
+      color:var(--red);
+      border-bottom-color:var(--red);
+    }
+    .subnav-link.active{
+      color:var(--red);
+      font-weight:600;
+      border-bottom-color:var(--red);
+    }
+    body.dark .subnav-bar{ background:#111111; border-color:#2A2A2A; }
+    body.dark .subnav-link{ color:#AAAAAA; }
+    body.dark .subnav-link:hover,
+    body.dark .subnav-link.active{ color:#FFFFFF; border-bottom-color:var(--red); }
 
     /* ===== TOPIC FILTER PILLS ===== */
     .topic-filters{
@@ -1478,6 +1523,11 @@
       }
       .hamburger-btn{ display:flex; flex-shrink:0; }
 
+      /* Subnav — horizontal scroll on mobile */
+      .subnav-bar{ top:52px; }
+      .subnav-inner{ padding:0 12px; }
+      .subnav-link{ font-size:12px; padding:10px 10px; }
+
       /* Ticker — speed up on mobile to match desktop feel */
       .ticker-bar{ overflow:hidden; }
       .ticker-content{ overflow:hidden; flex:1; min-width:0; }
@@ -2306,21 +2356,6 @@
             </div>
           </a>
         </div>
-        <nav class="navbar-center">
-          <a href="#" data-cat="all" class="active" onclick="filterByCategory('all',null);return false;">Home</a>
-          <a href="#" data-cat="Safety" onclick="filterByCategory('Safety',null);return false;">Safety</a>
-          <a href="#" data-cat="Government" onclick="filterByCategory('Government',null);return false;">Gov</a>
-          <a href="#" data-cat="Business" onclick="filterByCategory('Business',null);return false;">Business</a>
-          <a href="#" data-cat="Transport" onclick="filterByCategory('Transport',null);return false;">Transport</a>
-          <a href="#" data-cat="Health" onclick="filterByCategory('Health',null);return false;">Health</a>
-          <a href="#" data-cat="Sport" onclick="filterByCategory('Sport',null);return false;">Sport</a>
-          <a href="#" data-cat="Weather" onclick="filterByCategory('Weather',null);return false;">Weather</a>
-          <a href="#" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',null);return false;">Lifestyle</a>
-          <a href="#" data-cat="Technology" onclick="filterByCategory('Technology',null);return false;">Tech</a>
-          <a href="#" data-cat="World" onclick="filterByCategory('World',null);return false;">World</a>
-          <a href="#" data-cat="Community" onclick="filterByCategory('Community',null);return false;">Community</a>
-          <a href="/archive">Archive</a>
-        </nav>
         <div class="navbar-right">
           <div class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
             <div class="live-visitors-dot"></div>
@@ -2369,6 +2404,26 @@
       </div>
     </div>
 
+
+    <!-- Category Navigation Bar -->
+    <nav class="subnav-bar" id="subnavBar">
+      <div class="subnav-inner">
+        <a href="#" class="subnav-link active" data-cat="all" onclick="filterByCategory('all',null);return false;">🗞️ All</a>
+        <a href="#" class="subnav-link" data-cat="Safety" onclick="filterByCategory('Safety',null);return false;">🛡️ Safety</a>
+        <a href="#" class="subnav-link" data-cat="Government" onclick="filterByCategory('Government',null);return false;">🏛️ Gov</a>
+        <a href="#" class="subnav-link" data-cat="Business" onclick="filterByCategory('Business',null);return false;">💰 Business</a>
+        <a href="#" class="subnav-link" data-cat="Transport" onclick="filterByCategory('Transport',null);return false;">✈️ Transport</a>
+        <a href="#" class="subnav-link" data-cat="Health" onclick="filterByCategory('Health',null);return false;">🏥 Health</a>
+        <a href="#" class="subnav-link" data-cat="Education" onclick="filterByCategory('Education',null);return false;">📚 Education</a>
+        <a href="#" class="subnav-link" data-cat="Sport" onclick="filterByCategory('Sport',null);return false;">⚽ Sport</a>
+        <a href="#" class="subnav-link" data-cat="Weather" onclick="filterByCategory('Weather',null);return false;">🌤️ Weather</a>
+        <a href="#" class="subnav-link" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',null);return false;">🎭 Lifestyle</a>
+        <a href="#" class="subnav-link" data-cat="Technology" onclick="filterByCategory('Technology',null);return false;">💻 Tech</a>
+        <a href="#" class="subnav-link" data-cat="World" onclick="filterByCategory('World',null);return false;">🌍 World</a>
+        <a href="#" class="subnav-link" data-cat="Community" onclick="filterByCategory('Community',null);return false;">👥 Community</a>
+        <a href="/archive" class="subnav-link">📁 Archive</a>
+      </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="main-content" id="news-feed">
@@ -2909,7 +2964,7 @@
         }
       }
       // Update desktop nav links
-      document.querySelectorAll('nav.navbar-center a[data-cat]').forEach(a => {
+      document.querySelectorAll('.subnav-link[data-cat]').forEach(a => {
         a.classList.toggle('active', a.dataset.cat === cat);
       });
       renderContent();
