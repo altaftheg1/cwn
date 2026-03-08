@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TheDubaiBrief - UAE</title>
+  <title>TheDubaiBrief — Dubai News</title>
   <script>
     (function() {
       if (localStorage.getItem('theme') === 'dark') {
@@ -286,6 +286,36 @@
     .av-chart-canvas {
       max-height: 280px;
     }
+
+    /* Key Numbers bar (from data_points) */
+    .av-numbers-bar {
+      background: #FFF8E7;
+      border-left: 4px solid #F59E0B;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+    }
+    .av-numbers-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #92400E;
+      margin-bottom: 8px;
+    }
+    .av-numbers-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .av-number-item { display: flex; flex-direction: column; gap: 2px; }
+    .av-number-val { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #1A1208; }
+    .av-number-ctx { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #78350F; }
+    html.dark .av-numbers-bar { background: #1A1500; border-color: #B45309; }
+    html.dark .av-numbers-label { color: #FCD34D; }
+    html.dark .av-number-val { color: #F0F0F0; }
+    html.dark .av-number-ctx { color: #D97706; }
 
     /* Key facts */
     .av-facts-card {
@@ -571,7 +601,7 @@
       </div>
       <div class="cwn-logo-text">
         <div class="cwn-logo-main">TheDubaiBrief</div>
-              <div class="cwn-logo-sub">UAE Official Sources</div>
+              <div class="cwn-logo-sub">Dubai's News. Clear &amp; Calm.</div>
       </div>
     </a>
     <nav class="cwn-main-nav">
@@ -661,6 +691,12 @@
 
       <!-- Body sections -->
       <div id="av-sections"></div>
+
+      <!-- Key Numbers (data_points from news cache) -->
+      <div class="av-numbers-bar" id="av-numbers-bar" style="display:none;">
+        <div class="av-numbers-label">Key Numbers</div>
+        <div class="av-numbers-grid" id="av-numbers-grid"></div>
+      </div>
 
       <!-- Key facts -->
       <div class="av-facts-card" id="av-facts" style="display:none;">
@@ -959,6 +995,23 @@
             animateIn(impactBox, delay); delay += 300;
           }
 
+          // Key Numbers bar (data_points)
+          var dpArr = data.data_points || data.dataPoints;
+          if (dpArr && dpArr.length) {
+            var numbersGrid2 = document.getElementById('av-numbers-grid');
+            if (numbersGrid2) {
+              numbersGrid2.innerHTML = dpArr.slice(0, 6).map(function(p) {
+                return '<div class="av-number-item">'
+                  + '<span class="av-number-val">' + esc(p.value) + (p.unit ? ' <span style="font-size:0.75em;font-weight:400;">' + esc(p.unit) + '</span>' : '') + '</span>'
+                  + '<span class="av-number-ctx">' + esc(p.context || p.label || '') + '</span>'
+                  + '</div>';
+              }).join('');
+              var numbersBarEl = document.getElementById('av-numbers-bar');
+              numbersBarEl.style.display = 'block';
+              animateIn(numbersBarEl, delay); delay += 250;
+            }
+          }
+
           // Divider
           var divider = document.querySelector('.av-divider');
           animateIn(divider, delay); delay += 150;
@@ -1113,6 +1166,19 @@
       if (a.residentImpact) {
         document.getElementById('av-impact-text').textContent = a.residentImpact;
         document.getElementById('av-impact-box').style.display = 'block';
+      }
+
+      if (a.dataPoints && a.dataPoints.length) {
+        var numbersGrid = document.getElementById('av-numbers-grid');
+        if (numbersGrid) {
+          numbersGrid.innerHTML = a.dataPoints.slice(0, 6).map(function(p) {
+            return '<div class="av-number-item">'
+              + '<span class="av-number-val">' + esc(p.value) + (p.unit ? ' <span style="font-size:0.75em;font-weight:400;">' + esc(p.unit) + '</span>' : '') + '</span>'
+              + '<span class="av-number-ctx">' + esc(p.context || p.label || '') + '</span>'
+              + '</div>';
+          }).join('');
+          document.getElementById('av-numbers-bar').style.display = 'block';
+        }
       }
 
       if (a.url) {

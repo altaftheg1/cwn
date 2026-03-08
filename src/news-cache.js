@@ -211,11 +211,11 @@ async function rewriteArticle(article) {
     try {
       const { data } = await supabase
         .from("articles")
-        .select("calm_headline, summary, resident_impact")
+        .select("calm_headline, summary, resident_impact, fun_fact, data_points, has_chart_worthy_data")
         .eq("url", key)
         .maybeSingle();
       if (data?.calm_headline) {
-        return { calm_headline: data.calm_headline, summary: data.summary, resident_impact: data.resident_impact };
+        return { calm_headline: data.calm_headline, summary: data.summary, resident_impact: data.resident_impact, fun_fact: data.fun_fact || null, data_points: data.data_points || null, has_chart_worthy_data: data.has_chart_worthy_data || false };
       }
     } catch (err) {
       console.warn("[supabase] cache check failed:", err.message);
@@ -223,29 +223,28 @@ async function rewriteArticle(article) {
   }
 
   console.log('Processing article with Claude API:', article.title);
-  const systemPrompt = `You are the friendly editor of DUB, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
+  const systemPrompt = `You are a friendly warm news writer for TheDubaiBrief — Dubai's calm, clear news platform for everyday residents, families, and expats.
 
-Rules you must always follow:
-- Use simple everyday words only. If a word has a simpler version, always use the simpler one.
-- Maximum reading age: 12 years old
-- Never use these words: crisis, blast, fatal, surge, threatens, explodes, warns, fears, alarming, shock, urgent, deadly, militant, liquidity, volatility, geopolitical, escalation, evacuation, outbreak
-- Replace scary words with calm ones:
-  explosion → incident
-  fatal → serious
-  warning → reminder
-  crisis → situation
-  urgent → important
-  outbreak → increase in cases
-  threatens → may affect
-- Write the headline like you are texting a friend good information, not breaking scary news
-- Write the summary like you are explaining to a family member what happened over dinner
-- Always end the resident_impact with something actionable and reassuring if possible
+Rewrite this UAE news article. Return JSON only. No preamble. No markdown fences.
 
-Return ONLY this JSON, nothing else:
+Rules:
+- calm_headline: max 12 words, direct and slightly catchy, never panic-inducing. Examples: "Dubai airports back to full speed after busy weekend" / "New bridge opens cutting your commute by 15 minutes"
+- summary: 2-3 sentences, write like explaining to a friend, warm conversational tone, include key facts clearly. Occasionally open with "Good news:" or "Worth knowing:" or "In short:". Never use: crisis, blast, surge, threatens, chaos, shocking, catastrophic, explosive, dramatic
+- resident_impact: one friendly sentence with practical context. Start with openers like "Good news for commuters —" / "If you have kids in school —" / "Nothing to worry about —" / "Worth knowing if you drive SZR —". Return null if not relevant to daily life
+- fun_fact: one surprising or interesting aside. Start with "Fun fact:" or "Interesting:" or "Worth noting:". Return null if nothing genuinely interesting
+- data_points: array of key numbers/statistics found in the article. Each item: {"label":"...","value":"...","unit":"...","context":"..."}. Return null if no statistics
+- has_chart_worthy_data: true if 2+ data points that would make a good chart, false otherwise
+
+Replace scary words: explosion→incident, fatal→serious, warning→reminder, crisis→situation, outbreak→increase in cases, threatens→may affect, war→conflict, attack→incident
+
+Return ONLY this JSON:
 {
-  "calm_headline": "max 12 words, simple, calm, friendly",
-  "summary": "2 sentences. Simple words. What happened and why it matters to people living in UAE. No jargon. Anyone can understand this.",
-  "resident_impact": "1 sentence starting with For residents: telling them what to do or not worry about. Return null if no direct impact."
+  "calm_headline": "...",
+  "summary": "...",
+  "resident_impact": "... or null",
+  "fun_fact": "... or null",
+  "data_points": [{"label":"...","value":"...","unit":"...","context":"..."}] or null,
+  "has_chart_worthy_data": true or false
 }`;
   const userMessage = `Headline: ${article.title}\nSource: ${article.sourceName}\nText: ${String(article.description || "").slice(0, 300)}`;
   try {
@@ -282,6 +281,9 @@ Return ONLY this JSON, nothing else:
           calm_headline: obj.calm_headline,
           summary: obj.summary,
           resident_impact: obj.resident_impact || null,
+          fun_fact: obj.fun_fact || null,
+          data_points: obj.data_points || null,
+          has_chart_worthy_data: obj.has_chart_worthy_data || false,
           category: article.category || null,
           source: article.sourceName || null,
           image_url: article.imageUrl || null,
@@ -291,7 +293,7 @@ Return ONLY this JSON, nothing else:
         });
       }
       console.log('✓ Rewrite cached for:', article.title);
-      return obj;
+      return { calm_headline: obj.calm_headline, summary: obj.summary, resident_impact: obj.resident_impact || null, fun_fact: obj.fun_fact || null, data_points: obj.data_points || null, has_chart_worthy_data: obj.has_chart_worthy_data || false };
     }
   } catch (err) {
     console.error("Rewrite error for", key, err.message);
@@ -772,6 +774,9 @@ async function performBuild() {
       item.calmTitle = rew.calm_headline || item.calmTitle;
       item.calmSummary = rew.summary || item.calmSummary;
       item.residentImpact = rew.resident_impact;
+      item.funFact = rew.fun_fact || null;
+      item.dataPoints = rew.data_points || null;
+      item.hasChartData = rew.has_chart_worthy_data || false;
     } else {
       item.rewriteFailed = true;
     }
@@ -816,6 +821,9 @@ async function persistArticles(items) {
       calm_headline: item.calmTitle || null,
       summary: item.calmSummary || null,
       resident_impact: item.residentImpact || null,
+      fun_fact: item.funFact || null,
+      data_points: item.dataPoints || null,
+      has_chart_worthy_data: item.hasChartData || false,
       category: item.category || null,
       source: item.sourceName || null,
       image_url: item.imageUrl || null,

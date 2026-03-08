@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TheDubaiBrief - UAE</title>
+  <title>TheDubaiBrief — Dubai News</title>
   <meta name="description" content="TheDubaiBrief - calm, timely summaries of UAE news and announcements from official and established sources." />
   <script>
     // Run immediately — prevents flash of wrong theme before CSS loads
@@ -2356,6 +2356,110 @@
       .cat-section-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
+  <style>
+    /* ===== COMMAND PALETTE ===== */
+    .cp-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9000;
+      display:none;align-items:flex-start;justify-content:center;
+      padding-top:80px;backdrop-filter:blur(2px);
+    }
+    .cp-overlay.open{ display:flex; }
+    .cp-modal{
+      background:#FFFFFF;border-radius:12px;width:100%;max-width:620px;
+      box-shadow:0 24px 60px rgba(0,0,0,0.25);overflow:hidden;
+      animation:cpSlideIn .18s ease;
+    }
+    @keyframes cpSlideIn{ from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none} }
+    .cp-input-row{
+      display:flex;align-items:center;gap:10px;padding:14px 16px;
+      border-bottom:1px solid #EBEBEB;
+    }
+    .cp-input-icon{ color:#999;font-size:16px;flex-shrink:0; }
+    .cp-input{
+      flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;
+      font-size:16px;color:#1A1208;background:transparent;
+    }
+    .cp-input::placeholder{ color:#AAAAAA; }
+    .cp-kbd{
+      font-size:11px;color:#999;background:#F5F5F5;border:1px solid #DDD;
+      border-radius:4px;padding:2px 6px;flex-shrink:0;white-space:nowrap;
+    }
+    .cp-results{ max-height:420px;overflow-y:auto; }
+    .cp-section-label{
+      font-size:11px;font-weight:600;color:#AAA;letter-spacing:0.08em;
+      text-transform:uppercase;padding:10px 16px 4px;
+    }
+    .cp-item{
+      display:flex;align-items:center;gap:10px;padding:10px 16px;
+      cursor:pointer;transition:background .12s;
+    }
+    .cp-item:hover,.cp-item.selected{ background:#F7F4EF; }
+    .cp-item-icon{ font-size:15px;flex-shrink:0;width:22px;text-align:center; }
+    .cp-item-text{ flex:1;min-width:0; }
+    .cp-item-title{
+      font-size:13px;font-weight:500;color:#1A1208;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .cp-item-meta{ font-size:11px;color:#888;margin-top:1px; }
+    .cp-item-arrow{ font-size:12px;color:#CCC;flex-shrink:0; }
+    .cp-divider{ height:1px;background:#F0F0F0;margin:4px 0; }
+    .cp-footer{
+      padding:8px 16px;border-top:1px solid #F0F0F0;
+      font-size:11px;color:#BBB;display:flex;gap:16px;
+    }
+    .cp-footer kbd{
+      background:#F5F5F5;border:1px solid #DDD;border-radius:3px;
+      padding:1px 5px;font-size:10px;font-family:monospace;
+    }
+    /* Mental health card */
+    .cp-mental-card{
+      margin:12px 16px;padding:14px 16px;
+      background:#EEF6FF;border-left:4px solid #0066CC;border-radius:8px;
+    }
+    .cp-mental-title{ font-size:14px;font-weight:700;color:#004A99;margin-bottom:6px; }
+    .cp-mental-body{ font-size:13px;color:#1A3A5C;line-height:1.5; }
+    .cp-mental-body p{ margin:4px 0; }
+    .cp-mental-hotline{ font-size:12px;color:#004A99;font-weight:600;margin-top:8px; }
+    .cp-mental-hotline div{ margin:3px 0; }
+    /* AI answer */
+    .cp-ai-card{
+      margin:8px 16px;padding:12px 14px;
+      background:#F7F4EF;border-left:3px solid var(--red);border-radius:6px;
+    }
+    .cp-ai-label{ font-size:11px;font-weight:700;color:var(--red);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em; }
+    .cp-ai-text{ font-size:13px;color:#1A1208;line-height:1.5; }
+    /* Stats bar on cards */
+    .data-bar{
+      margin-top:8px;padding:8px 10px;
+      background:#FFF8E7;border-left:4px solid #F59E0B;border-radius:4px;
+      font-size:12px;color:#78350F;
+    }
+    .data-bar-label{ font-weight:700;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:3px;color:#92400E; }
+    .data-bar-points{ display:flex;flex-wrap:wrap;gap:8px; }
+    .data-point{ font-weight:700;color:#1A1208; }
+    .data-point-ctx{ font-weight:400;color:#78350F; }
+    /* Dark mode */
+    body.dark .cp-modal{ background:#1A1A1A;box-shadow:0 24px 60px rgba(0,0,0,0.6); }
+    body.dark .cp-input-row{ border-color:#2A2A2A; }
+    body.dark .cp-input{ color:#F0F0F0; }
+    body.dark .cp-item:hover,body.dark .cp-item.selected{ background:#252525; }
+    body.dark .cp-item-title{ color:#F0F0F0; }
+    body.dark .cp-footer{ border-color:#2A2A2A; }
+    body.dark .cp-divider{ background:#2A2A2A; }
+    body.dark .cp-mental-card{ background:#0A1628;border-color:#1A6FCC; }
+    body.dark .cp-mental-title{ color:#60A5FA; }
+    body.dark .cp-mental-body{ color:#AACCEE; }
+    body.dark .cp-ai-card{ background:#1A1208; }
+    body.dark .cp-ai-text{ color:#E0D8CC; }
+    body.dark .data-bar{ background:#1A1500;border-color:#B45309; }
+    body.dark .data-bar-label{ color:#FCD34D; }
+    body.dark .data-point{ color:#F0F0F0; }
+    body.dark .data-point-ctx{ color:#D97706; }
+    @media(max-width:640px){
+      .cp-overlay{ padding-top:40px;align-items:flex-start; }
+      .cp-modal{ border-radius:0 0 12px 12px;max-width:100%; }
+    }
+  </style>
 </head>
 <body>
   <!-- Google Translate widget (hidden, required for API) -->
@@ -2412,7 +2516,7 @@
             </div>
             <div class="logo-text">
               <div class="logo-text-main">TheDubaiBrief</div>
-              <div class="logo-text-sub">UAE Official Sources</div>
+              <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
             </div>
           </a>
         </div>
@@ -2875,6 +2979,14 @@
       return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
     }
 
+    function buildDataBar(item) {
+      if (!item.dataPoints || !item.dataPoints.length) return '';
+      const pts = item.dataPoints.slice(0, 4).map(p =>
+        `<span><span class="data-point">${p.value}${p.unit ? ' ' + p.unit : ''}</span> <span class="data-point-ctx">${p.context || p.label || ''}</span></span>`
+      ).join('');
+      return `<div class="data-bar"><div class="data-bar-label">Key Numbers</div><div class="data-bar-points">${pts}</div></div>`;
+    }
+
     function buildMoreStoriesHTML(items) {
       let html = '';
       let lastLabel = null;
@@ -2902,6 +3014,7 @@
               <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time"> ${relativeTime(item.publishedAt)}</span>
             </div>
             ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;"> ${item.residentImpact}</div>` : ''}
+            ${buildDataBar(item)}
           </div>
         </div>`;
       }
@@ -2972,6 +3085,7 @@
             <h3 class="story-title">${item.calmTitle || item.title}</h3>
             <p class="story-deck">${(item.calmSummary || '').substring(0, 80)}...</p>
             ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;"> ${item.residentImpact}</div>` : ''}
+            ${buildDataBar(item)}
             ${item.alsoReportedBy && item.alsoReportedBy.length ? `<div style="font-size:11px;color:#999;margin-top:3px;">+${item.alsoReportedBy.length} more source${item.alsoReportedBy.length > 1 ? 's' : ''}</div>` : ''}
             <div class="story-footer">
               <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time"> ${relativeTime(item.publishedAt)}</span>
@@ -4030,6 +4144,258 @@
       nav.setAttribute('aria-hidden', 'true');
       if (btn) { btn.setAttribute('aria-expanded', 'false'); btn.innerHTML = '&#9776;'; }
     }
+  </script>
+
+  <!-- ===== COMMAND PALETTE ===== -->
+  <div class="cp-overlay" id="cpOverlay" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="cp-modal" id="cpModal">
+      <div class="cp-input-row">
+        <span class="cp-input-icon">&#128269;</span>
+        <input class="cp-input" id="cpInput" type="text" placeholder="What's happening in Dubai?" autocomplete="off" spellcheck="false" />
+        <span class="cp-kbd">ESC</span>
+      </div>
+      <div class="cp-results" id="cpResults"></div>
+      <div class="cp-footer">
+        <span><kbd>&#8593;</kbd> <kbd>&#8595;</kbd> navigate</span>
+        <span><kbd>Enter</kbd> select</span>
+        <span><kbd>Esc</kbd> close</span>
+        <span><kbd>Ctrl+K</kbd> open</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // ===== COMMAND PALETTE LOGIC =====
+  (function() {
+    'use strict';
+
+    var DEFAULT_COMMANDS = [
+      { icon: '&#128308;', title: 'Latest News',        meta: 'All categories',    action: function(){ filterByCategory('all',null); close(); } },
+      { icon: '&#128737;', title: 'Safety Updates',     meta: 'Safety section',    action: function(){ filterByCategory('Safety',null); close(); } },
+      { icon: '&#127963;', title: 'Government News',    meta: 'Government section',action: function(){ filterByCategory('Government',null); close(); } },
+      { icon: '&#128176;', title: 'Business & Finance', meta: 'Business section',  action: function(){ filterByCategory('Business',null); close(); } },
+      { icon: '&#9992;',   title: 'Transport & Roads',  meta: 'Transport section', action: function(){ filterByCategory('Transport',null); close(); } },
+      { icon: '&#128138;', title: 'Health News',        meta: 'Health section',    action: function(){ filterByCategory('Health',null); close(); } },
+      { icon: '&#9917;',   title: 'Sport',              meta: 'Sport section',     action: function(){ filterByCategory('Sport',null); close(); } },
+      { icon: '&#127758;', title: 'World & Region',     meta: 'World section',     action: function(){ filterByCategory('World',null); close(); } },
+      { icon: '&#128218;', title: 'School News',        meta: 'Education section', action: function(){ filterByCategory('Education',null); close(); } },
+      { icon: '&#127780;', title: 'Weather',            meta: 'Weather section',   action: function(){ filterByCategory('Weather',null); close(); } },
+      { icon: '&#128187;', title: 'Tech News',          meta: 'Technology section',action: function(){ filterByCategory('Technology',null); close(); } },
+      { icon: '&#127917;', title: 'Lifestyle',          meta: 'Lifestyle section', action: function(){ filterByCategory('Lifestyle',null); close(); } },
+      { icon: '&#128230;', title: 'Archive',            meta: 'All articles ever', action: function(){ location.href='/archive'; } },
+    ];
+
+    var DISTRESS_PHRASES = [
+      'is the world ending','am i going to die','is it safe','i am scared','i am worried',
+      'i cant sleep','feeling anxious','panic','stressed about news','is war coming',
+      'will there be war','are we going to be ok','i feel unsafe','nervous','terrified',
+      'what if something happens','scared','frightened','help me','so scared',
+      'is dubai safe','should i be worried','im worried','feel anxious','anxiety',
+      'is everything ok','are we safe','dangerous here'
+    ];
+
+    var overlay   = document.getElementById('cpOverlay');
+    var input     = document.getElementById('cpInput');
+    var results   = document.getElementById('cpResults');
+    var selectedIdx = 0;
+    var currentItems = [];
+    var searchTimer = null;
+
+    function open() {
+      overlay.classList.add('open');
+      input.value = '';
+      input.focus();
+      renderDefault();
+    }
+    function close() {
+      overlay.classList.remove('open');
+      input.value = '';
+    }
+
+    function isDistress(q) {
+      var lower = q.toLowerCase();
+      return DISTRESS_PHRASES.some(function(p){ return lower.includes(p); });
+    }
+
+    function renderDefault() {
+      selectedIdx = 0;
+      currentItems = DEFAULT_COMMANDS.slice();
+      var html = '<div class="cp-section-label">Quick Navigation</div>';
+      DEFAULT_COMMANDS.forEach(function(cmd, i) {
+        html += '<div class="cp-item' + (i===0?' selected':'') + '" data-idx="'+i+'">' +
+          '<span class="cp-item-icon">'+cmd.icon+'</span>' +
+          '<div class="cp-item-text"><div class="cp-item-title">'+cmd.title+'</div><div class="cp-item-meta">'+cmd.meta+'</div></div>' +
+          '<span class="cp-item-arrow">&#8594;</span></div>';
+      });
+      results.innerHTML = html;
+      bindItemEvents();
+    }
+
+    function renderMentalHealth(recentArticles) {
+      var html = '<div class="cp-mental-card">' +
+        '<div class="cp-mental-title">We hear you</div>' +
+        '<div class="cp-mental-body">' +
+        '<p>It\'s completely normal to feel anxious about the news. TheDubaiBrief exists to help you stay informed without panic.</p>' +
+        '<p>UAE is stable and safe. <span style="color:#059669;font-weight:600;">&#11044; UAE Status: Normal</span></p>' +
+        '</div>' +
+        '<div class="cp-mental-hotline">' +
+        '<div>&#128222; Estijaba Counselling: <strong>800-37845222</strong></div>' +
+        '<div>&#128222; Dubai Health Authority Mental Health: <strong>800-342</strong></div>' +
+        '<div>&#128222; Community Development Authority: <strong>800-232</strong></div>' +
+        '</div></div>';
+      if (recentArticles && recentArticles.length) {
+        html += '<div class="cp-section-label">Latest calm news</div>';
+        recentArticles.slice(0,3).forEach(function(a, i) {
+          var title = a.calm_headline || a.original_title || 'Update';
+          html += '<div class="cp-item" data-idx="'+i+'" data-url="/article-view.html?id='+encodeURIComponent(a.id)+'">' +
+            '<span class="cp-item-icon">&#128240;</span>' +
+            '<div class="cp-item-text"><div class="cp-item-title">'+escHtml(title)+'</div>' +
+            '<div class="cp-item-meta">'+(a.source||'')+'</div></div></div>';
+        });
+        currentItems = recentArticles.slice(0,3).map(function(a){ return { action: function(){ location.href='/article-view.html?id='+encodeURIComponent(a.id); close(); } }; });
+      }
+      results.innerHTML = html;
+      bindItemEvents();
+    }
+
+    function renderSearchResults(q, data) {
+      var html = '';
+      // AI answer
+      if (data.aiAnswer) {
+        html += '<div class="cp-ai-card"><div class="cp-ai-label">AI Answer</div><div class="cp-ai-text">'+escHtml(data.aiAnswer)+'</div></div>';
+      }
+      // Article results
+      currentItems = [];
+      if (data.articles && data.articles.length) {
+        html += '<div class="cp-section-label">Articles from last 30 days</div>';
+        data.articles.forEach(function(a, i) {
+          var title = a.calm_headline || a.original_title || 'Update';
+          var ago = typeof relativeTime === 'function' ? relativeTime(a.published_at) : '';
+          currentItems.push({ action: function(art){ return function(){ location.href='/article-view.html?id='+encodeURIComponent(art.id); close(); }; }(a) });
+          html += '<div class="cp-item'+(i===0?' selected':'') + '" data-idx="'+i+'">' +
+            '<span class="cp-item-icon">&#128240;</span>' +
+            '<div class="cp-item-text"><div class="cp-item-title">'+escHtml(title)+'</div>' +
+            '<div class="cp-item-meta">'+(a.source||'')+(ago?' &middot; '+ago:'')+'</div></div>' +
+            '<span class="cp-item-arrow">&#8594;</span></div>';
+        });
+      }
+      // Section nav
+      var CAT_MAP = { safety:'Safety',government:'Government',gov:'Government',business:'Business',transport:'Transport',health:'Health',sport:'Sport',world:'World',education:'Education',school:'Education',weather:'Weather',tech:'Technology',technology:'Technology',lifestyle:'Lifestyle',community:'Community' };
+      var qlow = q.toLowerCase();
+      Object.keys(CAT_MAP).forEach(function(k){
+        if (qlow.includes(k)) {
+          var cat = CAT_MAP[k];
+          var idx = currentItems.length;
+          currentItems.push({ action: function(c){ return function(){ filterByCategory(c,null); close(); }; }(cat) });
+          html += '<div class="cp-item" data-idx="'+idx+'">' +
+            '<span class="cp-item-icon">&#128193;</span>' +
+            '<div class="cp-item-text"><div class="cp-item-title">Go to '+cat+' section</div></div>' +
+            '<span class="cp-item-arrow">&#8594;</span></div>';
+        }
+      });
+      if (!html) {
+        html = '<div style="padding:20px 16px;text-align:center;color:#AAA;font-size:13px;">No results found for "'+escHtml(q)+'"</div>';
+      }
+      selectedIdx = 0;
+      results.innerHTML = html;
+      bindItemEvents();
+    }
+
+    function bindItemEvents() {
+      results.querySelectorAll('.cp-item').forEach(function(el) {
+        el.addEventListener('mouseenter', function() {
+          results.querySelectorAll('.cp-item').forEach(function(e){ e.classList.remove('selected'); });
+          el.classList.add('selected');
+          selectedIdx = parseInt(el.getAttribute('data-idx')) || 0;
+        });
+        el.addEventListener('click', function() {
+          var url = el.getAttribute('data-url');
+          if (url) { location.href = url; close(); return; }
+          var idx = parseInt(el.getAttribute('data-idx'));
+          if (!isNaN(idx) && currentItems[idx]) currentItems[idx].action();
+        });
+      });
+    }
+
+    function escHtml(s) {
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function selectItem() {
+      if (currentItems[selectedIdx]) currentItems[selectedIdx].action();
+    }
+
+    function moveSelection(dir) {
+      var items = results.querySelectorAll('.cp-item');
+      if (!items.length) return;
+      items[selectedIdx] && items[selectedIdx].classList.remove('selected');
+      selectedIdx = Math.max(0, Math.min(currentItems.length - 1, selectedIdx + dir));
+      items[selectedIdx] && items[selectedIdx].classList.add('selected');
+      items[selectedIdx] && items[selectedIdx].scrollIntoView({ block:'nearest' });
+    }
+
+    // Input handler
+    input.addEventListener('input', function() {
+      var q = input.value.trim();
+      if (!q) { renderDefault(); return; }
+      clearTimeout(searchTimer);
+
+      // Mental health check (instant)
+      if (isDistress(q)) {
+        fetch('/api/palette-search?q=calm+news+dubai')
+          .then(function(r){ return r.json(); })
+          .then(function(d){ renderMentalHealth(d.articles); })
+          .catch(function(){ renderMentalHealth([]); });
+        return;
+      }
+
+      // Debounced search
+      searchTimer = setTimeout(function() {
+        results.innerHTML = '<div style="padding:16px;text-align:center;color:#AAA;font-size:13px;">Searching...</div>';
+        fetch('/api/palette-search?q=' + encodeURIComponent(q))
+          .then(function(r){ return r.json(); })
+          .then(function(d){ renderSearchResults(q, d); })
+          .catch(function(){ renderSearchResults(q, { articles:[], aiAnswer:null }); });
+      }, 320);
+    });
+
+    // Keyboard nav
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        overlay.classList.contains('open') ? close() : open();
+        return;
+      }
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); moveSelection(1); return; }
+      if (e.key === 'ArrowUp') { e.preventDefault(); moveSelection(-1); return; }
+      if (e.key === 'Enter') { e.preventDefault(); selectItem(); return; }
+    });
+
+    // Click outside to close
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) close();
+    });
+
+    // Clicking search bar opens palette
+    var searchEl = document.getElementById('headerSearch');
+    if (searchEl) {
+      searchEl.addEventListener('focus', function(e) {
+        e.preventDefault();
+        searchEl.blur();
+        open();
+      });
+      searchEl.addEventListener('click', function(e) {
+        e.preventDefault();
+        open();
+      });
+    }
+    var mobileSearchEl = document.getElementById('mobileSearch');
+    if (mobileSearchEl) {
+      mobileSearchEl.addEventListener('focus', function(){ mobileSearchEl.blur(); open(); });
+    }
+  })();
   </script>
 </body>
 </html>

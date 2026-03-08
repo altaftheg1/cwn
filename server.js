@@ -490,6 +490,69 @@ app.get("/api/archive", async (req, res) => {
   }
 });
 
+// ── Command Palette Search ────────────────────────────────────────────────────
+// GET /api/palette-search?q=... — returns article results + optional AI answer
+app.get("/api/palette-search", async (req, res) => {
+  const q = String(req.query.q || "").trim().slice(0, 200);
+  if (!q) return res.json({ articles: [], aiAnswer: null });
+  try {
+    // 1. Article search — last 30 days
+    let articles = [];
+    if (_supabase) {
+      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const isSchool = /school|closure|holiday|reopen|khda|adek|exam|term/i.test(q);
+      let query = _supabase
+        .from("articles")
+        .select("id, calm_headline, original_title, summary, source, published_at, category, image_url")
+        .order("published_at", { ascending: false })
+        .limit(8);
+      if (isSchool) {
+        query = query.or(
+          `calm_headline.ilike.%school%,original_title.ilike.%school%,summary.ilike.%school%,category.eq.Education`
+        ).gte("created_at", cutoff);
+      } else {
+        query = query.or(
+          `calm_headline.ilike.%${q}%,original_title.ilike.%${q}%,summary.ilike.%${q}%`
+        ).gte("created_at", cutoff);
+      }
+      const { data } = await query;
+      articles = data || [];
+    }
+
+    // 2. AI smart answer — only for questions or complex queries (>3 words)
+    let aiAnswer = null;
+    const looksLikeQuestion = q.includes("?") || q.split(" ").length >= 3;
+    if (looksLikeQuestion && process.env.CLAUDE_API_KEY) {
+      try {
+        const resp = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.CLAUDE_API_KEY,
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 200,
+            messages: [{
+              role: "user",
+              content: `You are a helpful assistant for TheDubaiBrief, a UAE news site. Answer this question in 2-3 calm, friendly sentences based on general knowledge about UAE. Never cause panic. Be warm and reassuring. Question: ${q}`
+            }]
+          }),
+        });
+        if (resp.ok) {
+          const d = await resp.json();
+          aiAnswer = d.content?.[0]?.text?.trim() || null;
+        }
+      } catch {}
+    }
+
+    res.json({ articles, aiAnswer });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Live visitor tracking ─────────────────────────────────────────────────────
 const activeSessions = new Map(); // sessionId → lastSeenMs
 const VISITOR_TTL_MS = 60 * 1000; // 60s — session expires if no ping received
