@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TheDubaiBrief - UAE</title>
-  <meta name="description" content="TheDubaiBrief - calm, timely summaries of UAE news and announcements from official and established sources." />
+  <title>DUB — Dubai News</title>
+  <meta name="description" content="DUB - calm, timely summaries of UAE news and announcements from official and established sources." />
   <script>
     // Run immediately — prevents flash of wrong theme before CSS loads
     (function() {
@@ -903,6 +903,58 @@
       grid-template-columns:1fr 1fr;
       gap:16px;
     }
+    /* Date separators */
+    .date-separator{
+      grid-column:1/-1;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:8px 0 4px;
+    }
+    .date-separator-label{
+      font-family:'Source Serif 4',serif;
+      font-size:12px;
+      font-weight:600;
+      color:var(--ink-light);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      white-space:nowrap;
+    }
+    .date-separator-line{
+      flex:1;
+      height:1px;
+      background:var(--border);
+    }
+    /* Load More button */
+    .load-more-wrap{
+      grid-column:1/-1;
+      display:flex;
+      justify-content:center;
+      padding:16px 0 8px;
+    }
+    .load-more-btn{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:6px;
+      padding:10px 32px;
+      font-family:'DM Sans',sans-serif;
+      font-size:13px;
+      font-weight:600;
+      color:var(--ink-mid);
+      cursor:pointer;
+      transition:all 0.2s;
+    }
+    .load-more-btn:hover{
+      border-color:var(--red);
+      color:var(--red);
+    }
+    .load-more-btn:disabled{
+      opacity:0.5;
+      cursor:default;
+    }
+    body.dark .load-more-btn{ background:#1A1A1A; border-color:#2A2A2A; color:#CCCCCC; }
+    body.dark .date-separator-line{ background:#2A2A2A; }
+    body.dark .date-separator-label{ color:#666; }
     .more-story{
       display:grid;
       grid-template-columns:auto 1fr;
@@ -2313,10 +2365,10 @@
   <div class="splash" id="splash">
     <div class="splash-center">
       <div class="splash-box">D</div>
-      <div class="splash-box">B</div>
+      <div class="splash-box">U</div>
       <div class="splash-box">B</div>
     </div>
-    <div class="splash-name">TheDubaiBrief</div>
+    <div class="splash-name">DUB</div>
   </div>
 
   <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
@@ -2326,7 +2378,7 @@
         <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
         <span id="dateDisplay">Mar 2, 2026</span>
         <span id="utilCity">Dubai, UAE</span>
-        <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
+        <span class="live-visitors" id="liveVisitors" title="People viewing DUB right now">
           <span class="live-visitors-dot"></span>
           <span id="liveVisitorCount">–</span> online
         </span>
@@ -2355,12 +2407,12 @@
           <a class="brand" href="/uae-calm-uae-news.html">
             <div class="logo-boxes">
               <div class="logo-box">D</div>
-              <div class="logo-box">B</div>
+              <div class="logo-box">U</div>
               <div class="logo-box">B</div>
             </div>
             <div class="logo-text">
-              <div class="logo-text-main">TheDubaiBrief</div>
-              <div class="logo-text-sub">UAE Official Sources</div>
+              <div class="logo-text-main">DUB</div>
+              <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
             </div>
           </a>
         </div>
@@ -2449,6 +2501,9 @@
           <div class="section-divider"></div>
         </div>
         <div class="more-stories-list" id="moreStoriesList"></div>
+        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+          <button class="load-more-btn" id="newsLoadMoreBtn">Load More Stories</button>
+        </div>
       </div>
 
       <!-- Category sections (homepage only) -->
@@ -2542,7 +2597,7 @@
               maxlength="120"
             />
             <p class="otg-privacy-note">
-              Your contact info is never shown publicly. TheDubaiBrief stores it privately for verification only.
+              Your contact info is never shown publicly. DUB stores it privately for verification only.
             </p>
           </div>
 
@@ -2597,7 +2652,7 @@
       </div>
       <!-- Disclaimer -->
       <div style="max-width:var(--max-width);margin:0 auto 20px;padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.65;">
-        TheDubaiBrief paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. TheDubaiBrief is an independent student project not affiliated with any government.
+        DUB paraphrases content from official UAE sources including WAM, Gulf News, Khaleej Times and Emirates 24|7. All content links to original sources. Community reports are unverified resident observations. DUB is an independent student project not affiliated with any government.
       </div>
       <!-- Coffee / support button -->
       <div style="max-width:var(--max-width);margin:0 auto 22px;text-align:center;">
@@ -2618,8 +2673,8 @@
         <a href="/status.html" style="color:rgba(255,255,255,0.6);text-decoration:none;" onmouseover="this.style.color='#B8860B'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Regional Status</a>
       </div>
       <div class="footer-bottom">
-        <span class="footer-logo">TheDubaiBrief</span>
-        <span id="footerCopyright"> 2026 TheDubaiBrief | Calm, factual UAE journalism</span>
+        <span class="footer-logo">DUB</span>
+        <span id="footerCopyright"> 2026 DUB | Calm, factual UAE journalism</span>
       </div>
     </footer>
   </div>
@@ -2805,12 +2860,61 @@
       }
     }
 
+    // ── Date separator helper ──────────────────────────────────────────────────
+    let _newsPage = 0; // tracks how many "pages" of more-stories are loaded
+    const NEWS_PAGE_SIZE = 20;
+
+    function dateSeparatorLabel(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      const now = new Date();
+      const todayStr = now.toDateString();
+      const yestStr = new Date(now - 86400000).toDateString();
+      if (d.toDateString() === todayStr) return 'Today';
+      if (d.toDateString() === yestStr) return 'Yesterday';
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
+    }
+
+    function buildMoreStoriesHTML(items) {
+      let html = '';
+      let lastLabel = null;
+      for (const item of items) {
+        const label = dateSeparatorLabel(item.publishedAt);
+        if (label && label !== lastLabel) {
+          html += `<div class="date-separator">
+            <span class="date-separator-line"></span>
+            <span class="date-separator-label">${label}</span>
+            <span class="date-separator-line"></span>
+          </div>`;
+          lastLabel = label;
+        }
+        html += `<div class="more-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
+          <div class="more-thumb">
+            ${item.imageUrl
+              ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
+              : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`}
+          </div>
+          <div class="more-text">
+            <h4 class="more-headline">${item.calmTitle || item.title}</h4>
+            <div class="more-meta">
+              <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
+              <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
+              <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time"> ${relativeTime(item.publishedAt)}</span>
+            </div>
+            ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;"> ${item.residentImpact}</div>` : ''}
+          </div>
+        </div>`;
+      }
+      return html;
+    }
+
     function renderContent() {
+      _newsPage = 0; // reset pagination on any filter/category change
       const items = allNews.filter(item => {
         const catMatch = currentCategory === 'all' || (item.category || '') === currentCategory;
         const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
         return catMatch && search;
-      }).slice(0, 50);
+      }).slice(0, 200); // keep up to 200 in memory
 
       const catSecEl = document.getElementById('categorySections');
 
@@ -2878,30 +2982,21 @@
       document.getElementById('storyGrid').innerHTML = cardHTML;
 
       // ── Homepage: category sections | Filtered: flat more-stories list ──────
+      const loadMoreWrap = document.getElementById('loadMoreWrap');
       if (catSecEl) {
         if (currentCategory === 'all' && !currentSearch) {
           catSecEl.innerHTML = renderCategorySectionsHTML(items.slice(6));
           document.getElementById('moreStoriesList').innerHTML = '';
+          if (loadMoreWrap) loadMoreWrap.style.display = 'none';
         } else {
           catSecEl.innerHTML = '';
-          const moreHTML = items.slice(6).map(item => `
-            <div class="more-story" onclick="location.href='/article-view.html?id=${encodeURIComponent(item.id)}'">
-              <div class="more-thumb">
-                ${item.imageUrl
-                  ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
-                  : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`}
-              </div>
-              <div class="more-text">
-                <h4 class="more-headline">${item.calmTitle || item.title}</h4>
-                <div class="more-meta">
-                  <span class="more-category">${(item.category || item.topic || '').toUpperCase()}</span>
-                  <span class="more-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
-                  <span class="more-time" title="${uaeExactTime(item.publishedAt)} UAE time"> ${relativeTime(item.publishedAt)}</span>
-                </div>
-                ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;"> ${item.residentImpact}</div>` : ''}
-              </div>
-            </div>`).join('');
-          document.getElementById('moreStoriesList').innerHTML = moreHTML;
+          // Store filtered items globally for Load More
+          window._filteredMoreItems = items.slice(6);
+          const firstBatch = window._filteredMoreItems.slice(0, NEWS_PAGE_SIZE);
+          document.getElementById('moreStoriesList').innerHTML = buildMoreStoriesHTML(firstBatch);
+          if (loadMoreWrap) {
+            loadMoreWrap.style.display = window._filteredMoreItems.length > NEWS_PAGE_SIZE ? 'flex' : 'none';
+          }
         }
       }
     }
@@ -3224,7 +3319,7 @@
         html = `
           <div class="cwn-success-icon"></div>
           <h2 class="cwn-modal-title">Already subscribed!</h2>
-          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g,'&lt;')} is already on the TheDubaiBrief list. You're good — we'll keep sending you calm UAE updates.</p>
+          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g,'&lt;')} is already on the DUB list. You're good — we'll keep sending you calm UAE updates.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Got it</button>
         `;
       }
@@ -3298,6 +3393,26 @@
         const dark = !document.body.classList.contains('dark');
         localStorage.setItem('theme', dark ? 'dark' : 'light');
         applyDark(dark);
+      });
+    })();
+
+    // ── Load More button for news feed ────────────────────────────────────────
+    (function() {
+      const btn = document.getElementById('newsLoadMoreBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        if (!window._filteredMoreItems) return;
+        _newsPage++;
+        const start = _newsPage * NEWS_PAGE_SIZE;
+        const batch = window._filteredMoreItems.slice(start, start + NEWS_PAGE_SIZE);
+        if (!batch.length) {
+          document.getElementById('loadMoreWrap').style.display = 'none';
+          return;
+        }
+        document.getElementById('moreStoriesList').insertAdjacentHTML('beforeend', buildMoreStoriesHTML(batch));
+        if (start + NEWS_PAGE_SIZE >= window._filteredMoreItems.length) {
+          document.getElementById('loadMoreWrap').style.display = 'none';
+        }
       });
     })();
 
@@ -3538,7 +3653,7 @@
             el.submitBtn.disabled = false; return;
           }
           if (!data.approved) {
-            setStatus("Your post doesn’t meet our community guidelines. TheDubaiBrief accepts calm factual observations only.", 'error');
+            setStatus("Your post doesn’t meet our community guidelines. DUB accepts calm factual observations only.", 'error');
             el.submitBtn.disabled = false; return;
           }
           // Success
@@ -3830,13 +3945,13 @@
 
     <!-- ===== DONATION BANNER ===== -->
   <div id="cwnDonationBanner" class="cwn-donation-banner" role="dialog"
-       aria-label="Support TheDubaiBrief" style="display:none;">
+       aria-label="Support DUB" style="display:none;">
     <p class="cwn-donation-text">
-      TheDubaiBrief is free and independent. If it helps you stay informed, consider buying us a coffee 
+      DUB is free and independent. If it helps you stay informed, consider buying us a coffee 
     </p>
     <div class="cwn-donation-actions">
       <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer"
-         class="cwn-donation-support">Support TheDubaiBrief</a>
+         class="cwn-donation-support">Support DUB</a>
       <button type="button" class="cwn-donation-later" id="cwnDonationDismiss">Maybe later</button>
     </div>
   </div>

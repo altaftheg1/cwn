@@ -201,7 +201,7 @@ router.post('/submit', async (req, res) => {
     if (!modResult.approved) {
       return res.status(200).json({
         approved: false,
-        message: "Your post doesn't meet our community guidelines. TheDubaiBrief accepts calm factual observations only.",
+        message: "Your post doesn't meet our community guidelines. DUB accepts calm factual observations only.",
       });
     }
 

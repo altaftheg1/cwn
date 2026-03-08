@@ -223,7 +223,7 @@ async function rewriteArticle(article) {
   }
 
   console.log('Processing article with Claude API:', article.title);
-  const systemPrompt = `You are the friendly editor of TheDubaiBrief, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
+  const systemPrompt = `You are the friendly editor of DUB, a UAE news service for everyday residents, families, and expats. Your job is to rewrite news so that anyone — a child, a grandparent, someone who just moved to the UAE — can read it and immediately understand what happened and whether it affects them.
 
 Rules you must always follow:
 - Use simple everyday words only. If a word has a simpler version, always use the simpler one.
@@ -788,15 +788,15 @@ async function performBuild() {
   // ── Persist all processed articles to Supabase (archive) ─────────────────
   persistArticles(deduped.slice(0, 40)).catch(() => {});
 
-  // ── Filter to last 24 hours for homepage feed ─────────────────────────────
-  const cutoffMs = Date.now() - 24 * 60 * 60 * 1000;
+  // ── Filter to last 7 days for homepage feed ───────────────────────────────
+  const cutoffMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const recent = deduped.filter(a => (a.publishedAtMs || 0) >= cutoffMs);
-  // Fall back to all articles if fewer than 10 in last 24h (e.g. slow news day)
+  // Fall back to all articles if fewer than 10 in last 7 days
   const feedItems = recent.length >= 10 ? recent : deduped;
 
   const payload = {
     generatedAtMs: Date.now(),
-    items: feedItems.slice(0, 40),
+    items: feedItems.slice(0, 100),
     sourceStatus: Object.fromEntries(sourceStatus),
   };
 

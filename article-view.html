@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loading… — TheDubaiBrief</title>
+  <title>DUB — Dubai News</title>
   <script>
     (function() {
       if (localStorage.getItem('theme') === 'dark') {
@@ -566,12 +566,12 @@
     <a class="cwn-brand" href="/uae-calm-uae-news.html">
       <div class="cwn-logo-boxes">
         <div class="cwn-logo-box">D</div>
-        <div class="cwn-logo-box">B</div>
-        <div class="cwn-logo-box">B</div>
+          <div class="cwn-logo-box">U</div>
+          <div class="cwn-logo-box">B</div>
       </div>
       <div class="cwn-logo-text">
-        <div class="cwn-logo-main">TheDubaiBrief</div>
-        <div class="cwn-logo-sub">UAE Official Sources</div>
+        <div class="cwn-logo-main">DUB</div>
+        <div class="cwn-logo-sub">Dubai's News. Clear &amp; Calm.</div>
       </div>
     </a>
     <nav class="cwn-main-nav">
@@ -604,8 +604,8 @@
 </div>
   <!-- Navigation -->
   <nav class="av-nav">
-    <a class="av-nav-brand" href="/uae-calm-uae-news.html">TheDubaiBrief</a>
-    <a class="av-nav-back" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a>
+    <a class="av-nav-brand" href="/uae-calm-uae-news.html">DUB</a>
+    <a class="av-nav-back" href="/uae-calm-uae-news.html">&#8592; Back to DUB</a>
   </nav>
 
   <main class="av-main">
@@ -685,7 +685,7 @@
         <a class="av-source-link" id="av-source-link" href="#" target="_blank" rel="noopener noreferrer">
           Read original article &#8594;
         </a>
-        <a class="av-back-link" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a>
+        <a class="av-back-link" href="/uae-calm-uae-news.html">&#8592; Back to DUB</a>
         <button class="av-share-btn" id="av-share-btn" type="button">&#128279; Copy link</button>
       </div>
 
@@ -899,7 +899,7 @@
 
     // ── Render article (animated) ─────────────────────────────────────────────
     function render(data) {
-      document.title = (data.calm_title || data.title || 'Article') + ' — TheDubaiBrief';
+      document.title = (data.calm_title || data.title || 'Article') + ' — DUB';
 
       // Reveal content pane immediately so animations are visible
       document.getElementById('av-skeleton').style.display = 'none';
@@ -1078,7 +1078,7 @@
 
     // ── Render basic (news cache fallback) ────────────────────────────────────
     function renderBasic(a) {
-      document.title = (a.calmTitle || a.title || 'Article') + ' — TheDubaiBrief';
+      document.title = (a.calmTitle || a.title || 'Article') + ' — DUB';
 
       var cat = document.getElementById('av-category');
       if (cat) cat.textContent = (a.topic || 'UAE').toUpperCase();
