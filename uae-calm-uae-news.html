@@ -254,7 +254,11 @@
       background:rgba(255,255,255,0.9);
     }
     .live-visitors{
-      display:none; /* moved out of main navbar — too wide for header */
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:rgba(255,255,255,0.85);
     }
     .live-visitors-dot{
       width:7px;
@@ -2322,6 +2326,10 @@
         <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
         <span id="dateDisplay">Mar 2, 2026</span>
         <span id="utilCity">Dubai, UAE</span>
+        <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
+          <span class="live-visitors-dot"></span>
+          <span id="liveVisitorCount">–</span> online
+        </span>
       </div>
       <div class="utility-right">
         <div class="lang-switcher" id="langSwitcher">
@@ -2357,10 +2365,6 @@
           </a>
         </div>
         <div class="navbar-right">
-          <div class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
-            <div class="live-visitors-dot"></div>
-            <span id="liveVisitorCount">–</span> online
-          </div>
           <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
           <button id="notifyBtn" class="notify-btn"> Notify me</button>
           <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>

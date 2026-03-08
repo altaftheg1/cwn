@@ -1,21 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <script>
-    (function() {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.addEventListener('DOMContentLoaded', function() {
-          document.body && document.body.classList.add('dark');
-        });
-      }
-    })();
-  </script>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TheDubaiBrief - Article</title>
-  <style>
+/**
+ * Updates all secondary pages to use the same header structure as the main page.
+ * Replaces each page's existing utility bar + header with the shared one.
+ */
+import { readFileSync, writeFileSync } from 'fs';
 
+// ── Shared header CSS ────────────────────────────────────────────────────────
+const SHARED_HEADER_CSS = `
     /* ===== SHARED HEADER (matches main page) ===== */
     :root{
       --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
@@ -95,133 +85,11 @@
       .shared-logo-box{ width:36px; height:36px; font-size:15px; }
       .shared-logo-main{ font-size:12px; }
     }
+`;
 
-
-    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
-    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
-    :root{
-      --bg:#F5F3ED;
-      --surface:#FFFCF7;
-      --ink:#1C1612;
-      --ink-muted:#6C5B4E;
-      --border:rgba(36,24,16,0.14);
-      --radius-lg:18px;
-      --shadow:0 18px 45px rgba(20,12,4,0.13);
-      --max-width:980px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{
-      font-family:'Outfit',sans-serif;
-      background:radial-gradient(circle at top left,#FDF9F1 0,#F5F3ED 48%,#EDE4D6 100%);
-      color:var(--ink);
-      min-height:100vh;
-    }
-    header{
-      background:linear-gradient(135deg,#B3001B,#7D0013);
-      border-bottom:2px solid rgba(255,255,255,0.8);
-      color:#fff;
-      padding:14px 18px;
-    }
-    .header-inner{
-      max-width:var(--max-width);
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      text-decoration:none;
-    }
-    .logo-box{
-      width:34px;
-      height:34px;
-      border-radius:8px;
-      background:rgba(255,255,255,0.15);
-      border:2px solid rgba(255,255,255,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:'Righteous',cursive;
-      font-size:18px;
-      color:#FFFFFF;
-    }
-    .back{
-      color:#fff;
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,0.6);
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-    }
-    main{
-      max-width:var(--max-width);
-      margin:20px auto 34px;
-      padding:0 18px;
-    }
-    .card{
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:var(--radius-lg);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
-    .meta{
-      font-size:12px;
-      color:var(--ink-muted);
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px 14px;
-      margin-bottom:10px;
-    }
-    .title{
-      font-family:'Outfit',sans-serif;
-      font-weight:700;
-      font-size:26px;
-      line-height:1.2;
-      margin-bottom:10px;
-    }
-    .summary{
-      font-size:14px;
-      line-height:1.75;
-      color:var(--ink-muted);
-    }
-    .sourceLink{
-      display:inline-flex;
-      margin-top:14px;
-      gap:8px;
-      align-items:center;
-      color:#7D0013;
-      text-decoration:none;
-      font-weight:700;
-      border:1px solid rgba(125,0,19,0.25);
-      background:rgba(179,0,27,0.06);
-      padding:10px 12px;
-      border-radius:12px;
-    }
-    .article-img{
-      width:100%;
-      max-height:420px;
-      object-fit:cover;
-      border-radius:14px;
-      margin-bottom:14px;
-    }
-    .error{
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(179,0,27,0.25);
-      background:rgba(179,0,27,0.06);
-      color:#7D0013;
-      margin-top:10px;
-    }
-  </style>
-</head>
-<body>
-  
+// ── Shared header HTML (parameterised by active page) ────────────────────────
+function makeHeaderHTML(activeLink) {
+  return `
   <!-- Early theme: prevents flash -->
   <script>
     (function(){
@@ -247,9 +115,9 @@
       </span>
     </div>
     <div class="shared-util-right">
-      <a href="/about.html">About</a>
-      <a href="/sources.html">Sources</a>
-      <a href="/contact.html">Contact</a>
+      <a href="/about.html"${activeLink==='about'?' style="color:var(--gold)"':''}>About</a>
+      <a href="/sources.html"${activeLink==='sources'?' style="color:var(--gold)"':''}>Sources</a>
+      <a href="/contact.html"${activeLink==='contact'?' style="color:var(--gold)"':''}>Contact</a>
     </div>
   </div>
 
@@ -328,89 +196,79 @@
       }
     })();
   </script>
+`;
+}
 
+// ── Pages to update ──────────────────────────────────────────────────────────
+const pages = [
+  { file: 'archive.html',     active: '' },
+  { file: 'about.html',       active: 'about' },
+  { file: 'contact.html',     active: 'contact' },
+  { file: 'privacy.html',     active: '' },
+  { file: 'terms.html',       active: '' },
+  { file: 'sources.html',     active: 'sources' },
+  { file: 'unsubscribe.html', active: '' },
+  { file: 'status.html',      active: '' },
+  { file: 'article.html',     active: '' },
+];
 
-  <main>
-    <div class="card">
-      <img id="articleImg" class="article-img" style="display:none;" />
-      <div id="meta" class="meta"></div>
-      <h1 id="title" class="title">Loading…</h1>
-      <p id="summary" class="summary"></p>
-      <a id="sourceLink" class="sourceLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
-        Open original source
-      </a>
-      <div id="err" class="error" style="display:none;"></div>
-    </div>
-  </main>
+for (const { file, active } of pages) {
+  try {
+    let html = readFileSync(file, 'utf8');
+    const original = html;
 
-  <script>
-    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+    // 1. Inject shared CSS into the first <style> block (before </style>)
+    // Remove any existing shared-header CSS block first to prevent duplicates
+    html = html.replace(/\/\* ={5} SHARED HEADER[\s\S]*?(?=<\/style>)/, '');
+    html = html.replace(/<style>/, `<style>\n${SHARED_HEADER_CSS}\n`);
 
-    function qs(name){
-      const u = new URL(window.location.href);
-      return u.searchParams.get(name) || "";
+    // 2. Remove old utility bar variants
+    // cwn-utility-bar
+    html = html.replace(/<div class="cwn-utility-bar"[\s\S]*?<\/div>\s*\n?/, '');
+    // shared-utility-bar (old version – will be re-inserted below)
+    html = html.replace(/\s*<!-- Utility Bar -->\s*<div class="shared-utility-bar"[\s\S]*?<\/div>\s*\n?/, '');
+
+    // 3. Remove old header variants and replace with shared one
+    // Pattern: cwn-header
+    const cwnHeaderRe = /<header class="cwn-header"[\s\S]*?<\/header>/;
+    // Pattern: simple <header> (used by archive)
+    const simpleHeaderRe = /<header>\s*[\s\S]*?<\/header>/;
+    // Pattern: shared-header (already updated)
+    const sharedHeaderRe = /<header class="shared-header"[\s\S]*?<\/header>/;
+    // Pattern: old cwn-ticker (only on about/contact)
+    const cwnTickerRe = /<div class="cwn-ticker"[\s\S]*?<\/div>\s*\n?/;
+
+    // Remove early theme + font scripts if they already exist (we'll re-inject)
+    html = html.replace(/\s*<!-- Early theme[^>]*-->\s*<script>[\s\S]*?<\/script>\s*\n?/g, '');
+    html = html.replace(/\s*<script>\s*\(function\(\)\{[\s\S]*?localStorage\.getItem\('theme'\)[\s\S]*?\}\)\(\);?\s*<\/script>\s*\n?/g, '');
+    // Remove shared header JS
+    html = html.replace(/\s*<!-- Shared header JS[\s\S]*?<\/script>\s*\n?/, '');
+    // Remove old font link if present (we'll add fresh one)
+    html = html.replace(/<link[^>]*fonts\.googleapis\.com[^>]*>\s*\n?/g, '');
+
+    // Remove old cwn-ticker
+    html = html.replace(cwnTickerRe, '');
+
+    const newHeader = makeHeaderHTML(active);
+
+    if (cwnHeaderRe.test(html)) {
+      html = html.replace(cwnHeaderRe, newHeader);
+    } else if (sharedHeaderRe.test(html)) {
+      html = html.replace(sharedHeaderRe, newHeader);
+    } else if (simpleHeaderRe.test(html)) {
+      html = html.replace(simpleHeaderRe, newHeader);
+    } else {
+      // Fallback: insert after <body>
+      html = html.replace(/<body[^>]*>/, (m) => m + '\n' + newHeader);
     }
 
-    function formatDate(iso){
-      const d = new Date(iso);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleString([], { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    if (html !== original) {
+      writeFileSync(file, html, 'utf8');
+      console.log(`${file}: updated`);
+    } else {
+      console.log(`${file}: no changes`);
     }
-
-    async function load(){
-      const id = qs("id");
-      if(!id){
-        document.getElementById("title").textContent = "Article not found";
-        document.getElementById("err").style.display = "block";
-        document.getElementById("err").textContent = "Missing article id.";
-        return;
-      }
-      const res = await fetch(`${API_BASE}/api/article?id=` + encodeURIComponent(id));
-      if(!res.ok){
-        document.getElementById("title").textContent = "Article not found";
-        document.getElementById("err").style.display = "block";
-        document.getElementById("err").textContent = "Could not load this article yet. Try refreshing in a moment.";
-        return;
-      }
-      const a = await res.json();
-
-      // Show image if available
-      if (a.imageUrl) {
-        const imgEl = document.getElementById("articleImg");
-        imgEl.src = a.imageUrl;
-        imgEl.alt = a.calmTitle || a.title || "Article image";
-        imgEl.referrerPolicy = "no-referrer";
-        imgEl.onerror = function(){ this.style.display = "none"; };
-        imgEl.onload = function(){ this.style.display = "block"; };
-      }
-
-      const fullTitle = a.calmTitle || a.calm_headline || a.title || "Update";
-      document.getElementById("title").textContent = fullTitle;
-      // set browser tab title
-      document.title = fullTitle + " - TheDubaiBrief";
-      document.getElementById("summary").textContent =
-        a.calmSummary || a.summary || a.summarizedContent || a.description || a.excerpt || "";
-
-
-      const metaBits = [];
-      if (a.sourceName) metaBits.push("Source: " + a.sourceName);
-      if (a.publishedAt) metaBits.push("Posted: " + formatDate(a.publishedAt));
-      if (a.url) metaBits.push("Link verified: yes");
-      document.getElementById("meta").textContent = metaBits.join(" · ");
-
-      if (a.url){
-        const link = document.getElementById("sourceLink");
-        link.href = a.url;
-        link.style.display = "inline-flex";
-      }
-    }
-
-    load().catch(() => {
-      document.getElementById("title").textContent = "Could not load article";
-      document.getElementById("err").style.display = "block";
-      document.getElementById("err").textContent = "Please refresh and try again.";
-    });
-  </script>
-</body>
-</html>
-
+  } catch (e) {
+    console.log(`${file}: ERROR — ${e.message}`);
+  }
+}
