@@ -436,180 +436,123 @@ function deduplicateArticles(articles) {
 function categorizeArticle(title, summary) {
   const text = ((title || '') + ' ' + (summary || '')).toLowerCase();
 
+  // BREAKING NEWS — checked first, overrides all other categories
+  const BREAKING_KEYWORDS = [
+    'breaking', 'urgent', 'just in', 'alert', 'emergency declared',
+    'immediate', 'developing story', 'flash', 'bulletin', 'just announced',
+    'confirmed dead', 'explosion reported', 'evacuation ordered', 'breaking news',
+  ];
+  for (const kw of BREAKING_KEYWORDS) {
+    if (text.includes(kw)) return 'Breaking News';
+  }
+
   const categories = {
-    'Sport': [
-      'f1', 'formula 1', 'formula one',
-      'grand prix', 'mercedes', 'ferrari',
-      'red bull racing', 'hamilton',
-      'verstappen', 'russell', 'leclerc',
-      'football', 'cricket', 'tennis',
-      'golf', 'rugby', 'basketball',
-      'world cup', 'olympics', 'champion',
-      'premier league', 'la liga',
-      'uae pro league', 'al ain', 'al jazira',
-      'shabab al ahli', 'dubai fc',
-      'horse racing', 'dubai world cup',
-      'marathon', 'cycling', 'triathlon',
-      'match', 'score', 'goal', 'wicket',
-      'player', 'coach', 'stadium',
-      'transfer', 'athlete', 'podium',
-      'race', 'qualifying', 'driver',
-      'constructor', 'gp', 'motogp',
-      'wimbledon', 'ufc', 'boxing',
-      'strade bianche', 'tour de france',
+    'UAE Government': [
+      'sheikh', 'his highness', 'hh sheikh', 'ruler of dubai', 'ruler of abu dhabi',
+      'crown prince', 'uae president', 'uae vice president', 'prime minister uae',
+      'federal authority', 'uae cabinet', 'uae ministry', 'uae minister',
+      'uae law', 'uae decree', 'uae policy', 'wam', 'uae government', 'emirates news',
+      'uae vision 2031', 'uae strategy', 'uae council', 'uae federal',
+      'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz',
+      'hamdan bin mohammed', 'khaled bin mohammed',
     ],
-    'World': [
-      'iran', 'israel', 'lebanon',
-      'saudi arabia', 'qatar', 'kuwait',
-      'bahrain', 'oman', 'egypt', 'jordan',
-      'syria', 'iraq', 'yemen', 'gaza',
-      'palestine', 'hamas', 'hezbollah',
-      'gcc', 'arab league', 'opec',
-      'strikes', 'missile', 'conflict',
-      'war', 'ceasefire', 'sanctions',
-      'diplomatic', 'ambassador',
-      'regional', 'international',
-      'global', 'foreign minister',
-      'un security', 'nato', 'pentagon',
-      'kremlin', 'white house',
-      'suspend', 'attack on', 'invasion',
-      'troops', 'military operation',
+    'Dubai News': [
+      'dubai', 'dxb', 'dubai municipality', 'dubai police', 'dubai health authority',
+      'dha', 'rta dubai', 'dubai metro', 'dubai airport', 'terminal 3',
+      'dubai frame', 'burj khalifa', 'downtown dubai', 'dubai marina',
+      'jumeirah', 'deira', 'bur dubai', 'business bay', 'palm jumeirah',
+      'dubai hills', 'dubai creek', 'creek harbour', 'expo city dubai',
+      'dubai chamber', 'ded dubai', 'dubai tourism', 'visit dubai',
+      'dubai court', 'dubai prosecution', 'dubai government', 'dubai ruler',
+      'dubai smart city', 'dubai future',
     ],
-    'Safety': [
-      'police', 'dubai police',
-      'abu dhabi police', 'crime', 'arrest',
-      'wanted', 'suspect', 'safety',
-      'security alert', 'warning',
-      'emergency', 'fire', 'explosion',
-      'flood', 'danger', 'robbery',
-      'fraud', 'scam', 'assault',
-      'traffic accident', 'fatality',
-      'civil defence', 'rescue',
+    'Abu Dhabi News': [
+      'abu dhabi', 'auh', 'adnoc', 'adgm', 'abu dhabi police', 'doh abu dhabi',
+      'abu dhabi health', 'adek', 'abu dhabi investment', 'mubadala', 'adq', 'aldar',
+      'abu dhabi airport', 'zayed', 'louvre abu dhabi', 'saadiyat',
+      'yas island', 'al reem island', 'masdar city', 'abu dhabi corniche',
+      'abu dhabi government', 'abu dhabi ruler', 'abu dhabi crown prince',
+      'abu dhabi chamber', 'abu dhabi tourism', 'abu dhabi court',
+      'abu dhabi municipality', 'abu dhabi smart city',
     ],
-    'Government': [
-      'sheikh', 'his highness', 'ruler',
-      'crown prince', 'president of uae',
-      'vice president', 'prime minister uae',
-      'minister announced', 'ministry of',
-      'federal authority', 'municipality',
-      'law passed', 'new decree',
-      'cabinet meeting', 'uae vision',
-      'uae strategy', 'official visit',
-    ],
-    'Business': [
-      'economy', 'gdp', 'inflation',
-      'stock market', 'dfm', 'adx',
-      'difc', 'adgm', 'bank', 'investment',
-      'real estate', 'property market',
-      'startup funding', 'ipo', 'merger',
-      'revenue', 'profit', 'quarterly',
-      'oil price', 'crude', 'barrel',
-      'gold price', 'dirham exchange',
-      'retail sales', 'tourism revenue',
-    ],
-    'Transport': [
-      'rta', 'dubai metro', 'tram',
-      'bus route', 'taxi', 'careem',
-      'dxb airport', 'auh airport',
-      'emirates airline', 'etihad',
-      'flydubai', 'air arabia',
-      'flight delay', 'flight cancel',
-      'visa update', 'entry requirement',
-      'traffic jam', 'road closure',
-      'new bridge', 'new road', 'salik',
-      'toll gate', 'speed camera',
-    ],
-    'Health': [
-      'dha', 'mohap', 'hospital',
-      'clinic', 'doctor', 'patient',
-      'surgery', 'vaccine', 'virus',
-      'disease', 'outbreak', 'epidemic',
-      'cancer', 'diabetes', 'heart disease',
-      'mental health', 'health warning',
-      'medical', 'treatment', 'drug approved',
-      'health insurance', 'pharmaceutical',
-    ],
-    'Education': [
-      'school', 'university', 'college',
-      'khda', 'adek', 'gems', 'taaleem',
-      'student', 'teacher', 'exam',
-      'curriculum', 'admission',
-      'scholarship', 'academic',
-      'school closure', 'school holiday',
-      'graduation', 'e-learning',
-    ],
-    'Weather': [
-      'weather', 'temperature', 'humidity',
-      'rain', 'rainfall', 'storm',
-      'thunder', 'lightning', 'fog',
-      'dust storm', 'sandstorm', 'wind',
-      'heat wave', 'cold front', 'ncm',
-      'national centre of meteorology',
-      'forecast', 'degrees celsius',
-      'uv index', 'sunny', 'cloudy',
+    'Economy & Business': [
+      'economy', 'gdp', 'inflation', 'market', 'stock exchange', 'dfm', 'adx', 'difc',
+      'investment', 'finance', 'banking', 'real estate', 'property', 'mortgage',
+      'startup', 'funding', 'ipo', 'acquisition', 'revenue', 'profit', 'quarterly results',
+      'oil price', 'crude', 'barrel', 'opec', 'gold price', 'dirham', 'exchange rate',
+      'retail', 'trade', 'export', 'import', 'tourism revenue', 'hospitality revenue',
+      'business license', 'commercial', 'entrepreneur', 'venture capital',
+      'merger', 'partnership announced', 'economic growth', 'recession',
+      'cost of living', 'salary', 'wages',
     ],
     'Technology': [
-      'artificial intelligence', ' ai ',
-      'machine learning', 'robotics',
-      'cybersecurity', 'data breach',
-      'hacking', '5g network', 'blockchain',
-      'cryptocurrency', 'bitcoin', 'nft',
-      'gitex', 'tech startup', 'coding',
-      'cloud computing', 'metaverse',
-      'smart city tech', 'autonomous vehicle',
-      'digital transformation', 'app launch',
-      'software update', 'iphone', 'android',
+      'artificial intelligence', 'ai model', 'machine learning', 'deep learning',
+      'robotics', 'automation', 'drone', 'cybersecurity', 'data breach', 'hacking',
+      '5g', '6g', 'network infrastructure', 'blockchain', 'web3', 'cryptocurrency',
+      'bitcoin', 'ethereum', 'nft', 'gitex', 'tech summit', 'hackathon',
+      'app launch', 'software', 'platform', 'cloud computing', 'saas', 'fintech',
+      'smart city', 'iot', 'sensors', 'electric vehicle', 'self driving',
+      'autonomous', 'metaverse', 'vr', 'ar', 'digital transformation', 'coding',
+      'tech startup', 'unicorn', 'tech ipo',
     ],
-    'Lifestyle': [
-      'restaurant', 'cafe', 'dining',
-      'hotel', 'resort', 'spa', 'luxury',
-      'shopping mall', 'fashion week',
-      'concert', 'festival', 'event',
-      'movie', 'cinema', 'music festival',
-      'art exhibition', 'museum',
-      'travel guide', 'staycation',
-      'beach club', 'hiking trail',
-      'fitness', 'yoga', 'wellness',
+    'Sports': [
+      'f1', 'formula 1', 'formula one', 'grand prix', 'verstappen', 'hamilton',
+      'russell', 'leclerc', 'sainz', 'norris', 'football', 'soccer', 'premier league',
+      'la liga', 'serie a', 'bundesliga', 'uae pro league', 'arabian gulf league',
+      'al ain fc', 'al jazira', 'al wahda', 'shabab al ahli', 'dubai fc',
+      'al hilal', 'al nassr', 'cricket', 'ipl', 'test match', 'odi',
+      'tennis', 'atp', 'wta', 'wimbledon', 'us open', 'french open', 'australian open',
+      'golf', 'pga', 'ryder cup', 'uae golf', 'emirates golf club',
+      'rugby', 'nba', 'basketball', 'swimming', 'athletics', 'olympics',
+      'world cup 2026', 'asian cup', 'horse racing', 'dubai world cup',
+      'meydan', 'nad al sheba', 'ufc', 'boxing', 'wrestling',
+      'marathon', 'cycling', 'triathlon', 'abu dhabi grand prix', 'dubai marathon',
+      'coach', 'transfer', 'signing', 'contract', 'stadium', 'match result',
+      'score', 'championship', 'tournament', 'league table', 'player of the match', 'hat trick',
     ],
-    'Community': [
-      'expat', 'resident visa', 'golden visa',
-      'citizenship', 'passport renewal',
-      'charity', 'volunteer', 'donation',
-      'mosque', 'church', 'temple',
-      'ramadan', 'eid', 'diwali',
-      'christmas', 'cultural event',
-      'cost of living', 'rent increase',
-      'housing', 'community initiative',
+    'Politics': [
+      'iran', 'israel', 'palestine', 'gaza', 'lebanon', 'hezbollah', 'hamas',
+      'saudi arabia', 'riyadh', 'neom', 'qatar', 'doha', 'kuwait', 'bahrain',
+      'oman', 'muscat', 'egypt', 'cairo', 'jordan', 'amman', 'syria', 'damascus',
+      'iraq', 'baghdad', 'yemen', 'sanaa', 'russia', 'ukraine', 'nato',
+      'united states', 'washington', 'white house', 'pentagon',
+      'china', 'beijing', 'xi jinping', 'india', 'modi', 'pakistan',
+      'united nations', 'un security council', 'opec meeting', 'g20', 'g7',
+      'ceasefire', 'peace talks', 'sanctions', 'diplomatic relations', 'ambassador',
+      'bilateral meeting', 'foreign minister', 'political prisoner', 'election',
+      'coup', 'protest', 'demonstration', 'regional conflict', 'geopolitical',
+      'missile strike', 'military operation', 'war', 'invasion', 'occupation',
+      'nuclear deal', 'arms deal', 'arab spring', 'revolution',
     ],
   };
 
   // Score each category
   const scores = {};
-  for (const [category, keywords] of Object.entries(categories)) {
-    scores[category] = 0;
-    for (const keyword of keywords) {
-      if (text.includes(keyword)) scores[category]++;
+  for (const [cat, kws] of Object.entries(categories)) {
+    scores[cat] = 0;
+    for (const kw of kws) {
+      if (text.includes(kw)) scores[cat]++;
     }
   }
 
-  // Priority order for ties — Technology last so it never wins on generic terms
+  // Priority: Dubai > Abu Dhabi > UAE Gov > Economy > Sports > Technology > Politics
+  // (Dubai/Abu Dhabi beat UAE Gov when location-specific keywords are present)
   const priority = [
-    'Sport', 'World', 'Safety',
-    'Government', 'Transport', 'Health',
-    'Education', 'Weather', 'Business',
-    'Community', 'Lifestyle', 'Technology',
+    'Dubai News', 'Abu Dhabi News', 'UAE Government',
+    'Economy & Business', 'Sports', 'Technology', 'Politics',
   ];
 
-  let bestCategory = 'General';
+  let bestCategory = null;
   let highestScore = 0;
-  for (const category of priority) {
-    if (scores[category] > highestScore) {
-      highestScore = scores[category];
-      bestCategory = category;
+  for (const cat of priority) {
+    if (scores[cat] > highestScore) {
+      highestScore = scores[cat];
+      bestCategory = cat;
     }
   }
 
-  return bestCategory;
+  // Default to UAE Government (most articles from official UAE sources fall here)
+  return bestCategory || 'UAE Government';
 }
 
 // ─── Cache plumbing ───────────────────────────────────────────────────────────
@@ -729,6 +672,8 @@ async function performBuild() {
       });
       if (!normalized.url) continue;
       normalized.id = stableId(normalized);
+      // Tag government sources for the Gov feed section
+      normalized.isGovSource = [1, 5, 7].includes(source.tier);
 
       // Carry forward cached metadata to avoid re-fetching
       if (prevMap.has(normalized.url)) {
@@ -788,6 +733,7 @@ async function performBuild() {
       item.calmTitle || item.title || '',
       item.calmSummary || item.description || ''
     );
+    item.isBreaking = item.category === 'Breaking News';
   }
 
   // ── Persist all processed articles to Supabase (archive) ─────────────────

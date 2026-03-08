@@ -97,130 +97,17 @@
     }
 
 
-    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
-    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
-    :root{
-      --bg:#F5F3ED;
-      --surface:#FFFCF7;
-      --ink:#1C1612;
-      --ink-muted:#6C5B4E;
-      --border:rgba(36,24,16,0.14);
-      --radius-lg:18px;
-      --shadow:0 18px 45px rgba(20,12,4,0.13);
-      --max-width:980px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{
-      font-family:'Outfit',sans-serif;
-      background:radial-gradient(circle at top left,#FDF9F1 0,#F5F3ED 48%,#EDE4D6 100%);
-      color:var(--ink);
-      min-height:100vh;
-    }
-    header{
-      background:linear-gradient(135deg,#B3001B,#7D0013);
-      border-bottom:2px solid rgba(255,255,255,0.8);
-      color:#fff;
-      padding:14px 18px;
-    }
-    .header-inner{
-      max-width:var(--max-width);
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      text-decoration:none;
-    }
-    .logo-box{
-      width:34px;
-      height:34px;
-      border-radius:8px;
-      background:rgba(255,255,255,0.15);
-      border:2px solid rgba(255,255,255,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family:'Righteous',cursive;
-      font-size:18px;
-      color:#FFFFFF;
-    }
-    .back{
-      color:#fff;
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,0.6);
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-    }
-    main{
-      max-width:var(--max-width);
-      margin:20px auto 34px;
-      padding:0 18px;
-    }
-    .card{
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:var(--radius-lg);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
-    .meta{
-      font-size:12px;
-      color:var(--ink-muted);
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px 14px;
-      margin-bottom:10px;
-    }
-    .title{
-      font-family:'Outfit',sans-serif;
-      font-weight:700;
-      font-size:26px;
-      line-height:1.2;
-      margin-bottom:10px;
-    }
-    .summary{
-      font-size:14px;
-      line-height:1.75;
-      color:var(--ink-muted);
-    }
-    .sourceLink{
-      display:inline-flex;
-      margin-top:14px;
-      gap:8px;
-      align-items:center;
-      color:#7D0013;
-      text-decoration:none;
-      font-weight:700;
-      border:1px solid rgba(125,0,19,0.25);
-      background:rgba(179,0,27,0.06);
-      padding:10px 12px;
-      border-radius:12px;
-    }
-    .article-img{
-      width:100%;
-      max-height:420px;
-      object-fit:cover;
-      border-radius:14px;
-      margin-bottom:14px;
-    }
-    .error{
-      padding:14px;
-      border-radius:12px;
-      border:1px solid rgba(179,0,27,0.25);
-      background:rgba(179,0,27,0.06);
-      color:#7D0013;
-      margin-top:10px;
-    }
-  </style>
+
+    </style>
 </head>
-<body>
+<body><div class="shared-util-right">
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Header -->
   
   <!-- Early theme: prevents flash -->
   <script>
@@ -259,12 +146,12 @@
       <a class="shared-brand" href="/uae-calm-uae-news.html">
         <div class="shared-logo-boxes">
           <div class="shared-logo-box">D</div>
-          <div class="shared-logo-box">U</div>
+          <div class="shared-logo-box">B</div>
           <div class="shared-logo-box">B</div>
         </div>
         <div class="shared-logo-text">
           <div class="shared-logo-main">TheDubaiBrief</div>
-              <div class="shared-logo-sub">Dubai's News. Clear &amp; Calm.</div>
+          <div class="shared-logo-sub">UAE Official Sources</div>
         </div>
       </a>
       <div class="shared-header-right">
@@ -328,9 +215,7 @@
       }
     })();
   </script>
-
-
-  <main>
+<main>
     <div class="card">
       <img id="articleImg" class="article-img" style="display:none;" />
       <div id="meta" class="meta"></div>

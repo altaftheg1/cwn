@@ -1415,7 +1415,8 @@
         grid-template-columns:repeat(2, 1fr);
       }
     }
-    @media (max-width:1024px){      .hero-grid{
+    @media (max-width:1024px){
+      .hero-grid{
         grid-template-columns:1fr;
       }
       .hero-sides{
@@ -1425,7 +1426,8 @@
         grid-template-columns:repeat(2, 1fr);
       }
     }
-    @media (max-width:768px){      .utility-bar{
+    @media (max-width:768px){
+      .utility-bar{
         flex-direction:column;
         gap:12px;
         align-items:flex-start;
@@ -2537,18 +2539,15 @@
     <!-- Mobile nav dropdown (toggled by hamburger) -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
       <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;"> All News</a>
-      <a href="#" onclick="filterByCategory('Safety',null);closeMobileNav();return false;"> Safety</a>
-      <a href="#" onclick="filterByCategory('Government',null);closeMobileNav();return false;"> Government</a>
-      <a href="#" onclick="filterByCategory('Business',null);closeMobileNav();return false;"> Business</a>
-      <a href="#" onclick="filterByCategory('Transport',null);closeMobileNav();return false;"> Transport</a>
-      <a href="#" onclick="filterByCategory('Health',null);closeMobileNav();return false;"> Health</a>
-      <a href="#" onclick="filterByCategory('Education',null);closeMobileNav();return false;"> Education</a>
-      <a href="#" onclick="filterByCategory('Sport',null);closeMobileNav();return false;"> Sport</a>
-      <a href="#" onclick="filterByCategory('Weather',null);closeMobileNav();return false;"> Weather</a>
-      <a href="#" onclick="filterByCategory('Lifestyle',null);closeMobileNav();return false;"> Lifestyle</a>
+      <a href="#" onclick="filterByCategory('Breaking News',null);closeMobileNav();return false;" style="color:#C8102E;font-weight:700;"><span id="mobileBreakingDot" style="display:none;width:8px;height:8px;background:#C8102E;border-radius:50%;display:inline-block;margin-right:4px;animation:navPulse 1.5s infinite;"></span> Breaking</a>
+      <a href="#" onclick="filterByCategory('UAE Government',null);closeMobileNav();return false;"> UAE Gov</a>
+      <a href="#" onclick="filterByCategory('Dubai News',null);closeMobileNav();return false;"> Dubai</a>
+      <a href="#" onclick="filterByCategory('Abu Dhabi News',null);closeMobileNav();return false;"> Abu Dhabi</a>
+      <a href="#" onclick="filterByCategory('Economy & Business',null);closeMobileNav();return false;"> Economy</a>
       <a href="#" onclick="filterByCategory('Technology',null);closeMobileNav();return false;"> Tech</a>
-      <a href="#" onclick="filterByCategory('World',null);closeMobileNav();return false;"> World</a>
-      <a href="#" onclick="filterByCategory('Community',null);closeMobileNav();return false;"> Community</a>
+      <a href="#" onclick="filterByCategory('Sports',null);closeMobileNav();return false;"> Sports</a>
+      <a href="#" onclick="filterByCategory('Politics',null);closeMobileNav();return false;"> Politics</a>
+      <a href="/government.html"> Gov Live</a>
       <a href="/archive"> Archive</a>
       <a href="/about.html">About</a>
     </div>
@@ -2557,18 +2556,15 @@
     <nav class="subnav-bar" id="subnavBar">
       <div class="subnav-inner">
         <a href="#" class="subnav-link active" data-cat="all" onclick="filterByCategory('all',null);return false;"> All</a>
-        <a href="#" class="subnav-link" data-cat="Safety" onclick="filterByCategory('Safety',null);return false;"> Safety</a>
-        <a href="#" class="subnav-link" data-cat="Government" onclick="filterByCategory('Government',null);return false;"> Gov</a>
-        <a href="#" class="subnav-link" data-cat="Business" onclick="filterByCategory('Business',null);return false;"> Business</a>
-        <a href="#" class="subnav-link" data-cat="Transport" onclick="filterByCategory('Transport',null);return false;"> Transport</a>
-        <a href="#" class="subnav-link" data-cat="Health" onclick="filterByCategory('Health',null);return false;"> Health</a>
-        <a href="#" class="subnav-link" data-cat="Education" onclick="filterByCategory('Education',null);return false;"> Education</a>
-        <a href="#" class="subnav-link" data-cat="Sport" onclick="filterByCategory('Sport',null);return false;"> Sport</a>
-        <a href="#" class="subnav-link" data-cat="Weather" onclick="filterByCategory('Weather',null);return false;"> Weather</a>
-        <a href="#" class="subnav-link" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',null);return false;"> Lifestyle</a>
+        <a href="#" class="subnav-link subnav-breaking" data-cat="Breaking News" onclick="filterByCategory('Breaking News',null);return false;"><span class="subnav-breaking-dot" id="breakingNavDot" style="display:none;"></span> Breaking</a>
+        <a href="#" class="subnav-link" data-cat="UAE Government" onclick="filterByCategory('UAE Government',null);return false;"> UAE Gov</a>
+        <a href="#" class="subnav-link" data-cat="Dubai News" onclick="filterByCategory('Dubai News',null);return false;"> Dubai</a>
+        <a href="#" class="subnav-link" data-cat="Abu Dhabi News" onclick="filterByCategory('Abu Dhabi News',null);return false;"> Abu Dhabi</a>
+        <a href="#" class="subnav-link" data-cat="Economy & Business" onclick="filterByCategory('Economy &amp; Business',null);return false;"> Economy</a>
         <a href="#" class="subnav-link" data-cat="Technology" onclick="filterByCategory('Technology',null);return false;"> Tech</a>
-        <a href="#" class="subnav-link" data-cat="World" onclick="filterByCategory('World',null);return false;"> World</a>
-        <a href="#" class="subnav-link" data-cat="Community" onclick="filterByCategory('Community',null);return false;"> Community</a>
+        <a href="#" class="subnav-link" data-cat="Sports" onclick="filterByCategory('Sports',null);return false;"> Sports</a>
+        <a href="#" class="subnav-link" data-cat="Politics" onclick="filterByCategory('Politics',null);return false;"> Politics</a>
+        <a href="/government.html" class="subnav-link subnav-govlive"><span class="subnav-govlive-dot" id="govLiveNavDot"></span> Gov Live</a>
         <a href="/archive" class="subnav-link"> Archive</a>
       </div>
     </nav>
@@ -2796,7 +2792,8 @@
     let allNews = [];
     let currentFilter = 'all';
     let currentCategory = 'all';
-    let currentSearch = '';    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+    let currentSearch = '';
+    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
     // Update clock every second
     function updateClock() {
@@ -2898,7 +2895,8 @@
       if (s.includes('emirates') || s.includes('emirates24')) return 'emirates';
       if (s.includes('khaleej')) return 'khaleej';
       return 'emirates';
-    }    // Splash logic
+    }
+    // Splash logic
     (function() {
       const splash = document.getElementById('splash');
       const app = document.getElementById('appShell');
@@ -2943,7 +2941,8 @@
         allNews = (Array.isArray(d.items) ? d.items : []).map(item => ({
           ...item,
           topic: classifyTopic(item)
-        }));
+        }));
+
         if (!allNews.length) {
           document.getElementById('heroGrid').innerHTML = '<div class="hero-main" style="padding:24px;">No stories are available right now. Please refresh shortly.</div>';
           document.getElementById('storyGrid').innerHTML = '';
@@ -3500,7 +3499,7 @@
       function applyDark(dark) {
         document.documentElement.classList.toggle('dark', dark);
         document.body.classList.toggle('dark', dark);
-        toggle.textContent = dark ? '' : '';
+        toggle.textContent = dark ? '☀' : '☾';
       }
       applyDark(localStorage.getItem('theme') === 'dark');
       toggle.addEventListener('click', function() {

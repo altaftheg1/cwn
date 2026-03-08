@@ -99,159 +99,8 @@
     }
 
 
-    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
-    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
-    :root {
-      --red:#C8102E; --red-dark:#9B0B22; --cream:#F7F4EF;
-      --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
-      --border:#DDD8CF; --gold:#B8860B; --surface:#FFFFFF;
-      --green:#2E7D32; --green-light:#E8F5E9;
-      --amber:#E65100; --amber-light:#FFF3E0;
-      --radius:10px; --shadow:0 2px 12px rgba(0,0,0,0.07); --max:860px;
-    }
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased; }
 
-    .topbar { background:#000; color:#fff; font-size:11px; padding:8px 24px; display:flex; justify-content:space-between; align-items:center; }
-    .topbar a { color:var(--gold); text-decoration:none; }
-    header { background:var(--red); border-bottom:3px solid #000; padding:16px 24px; }
-    .header-inner { max-width:var(--max); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .logo-boxes { display:flex; gap:6px; }
-    .logo-box { width:36px; height:36px; border-radius:5px; background:var(--red); border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:16px; font-weight:900; color:#fff; }
-    .brand-text { color:#fff; font-size:13px; font-weight:600; }
-    .brand-sub { color:rgba(255,255,255,0.8); font-size:10px; }
-    .back-link { color:#fff; text-decoration:none; font-size:13px; font-weight:500; border:1px solid rgba(255,255,255,0.5); padding:7px 14px; border-radius:4px; transition:background 0.15s; }
-    .back-link:hover { background:rgba(255,255,255,0.12); }
-
-    /* ── Hero status banner ── */
-    .status-hero {
-      background: linear-gradient(135deg, #0A1A0A, #0D2B0D);
-      padding: 60px 24px 50px;
-      text-align: center;
-    }
-    .status-hero.amber-bg { background: linear-gradient(135deg, #1A0D00, #2E1A00); }
-    .status-hero.red-bg   { background: linear-gradient(135deg, #1A0006, #3A0010); }
-
-    .status-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
-      padding: 10px 28px;
-      margin-bottom: 24px;
-    }
-    .status-dot {
-      width: 14px; height: 14px; border-radius: 50%;
-      background: #4CAF50;
-      box-shadow: 0 0 12px #4CAF50, 0 0 24px rgba(76,175,80,0.4);
-      animation: pulse-green 2s infinite;
-      flex-shrink: 0;
-    }
-    .status-dot.amber { background: #FF9800; box-shadow: 0 0 12px #FF9800, 0 0 24px rgba(255,152,0,0.4); animation: pulse-amber 2s infinite; }
-    .status-dot.red   { background: #F44336; box-shadow: 0 0 12px #F44336, 0 0 24px rgba(244,67,54,0.4); animation: pulse-red 2s infinite; }
-    @keyframes pulse-green { 0%,100%{box-shadow:0 0 12px #4CAF50,0 0 24px rgba(76,175,80,0.4);} 50%{box-shadow:0 0 20px #4CAF50,0 0 40px rgba(76,175,80,0.7);} }
-    @keyframes pulse-amber { 0%,100%{box-shadow:0 0 12px #FF9800;} 50%{box-shadow:0 0 24px #FF9800;} }
-    @keyframes pulse-red   { 0%,100%{box-shadow:0 0 12px #F44336;} 50%{box-shadow:0 0 24px #F44336;} }
-
-    .status-level { font-size:13px; font-weight:700; color:#fff; letter-spacing:0.1em; text-transform:uppercase; }
-    .status-big { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,6vw,4rem); font-weight:900; color:#fff; line-height:1.1; margin-bottom:14px; }
-    .status-desc { font-family:'Source Serif 4',serif; font-size:1rem; color:rgba(255,255,255,0.7); max-width:560px; margin:0 auto 24px; line-height:1.6; }
-    .status-updated { font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:0.06em; }
-
-    /* ── Main ── */
-    main { max-width:var(--max); margin:0 auto; padding:48px 24px 80px; }
-
-    /* ── Disclaimer ── */
-    .disclaimer {
-      background: var(--amber-light);
-      border: 1px solid #FFCC02;
-      border-left: 4px solid var(--amber);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 32px;
-      font-size: 13px;
-      color: var(--amber);
-    }
-    .disclaimer strong { color: #5D3500; }
-
-    /* ── Region cards ── */
-    .section-label { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
-    .section-heading { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--ink); margin-bottom:20px; }
-    .regions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:40px; }
-    .region-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-    .region-card.clear { border-top:3px solid #4CAF50; }
-    .region-card.monitor { border-top:3px solid #FF9800; }
-    .region-card.elevated { border-top:3px solid var(--red); }
-    .region-name { font-weight:700; font-size:14px; color:var(--ink); margin-bottom:6px; display:flex; align-items:center; gap:8px; }
-    .region-badge { font-size:9px; font-weight:700; padding:2px 7px; border-radius:2px; text-transform:uppercase; letter-spacing:0.07em; }
-    .region-badge.clear { background:var(--green-light); color:var(--green); }
-    .region-badge.monitor { background:var(--amber-light); color:var(--amber); }
-    .region-badge.elevated { background:var(--red-light,#f5e5e8); color:var(--red); }
-    .region-note { font-size:12px; color:var(--ink-light); line-height:1.4; }
-
-    /* ── Info cards ── */
-    .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:40px; }
-    .info-card {
-      background:var(--surface);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:24px;
-      box-shadow:var(--shadow);
-    }
-    .info-card h3 { font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--ink); margin-bottom:12px; }
-    .info-card p, .info-card li { font-family:'Source Serif 4',serif; font-size:14px; color:var(--ink-mid); line-height:1.6; }
-    .info-card ul { margin-left:18px; }
-    .info-card li { margin-bottom:5px; }
-
-    /* ── Official links ── */
-    .official-links { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:40px; }
-    .official-link {
-      display:flex; align-items:center; gap:12px;
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); padding:14px 16px;
-      text-decoration:none; transition:box-shadow 0.15s;
-      box-shadow:var(--shadow);
-    }
-    .official-link:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
-    .official-link-icon { width:36px; height:36px; border-radius:7px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:10px; flex-shrink:0; }
-    .official-link-name { font-size:13px; font-weight:600; color:var(--ink); }
-    .official-link-desc { font-size:11px; color:var(--ink-light); }
-    .official-link-arrow { margin-left:auto; color:var(--ink-light); font-size:14px; }
-
-    /* ── Emergency contacts ── */
-    .emergency-card {
-      background:var(--ink);
-      border-radius:var(--radius);
-      padding:32px;
-      color:#fff;
-      margin-bottom:40px;
-    }
-    .emergency-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; margin-bottom:6px; }
-    .emergency-card .sub { color:rgba(255,255,255,0.6); font-size:13px; margin-bottom:20px; }
-    .emergency-numbers { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-    .emergency-num { background:rgba(255,255,255,0.06); border-radius:8px; padding:14px; text-align:center; }
-    .emergency-num .num { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:var(--gold); }
-    .emergency-num .label { font-size:10px; color:rgba(255,255,255,0.55); margin-top:4px; text-transform:uppercase; letter-spacing:0.06em; }
-
-    footer { background:#000; color:rgba(255,255,255,0.5); text-align:center; padding:20px 24px; font-size:12px; }
-    footer a { color:var(--gold); text-decoration:none; }
-
-    @media (max-width:700px) {
-      .regions-grid { grid-template-columns:1fr; }
-      .info-grid { grid-template-columns:1fr; }
-      .official-links { grid-template-columns:1fr; }
-      .emergency-numbers { grid-template-columns:repeat(2,1fr); }
-    }
-  </style>
+    </style>
 <style>
     html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
     html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
@@ -300,9 +149,15 @@
     <a href="/sources.html">Sources</a>
     <a href="/contact.html">Contact</a>
   </div>
-</div>
+</div><div class="shared-util-right">
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
 
-
+  <!-- Main Header -->
+  
   <!-- Early theme: prevents flash -->
   <script>
     (function(){
@@ -340,12 +195,12 @@
       <a class="shared-brand" href="/uae-calm-uae-news.html">
         <div class="shared-logo-boxes">
           <div class="shared-logo-box">D</div>
-          <div class="shared-logo-box">U</div>
+          <div class="shared-logo-box">B</div>
           <div class="shared-logo-box">B</div>
         </div>
         <div class="shared-logo-text">
           <div class="shared-logo-main">TheDubaiBrief</div>
-              <div class="shared-logo-sub">Dubai's News. Clear &amp; Calm.</div>
+          <div class="shared-logo-sub">UAE Official Sources</div>
         </div>
       </a>
       <div class="shared-header-right">
@@ -409,8 +264,6 @@
       }
     })();
   </script>
-
-
 <span>LIVE FEED</span>
   </div>
   <div class="cwn-ticker-content">

@@ -99,59 +99,8 @@
     }
 
 
-    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
-    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
-    :root {
-      --red:#C8102E; --red-dark:#9B0B22; --cream:#F7F4EF;
-      --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
-      --border:#DDD8CF; --gold:#B8860B; --surface:#FFFFFF;
-      --radius:10px; --shadow:0 2px 12px rgba(0,0,0,0.07); --max:780px;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased; }
-    .topbar { background:#000; color:#fff; font-size:11px; padding:8px 24px; display:flex; justify-content:space-between; align-items:center; }
-    .topbar a { color:var(--gold); text-decoration:none; }
-    header { background:var(--red); border-bottom:3px solid #000; padding:16px 24px; }
-    .header-inner { max-width:var(--max); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .logo-boxes { display:flex; gap:6px; }
-    .logo-box { width:36px; height:36px; border-radius:5px; background:var(--red); border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:16px; font-weight:900; color:#fff; }
-    .brand-text { color:#fff; font-size:13px; font-weight:600; line-height:1.2; }
-    .brand-sub { color:rgba(255,255,255,0.8); font-size:10px; }
-    .back-link { color:#fff; text-decoration:none; font-size:13px; font-weight:500; border:1px solid rgba(255,255,255,0.5); padding:7px 14px; border-radius:4px; transition:background 0.15s; }
-    .back-link:hover { background:rgba(255,255,255,0.12); }
-    .hero { background:linear-gradient(135deg,#1A1208,#3D1C0A); padding:56px 24px 48px; text-align:center; }
-    .hero-label { display:inline-block; background:var(--red); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.12em; padding:4px 12px; border-radius:2px; margin-bottom:18px; text-transform:uppercase; }
-    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:14px; }
-    .hero p { color:rgba(255,255,255,0.65); font-size:14px; max-width:500px; margin:0 auto; }
-    .hero-meta { margin-top:24px; display:flex; justify-content:center; gap:24px; font-size:12px; color:rgba(255,255,255,0.5); }
-    main { max-width:var(--max); margin:0 auto; padding:48px 24px 80px; }
-    .toc-card { background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--red); border-radius:var(--radius); padding:24px 28px; margin-bottom:48px; box-shadow:var(--shadow); }
-    .toc-card h2 { font-family:'Playfair Display',serif; font-size:16px; font-weight:700; color:var(--ink); margin-bottom:14px; }
-    .toc-list { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; }
-    .toc-list li a { color:var(--red); text-decoration:none; font-size:13px; font-weight:500; display:flex; align-items:center; gap:6px; transition:color 0.15s; }
-    .toc-list li a:hover { color:var(--red-dark); text-decoration:underline; }
-    .toc-num { background:var(--red); color:#fff; font-size:10px; font-weight:700; width:18px; height:18px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .policy-section { margin-bottom:48px; scroll-margin-top:20px; }
-    .section-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(200,16,46,0.08); color:var(--red); font-size:10px; font-weight:700; letter-spacing:0.1em; padding:4px 10px; border-radius:2px; margin-bottom:10px; text-transform:uppercase; }
-    .policy-section h2 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--ink); margin-bottom:16px; line-height:1.2; }
-    .policy-section p { font-family:'Source Serif 4',serif; font-size:15px; color:var(--ink-mid); margin-bottom:14px; }
-    .policy-section ul { margin:10px 0 16px 20px; }
-    .policy-section li { font-family:'Source Serif 4',serif; font-size:15px; color:var(--ink-mid); margin-bottom:8px; line-height:1.6; }
-    .policy-section strong { color:var(--ink); font-weight:600; }
-    .info-box { background:#EBF0F7; border:1px solid #C5D5E8; border-radius:var(--radius); padding:16px 20px; margin:16px 0; font-size:14px; color:#1A3050; }
-    .info-box.amber { background:#FFF8E1; border-color:#FFE082; color:#5D4037; }
-    .info-box strong { display:block; margin-bottom:4px; }
-    .section-divider { border:none; border-top:1px solid var(--border); margin:48px 0; }
-    .contact-card { background:var(--ink); border-radius:var(--radius); padding:32px; color:#fff; text-align:center; }
-    .contact-card h2 { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; margin-bottom:10px; }
-    .contact-card p { color:rgba(255,255,255,0.7); font-size:14px; margin-bottom:20px; }
-    .contact-btn { display:inline-flex; align-items:center; gap:8px; background:var(--red); color:#fff; text-decoration:none; padding:12px 24px; border-radius:4px; font-weight:600; font-size:14px; transition:background 0.15s; }
-    .contact-btn:hover { background:var(--red-dark); }
-    footer { background:#000; color:rgba(255,255,255,0.5); text-align:center; padding:20px 24px; font-size:12px; }
-    footer a { color:var(--gold); text-decoration:none; }
-    @media (max-width:600px) { .toc-list { grid-template-columns:1fr; } main { padding:32px 16px 60px; } }
-  </style>
+
+    </style>
 <style>
     html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
     html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
@@ -200,9 +149,15 @@
     <a href="/sources.html">Sources</a>
     <a href="/contact.html">Contact</a>
   </div>
-</div>
+</div><div class="shared-util-right">
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
 
-
+  <!-- Main Header -->
+  
   <!-- Early theme: prevents flash -->
   <script>
     (function(){
@@ -240,12 +195,12 @@
       <a class="shared-brand" href="/uae-calm-uae-news.html">
         <div class="shared-logo-boxes">
           <div class="shared-logo-box">D</div>
-          <div class="shared-logo-box">U</div>
+          <div class="shared-logo-box">B</div>
           <div class="shared-logo-box">B</div>
         </div>
         <div class="shared-logo-text">
           <div class="shared-logo-main">TheDubaiBrief</div>
-              <div class="shared-logo-sub">Dubai's News. Clear &amp; Calm.</div>
+          <div class="shared-logo-sub">UAE Official Sources</div>
         </div>
       </a>
       <div class="shared-header-right">
@@ -309,8 +264,6 @@
       }
     })();
   </script>
-
-
 <span>LIVE FEED</span>
   </div>
   <div class="cwn-ticker-content">
