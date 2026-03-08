@@ -14,19 +14,14 @@ const files = [
   'article.html',
 ];
 
-// Match all emoji unicode blocks including variation selectors and flags
+// Match emoji unicode blocks including variation selectors and combiners
 const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic}|\uFE0F|\u20E3|\u200D)/gu;
 
 for (const f of files) {
   try {
     const content = readFileSync(f, 'utf8');
-    const cleaned = content
-      .replace(emojiRegex, '')   // strip emojis
-      .replace(/ {2,}/g, ' ')   // collapse multiple spaces left behind
-      .replace(/> /g, '>');     // remove leading space inside >text (e.g. "> Safety" → ">Safety") -- skip, preserve spacing
-
-    // Restore single space that was between emoji and text
-    const final = content.replace(emojiRegex, '').replace(/\s{2,}(?=\S)/g, ' ');
+    // ONLY remove emoji characters — do NOT touch whitespace or newlines
+    const final = content.replace(emojiRegex, '');
 
     if (final !== content) {
       writeFileSync(f, final, 'utf8');

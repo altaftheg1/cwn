@@ -1,12 +1,868 @@
 <!doctype html>
 <html lang="en">
-<head> <script> (function() { if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.addEventListener('DOMContentLoaded', function() { document.body && document.body.classList.add('dark'); }); } })(); </script> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1" /> <title>Privacy Policy — TheDubaiBrief</title> <meta name="description" content="Privacy Policy for TheDubaiBrief (CWN) — how we collect, use, and protect your information." /> <link rel="preconnect" href="https://fonts.googleapis.com" /> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" /> <style> html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;} html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;} :root { --red: #C8102E; --red-dark:#9B0B22; --cream: #F7F4EF; --ink: #1A1208; --ink-mid: #3D3328; --ink-light:#7A6E62; --border: #DDD8CF; --gold: #B8860B; --surface: #FFFFFF; --radius: 10px; --shadow: 0 2px 12px rgba(0,0,0,0.07); --max: 780px; } *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; } /* ── Top bar ── */ .topbar { background: #000; color: #fff; font-size: 11px; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; } .topbar a { color: var(--gold); text-decoration: none; } .topbar a:hover { text-decoration: underline; } /* ── Header ── */ header { background: var(--red); border-bottom: 3px solid #000; padding: 16px 24px; } .header-inner { max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; } .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; } .logo-boxes { display: flex; gap: 6px; } .logo-box { width: 36px; height: 36px; border-radius: 5px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 900; color: #fff; } .brand-text { color: #fff; font-size: 13px; font-weight: 600; line-height: 1.2; } .brand-sub { color: rgba(255,255,255,0.8); font-size: 10px; } .back-link { color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.5); padding: 7px 14px; border-radius: 4px; transition: background 0.15s; } .back-link:hover { background: rgba(255,255,255,0.12); } /* ── Hero banner ── */ .hero { background: linear-gradient(135deg, #1A1208 0%, #3D1C0A 100%); padding: 56px 24px 48px; text-align: center; } .hero-label { display: inline-block; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; padding: 4px 12px; border-radius: 2px; margin-bottom: 18px; text-transform: uppercase; } .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 14px; } .hero p { color: rgba(255,255,255,0.65); font-size: 14px; max-width: 500px; margin: 0 auto; } .hero-meta { margin-top: 24px; display: flex; justify-content: center; gap: 24px; font-size: 12px; color: rgba(255,255,255,0.5); } .hero-meta span { display: flex; align-items: center; gap: 5px; } /* ── Main content ── */ main { max-width: var(--max); margin: 0 auto; padding: 48px 24px 80px; } /* ── TOC card ── */ .toc-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 48px; box-shadow: var(--shadow); } .toc-card h2 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 14px; } .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; } .toc-list li a { color: var(--red); text-decoration: none; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: color 0.15s; } .toc-list li a:hover { color: var(--red-dark); text-decoration: underline; } .toc-num { background: var(--red); color: #fff; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; } /* ── Sections ── */ .policy-section { margin-bottom: 48px; scroll-margin-top: 20px; } .section-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,16,46,0.08); color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; margin-bottom: 10px; text-transform: uppercase; } .policy-section h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; line-height: 1.2; } .policy-section p { font-family: 'Source Serif 4', serif; font-size: 15px; color: var(--ink-mid); margin-bottom: 14px; } .policy-section ul, .policy-section ol { margin: 10px 0 16px 20px; } .policy-section li { font-family: 'Source Serif 4', serif; font-size: 15px; color: var(--ink-mid); margin-bottom: 8px; line-height: 1.6; } .policy-section strong { color: var(--ink); font-weight: 600; } /* ── Info box ── */ .info-box { background: #EBF0F7; border: 1px solid #C5D5E8; border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; font-size: 14px; color: #1A3050; } .info-box.green { background: #E8F5E9; border-color: #A5D6A7; color: #1B5E20; } .info-box.red { background: rgba(200,16,46,0.06); border-color: rgba(200,16,46,0.25); color: var(--red-dark); } .info-box strong { display: block; margin-bottom: 4px; } /* ── Data table ── */ .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; } .data-table th { background: var(--ink); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-family: 'DM Sans', sans-serif; } .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--ink-mid); font-family: 'Source Serif 4', serif; vertical-align: top; } .data-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); } .data-table tr:last-child td { border-bottom: none; } /* ── Divider ── */ .section-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; } /* ── Contact card ── */ .contact-card { background: var(--ink); border-radius: var(--radius); padding: 32px; color: #fff; text-align: center; } .contact-card h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; } .contact-card p { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 20px; } .contact-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--red); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 4px; font-weight: 600; font-size: 14px; transition: background 0.15s; } .contact-btn:hover { background: var(--red-dark); } /* ── Footer ── */ footer { background: #000; color: rgba(255,255,255,0.5); text-align: center; padding: 20px 24px; font-size: 12px; } footer a { color: var(--gold); text-decoration: none; } @media (max-width: 600px) { .toc-list { grid-template-columns: 1fr; } .hero { padding: 40px 20px 36px; } main { padding: 32px 16px 60px; } .header-inner { flex-wrap: wrap; } } </style>
-<style> html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;} html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;} /* ===== CWN UNIVERSAL HEADER ===== */ .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;} .cwn-util-left{display:flex;gap:24px;align-items:center;} .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;} .cwn-util-right{display:flex;gap:20px;align-items:center;} .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;} .cwn-util-right a:hover{color:#B8860B;} .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;} .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;} .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;} .cwn-logo-boxes{display:flex;gap:8px;} .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;} .cwn-logo-text{display:flex;flex-direction:column;gap:2px;} .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;} .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;} .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;} .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;} .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;} .cwn-header-controls{display:flex;align-items:center;gap:12px;} .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;} .cwn-search::placeholder{color:rgba(255,255,255,0.6);} .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);} .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;} .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);} .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;} .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;} @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}} .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;} .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;} .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;} @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}} .cwn-ticker-content{flex:1;overflow:hidden;} .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;} .cwn-ticker-scroll:hover{animation-play-state:paused;} @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}} @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}} @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
+<head>
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body && document.body.classList.add('dark');
+        });
+      }
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — TheDubaiBrief</title>
+  <meta name="description" content="Privacy Policy for TheDubaiBrief (CWN) — how we collect, use, and protect your information." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
+    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
+    :root {
+      --red:     #C8102E;
+      --red-dark:#9B0B22;
+      --cream:   #F7F4EF;
+      --ink:     #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light:#7A6E62;
+      --border:  #DDD8CF;
+      --gold:    #B8860B;
+      --surface: #FFFFFF;
+      --radius:  10px;
+      --shadow:  0 2px 12px rgba(0,0,0,0.07);
+      --max:     780px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: #000;
+      color: #fff;
+      font-size: 11px;
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar a { color: var(--gold); text-decoration: none; }
+    .topbar a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
+    header {
+      background: var(--red);
+      border-bottom: 3px solid #000;
+      padding: 16px 24px;
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-boxes { display: flex; gap: 6px; }
+    .logo-box {
+      width: 36px; height: 36px;
+      border-radius: 5px;
+      background: var(--red);
+      border: 2px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 900; color: #fff;
+    }
+    .brand-text { color: #fff; font-size: 13px; font-weight: 600; line-height: 1.2; }
+    .brand-sub  { color: rgba(255,255,255,0.8); font-size: 10px; }
+    .back-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 7px 14px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .back-link:hover { background: rgba(255,255,255,0.12); }
+
+    /* ── Hero banner ── */
+    .hero {
+      background: linear-gradient(135deg, #1A1208 0%, #3D1C0A 100%);
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .hero-label {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.65);
+      font-size: 14px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .hero-meta {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ── Main content ── */
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── TOC card ── */
+    .toc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--red);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+    }
+    .toc-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+    .toc-list li a {
+      color: var(--red);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+    .toc-list li a:hover { color: var(--red-dark); text-decoration: underline; }
+    .toc-num {
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Sections ── */
+    .policy-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 20px;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(200,16,46,0.08);
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .policy-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .policy-section p {
+      font-family: 'Source Serif 4', serif;
+      font-size: 15px;
+      color: var(--ink-mid);
+      margin-bottom: 14px;
+    }
+    .policy-section ul, .policy-section ol {
+      margin: 10px 0 16px 20px;
+    }
+    .policy-section li {
+      font-family: 'Source Serif 4', serif;
+      font-size: 15px;
+      color: var(--ink-mid);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .policy-section strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Info box ── */
+    .info-box {
+      background: #EBF0F7;
+      border: 1px solid #C5D5E8;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #1A3050;
+    }
+    .info-box.green {
+      background: #E8F5E9;
+      border-color: #A5D6A7;
+      color: #1B5E20;
+    }
+    .info-box.red {
+      background: rgba(200,16,46,0.06);
+      border-color: rgba(200,16,46,0.25);
+      color: var(--red-dark);
+    }
+    .info-box strong { display: block; margin-bottom: 4px; }
+
+    /* ── Data table ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13.5px;
+    }
+    .data-table th {
+      background: var(--ink);
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-mid);
+      font-family: 'Source Serif 4', serif;
+      vertical-align: top;
+    }
+    .data-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* ── Divider ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* ── Contact card ── */
+    .contact-card {
+      background: var(--ink);
+      border-radius: var(--radius);
+      padding: 32px;
+      color: #fff;
+      text-align: center;
+    }
+    .contact-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .contact-card p {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.15s;
+    }
+    .contact-btn:hover { background: var(--red-dark); }
+
+    /* ── Footer ── */
+    footer {
+      background: #000;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 20px 24px;
+      font-size: 12px;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .toc-list { grid-template-columns: 1fr; }
+      .hero { padding: 40px 20px 36px; }
+      main { padding: 32px 16px 60px; }
+      .header-inner { flex-wrap: wrap; }
+    }
+  </style>
+<style>
+    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
+    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
+  /* ===== CWN UNIVERSAL HEADER ===== */
+  .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
+  .cwn-util-left{display:flex;gap:24px;align-items:center;}
+  .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;}
+  .cwn-util-right{display:flex;gap:20px;align-items:center;}
+  .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;}
+  .cwn-util-right a:hover{color:#B8860B;}
+  .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;}
+  .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .cwn-logo-boxes{display:flex;gap:8px;}
+  .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;}
+  .cwn-logo-text{display:flex;flex-direction:column;gap:2px;}
+  .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;}
+  .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;}
+  .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;}
+  .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;}
+  .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;}
+  .cwn-header-controls{display:flex;align-items:center;gap:12px;}
+  .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;}
+  .cwn-search::placeholder{color:rgba(255,255,255,0.6);}
+  .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+  .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+  .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);}
+  .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
+  .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;}
+  @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}}
+  .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;}
+  .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;}
+  .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;}
+  @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}}
+  .cwn-ticker-content{flex:1;overflow:hidden;}
+  .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;}
+  .cwn-ticker-scroll:hover{animation-play-state:paused;}
+  @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}}
+  @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
 </style>
 </head>
 <body>
-<div class="cwn-utility-bar"> <div class="cwn-util-left"> <span class="cwn-util-clock" id="cwnClock">00:00 GST</span> <span id="cwnDate">Loading…</span> <span>Dubai, UAE</span> </div> <div class="cwn-util-right"> <a href="/about.html">About</a> <a href="/sources.html">Sources</a> <a href="/contact.html">Contact</a> </div>
-</div> <header class="cwn-header"> <div class="cwn-header-inner"> <a class="cwn-brand" href="/uae-calm-uae-news.html"> <div class="cwn-logo-boxes"> <div class="cwn-logo-box">D</div> <div class="cwn-logo-box">B</div> <div class="cwn-logo-box">B</div> </div> <div class="cwn-logo-text"> <div class="cwn-logo-main">TheDubaiBrief</div> <div class="cwn-logo-sub">UAE Official Sources</div> </div> </a> <nav class="cwn-main-nav"> <a href="/uae-calm-uae-news.html">Home</a> <a href="/uae-calm-uae-news.html">Safety</a> <a href="/uae-calm-uae-news.html">Government</a> <a href="/uae-calm-uae-news.html">Finance</a> <a href="/uae-calm-uae-news.html">Health</a> <a href="/uae-calm-uae-news.html">World</a> </nav> <div class="cwn-header-controls"> <div class="cwn-live-pill" id="cwnLivePill"> <div class="cwn-live-dot"></div> <span id="cwnVisitorCount">–</span> online </div> <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news..."> <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button> </div> </div>
-</header> <div class="cwn-ticker"> <div class="cwn-ticker-label"> <div class="cwn-ticker-dot"></div> <span>LIVE FEED</span> </div> <div class="cwn-ticker-content"> <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div> </div>
-</div> <!-- Top bar --> <!-- Header --> <!-- Hero --> <div class="hero"> <div class="hero-label">Legal</div> <h1>Privacy Policy</h1> <p>How TheDubaiBrief collects, uses, and protects your information.</p> <div class="hero-meta"> <span>&#128197; Effective: March 2026</span> <span>&#128204; UAE-based service</span> <span>&#128336; 5 min read</span> </div> </div> <main> <!-- Table of contents --> <div class="toc-card"> <h2>Contents</h2> <ol class="toc-list"> <li><a href="#who-we-are"><span class="toc-num">1</span> Who We Are</a></li> <li><a href="#what-we-collect"><span class="toc-num">2</span> What We Collect</a></li> <li><a href="#how-we-use"><span class="toc-num">3</span> How We Use It</a></li> <li><a href="#ai-processing"><span class="toc-num">4</span> AI Processing</a></li> <li><a href="#third-parties"><span class="toc-num">5</span> Third Parties</a></li> <li><a href="#data-storage"><span class="toc-num">6</span> Data Storage</a></li> <li><a href="#cookies"><span class="toc-num">7</span> Cookies &amp; Local Storage</a></li> <li><a href="#your-rights"><span class="toc-num">8</span> Your Rights</a></li> <li><a href="#children"><span class="toc-num">9</span> Children</a></li> <li><a href="#changes"><span class="toc-num">10</span> Policy Changes</a></li> </ol> </div> <div class="info-box green"> <strong>Plain English summary</strong> TheDubaiBrief is a read-only news aggregator. We do not sell your data. We do not run ads. The only personal data we store is your email address (if you subscribe) and community posts (if you submit one). Everything else is processed anonymously. </div> <!-- 1 --> <section class="policy-section" id="who-we-are"> <div class="section-tag">01</div> <h2>Who We Are</h2> <p> TheDubaiBrief (&ldquo;TheDubaiBrief,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is an independent UAE news aggregation service. We summarise publicly available news from official UAE government sources and established newsrooms, rewriting articles in plain, calm English using AI. </p> <p> TheDubaiBrief is operated as an independent project and is not affiliated with any UAE government body, news organisation, or media company. </p> </section> <hr class="section-divider" /> <!-- 2 --> <section class="policy-section" id="what-we-collect"> <div class="section-tag">02</div> <h2>What We Collect</h2> <p>We collect only the minimum data needed to operate the service:</p> <table class="data-table"> <thead> <tr> <th>Data type</th> <th>When collected</th> <th>Stored?</th> </tr> </thead> <tbody> <tr> <td><strong>Email address</strong></td> <td>When you subscribe to news digests</td> <td>Yes &mdash; on our server</td> </tr> <tr> <td><strong>Subscription preferences</strong></td> <td>When you choose topics and digest times</td> <td>Yes &mdash; on our server</td> </tr> <tr> <td><strong>Community post content</strong></td> <td>When you submit an &ldquo;On The Ground&rdquo; report</td> <td>Yes &mdash; in Supabase if approved</td> </tr> <tr> <td><strong>Display name (optional)</strong></td> <td>If you choose not to be anonymous in a post</td> <td>Yes &mdash; shown publicly</td> </tr> <tr> <td><strong>Contact info (optional)</strong></td> <td>If you provide it with a named post</td> <td>Yes &mdash; stored privately, never shown</td> </tr> <tr> <td><strong>IP address</strong></td> <td>With every request to our server</td> <td>No &mdash; used only for rate-limiting, never logged</td> </tr> <tr> <td><strong>Language preference</strong></td> <td>When you switch UI language</td> <td>No &mdash; stored locally in your browser only</td> </tr> <tr> <td><strong>Search queries</strong></td> <td>When you use the search box</td> <td>No &mdash; filtering happens entirely in your browser</td> </tr> </tbody> </table> <div class="info-box"> <strong>We do not collect</strong> We do not collect names, phone numbers, location data, browsing history, device identifiers, or any tracking information beyond what is listed above. </div> </section> <hr class="section-divider" /> <!-- 3 --> <section class="policy-section" id="how-we-use"> <div class="section-tag">03</div> <h2>How We Use Your Information</h2> <p>Each piece of data we collect is used for exactly one purpose:</p> <ul> <li><strong>Email address &mdash;</strong> to send you the news digest emails you signed up for. Nothing else.</li> <li><strong>Subscription preferences &mdash;</strong> to ensure you receive only the topics and delivery times you chose.</li> <li><strong>Community post content &mdash;</strong> to display approved ground reports publicly on the TheDubaiBrief homepage and to moderate submissions via AI.</li> <li><strong>Optional contact info &mdash;</strong> held privately for verification purposes only. Never displayed or shared.</li> <li><strong>IP addresses &mdash;</strong> used momentarily to enforce a rate limit of 3 community posts per IP per hour. Not logged or stored.</li> </ul> <p> We do not use your data for advertising, profiling, analytics tracking, or sale to third parties. We do not build user profiles. </p> </section> <hr class="section-divider" /> <!-- 4 --> <section class="policy-section" id="ai-processing"> <div class="section-tag">04</div> <h2>AI Processing</h2> <p> TheDubaiBrief uses Claude, an AI model by Anthropic, for two purposes: </p> <ul> <li> <strong>Article rewriting &mdash;</strong> publicly available news articles are sent to Claude to be rewritten in plain English. These articles contain no personal user data. </li> <li> <strong>Community post moderation &mdash;</strong> when you submit an &ldquo;On The Ground&rdquo; report, its text content (not your contact info) is sent to Claude for moderation. Claude reviews it and returns an approval decision. The text is processed by Anthropic&rsquo;s API under their <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>. </li> </ul> <div class="info-box"> <strong>What is NOT sent to AI</strong> Your email address, contact information, display name, and IP address are never sent to any AI model. </div> <p> Article translations use Google Translate, operated by Google LLC. Translated text is sent to Google&rsquo;s free translation endpoint. No personally identifiable information is included. Please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google&rsquo;s Privacy Policy</a> for details on how they handle translated content. </p> </section> <hr class="section-divider" /> <!-- 5 --> <section class="policy-section" id="third-parties"> <div class="section-tag">05</div> <h2>Third Parties</h2> <p>CWN works with the following third-party services:</p> <table class="data-table"> <thead> <tr> <th>Service</th> <th>Purpose</th> <th>Data shared</th> </tr> </thead> <tbody> <tr> <td><strong>Supabase</strong></td> <td>Database for community posts and article cache</td> <td>Post content, display name, contact info (if provided)</td> </tr> <tr> <td><strong>Anthropic (Claude)</strong></td> <td>Article rewriting and post moderation</td> <td>Article text and post text only &mdash; no personal data</td> </tr> <tr> <td><strong>Resend</strong></td> <td>Email delivery for news digests</td> <td>Your email address and chosen preferences</td> </tr> <tr> <td><strong>Google Translate</strong></td> <td>UI and article translation</td> <td>Article text when translation is requested</td> </tr> <tr> <td><strong>Google Fonts</strong></td> <td>Typography</td> <td>Your IP address (standard font CDN request)</td> </tr> <tr> <td><strong>jsDelivr CDN</strong></td> <td>Chart.js library</td> <td>Your IP address (standard CDN request)</td> </tr> </tbody> </table> <p> We do not use any advertising networks, social media trackers, analytics platforms (e.g. Google Analytics), or data brokers. </p> </section> <hr class="section-divider" /> <!-- 6 --> <section class="policy-section" id="data-storage"> <div class="section-tag">06</div> <h2>Data Storage &amp; Security</h2> <p> Email addresses and subscriber preferences are stored in a JSON file on our server, which is not publicly accessible. Community posts (if approved) are stored in a Supabase PostgreSQL database with Row-Level Security enabled. Only approved posts are publicly readable; contact information is protected and never exposed through any API. </p> <p> We retain subscriber data for as long as you remain subscribed. You may unsubscribe at any time using the unsubscribe link in any digest email. Community posts may be retained to maintain the integrity of the public feed. If you wish to have a post removed, contact us. </p> <div class="info-box red"> <strong>Retention summary</strong> Email subscriptions: until you unsubscribe.<br /> Community posts: indefinite (contact us to request deletion).<br /> Article cache: rolling cache, automatically replaced by newer content. </div> </section> <hr class="section-divider" /> <!-- 7 --> <section class="policy-section" id="cookies"> <div class="section-tag">07</div> <h2>Cookies &amp; Local Storage</h2> <p> TheDubaiBrief does not use cookies. </p> <p> We use your browser&rsquo;s <strong>localStorage</strong> to remember one preference: the UI language you have selected. This data never leaves your device and is not accessible to us. You can clear it at any time through your browser settings. </p> <p> Third-party services (Google Fonts, jsDelivr) may set their own cookies as part of standard CDN operation. We have no control over these. </p> </section> <hr class="section-divider" /> <!-- 8 --> <section class="policy-section" id="your-rights"> <div class="section-tag">08</div> <h2>Your Rights</h2> <p>You have the right to:</p> <ul> <li><strong>Access &mdash;</strong> request a copy of any personal data we hold about you.</li> <li><strong>Correction &mdash;</strong> ask us to correct inaccurate data.</li> <li><strong>Deletion &mdash;</strong> ask us to delete your data. For email subscriptions, simply unsubscribe. For community posts or contact information, email us.</li> <li><strong>Unsubscribe &mdash;</strong> opt out of all digest emails at any time using the unsubscribe link in any email.</li> <li><strong>Objection &mdash;</strong> object to any processing you did not consent to.</li> </ul> <p> To exercise any of these rights, contact us at the address below. We will respond within 14 days. </p> </section> <hr class="section-divider" /> <!-- 9 --> <section class="policy-section" id="children"> <div class="section-tag">09</div> <h2>Children</h2> <p> TheDubaiBrief is not directed at children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has submitted information to us, please contact us and we will delete it promptly. </p> </section> <hr class="section-divider" /> <!-- 10 --> <section class="policy-section" id="changes"> <div class="section-tag">10</div> <h2>Policy Changes</h2> <p> We may update this Privacy Policy from time to time. When we do, we will update the &ldquo;Effective&rdquo; date at the top of this page. Continued use of TheDubaiBrief after a change constitutes acceptance of the updated policy. </p> <p> If we make a material change that affects how we use subscriber email addresses, we will notify subscribers directly by email before the change takes effect. </p> </section> <hr class="section-divider" /> <!-- Contact card --> <div class="contact-card"> <h2>Questions about your privacy?</h2> <p> Reach out and we&rsquo;ll respond within 14 days. Include &ldquo;Privacy&rdquo; in your subject line. </p> <a class="contact-btn" href="mailto:privacy@centralwatchnews.com"> &#9993; Contact Us </a> </div> </main> <footer> <span> &copy; 2026 TheDubaiBrief &mdash; <a href="/uae-calm-uae-news.html">Home</a> &middot; <a href="/aboutpage.html">About</a> &middot; Privacy Policy </span> </footer> <script> (function () { // Clock + date function cwnUpdateTime() { var now = new Date(); var cl = document.getElementById('cwnClock'); if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST'; var dl = document.getElementById('cwnDate'); if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' }); } cwnUpdateTime(); setInterval(cwnUpdateTime, 1000); // Search → redirect to homepage var cwnSrch = document.getElementById('cwnSearch'); if (cwnSrch) { cwnSrch.addEventListener('keydown', function (e) { if (e.key === 'Enter' && cwnSrch.value.trim()) { location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim()); } }); } // Notify → go to homepage (subscribe modal is there) var cwnNBtn = document.getElementById('cwnNotifyBtn'); if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; }; // Live visitor ping var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2); localStorage.setItem('cwn-sid', cwnSid); function cwnPing() { fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) }) .then(function (r) { return r.json(); }) .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; }) .catch(function () {}); } cwnPing(); setInterval(cwnPing, 30000); // Ticker fetch('/api/news') .then(function (r) { return r.json(); }) .then(function (d) { var items = (d.items || []).slice(0, 15); if (!items.length) return; var ticker = document.getElementById('cwnTickerScroll'); if (!ticker) return; var half = items.map(function (item) { var src = ((item.sourceName || '').substr(0, 3)).toUpperCase(); var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90); return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' + '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' + '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' + '<span style="color:#444;font-size:10px;">&#9670;</span>' + '</span>'; }).join(''); ticker.innerHTML = half + half; // duplicate for seamless loop }) .catch(function () {}); }()); </script> </body>
+<div class="cwn-utility-bar">
+  <div class="cwn-util-left">
+    <span class="cwn-util-clock" id="cwnClock">00:00 GST</span>
+    <span id="cwnDate">Loading…</span>
+    <span>Dubai, UAE</span>
+  </div>
+  <div class="cwn-util-right">
+    <a href="/about.html">About</a>
+    <a href="/sources.html">Sources</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</div>
+
+<header class="cwn-header">
+  <div class="cwn-header-inner">
+    <a class="cwn-brand" href="/uae-calm-uae-news.html">
+      <div class="cwn-logo-boxes">
+        <div class="cwn-logo-box">D</div>
+        <div class="cwn-logo-box">B</div>
+        <div class="cwn-logo-box">B</div>
+      </div>
+      <div class="cwn-logo-text">
+        <div class="cwn-logo-main">TheDubaiBrief</div>
+        <div class="cwn-logo-sub">UAE Official Sources</div>
+      </div>
+    </a>
+    <nav class="cwn-main-nav">
+      <a href="/uae-calm-uae-news.html">Home</a>
+      <a href="/uae-calm-uae-news.html">Safety</a>
+      <a href="/uae-calm-uae-news.html">Government</a>
+      <a href="/uae-calm-uae-news.html">Finance</a>
+      <a href="/uae-calm-uae-news.html">Health</a>
+      <a href="/uae-calm-uae-news.html">World</a>
+    </nav>
+    <div class="cwn-header-controls">
+      <div class="cwn-live-pill" id="cwnLivePill">
+        <div class="cwn-live-dot"></div>
+        <span id="cwnVisitorCount">–</span> online
+      </div>
+      <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news...">
+      <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button>
+    </div>
+  </div>
+</header>
+
+<div class="cwn-ticker">
+  <div class="cwn-ticker-label">
+    <div class="cwn-ticker-dot"></div>
+    <span>LIVE FEED</span>
+  </div>
+  <div class="cwn-ticker-content">
+    <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div>
+  </div>
+</div>
+  <!-- Top bar -->
+  
+
+  <!-- Header -->
+  
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p>How TheDubaiBrief collects, uses, and protects your information.</p>
+    <div class="hero-meta">
+      <span>&#128197; Effective: March 2026</span>
+      <span>&#128204; UAE-based service</span>
+      <span>&#128336; 5 min read</span>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Table of contents -->
+    <div class="toc-card">
+      <h2>Contents</h2>
+      <ol class="toc-list">
+        <li><a href="#who-we-are"><span class="toc-num">1</span> Who We Are</a></li>
+        <li><a href="#what-we-collect"><span class="toc-num">2</span> What We Collect</a></li>
+        <li><a href="#how-we-use"><span class="toc-num">3</span> How We Use It</a></li>
+        <li><a href="#ai-processing"><span class="toc-num">4</span> AI Processing</a></li>
+        <li><a href="#third-parties"><span class="toc-num">5</span> Third Parties</a></li>
+        <li><a href="#data-storage"><span class="toc-num">6</span> Data Storage</a></li>
+        <li><a href="#cookies"><span class="toc-num">7</span> Cookies &amp; Local Storage</a></li>
+        <li><a href="#your-rights"><span class="toc-num">8</span> Your Rights</a></li>
+        <li><a href="#children"><span class="toc-num">9</span> Children</a></li>
+        <li><a href="#changes"><span class="toc-num">10</span> Policy Changes</a></li>
+      </ol>
+    </div>
+
+    <div class="info-box green">
+      <strong>Plain English summary</strong>
+      TheDubaiBrief is a read-only news aggregator. We do not sell your data. We do not run ads.
+      The only personal data we store is your email address (if you subscribe) and community posts (if you submit one).
+      Everything else is processed anonymously.
+    </div>
+
+    <!-- 1 -->
+    <section class="policy-section" id="who-we-are">
+      <div class="section-tag">01</div>
+      <h2>Who We Are</h2>
+      <p>
+        TheDubaiBrief (&ldquo;TheDubaiBrief,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) is an independent
+        UAE news aggregation service. We summarise publicly available news from official UAE government sources
+        and established newsrooms, rewriting articles in plain, calm English using AI.
+      </p>
+      <p>
+        TheDubaiBrief is operated as an independent project and is not affiliated with any UAE government body,
+        news organisation, or media company.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 2 -->
+    <section class="policy-section" id="what-we-collect">
+      <div class="section-tag">02</div>
+      <h2>What We Collect</h2>
+      <p>We collect only the minimum data needed to operate the service:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data type</th>
+            <th>When collected</th>
+            <th>Stored?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Email address</strong></td>
+            <td>When you subscribe to news digests</td>
+            <td>Yes &mdash; on our server</td>
+          </tr>
+          <tr>
+            <td><strong>Subscription preferences</strong></td>
+            <td>When you choose topics and digest times</td>
+            <td>Yes &mdash; on our server</td>
+          </tr>
+          <tr>
+            <td><strong>Community post content</strong></td>
+            <td>When you submit an &ldquo;On The Ground&rdquo; report</td>
+            <td>Yes &mdash; in Supabase if approved</td>
+          </tr>
+          <tr>
+            <td><strong>Display name (optional)</strong></td>
+            <td>If you choose not to be anonymous in a post</td>
+            <td>Yes &mdash; shown publicly</td>
+          </tr>
+          <tr>
+            <td><strong>Contact info (optional)</strong></td>
+            <td>If you provide it with a named post</td>
+            <td>Yes &mdash; stored privately, never shown</td>
+          </tr>
+          <tr>
+            <td><strong>IP address</strong></td>
+            <td>With every request to our server</td>
+            <td>No &mdash; used only for rate-limiting, never logged</td>
+          </tr>
+          <tr>
+            <td><strong>Language preference</strong></td>
+            <td>When you switch UI language</td>
+            <td>No &mdash; stored locally in your browser only</td>
+          </tr>
+          <tr>
+            <td><strong>Search queries</strong></td>
+            <td>When you use the search box</td>
+            <td>No &mdash; filtering happens entirely in your browser</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <strong>We do not collect</strong>
+        We do not collect names, phone numbers, location data, browsing history, device identifiers,
+        or any tracking information beyond what is listed above.
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 3 -->
+    <section class="policy-section" id="how-we-use">
+      <div class="section-tag">03</div>
+      <h2>How We Use Your Information</h2>
+      <p>Each piece of data we collect is used for exactly one purpose:</p>
+      <ul>
+        <li><strong>Email address &mdash;</strong> to send you the news digest emails you signed up for. Nothing else.</li>
+        <li><strong>Subscription preferences &mdash;</strong> to ensure you receive only the topics and delivery times you chose.</li>
+        <li><strong>Community post content &mdash;</strong> to display approved ground reports publicly on the TheDubaiBrief homepage and to moderate submissions via AI.</li>
+        <li><strong>Optional contact info &mdash;</strong> held privately for verification purposes only. Never displayed or shared.</li>
+        <li><strong>IP addresses &mdash;</strong> used momentarily to enforce a rate limit of 3 community posts per IP per hour. Not logged or stored.</li>
+      </ul>
+      <p>
+        We do not use your data for advertising, profiling, analytics tracking, or sale to third parties.
+        We do not build user profiles.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 4 -->
+    <section class="policy-section" id="ai-processing">
+      <div class="section-tag">04</div>
+      <h2>AI Processing</h2>
+      <p>
+        TheDubaiBrief uses Claude, an AI model by Anthropic, for two purposes:
+      </p>
+      <ul>
+        <li>
+          <strong>Article rewriting &mdash;</strong> publicly available news articles are sent to Claude to be rewritten
+          in plain English. These articles contain no personal user data.
+        </li>
+        <li>
+          <strong>Community post moderation &mdash;</strong> when you submit an &ldquo;On The Ground&rdquo; report,
+          its text content (not your contact info) is sent to Claude for moderation. Claude reviews it and
+          returns an approval decision. The text is processed by Anthropic&rsquo;s API under their
+          <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+        </li>
+      </ul>
+      <div class="info-box">
+        <strong>What is NOT sent to AI</strong>
+        Your email address, contact information, display name, and IP address are never
+        sent to any AI model.
+      </div>
+      <p>
+        Article translations use Google Translate, operated by Google LLC. Translated text is sent to
+        Google&rsquo;s free translation endpoint. No personally identifiable information is included.
+        Please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google&rsquo;s Privacy Policy</a>
+        for details on how they handle translated content.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 5 -->
+    <section class="policy-section" id="third-parties">
+      <div class="section-tag">05</div>
+      <h2>Third Parties</h2>
+      <p>CWN works with the following third-party services:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Purpose</th>
+            <th>Data shared</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Supabase</strong></td>
+            <td>Database for community posts and article cache</td>
+            <td>Post content, display name, contact info (if provided)</td>
+          </tr>
+          <tr>
+            <td><strong>Anthropic (Claude)</strong></td>
+            <td>Article rewriting and post moderation</td>
+            <td>Article text and post text only &mdash; no personal data</td>
+          </tr>
+          <tr>
+            <td><strong>Resend</strong></td>
+            <td>Email delivery for news digests</td>
+            <td>Your email address and chosen preferences</td>
+          </tr>
+          <tr>
+            <td><strong>Google Translate</strong></td>
+            <td>UI and article translation</td>
+            <td>Article text when translation is requested</td>
+          </tr>
+          <tr>
+            <td><strong>Google Fonts</strong></td>
+            <td>Typography</td>
+            <td>Your IP address (standard font CDN request)</td>
+          </tr>
+          <tr>
+            <td><strong>jsDelivr CDN</strong></td>
+            <td>Chart.js library</td>
+            <td>Your IP address (standard CDN request)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        We do not use any advertising networks, social media trackers, analytics platforms (e.g. Google Analytics),
+        or data brokers.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 6 -->
+    <section class="policy-section" id="data-storage">
+      <div class="section-tag">06</div>
+      <h2>Data Storage &amp; Security</h2>
+      <p>
+        Email addresses and subscriber preferences are stored in a JSON file on our server, which is
+        not publicly accessible. Community posts (if approved) are stored in a Supabase PostgreSQL database
+        with Row-Level Security enabled. Only approved posts are publicly readable; contact information
+        is protected and never exposed through any API.
+      </p>
+      <p>
+        We retain subscriber data for as long as you remain subscribed. You may unsubscribe at any time
+        using the unsubscribe link in any digest email. Community posts may be retained to maintain the
+        integrity of the public feed. If you wish to have a post removed, contact us.
+      </p>
+      <div class="info-box red">
+        <strong>Retention summary</strong>
+        Email subscriptions: until you unsubscribe.<br />
+        Community posts: indefinite (contact us to request deletion).<br />
+        Article cache: rolling cache, automatically replaced by newer content.
+      </div>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 7 -->
+    <section class="policy-section" id="cookies">
+      <div class="section-tag">07</div>
+      <h2>Cookies &amp; Local Storage</h2>
+      <p>
+        TheDubaiBrief does not use cookies.
+      </p>
+      <p>
+        We use your browser&rsquo;s <strong>localStorage</strong> to remember one preference:
+        the UI language you have selected. This data never leaves your device and is not accessible to us.
+        You can clear it at any time through your browser settings.
+      </p>
+      <p>
+        Third-party services (Google Fonts, jsDelivr) may set their own cookies as part of standard CDN
+        operation. We have no control over these.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 8 -->
+    <section class="policy-section" id="your-rights">
+      <div class="section-tag">08</div>
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li><strong>Access &mdash;</strong> request a copy of any personal data we hold about you.</li>
+        <li><strong>Correction &mdash;</strong> ask us to correct inaccurate data.</li>
+        <li><strong>Deletion &mdash;</strong> ask us to delete your data. For email subscriptions, simply unsubscribe. For community posts or contact information, email us.</li>
+        <li><strong>Unsubscribe &mdash;</strong> opt out of all digest emails at any time using the unsubscribe link in any email.</li>
+        <li><strong>Objection &mdash;</strong> object to any processing you did not consent to.</li>
+      </ul>
+      <p>
+        To exercise any of these rights, contact us at the address below. We will respond within 14 days.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 9 -->
+    <section class="policy-section" id="children">
+      <div class="section-tag">09</div>
+      <h2>Children</h2>
+      <p>
+        TheDubaiBrief is not directed at children under the age of 13. We do not knowingly collect personal
+        information from children. If you believe a child has submitted information to us, please
+        contact us and we will delete it promptly.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- 10 -->
+    <section class="policy-section" id="changes">
+      <div class="section-tag">10</div>
+      <h2>Policy Changes</h2>
+      <p>
+        We may update this Privacy Policy from time to time. When we do, we will update the
+        &ldquo;Effective&rdquo; date at the top of this page. Continued use of TheDubaiBrief after a change
+        constitutes acceptance of the updated policy.
+      </p>
+      <p>
+        If we make a material change that affects how we use subscriber email addresses, we will
+        notify subscribers directly by email before the change takes effect.
+      </p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Contact card -->
+    <div class="contact-card">
+      <h2>Questions about your privacy?</h2>
+      <p>
+        Reach out and we&rsquo;ll respond within 14 days. Include &ldquo;Privacy&rdquo; in your subject line.
+      </p>
+      <a class="contact-btn" href="mailto:privacy@centralwatchnews.com">
+        &#9993; Contact Us
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>
+      &copy; 2026 TheDubaiBrief &mdash;
+      <a href="/uae-calm-uae-news.html">Home</a> &middot;
+      <a href="/aboutpage.html">About</a> &middot;
+      Privacy Policy
+    </span>
+  </footer>
+
+
+  <script>
+  (function () {
+    // Clock + date
+    function cwnUpdateTime() {
+      var now = new Date();
+      var cl = document.getElementById('cwnClock');
+      if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
+      var dl = document.getElementById('cwnDate');
+      if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    cwnUpdateTime();
+    setInterval(cwnUpdateTime, 1000);
+
+    // Search → redirect to homepage
+    var cwnSrch = document.getElementById('cwnSearch');
+    if (cwnSrch) {
+      cwnSrch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && cwnSrch.value.trim()) {
+          location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim());
+        }
+      });
+    }
+
+    // Notify → go to homepage (subscribe modal is there)
+    var cwnNBtn = document.getElementById('cwnNotifyBtn');
+    if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; };
+
+    // Live visitor ping
+    var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
+    localStorage.setItem('cwn-sid', cwnSid);
+    function cwnPing() {
+      fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+        .catch(function () {});
+    }
+    cwnPing();
+    setInterval(cwnPing, 30000);
+
+    // Ticker
+    fetch('/api/news')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var items = (d.items || []).slice(0, 15);
+        if (!items.length) return;
+        var ticker = document.getElementById('cwnTickerScroll');
+        if (!ticker) return;
+        var half = items.map(function (item) {
+          var src = ((item.sourceName || '').substr(0, 3)).toUpperCase();
+          var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90);
+          return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' +
+            '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' +
+            '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' +
+            '<span style="color:#444;font-size:10px;">&#9670;</span>' +
+            '</span>';
+        }).join('');
+        ticker.innerHTML = half + half; // duplicate for seamless loop
+      })
+      .catch(function () {});
+  }());
+  </script>
+
+</body>
 </html>

@@ -1,1 +1,1273 @@
-<!doctype html> <html lang="en"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1" /> <title>Loading… — TheDubaiBrief</title> <script> (function() { if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.addEventListener('DOMContentLoaded', function() { document.body && document.body.classList.add('dark'); }); } })(); </script> <link rel="preconnect" href="https://fonts.googleapis.com" /> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" /> <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script> <style> /* ── Dark mode — CSS variable overrides cascade to all var() elements ── */ html.dark, html.dark body { background: #0A0A0A !important; color: #F0F0F0 !important; } html.dark { --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCCCCC; --ink-light: #999999; --border: #2A2A2A; --surface: #1A1A1A; --blue-light: #0D1B2A; --green-light: #0D1F12; } html.dark .av-nav { background: #111111 !important; border-color: #2A2A2A; } html.dark .av-nav-back { color: #CCCCCC; border-color: #2A2A2A; } html.dark .av-nav-back:hover { background: #1A1A1A; color: #FFFFFF; } html.dark .av-skel-progress-wrap { background: #2A2A2A; } html.dark .av-card, html.dark .av-sidebar-card, html.dark .av-sentiment-card, html.dark .av-related-card, html.dark .av-chart-wrap, html.dark .av-facts-card, html.dark .av-back-link, html.dark .av-share-btn { background: #1A1A1A !important; border-color: #2A2A2A; color: #CCCCCC; } html.dark .av-back-link:hover, html.dark .av-share-btn:hover { background: #222222 !important; } html.dark .av-skel-block { background: #1E1E1E; } :root { --red: #C8102E; --red-dark: #9B0B22; --red-light: #f5e5e8; --cream: #F7F4EF; --ink: #1A1208; --ink-mid: #3D3328; --ink-light: #7A6E62; --border: #DDD8CF; --blue-light: #EBF0F7; --green-light: #E8F5E9; --radius: 8px; --shadow: 0 2px 8px rgba(0,0,0,0.08); --max: 800px; } *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; line-height: 1.6; } /* ── NAV ── */ .av-nav { background: #fff; border-bottom: 2px solid var(--red); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; } .av-nav-brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: var(--red); text-decoration: none; letter-spacing: -0.01em; } .av-nav-back { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-mid); font-size: 13px; font-weight: 500; text-decoration: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 999px; transition: background 0.15s; } .av-nav-back:hover { background: var(--red-light); color: var(--red); border-color: var(--red); } /* ── MAIN LAYOUT ── */ .av-main { max-width: var(--max); margin: 0 auto; padding: 32px 20px 60px; } /* ── SKELETON ── */ @keyframes av-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } } .av-skeleton { animation: av-pulse 1.6s ease-in-out infinite; } .av-skel-block { background: #e0dbd3; border-radius: 4px; display: block; } #av-skeleton .av-skel-pill { height: 22px; width: 80px; border-radius: 999px; margin-bottom: 14px; } #av-skeleton .av-skel-title { height: 36px; width: 100%; margin-bottom: 8px; } #av-skeleton .av-skel-title-2 { height: 36px; width: 72%; margin-bottom: 20px; } #av-skeleton .av-skel-summary { height: 16px; width: 100%; margin-bottom: 6px; } #av-skeleton .av-skel-summary-2 { height: 16px; width: 88%; margin-bottom: 24px; } #av-skeleton .av-skel-img { height: 340px; width: 100%; border-radius: 8px; margin-bottom: 32px; } #av-skeleton .av-skel-heading { height: 20px; width: 45%; margin-bottom: 10px; } #av-skeleton .av-skel-para { height: 14px; width: 100%; margin-bottom: 6px; } #av-skeleton .av-skel-para-2 { height: 14px; width: 94%; margin-bottom: 6px; } #av-skeleton .av-skel-para-3 { height: 14px; width: 80%; margin-bottom: 28px; } .av-skel-notice { text-align: center; color: var(--ink-light); font-size: 13px; margin-top: 24px; } .av-skel-notice-text { font-style: italic; margin-bottom: 10px; } .av-skel-progress-wrap { background: #ddd8cf; border-radius: 99px; height: 4px; overflow: hidden; margin: 10px auto 8px; max-width: 280px; } .av-skel-progress-bar { height: 100%; background: var(--red); border-radius: 99px; width: 0%; transition: width 0.9s linear; } .av-skel-timer { font-size: 11px; color: var(--ink-light); margin-top: 4px; } /* ── ARTICLE CONTENT ── */ #av-content { display: none; } /* Header */ .av-category { display: inline-block; background: var(--red); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; margin-bottom: 12px; } .av-byline { font-size: 12px; color: var(--ink-light); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; } .av-byline-sep { color: var(--border); } .av-readtime { background: var(--red-light); color: var(--red-dark); padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; } .av-title { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; color: var(--ink); margin-bottom: 16px; letter-spacing: -0.01em; } .av-summary { font-family: 'Source Serif 4', serif; font-size: 1.1rem; line-height: 1.75; color: var(--ink-mid); margin-bottom: 24px; border-left: 3px solid var(--red); padding-left: 16px; } .av-hero-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin-bottom: 8px; display: block; } .av-img-credit { font-size: 11px; color: var(--ink-light); margin-bottom: 28px; text-align: right; } .av-impact-box { border-left: 4px solid var(--red); background: var(--red-light); padding: 12px 16px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 32px; } .av-impact-label { font-size: 11px; font-weight: 600; color: var(--red-dark); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; } .av-impact-text { font-size: 14px; color: var(--ink); line-height: 1.5; } /* Divider */ .av-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; } /* Body sections */ .av-section { margin-bottom: 32px; } .av-section-heading { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); } .av-section-content { font-family: 'Source Serif 4', serif; font-size: 1rem; line-height: 1.8; color: var(--ink-mid); } .av-chart-wrap { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 16px; } .av-chart-title { font-size: 12px; font-weight: 600; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; } .av-chart-canvas { max-height: 280px; } /* Key facts */ .av-facts-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; box-shadow: var(--shadow); margin-bottom: 24px; } .av-facts-heading { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 14px; } .av-fact-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; font-size: 14px; color: var(--ink-mid); line-height: 1.5; border-bottom: 1px solid var(--border); } .av-fact-item:last-child { border-bottom: none; } .av-fact-check { color: var(--red); font-weight: 700; font-size: 15px; flex-shrink: 0; margin-top: 1px; } /* What happens next */ .av-next-box { background: var(--blue-light); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; } .av-next-heading { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1A3657; margin-bottom: 8px; } .av-next-text { font-size: 14px; color: #2C4A6E; line-height: 1.65; } /* Should I worry */ .av-worry-box { background: var(--green-light); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 32px; } .av-worry-heading { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #1B5E20; margin-bottom: 8px; } .av-worry-text { font-size: 14px; color: #2E7D32; line-height: 1.65; } /* Footer links */ .av-footer-links { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); } .av-source-link { display: inline-flex; align-items: center; gap: 6px; background: var(--red); color: #fff; text-decoration: none; padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 600; transition: background 0.15s; } .av-source-link:hover { background: var(--red-dark); } .av-back-link { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--ink-mid); text-decoration: none; padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 500; border: 1px solid var(--border); transition: background 0.15s; } .av-back-link:hover { background: var(--cream); } .av-share-btn { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--ink-mid); padding: 10px 18px; border-radius: var(--radius); font-size: 13px; font-weight: 500; border: 1px solid var(--border); cursor: pointer; transition: background 0.15s; } .av-share-btn:hover { background: var(--cream); } .av-share-btn.copied { color: #2E7D32; border-color: #2E7D32; } /* ── Typewriter cursor ── */ .av-tw-cursor { display: inline-block; color: var(--red); font-weight: 300; animation: av-tw-blink 0.65s step-end infinite; margin-left: 1px; } @keyframes av-tw-blink { 0%,100%{opacity:1;} 50%{opacity:0;} } /* Error */ .av-error { background: var(--red-light); border: 1px solid #f0c0c8; border-radius: var(--radius); padding: 20px; color: var(--red-dark); text-align: center; font-size: 14px; display: none; } @media (max-width: 600px) { .av-main { padding: 20px 14px 40px; } .av-footer-links { flex-direction: column; } .av-source-link, .av-back-link, .av-share-btn { justify-content: center; } } /* ── Related articles ── */ .av-related-section { margin-top: 40px; display: none; } .av-related-heading { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); } .av-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; } .av-related-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; text-decoration: none; display: block; transition: box-shadow 0.15s, transform 0.15s; } .av-related-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); } .av-related-img { height: 80px; overflow: hidden; background: linear-gradient(135deg, var(--red), var(--red-dark)); } .av-related-img img { width: 100%; height: 100%; object-fit: cover; display: block; } .av-related-text { padding: 10px 12px; } .av-related-cat { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; color: var(--red); margin-bottom: 4px; text-transform: uppercase; } .av-related-title { font-size: 12px; font-weight: 600; color: var(--ink); line-height: 1.35; margin-bottom: 5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } .av-related-meta { font-size: 10px; color: var(--ink-light); } /* ── Basic article notice ── */ .av-basic-notice { background: #FFF8E1; border: 1px solid #FFE082; border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: #5D4037; margin-bottom: 16px; display: none; } @media (max-width: 600px) { .av-related-grid { grid-template-columns: 1fr; } } </style> <style> /* ===== CWN UNIVERSAL HEADER ===== */ .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;} .cwn-util-left{display:flex;gap:24px;align-items:center;} .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;} .cwn-util-right{display:flex;gap:20px;align-items:center;} .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;} .cwn-util-right a:hover{color:#B8860B;} .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;} .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;} .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;} .cwn-logo-boxes{display:flex;gap:8px;} .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;} .cwn-logo-text{display:flex;flex-direction:column;gap:2px;} .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;} .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;} .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;} .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;} .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;} .cwn-header-controls{display:flex;align-items:center;gap:12px;} .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;} .cwn-search::placeholder{color:rgba(255,255,255,0.6);} .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);} .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;} .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);} .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;} .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;} @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}} .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;} .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;} .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;} @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}} .cwn-ticker-content{flex:1;overflow:hidden;} .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;} .cwn-ticker-scroll:hover{animation-play-state:paused;} @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}} @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}} @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}} </style> </head> <body> <div class="cwn-utility-bar"> <div class="cwn-util-left"> <span class="cwn-util-clock" id="cwnClock">00:00 GST</span> <span id="cwnDate">Loading…</span> <span>Dubai, UAE</span> </div> <div class="cwn-util-right"> <a href="/about.html">About</a> <a href="/sources.html">Sources</a> <a href="/contact.html">Contact</a> </div> </div> <header class="cwn-header"> <div class="cwn-header-inner"> <a class="cwn-brand" href="/uae-calm-uae-news.html"> <div class="cwn-logo-boxes"> <div class="cwn-logo-box">D</div> <div class="cwn-logo-box">B</div> <div class="cwn-logo-box">B</div> </div> <div class="cwn-logo-text"> <div class="cwn-logo-main">TheDubaiBrief</div> <div class="cwn-logo-sub">UAE Official Sources</div> </div> </a> <nav class="cwn-main-nav"> <a href="/uae-calm-uae-news.html">Home</a> <a href="/uae-calm-uae-news.html">Safety</a> <a href="/uae-calm-uae-news.html">Government</a> <a href="/uae-calm-uae-news.html">Finance</a> <a href="/uae-calm-uae-news.html">Health</a> <a href="/uae-calm-uae-news.html">World</a> </nav> <div class="cwn-header-controls"> <div class="cwn-live-pill" id="cwnLivePill"> <div class="cwn-live-dot"></div> <span id="cwnVisitorCount">–</span> online </div> <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news..."> <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button> </div> </div> </header> <div class="cwn-ticker"> <div class="cwn-ticker-label"> <div class="cwn-ticker-dot"></div> <span>LIVE FEED</span> </div> <div class="cwn-ticker-content"> <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div> </div> </div> <!-- Navigation --> <nav class="av-nav"> <a class="av-nav-brand" href="/uae-calm-uae-news.html">TheDubaiBrief</a> <a class="av-nav-back" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a> </nav> <main class="av-main"> <!-- Error state --> <div class="av-error" id="av-error"> Could not load this article. Please <a href="/uae-calm-uae-news.html">return to the homepage</a> and try again. </div> <!-- Skeleton loader --> <div id="av-skeleton" class="av-skeleton"> <span class="av-skel-block av-skel-pill"></span> <span class="av-skel-block av-skel-title"></span> <span class="av-skel-block av-skel-title-2"></span> <span class="av-skel-block av-skel-summary"></span> <span class="av-skel-block av-skel-summary-2"></span> <span class="av-skel-block av-skel-img"></span> <span class="av-skel-block av-skel-heading"></span> <span class="av-skel-block av-skel-para"></span> <span class="av-skel-block av-skel-para-2"></span> <span class="av-skel-block av-skel-para-3"></span> <span class="av-skel-block av-skel-heading"></span> <span class="av-skel-block av-skel-para"></span> <span class="av-skel-block av-skel-para-2"></span> <span class="av-skel-block av-skel-para-3"></span> <div class="av-skel-notice"> <p class="av-skel-notice-text" id="av-countdown-text">AI is analyzing this article&hellip;</p> <div class="av-skel-progress-wrap"> <div class="av-skel-progress-bar" id="av-progress-bar"></div> </div> <p class="av-skel-timer" id="av-countdown-timer"></p> </div> </div> <!-- Article content --> <div id="av-content"> <!-- Header section --> <div class="av-category" id="av-category"></div> <div class="av-byline" id="av-byline"></div> <h1 class="av-title" id="av-title"></h1> <p class="av-summary" id="av-summary"></p> <img class="av-hero-img" id="av-hero-img" style="display:none;" alt="" /> <div class="av-img-credit" id="av-img-credit" style="display:none;">Photo: Official source</div> <div class="av-impact-box" id="av-impact-box" style="display:none;"> <div class="av-impact-label">&#127968; What this means for you:</div> <div class="av-impact-text" id="av-impact-text"></div> </div> <hr class="av-divider" /> <!-- Body sections --> <div id="av-sections"></div> <!-- Key facts --> <div class="av-facts-card" id="av-facts" style="display:none;"> <div class="av-facts-heading">Key Facts at a Glance</div> <div id="av-facts-list"></div> </div> <!-- What happens next --> <div class="av-next-box" id="av-next" style="display:none;"> <div class="av-next-heading">What Happens Next &#128302;</div> <p class="av-next-text" id="av-next-text"></p> </div> <!-- Should I worry --> <div class="av-worry-box" id="av-worry" style="display:none;"> <div class="av-worry-heading">Should I be worried? &#129368;</div> <p class="av-worry-text" id="av-worry-text"></p> </div> <!-- Footer --> <div class="av-footer-links"> <a class="av-source-link" id="av-source-link" href="#" target="_blank" rel="noopener noreferrer"> Read original article &#8594; </a> <a class="av-back-link" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a> <button class="av-share-btn" id="av-share-btn" type="button">&#128279; Copy link</button> </div> <!-- Basic article notice (shown when deep rewrite unavailable) --> <div class="av-basic-notice" id="av-basic-notice"> AI deep-rewrite is loading in the background. Refresh in a moment for the full analysis. </div> <!-- Related articles --> <div class="av-related-section" id="av-related-section"> <div class="av-related-heading">More from this category</div> <div class="av-related-grid" id="av-related-grid"></div> </div> </div><!-- /#av-content --> </main> <script> (function () { 'use strict'; var ARTICLE_ID = (function() { var qs = new URLSearchParams(window.location.search).get('id'); if (qs) return decodeURIComponent(qs); var parts = window.location.pathname.split('/').filter(Boolean); return decodeURIComponent(parts[parts.length - 1] || ''); }()); var chartInstances = []; var _countdownInterval = null; // ── Countdown timer ──────────────────────────────────────────────────────── var DEEP_ESTIMATE_S = 18; // estimated seconds for Claude to respond function startCountdown() { var elapsed = 0; var progressBar = document.getElementById('av-progress-bar'); var timerEl = document.getElementById('av-countdown-timer'); var textEl = document.getElementById('av-countdown-text'); var steps = [ [0, 'AI is analyzing this article\u2026'], [3, 'Fetching full article text\u2026'], [7, 'Claude is reading the story\u2026'], [12, 'Writing your plain-English summary\u2026'], [17, 'Generating charts from any numbers found\u2026'], [22, 'Finishing up\u2026'], ]; if (timerEl) timerEl.textContent = 'About ' + DEEP_ESTIMATE_S + 's remaining'; _countdownInterval = setInterval(function () { elapsed++; var remaining = Math.max(0, DEEP_ESTIMATE_S - elapsed); var pct = Math.min(93, (elapsed / DEEP_ESTIMATE_S) * 100); if (progressBar) progressBar.style.width = pct + '%'; if (timerEl) timerEl.textContent = remaining > 0 ? 'About ' + remaining + 's remaining' : 'Almost there\u2026'; for (var i = steps.length - 1; i >= 0; i--) { if (elapsed >= steps[i][0]) { if (textEl) textEl.textContent = steps[i][1]; break; } } }, 1000); } function stopCountdown() { if (_countdownInterval) { clearInterval(_countdownInterval); _countdownInterval = null; } var progressBar = document.getElementById('av-progress-bar'); if (progressBar) { progressBar.style.width = '100%'; progressBar.style.transition = 'width 0.3s ease'; } } // ── Animation helpers ────────────────────────────────────────────────────── function typewrite(el, text, speed, done) { el.textContent = ''; var cursor = document.createElement('span'); cursor.className = 'av-tw-cursor'; cursor.textContent = '|'; el.appendChild(cursor); var i = 0; var t = setInterval(function () { el.insertBefore(document.createTextNode(text[i]), cursor); i++; if (i >= text.length) { clearInterval(t); setTimeout(function () { if (cursor.parentNode) cursor.parentNode.removeChild(cursor); if (done) done(); }, 250); } }, speed); } function animateIn(el, delayMs) { if (!el) return; el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; setTimeout(function () { el.style.transition = 'opacity 0.45s ease, transform 0.45s ease'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, delayMs || 0); } // ── Helpers ──────────────────────────────────────────────────────────────── function esc(str) { return String(str || '') .replace(/&/g, '&amp;') .replace(/</g, '&lt;') .replace(/>/g, '&gt;') .replace(/"/g, '&quot;') .replace(/'/g, '&#39;'); } function uaeExactTime(iso) { if (!iso) return ''; try { var d = new Date(iso); if (isNaN(d)) return ''; var timePart = d.toLocaleString('en-US', { timeZone: 'Asia/Dubai', hour: 'numeric', minute: '2-digit', hour12: true }); var datePart = d.toLocaleString('en-US', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'long', year: 'numeric' }); return timePart + ', ' + datePart; } catch (e) { var d2 = new Date(iso); return isNaN(d2) ? '' : d2.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); } } // Keep formatDate as alias for any legacy calls function formatDate(iso) { return uaeExactTime(iso); } function readTime(sections) { var wordCount = 0; (sections || []).forEach(function (s) { wordCount += (s.content || '').split(/\s+/).length; }); var mins = Math.max(1, Math.round(wordCount / 200)); return mins + ' min read'; } function showError() { document.getElementById('av-skeleton').style.display = 'none'; document.getElementById('av-error').style.display = 'block'; } // ── Render chart ────────────────────────────────────────────────────────── function renderChart(canvasId, section) { var canvas = document.getElementById(canvasId); if (!canvas) return; var type = section.data_type === 'pie' ? 'pie' : section.data_type === 'line' ? 'line' : 'bar'; var colors = [ '#C8102E', '#E8506A', '#9B0B22', '#F28C8C', '#FFCDD2', '#6A0020', ]; var datasets = [{ label: section.data_title || '', data: section.data_values || [], backgroundColor: type === 'bar' || type === 'pie' ? colors.slice(0, (section.data_values || []).length) : 'rgba(200,16,46,0.15)', borderColor: type === 'line' ? '#C8102E' : colors, borderWidth: type === 'line' ? 2 : 1, fill: type === 'line', tension: 0.4, pointBackgroundColor: '#C8102E', borderRadius: type === 'bar' ? 4 : 0, }]; var instance = new Chart(canvas, { type: type, data: { labels: section.data_labels || [], datasets: datasets, }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: type === 'pie', labels: { font: { family: 'DM Sans', size: 12 }, color: '#3D3328' }, }, tooltip: { bodyFont: { family: 'DM Sans', size: 12 }, titleFont: { family: 'DM Sans', size: 12 }, }, }, scales: type !== 'pie' ? { x: { ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' }, grid: { color: 'rgba(0,0,0,0.04)' }, }, y: { ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' }, grid: { color: 'rgba(0,0,0,0.04)' }, beginAtZero: true, }, } : undefined, }, }); chartInstances.push(instance); } // ── Render article (animated) ───────────────────────────────────────────── function render(data) { document.title = (data.calm_title || data.title || 'Article') + ' — TheDubaiBrief'; // Reveal content pane immediately so animations are visible document.getElementById('av-skeleton').style.display = 'none'; document.getElementById('av-content').style.display = 'block'; // Category badge — instant var cat = document.getElementById('av-category'); cat.textContent = (data.topic || 'UAE').toUpperCase(); animateIn(cat, 0); // Byline — fades in after category var bylineEl = document.getElementById('av-byline'); var bylineParts = []; if (data.sourceName) bylineParts.push('<span>Originally published by <strong>' + esc(data.sourceName) + '</strong></span>'); if (data.publishedAt) { var rel = relativeTime(data.publishedAt); var exact = uaeExactTime(data.publishedAt); bylineParts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>'); } var rt = readTime(data.sections); bylineParts.push('<span class="av-byline-sep">\xb7</span><span class="av-readtime">' + esc(rt) + '</span>'); bylineEl.innerHTML = bylineParts.join(''); animateIn(bylineEl, 120); // Title — typewriter effect (fast, ~32ms/char) var titleEl = document.getElementById('av-title'); var titleText = data.calm_title || data.title || 'Update'; setTimeout(function () { typewrite(titleEl, titleText, 32, function () { // After title finishes, reveal rest of article sequentially var delay = 80; // Summary fades in var summaryEl = document.getElementById('av-summary'); summaryEl.textContent = data.summary || ''; animateIn(summaryEl, delay); delay += 350; // Hero image if (data.imageUrl) { var img = document.getElementById('av-hero-img'); img.src = '/api/image?url=' + encodeURIComponent(data.imageUrl); img.alt = titleText; img.referrerPolicy = 'no-referrer'; img.onload = function () { img.style.display = 'block'; animateIn(img, 0); document.getElementById('av-img-credit').style.display = 'block'; }; img.onerror = function () { img.style.display = 'none'; }; } // Resident impact box if (data.resident_impact) { var impactBox = document.getElementById('av-impact-box'); document.getElementById('av-impact-text').textContent = data.resident_impact; impactBox.style.display = 'block'; animateIn(impactBox, delay); delay += 300; } // Divider var divider = document.querySelector('.av-divider'); animateIn(divider, delay); delay += 150; // Body sections — each one fades in with a stagger var sectionsEl = document.getElementById('av-sections'); var sectionsHTML = ''; (data.sections || []).forEach(function (s, i) { sectionsHTML += '<div class="av-section" id="av-sec-' + i + '" style="opacity:0;transform:translateY(10px);">'; if (s.heading) sectionsHTML += '<h2 class="av-section-heading">' + esc(s.heading) + '</h2>'; if (s.content) sectionsHTML += '<p class="av-section-content">' + esc(s.content) + '</p>'; if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) { sectionsHTML += '<div class="av-chart-wrap">'; if (s.data_title) sectionsHTML += '<div class="av-chart-title">' + esc(s.data_title) + '</div>'; sectionsHTML += '<canvas class="av-chart-canvas" id="av-chart-' + i + '"></canvas>'; sectionsHTML += '</div>'; } sectionsHTML += '</div>'; }); sectionsEl.innerHTML = sectionsHTML; (data.sections || []).forEach(function (s, i) { var secDelay = delay + i * 280; var secEl = document.getElementById('av-sec-' + i); setTimeout(function () { if (secEl) { secEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; secEl.style.opacity = '1'; secEl.style.transform = 'translateY(0)'; } }, secDelay); // Render chart after the section appears if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) { setTimeout(function () { renderChart('av-chart-' + i, s); }, secDelay + 520); } }); delay += (data.sections || []).length * 280 + 400; // Key facts — card slides in, then each row ticks in if (data.key_facts && data.key_facts.length) { var factsCard = document.getElementById('av-facts'); var factsList = document.getElementById('av-facts-list'); factsList.innerHTML = data.key_facts.map(function (f) { return '<div class="av-fact-item" style="opacity:0;transform:translateX(-8px);">' + '<span class="av-fact-check">&#10003;</span><span>' + esc(f) + '</span></div>'; }).join(''); factsCard.style.display = 'block'; animateIn(factsCard, delay); data.key_facts.forEach(function (f, i) { setTimeout(function () { var items = factsList.querySelectorAll('.av-fact-item'); if (items[i]) { items[i].style.transition = 'opacity 0.35s ease, transform 0.35s ease'; items[i].style.opacity = '1'; items[i].style.transform = 'translateX(0)'; } }, delay + 200 + i * 110); }); delay += 300 + data.key_facts.length * 110; } // What happens next if (data.what_happens_next) { var nextEl = document.getElementById('av-next'); document.getElementById('av-next-text').textContent = data.what_happens_next; nextEl.style.display = 'block'; animateIn(nextEl, delay); delay += 350; } // Should I worry if (data.should_i_worry) { var worryEl = document.getElementById('av-worry'); document.getElementById('av-worry-text').textContent = data.should_i_worry; worryEl.style.display = 'block'; animateIn(worryEl, delay); } // Source link if (data.url) { document.getElementById('av-source-link').href = data.url; } else { document.getElementById('av-source-link').style.display = 'none'; } }); }, 100); } // ── Share button ────────────────────────────────────────────────────────── document.getElementById('av-share-btn').addEventListener('click', function () { var btn = this; navigator.clipboard.writeText(window.location.href).then(function () { btn.textContent = '✓ Link copied!'; btn.classList.add('copied'); setTimeout(function () { btn.textContent = ' Copy link'; btn.classList.remove('copied'); }, 2000); }).catch(function () { btn.textContent = window.location.href; }); }); // ── Relative time (full words for article page) ──────────────────────────── function relativeTime(iso) { if (!iso) return 'Recently'; var d = new Date(iso), now = new Date(); var s = Math.floor((now - d) / 1000); if (s < 60) return 'Just now'; var m = Math.floor(s / 60); if (m < 60) return m + (m === 1 ? ' minute ago' : ' minutes ago'); var h = Math.floor(m / 60); if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago'); var days = Math.floor(h / 24); if (days < 7) return days + (days === 1 ? ' day ago' : ' days ago'); return uaeExactTime(iso); } // ── Render basic (news cache fallback) ──────────────────────────────────── function renderBasic(a) { document.title = (a.calmTitle || a.title || 'Article') + ' — TheDubaiBrief'; var cat = document.getElementById('av-category'); if (cat) cat.textContent = (a.topic || 'UAE').toUpperCase(); var bylineEl = document.getElementById('av-byline'); if (bylineEl) { var parts = []; if (a.sourceName) parts.push('<span>Originally published by <strong>' + esc(a.sourceName) + '</strong></span>'); if (a.publishedAt) { var rel = relativeTime(a.publishedAt); var exact = uaeExactTime(a.publishedAt); parts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>'); } bylineEl.innerHTML = parts.join(''); } var titleEl = document.getElementById('av-title'); if (titleEl) titleEl.textContent = a.calmTitle || a.title || 'Update'; var summaryEl = document.getElementById('av-summary'); if (summaryEl) summaryEl.textContent = a.calmSummary || a.description || ''; if (a.imageUrl) { var img = document.getElementById('av-hero-img'); img.src = '/api/image?url=' + encodeURIComponent(a.imageUrl); img.alt = a.calmTitle || ''; img.referrerPolicy = 'no-referrer'; img.onload = function() { img.style.display = 'block'; document.getElementById('av-img-credit').style.display = 'block'; }; img.onerror = function() { img.style.display = 'none'; }; } if (a.residentImpact) { document.getElementById('av-impact-text').textContent = a.residentImpact; document.getElementById('av-impact-box').style.display = 'block'; } if (a.url) { document.getElementById('av-source-link').href = a.url; } else { document.getElementById('av-source-link').style.display = 'none'; } var notice = document.getElementById('av-basic-notice'); if (notice) notice.style.display = 'block'; document.getElementById('av-skeleton').style.display = 'none'; document.getElementById('av-content').style.display = 'block'; } // ── Render related articles ─────────────────────────────────────────────── function renderRelated(topic, allItems) { if (!topic || !allItems || !allItems.length) return; var related = allItems.filter(function(a) { return a.topic === topic && a.id !== ARTICLE_ID; }).slice(0, 3); if (!related.length) return; var grid = document.getElementById('av-related-grid'); if (!grid) return; grid.innerHTML = related.map(function(a) { var imgHtml = a.imageUrl ? '<img src="/api/image?url=' + encodeURIComponent(a.imageUrl) + '" alt="" onerror="this.style.display=\'none\'" />' : ''; return '<a class="av-related-card" href="/article-view.html?id=' + encodeURIComponent(a.id) + '">' + '<div class="av-related-img">' + imgHtml + '</div>' + '<div class="av-related-text">' + '<div class="av-related-cat">' + esc(a.topic || '') + '</div>' + '<div class="av-related-title">' + esc(a.calmTitle || a.title || '') + '</div>' + '<div class="av-related-meta" title="' + (a.publishedAt ? uaeExactTime(a.publishedAt) + ' UAE time' : '') + '">' + esc(a.sourceName || '') + (a.publishedAt ? ' \xb7 \uD83D\uDD50 ' + relativeTime(a.publishedAt) : '') + '</div>' + '</div></a>'; }).join(''); document.getElementById('av-related-section').style.display = 'block'; } // ── Load article (deep rewrite → fallback to news cache) ───────────────── async function load() { if (!ARTICLE_ID) { showError(); return; } var allItems = null; // Fetch news cache in parallel — needed for related articles + fallback var newsPromise = fetch('/api/news').then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }); // 1. Try deep rewrite (allow up to 45s — Claude needs time to read + write) startCountdown(); try { var _ctrl = new AbortController(); var _timer = setTimeout(function() { _ctrl.abort(); }, 45000); var deepResp = await fetch('/article/deep/' + encodeURIComponent(ARTICLE_ID), { cache: 'no-cache', signal: _ctrl.signal }); clearTimeout(_timer); stopCountdown(); if (deepResp.ok) { var data = await deepResp.json(); if (data && !data.error) { render(data); var newsData = await newsPromise; if (newsData) allItems = newsData.items || []; renderRelated(data.topic, allItems); return; } } } catch(e) { stopCountdown(); /* timeout or network error — fall through */ } // 2. Fallback: use news cache try { var newsData2 = await newsPromise; if (newsData2) { allItems = newsData2.items || []; var article = allItems.find(function(a) { return a.id === ARTICLE_ID; }); if (article) { renderBasic(article); renderRelated(article.topic, allItems); return; } } } catch(e) {} showError(); } load(); }()); </script> <script> (function () { // Clock + date function cwnUpdateTime() { var now = new Date(); var cl = document.getElementById('cwnClock'); if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST'; var dl = document.getElementById('cwnDate'); if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' }); } cwnUpdateTime(); setInterval(cwnUpdateTime, 1000); // Search → redirect to homepage var cwnSrch = document.getElementById('cwnSearch'); if (cwnSrch) { cwnSrch.addEventListener('keydown', function (e) { if (e.key === 'Enter' && cwnSrch.value.trim()) { location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim()); } }); } // Notify → go to homepage (subscribe modal is there) var cwnNBtn = document.getElementById('cwnNotifyBtn'); if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; }; // Live visitor ping var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2); localStorage.setItem('cwn-sid', cwnSid); function cwnPing() { fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) }) .then(function (r) { return r.json(); }) .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; }) .catch(function () {}); } cwnPing(); setInterval(cwnPing, 30000); // Ticker fetch('/api/news') .then(function (r) { return r.json(); }) .then(function (d) { var items = (d.items || []).slice(0, 15); if (!items.length) return; var ticker = document.getElementById('cwnTickerScroll'); if (!ticker) return; var half = items.map(function (item) { var src = ((item.sourceName || '').substr(0, 3)).toUpperCase(); var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90); return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' + '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' + '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' + '<span style="color:#444;font-size:10px;">&#9670;</span>' + '</span>'; }).join(''); ticker.innerHTML = half + half; // duplicate for seamless loop }) .catch(function () {}); }()); </script> </body> </html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loading… — TheDubaiBrief</title>
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body && document.body.classList.add('dark');
+        });
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── Dark mode — CSS variable overrides cascade to all var() elements ── */
+    html.dark, html.dark body { background: #0A0A0A !important; color: #F0F0F0 !important; }
+    html.dark {
+      --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCCCCC; --ink-light: #999999;
+      --border: #2A2A2A; --surface: #1A1A1A; --blue-light: #0D1B2A; --green-light: #0D1F12;
+    }
+    html.dark .av-nav { background: #111111 !important; border-color: #2A2A2A; }
+    html.dark .av-nav-back { color: #CCCCCC; border-color: #2A2A2A; }
+    html.dark .av-nav-back:hover { background: #1A1A1A; color: #FFFFFF; }
+    html.dark .av-skel-progress-wrap { background: #2A2A2A; }
+    html.dark .av-card, html.dark .av-sidebar-card,
+    html.dark .av-sentiment-card, html.dark .av-related-card,
+    html.dark .av-chart-wrap, html.dark .av-facts-card,
+    html.dark .av-back-link, html.dark .av-share-btn { background: #1A1A1A !important; border-color: #2A2A2A; color: #CCCCCC; }
+    html.dark .av-back-link:hover, html.dark .av-share-btn:hover { background: #222222 !important; }
+    html.dark .av-skel-block { background: #1E1E1E; }
+
+    :root {
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --blue-light: #EBF0F7;
+      --green-light: #E8F5E9;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --max: 800px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .av-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--red);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .av-nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--red);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .av-nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-mid);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      transition: background 0.15s;
+    }
+    .av-nav-back:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+
+    /* ── MAIN LAYOUT ── */
+    .av-main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ── SKELETON ── */
+    @keyframes av-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+    .av-skeleton { animation: av-pulse 1.6s ease-in-out infinite; }
+    .av-skel-block {
+      background: #e0dbd3;
+      border-radius: 4px;
+      display: block;
+    }
+
+    #av-skeleton .av-skel-pill  { height: 22px; width: 80px; border-radius: 999px; margin-bottom: 14px; }
+    #av-skeleton .av-skel-title { height: 36px; width: 100%; margin-bottom: 8px; }
+    #av-skeleton .av-skel-title-2 { height: 36px; width: 72%; margin-bottom: 20px; }
+    #av-skeleton .av-skel-summary { height: 16px; width: 100%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-summary-2 { height: 16px; width: 88%; margin-bottom: 24px; }
+    #av-skeleton .av-skel-img { height: 340px; width: 100%; border-radius: 8px; margin-bottom: 32px; }
+    #av-skeleton .av-skel-heading { height: 20px; width: 45%; margin-bottom: 10px; }
+    #av-skeleton .av-skel-para { height: 14px; width: 100%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-para-2 { height: 14px; width: 94%; margin-bottom: 6px; }
+    #av-skeleton .av-skel-para-3 { height: 14px; width: 80%; margin-bottom: 28px; }
+
+    .av-skel-notice {
+      text-align: center;
+      color: var(--ink-light);
+      font-size: 13px;
+      margin-top: 24px;
+    }
+    .av-skel-notice-text { font-style: italic; margin-bottom: 10px; }
+    .av-skel-progress-wrap {
+      background: #ddd8cf;
+      border-radius: 99px;
+      height: 4px;
+      overflow: hidden;
+      margin: 10px auto 8px;
+      max-width: 280px;
+    }
+    .av-skel-progress-bar {
+      height: 100%;
+      background: var(--red);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.9s linear;
+    }
+    .av-skel-timer {
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-top: 4px;
+    }
+
+    /* ── ARTICLE CONTENT ── */
+    #av-content { display: none; }
+
+    /* Header */
+    .av-category {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .av-byline {
+      font-size: 12px;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      align-items: center;
+    }
+    .av-byline-sep { color: var(--border); }
+    .av-readtime {
+      background: var(--red-light);
+      color: var(--red-dark);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .av-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .av-summary {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      margin-bottom: 24px;
+      border-left: 3px solid var(--red);
+      padding-left: 16px;
+    }
+    .av-hero-img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .av-img-credit {
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-bottom: 28px;
+      text-align: right;
+    }
+    .av-impact-box {
+      border-left: 4px solid var(--red);
+      background: var(--red-light);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 32px;
+    }
+    .av-impact-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .av-impact-text {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* Divider */
+    .av-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    /* Body sections */
+    .av-section {
+      margin-bottom: 32px;
+    }
+    .av-section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-section-content {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink-mid);
+    }
+    .av-chart-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .av-chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .av-chart-canvas {
+      max-height: 280px;
+    }
+
+    /* Key facts */
+    .av-facts-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .av-facts-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .av-fact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-fact-item:last-child { border-bottom: none; }
+    .av-fact-check {
+      color: var(--red);
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* What happens next */
+    .av-next-box {
+      background: var(--blue-light);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+    .av-next-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1A3657;
+      margin-bottom: 8px;
+    }
+    .av-next-text {
+      font-size: 14px;
+      color: #2C4A6E;
+      line-height: 1.65;
+    }
+
+    /* Should I worry */
+    .av-worry-box {
+      background: var(--green-light);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 32px;
+    }
+    .av-worry-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 8px;
+    }
+    .av-worry-text {
+      font-size: 14px;
+      color: #2E7D32;
+      line-height: 1.65;
+    }
+
+    /* Footer links */
+    .av-footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .av-source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .av-source-link:hover { background: var(--red-dark); }
+    .av-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--ink-mid);
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .av-back-link:hover { background: var(--cream); }
+    .av-share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--ink-mid);
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .av-share-btn:hover { background: var(--cream); }
+    .av-share-btn.copied { color: #2E7D32; border-color: #2E7D32; }
+
+    /* ── Typewriter cursor ── */
+    .av-tw-cursor {
+      display: inline-block;
+      color: var(--red);
+      font-weight: 300;
+      animation: av-tw-blink 0.65s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes av-tw-blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* Error */
+    .av-error {
+      background: var(--red-light);
+      border: 1px solid #f0c0c8;
+      border-radius: var(--radius);
+      padding: 20px;
+      color: var(--red-dark);
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .av-main { padding: 20px 14px 40px; }
+      .av-footer-links { flex-direction: column; }
+      .av-source-link, .av-back-link, .av-share-btn { justify-content: center; }
+    }
+
+    /* ── Related articles ── */
+    .av-related-section { margin-top: 40px; display: none; }
+    .av-related-heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .av-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .av-related-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .av-related-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .av-related-img {
+      height: 80px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+    }
+    .av-related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .av-related-text { padding: 10px 12px; }
+    .av-related-cat {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--red); margin-bottom: 4px; text-transform: uppercase;
+    }
+    .av-related-title {
+      font-size: 12px; font-weight: 600; color: var(--ink);
+      line-height: 1.35; margin-bottom: 5px;
+      display: -webkit-box; -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .av-related-meta { font-size: 10px; color: var(--ink-light); }
+
+    /* ── Basic article notice ── */
+    .av-basic-notice {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #5D4037;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .av-related-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+<style>
+  /* ===== CWN UNIVERSAL HEADER ===== */
+  .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
+  .cwn-util-left{display:flex;gap:24px;align-items:center;}
+  .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;}
+  .cwn-util-right{display:flex;gap:20px;align-items:center;}
+  .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;}
+  .cwn-util-right a:hover{color:#B8860B;}
+  .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;}
+  .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .cwn-logo-boxes{display:flex;gap:8px;}
+  .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;}
+  .cwn-logo-text{display:flex;flex-direction:column;gap:2px;}
+  .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;}
+  .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;}
+  .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;}
+  .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;}
+  .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;}
+  .cwn-header-controls{display:flex;align-items:center;gap:12px;}
+  .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;}
+  .cwn-search::placeholder{color:rgba(255,255,255,0.6);}
+  .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
+  .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+  .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);}
+  .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
+  .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;}
+  @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}}
+  .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;}
+  .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;}
+  .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;}
+  @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}}
+  .cwn-ticker-content{flex:1;overflow:hidden;}
+  .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;}
+  .cwn-ticker-scroll:hover{animation-play-state:paused;}
+  @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}}
+  @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
+</style>
+</head>
+<body>
+<div class="cwn-utility-bar">
+  <div class="cwn-util-left">
+    <span class="cwn-util-clock" id="cwnClock">00:00 GST</span>
+    <span id="cwnDate">Loading…</span>
+    <span>Dubai, UAE</span>
+  </div>
+  <div class="cwn-util-right">
+    <a href="/about.html">About</a>
+    <a href="/sources.html">Sources</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</div>
+
+<header class="cwn-header">
+  <div class="cwn-header-inner">
+    <a class="cwn-brand" href="/uae-calm-uae-news.html">
+      <div class="cwn-logo-boxes">
+        <div class="cwn-logo-box">D</div>
+        <div class="cwn-logo-box">B</div>
+        <div class="cwn-logo-box">B</div>
+      </div>
+      <div class="cwn-logo-text">
+        <div class="cwn-logo-main">TheDubaiBrief</div>
+        <div class="cwn-logo-sub">UAE Official Sources</div>
+      </div>
+    </a>
+    <nav class="cwn-main-nav">
+      <a href="/uae-calm-uae-news.html">Home</a>
+      <a href="/uae-calm-uae-news.html">Safety</a>
+      <a href="/uae-calm-uae-news.html">Government</a>
+      <a href="/uae-calm-uae-news.html">Finance</a>
+      <a href="/uae-calm-uae-news.html">Health</a>
+      <a href="/uae-calm-uae-news.html">World</a>
+    </nav>
+    <div class="cwn-header-controls">
+      <div class="cwn-live-pill" id="cwnLivePill">
+        <div class="cwn-live-dot"></div>
+        <span id="cwnVisitorCount">–</span> online
+      </div>
+      <input type="text" class="cwn-search" id="cwnSearch" placeholder="Search news...">
+      <button class="cwn-notify-btn" id="cwnNotifyBtn">&#128276; Notify me</button>
+    </div>
+  </div>
+</header>
+
+<div class="cwn-ticker">
+  <div class="cwn-ticker-label">
+    <div class="cwn-ticker-dot"></div>
+    <span>LIVE FEED</span>
+  </div>
+  <div class="cwn-ticker-content">
+    <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div>
+  </div>
+</div>
+  <!-- Navigation -->
+  <nav class="av-nav">
+    <a class="av-nav-brand" href="/uae-calm-uae-news.html">TheDubaiBrief</a>
+    <a class="av-nav-back" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a>
+  </nav>
+
+  <main class="av-main">
+
+    <!-- Error state -->
+    <div class="av-error" id="av-error">
+      Could not load this article. Please <a href="/uae-calm-uae-news.html">return to the homepage</a> and try again.
+    </div>
+
+    <!-- Skeleton loader -->
+    <div id="av-skeleton" class="av-skeleton">
+      <span class="av-skel-block av-skel-pill"></span>
+      <span class="av-skel-block av-skel-title"></span>
+      <span class="av-skel-block av-skel-title-2"></span>
+      <span class="av-skel-block av-skel-summary"></span>
+      <span class="av-skel-block av-skel-summary-2"></span>
+      <span class="av-skel-block av-skel-img"></span>
+      <span class="av-skel-block av-skel-heading"></span>
+      <span class="av-skel-block av-skel-para"></span>
+      <span class="av-skel-block av-skel-para-2"></span>
+      <span class="av-skel-block av-skel-para-3"></span>
+      <span class="av-skel-block av-skel-heading"></span>
+      <span class="av-skel-block av-skel-para"></span>
+      <span class="av-skel-block av-skel-para-2"></span>
+      <span class="av-skel-block av-skel-para-3"></span>
+      <div class="av-skel-notice">
+        <p class="av-skel-notice-text" id="av-countdown-text">AI is analyzing this article&hellip;</p>
+        <div class="av-skel-progress-wrap">
+          <div class="av-skel-progress-bar" id="av-progress-bar"></div>
+        </div>
+        <p class="av-skel-timer" id="av-countdown-timer"></p>
+      </div>
+    </div>
+
+    <!-- Article content -->
+    <div id="av-content">
+
+      <!-- Header section -->
+      <div class="av-category" id="av-category"></div>
+      <div class="av-byline" id="av-byline"></div>
+      <h1 class="av-title" id="av-title"></h1>
+      <p class="av-summary" id="av-summary"></p>
+
+      <img class="av-hero-img" id="av-hero-img" style="display:none;" alt="" />
+      <div class="av-img-credit" id="av-img-credit" style="display:none;">Photo: Official source</div>
+
+      <div class="av-impact-box" id="av-impact-box" style="display:none;">
+        <div class="av-impact-label">&#127968; What this means for you:</div>
+        <div class="av-impact-text" id="av-impact-text"></div>
+      </div>
+
+      <hr class="av-divider" />
+
+      <!-- Body sections -->
+      <div id="av-sections"></div>
+
+      <!-- Key facts -->
+      <div class="av-facts-card" id="av-facts" style="display:none;">
+        <div class="av-facts-heading">Key Facts at a Glance</div>
+        <div id="av-facts-list"></div>
+      </div>
+
+      <!-- What happens next -->
+      <div class="av-next-box" id="av-next" style="display:none;">
+        <div class="av-next-heading">What Happens Next &#128302;</div>
+        <p class="av-next-text" id="av-next-text"></p>
+      </div>
+
+      <!-- Should I worry -->
+      <div class="av-worry-box" id="av-worry" style="display:none;">
+        <div class="av-worry-heading">Should I be worried? &#129368;</div>
+        <p class="av-worry-text" id="av-worry-text"></p>
+      </div>
+
+      <!-- Footer -->
+      <div class="av-footer-links">
+        <a class="av-source-link" id="av-source-link" href="#" target="_blank" rel="noopener noreferrer">
+          Read original article &#8594;
+        </a>
+        <a class="av-back-link" href="/uae-calm-uae-news.html">&#8592; Back to TheDubaiBrief</a>
+        <button class="av-share-btn" id="av-share-btn" type="button">&#128279; Copy link</button>
+      </div>
+
+      <!-- Basic article notice (shown when deep rewrite unavailable) -->
+      <div class="av-basic-notice" id="av-basic-notice">
+        AI deep-rewrite is loading in the background. Refresh in a moment for the full analysis.
+      </div>
+
+      <!-- Related articles -->
+      <div class="av-related-section" id="av-related-section">
+        <div class="av-related-heading">More from this category</div>
+        <div class="av-related-grid" id="av-related-grid"></div>
+      </div>
+
+    </div><!-- /#av-content -->
+
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var ARTICLE_ID = (function() {
+      var qs = new URLSearchParams(window.location.search).get('id');
+      if (qs) return decodeURIComponent(qs);
+      var parts = window.location.pathname.split('/').filter(Boolean);
+      return decodeURIComponent(parts[parts.length - 1] || '');
+    }());
+
+    var chartInstances = [];
+    var _countdownInterval = null;
+
+    // ── Countdown timer ────────────────────────────────────────────────────────
+    var DEEP_ESTIMATE_S = 18; // estimated seconds for Claude to respond
+    function startCountdown() {
+      var elapsed = 0;
+      var progressBar = document.getElementById('av-progress-bar');
+      var timerEl    = document.getElementById('av-countdown-timer');
+      var textEl     = document.getElementById('av-countdown-text');
+      var steps = [
+        [0,  'AI is analyzing this article\u2026'],
+        [3,  'Fetching full article text\u2026'],
+        [7,  'Claude is reading the story\u2026'],
+        [12, 'Writing your plain-English summary\u2026'],
+        [17, 'Generating charts from any numbers found\u2026'],
+        [22, 'Finishing up\u2026'],
+      ];
+      if (timerEl) timerEl.textContent = 'About ' + DEEP_ESTIMATE_S + 's remaining';
+      _countdownInterval = setInterval(function () {
+        elapsed++;
+        var remaining = Math.max(0, DEEP_ESTIMATE_S - elapsed);
+        var pct = Math.min(93, (elapsed / DEEP_ESTIMATE_S) * 100);
+        if (progressBar) progressBar.style.width = pct + '%';
+        if (timerEl) timerEl.textContent = remaining > 0 ? 'About ' + remaining + 's remaining' : 'Almost there\u2026';
+        for (var i = steps.length - 1; i >= 0; i--) {
+          if (elapsed >= steps[i][0]) { if (textEl) textEl.textContent = steps[i][1]; break; }
+        }
+      }, 1000);
+    }
+    function stopCountdown() {
+      if (_countdownInterval) { clearInterval(_countdownInterval); _countdownInterval = null; }
+      var progressBar = document.getElementById('av-progress-bar');
+      if (progressBar) { progressBar.style.width = '100%'; progressBar.style.transition = 'width 0.3s ease'; }
+    }
+
+    // ── Animation helpers ──────────────────────────────────────────────────────
+    function typewrite(el, text, speed, done) {
+      el.textContent = '';
+      var cursor = document.createElement('span');
+      cursor.className = 'av-tw-cursor';
+      cursor.textContent = '|';
+      el.appendChild(cursor);
+      var i = 0;
+      var t = setInterval(function () {
+        el.insertBefore(document.createTextNode(text[i]), cursor);
+        i++;
+        if (i >= text.length) {
+          clearInterval(t);
+          setTimeout(function () {
+            if (cursor.parentNode) cursor.parentNode.removeChild(cursor);
+            if (done) done();
+          }, 250);
+        }
+      }, speed);
+    }
+
+    function animateIn(el, delayMs) {
+      if (!el) return;
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(10px)';
+      setTimeout(function () {
+        el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, delayMs || 0);
+    }
+
+    // ── Helpers ────────────────────────────────────────────────────────────────
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function uaeExactTime(iso) {
+      if (!iso) return '';
+      try {
+        var d = new Date(iso);
+        if (isNaN(d)) return '';
+        var timePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+        var datePart = d.toLocaleString('en-US', {
+          timeZone: 'Asia/Dubai',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        return timePart + ', ' + datePart;
+      } catch (e) {
+        var d2 = new Date(iso);
+        return isNaN(d2) ? '' : d2.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
+    }
+
+    // Keep formatDate as alias for any legacy calls
+    function formatDate(iso) { return uaeExactTime(iso); }
+
+    function readTime(sections) {
+      var wordCount = 0;
+      (sections || []).forEach(function (s) {
+        wordCount += (s.content || '').split(/\s+/).length;
+      });
+      var mins = Math.max(1, Math.round(wordCount / 200));
+      return mins + ' min read';
+    }
+
+    function showError() {
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-error').style.display = 'block';
+    }
+
+    // ── Render chart ──────────────────────────────────────────────────────────
+    function renderChart(canvasId, section) {
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      var type = section.data_type === 'pie' ? 'pie'
+               : section.data_type === 'line' ? 'line'
+               : 'bar';
+
+      var colors = [
+        '#C8102E', '#E8506A', '#9B0B22',
+        '#F28C8C', '#FFCDD2', '#6A0020',
+      ];
+
+      var datasets = [{
+        label: section.data_title || '',
+        data: section.data_values || [],
+        backgroundColor: type === 'bar' || type === 'pie'
+          ? colors.slice(0, (section.data_values || []).length)
+          : 'rgba(200,16,46,0.15)',
+        borderColor: type === 'line' ? '#C8102E' : colors,
+        borderWidth: type === 'line' ? 2 : 1,
+        fill: type === 'line',
+        tension: 0.4,
+        pointBackgroundColor: '#C8102E',
+        borderRadius: type === 'bar' ? 4 : 0,
+      }];
+
+      var instance = new Chart(canvas, {
+        type: type,
+        data: {
+          labels: section.data_labels || [],
+          datasets: datasets,
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: type === 'pie',
+              labels: { font: { family: 'DM Sans', size: 12 }, color: '#3D3328' },
+            },
+            tooltip: {
+              bodyFont: { family: 'DM Sans', size: 12 },
+              titleFont: { family: 'DM Sans', size: 12 },
+            },
+          },
+          scales: type !== 'pie' ? {
+            x: {
+              ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' },
+              grid: { color: 'rgba(0,0,0,0.04)' },
+            },
+            y: {
+              ticks: { font: { family: 'DM Sans', size: 11 }, color: '#7A6E62' },
+              grid: { color: 'rgba(0,0,0,0.04)' },
+              beginAtZero: true,
+            },
+          } : undefined,
+        },
+      });
+      chartInstances.push(instance);
+    }
+
+    // ── Render article (animated) ─────────────────────────────────────────────
+    function render(data) {
+      document.title = (data.calm_title || data.title || 'Article') + ' — TheDubaiBrief';
+
+      // Reveal content pane immediately so animations are visible
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-content').style.display = 'block';
+
+      // Category badge — instant
+      var cat = document.getElementById('av-category');
+      cat.textContent = (data.topic || 'UAE').toUpperCase();
+      animateIn(cat, 0);
+
+      // Byline — fades in after category
+      var bylineEl = document.getElementById('av-byline');
+      var bylineParts = [];
+      if (data.sourceName) bylineParts.push('<span>Originally published by <strong>' + esc(data.sourceName) + '</strong></span>');
+      if (data.publishedAt) {
+        var rel = relativeTime(data.publishedAt);
+        var exact = uaeExactTime(data.publishedAt);
+        bylineParts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
+      }
+      var rt = readTime(data.sections);
+      bylineParts.push('<span class="av-byline-sep">\xb7</span><span class="av-readtime">' + esc(rt) + '</span>');
+      bylineEl.innerHTML = bylineParts.join('');
+      animateIn(bylineEl, 120);
+
+      // Title — typewriter effect (fast, ~32ms/char)
+      var titleEl = document.getElementById('av-title');
+      var titleText = data.calm_title || data.title || 'Update';
+      setTimeout(function () {
+        typewrite(titleEl, titleText, 32, function () {
+          // After title finishes, reveal rest of article sequentially
+          var delay = 80;
+
+          // Summary fades in
+          var summaryEl = document.getElementById('av-summary');
+          summaryEl.textContent = data.summary || '';
+          animateIn(summaryEl, delay); delay += 350;
+
+          // Hero image
+          if (data.imageUrl) {
+            var img = document.getElementById('av-hero-img');
+            img.src = '/api/image?url=' + encodeURIComponent(data.imageUrl);
+            img.alt = titleText;
+            img.referrerPolicy = 'no-referrer';
+            img.onload = function () {
+              img.style.display = 'block';
+              animateIn(img, 0);
+              document.getElementById('av-img-credit').style.display = 'block';
+            };
+            img.onerror = function () { img.style.display = 'none'; };
+          }
+
+          // Resident impact box
+          if (data.resident_impact) {
+            var impactBox = document.getElementById('av-impact-box');
+            document.getElementById('av-impact-text').textContent = data.resident_impact;
+            impactBox.style.display = 'block';
+            animateIn(impactBox, delay); delay += 300;
+          }
+
+          // Divider
+          var divider = document.querySelector('.av-divider');
+          animateIn(divider, delay); delay += 150;
+
+          // Body sections — each one fades in with a stagger
+          var sectionsEl = document.getElementById('av-sections');
+          var sectionsHTML = '';
+          (data.sections || []).forEach(function (s, i) {
+            sectionsHTML += '<div class="av-section" id="av-sec-' + i + '" style="opacity:0;transform:translateY(10px);">';
+            if (s.heading) sectionsHTML += '<h2 class="av-section-heading">' + esc(s.heading) + '</h2>';
+            if (s.content)  sectionsHTML += '<p class="av-section-content">' + esc(s.content) + '</p>';
+            if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+              sectionsHTML += '<div class="av-chart-wrap">';
+              if (s.data_title) sectionsHTML += '<div class="av-chart-title">' + esc(s.data_title) + '</div>';
+              sectionsHTML += '<canvas class="av-chart-canvas" id="av-chart-' + i + '"></canvas>';
+              sectionsHTML += '</div>';
+            }
+            sectionsHTML += '</div>';
+          });
+          sectionsEl.innerHTML = sectionsHTML;
+
+          (data.sections || []).forEach(function (s, i) {
+            var secDelay = delay + i * 280;
+            var secEl = document.getElementById('av-sec-' + i);
+            setTimeout(function () {
+              if (secEl) {
+                secEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                secEl.style.opacity = '1';
+                secEl.style.transform = 'translateY(0)';
+              }
+            }, secDelay);
+            // Render chart after the section appears
+            if (s.has_data && s.data_labels && s.data_values && s.data_labels.length && s.data_values.length) {
+              setTimeout(function () { renderChart('av-chart-' + i, s); }, secDelay + 520);
+            }
+          });
+          delay += (data.sections || []).length * 280 + 400;
+
+          // Key facts — card slides in, then each row ticks in
+          if (data.key_facts && data.key_facts.length) {
+            var factsCard = document.getElementById('av-facts');
+            var factsList = document.getElementById('av-facts-list');
+            factsList.innerHTML = data.key_facts.map(function (f) {
+              return '<div class="av-fact-item" style="opacity:0;transform:translateX(-8px);">' +
+                '<span class="av-fact-check">&#10003;</span><span>' + esc(f) + '</span></div>';
+            }).join('');
+            factsCard.style.display = 'block';
+            animateIn(factsCard, delay);
+            data.key_facts.forEach(function (f, i) {
+              setTimeout(function () {
+                var items = factsList.querySelectorAll('.av-fact-item');
+                if (items[i]) {
+                  items[i].style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                  items[i].style.opacity = '1';
+                  items[i].style.transform = 'translateX(0)';
+                }
+              }, delay + 200 + i * 110);
+            });
+            delay += 300 + data.key_facts.length * 110;
+          }
+
+          // What happens next
+          if (data.what_happens_next) {
+            var nextEl = document.getElementById('av-next');
+            document.getElementById('av-next-text').textContent = data.what_happens_next;
+            nextEl.style.display = 'block';
+            animateIn(nextEl, delay); delay += 350;
+          }
+
+          // Should I worry
+          if (data.should_i_worry) {
+            var worryEl = document.getElementById('av-worry');
+            document.getElementById('av-worry-text').textContent = data.should_i_worry;
+            worryEl.style.display = 'block';
+            animateIn(worryEl, delay);
+          }
+
+          // Source link
+          if (data.url) {
+            document.getElementById('av-source-link').href = data.url;
+          } else {
+            document.getElementById('av-source-link').style.display = 'none';
+          }
+        });
+      }, 100);
+    }
+
+    // ── Share button ──────────────────────────────────────────────────────────
+    document.getElementById('av-share-btn').addEventListener('click', function () {
+      var btn = this;
+      navigator.clipboard.writeText(window.location.href).then(function () {
+        btn.textContent = '✓ Link copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = ' Copy link';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function () {
+        btn.textContent = window.location.href;
+      });
+    });
+
+    // ── Relative time (full words for article page) ────────────────────────────
+    function relativeTime(iso) {
+      if (!iso) return 'Recently';
+      var d = new Date(iso), now = new Date();
+      var s = Math.floor((now - d) / 1000);
+      if (s < 60) return 'Just now';
+      var m = Math.floor(s / 60);
+      if (m < 60) return m + (m === 1 ? ' minute ago' : ' minutes ago');
+      var h = Math.floor(m / 60);
+      if (h < 24) return h + (h === 1 ? ' hour ago' : ' hours ago');
+      var days = Math.floor(h / 24);
+      if (days < 7) return days + (days === 1 ? ' day ago' : ' days ago');
+      return uaeExactTime(iso);
+    }
+
+    // ── Render basic (news cache fallback) ────────────────────────────────────
+    function renderBasic(a) {
+      document.title = (a.calmTitle || a.title || 'Article') + ' — TheDubaiBrief';
+
+      var cat = document.getElementById('av-category');
+      if (cat) cat.textContent = (a.topic || 'UAE').toUpperCase();
+
+      var bylineEl = document.getElementById('av-byline');
+      if (bylineEl) {
+        var parts = [];
+        if (a.sourceName) parts.push('<span>Originally published by <strong>' + esc(a.sourceName) + '</strong></span>');
+        if (a.publishedAt) {
+          var rel = relativeTime(a.publishedAt);
+          var exact = uaeExactTime(a.publishedAt);
+          parts.push('<span class="av-byline-sep">\xb7</span><span style="color:rgba(26,18,8,0.5);font-family:\'DM Sans\',sans-serif;">Published \uD83D\uDD50 ' + esc(rel) + (exact ? ' \xb7 ' + esc(exact) : '') + ' <span style="font-size:11px;">(UAE time)</span></span>');
+        }
+        bylineEl.innerHTML = parts.join('');
+      }
+
+      var titleEl = document.getElementById('av-title');
+      if (titleEl) titleEl.textContent = a.calmTitle || a.title || 'Update';
+
+      var summaryEl = document.getElementById('av-summary');
+      if (summaryEl) summaryEl.textContent = a.calmSummary || a.description || '';
+
+      if (a.imageUrl) {
+        var img = document.getElementById('av-hero-img');
+        img.src = '/api/image?url=' + encodeURIComponent(a.imageUrl);
+        img.alt = a.calmTitle || '';
+        img.referrerPolicy = 'no-referrer';
+        img.onload = function() { img.style.display = 'block'; document.getElementById('av-img-credit').style.display = 'block'; };
+        img.onerror = function() { img.style.display = 'none'; };
+      }
+
+      if (a.residentImpact) {
+        document.getElementById('av-impact-text').textContent = a.residentImpact;
+        document.getElementById('av-impact-box').style.display = 'block';
+      }
+
+      if (a.url) {
+        document.getElementById('av-source-link').href = a.url;
+      } else {
+        document.getElementById('av-source-link').style.display = 'none';
+      }
+
+      var notice = document.getElementById('av-basic-notice');
+      if (notice) notice.style.display = 'block';
+
+      document.getElementById('av-skeleton').style.display = 'none';
+      document.getElementById('av-content').style.display = 'block';
+    }
+
+    // ── Render related articles ───────────────────────────────────────────────
+    function renderRelated(topic, allItems) {
+      if (!topic || !allItems || !allItems.length) return;
+      var related = allItems.filter(function(a) {
+        return a.topic === topic && a.id !== ARTICLE_ID;
+      }).slice(0, 3);
+      if (!related.length) return;
+
+      var grid = document.getElementById('av-related-grid');
+      if (!grid) return;
+
+      grid.innerHTML = related.map(function(a) {
+        var imgHtml = a.imageUrl
+          ? '<img src="/api/image?url=' + encodeURIComponent(a.imageUrl) + '" alt="" onerror="this.style.display=\'none\'" />'
+          : '';
+        return '<a class="av-related-card" href="/article-view.html?id=' + encodeURIComponent(a.id) + '">'
+          + '<div class="av-related-img">' + imgHtml + '</div>'
+          + '<div class="av-related-text">'
+          + '<div class="av-related-cat">' + esc(a.topic || '') + '</div>'
+          + '<div class="av-related-title">' + esc(a.calmTitle || a.title || '') + '</div>'
+          + '<div class="av-related-meta" title="' + (a.publishedAt ? uaeExactTime(a.publishedAt) + ' UAE time' : '') + '">' + esc(a.sourceName || '') + (a.publishedAt ? ' \xb7 \uD83D\uDD50 ' + relativeTime(a.publishedAt) : '') + '</div>'
+          + '</div></a>';
+      }).join('');
+
+      document.getElementById('av-related-section').style.display = 'block';
+    }
+
+    // ── Load article (deep rewrite → fallback to news cache) ─────────────────
+    async function load() {
+      if (!ARTICLE_ID) { showError(); return; }
+
+      var allItems = null;
+
+      // Fetch news cache in parallel — needed for related articles + fallback
+      var newsPromise = fetch('/api/news').then(function(r) {
+        return r.ok ? r.json() : null;
+      }).catch(function() { return null; });
+
+      // 1. Try deep rewrite (allow up to 45s — Claude needs time to read + write)
+      startCountdown();
+      try {
+        var _ctrl = new AbortController();
+        var _timer = setTimeout(function() { _ctrl.abort(); }, 45000);
+        var deepResp = await fetch('/article/deep/' + encodeURIComponent(ARTICLE_ID), { cache: 'no-cache', signal: _ctrl.signal });
+        clearTimeout(_timer);
+        stopCountdown();
+        if (deepResp.ok) {
+          var data = await deepResp.json();
+          if (data && !data.error) {
+            render(data);
+            var newsData = await newsPromise;
+            if (newsData) allItems = newsData.items || [];
+            renderRelated(data.topic, allItems);
+            return;
+          }
+        }
+      } catch(e) { stopCountdown(); /* timeout or network error — fall through */ }
+
+      // 2. Fallback: use news cache
+      try {
+        var newsData2 = await newsPromise;
+        if (newsData2) {
+          allItems = newsData2.items || [];
+          var article = allItems.find(function(a) { return a.id === ARTICLE_ID; });
+          if (article) {
+            renderBasic(article);
+            renderRelated(article.topic, allItems);
+            return;
+          }
+        }
+      } catch(e) {}
+
+      showError();
+    }
+
+    load();
+  }());
+  </script>
+
+  <script>
+  (function () {
+    // Clock + date
+    function cwnUpdateTime() {
+      var now = new Date();
+      var cl = document.getElementById('cwnClock');
+      if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
+      var dl = document.getElementById('cwnDate');
+      if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    cwnUpdateTime();
+    setInterval(cwnUpdateTime, 1000);
+
+    // Search → redirect to homepage
+    var cwnSrch = document.getElementById('cwnSearch');
+    if (cwnSrch) {
+      cwnSrch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && cwnSrch.value.trim()) {
+          location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim());
+        }
+      });
+    }
+
+    // Notify → go to homepage (subscribe modal is there)
+    var cwnNBtn = document.getElementById('cwnNotifyBtn');
+    if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; };
+
+    // Live visitor ping
+    var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
+    localStorage.setItem('cwn-sid', cwnSid);
+    function cwnPing() {
+      fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+        .catch(function () {});
+    }
+    cwnPing();
+    setInterval(cwnPing, 30000);
+
+    // Ticker
+    fetch('/api/news')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var items = (d.items || []).slice(0, 15);
+        if (!items.length) return;
+        var ticker = document.getElementById('cwnTickerScroll');
+        if (!ticker) return;
+        var half = items.map(function (item) {
+          var src = ((item.sourceName || '').substr(0, 3)).toUpperCase();
+          var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90);
+          return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' +
+            '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' +
+            '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' +
+            '<span style="color:#444;font-size:10px;">&#9670;</span>' +
+            '</span>';
+        }).join('');
+        ticker.innerHTML = half + half; // duplicate for seamless loop
+      })
+      .catch(function () {});
+  }());
+  </script>
+
+</body>
+</html>
