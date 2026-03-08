@@ -2304,16 +2304,16 @@
         </div>
         <nav class="navbar-center">
           <a href="#" data-cat="all" class="active" onclick="filterByCategory('all',null);return false;">Home</a>
-          <a href="#" data-cat="Safety &amp; Security" onclick="filterByCategory('Safety & Security',null);return false;">Safety</a>
-          <a href="#" data-cat="Government &amp; Politics" onclick="filterByCategory('Government & Politics',null);return false;">Gov</a>
-          <a href="#" data-cat="Business &amp; Finance" onclick="filterByCategory('Business & Finance',null);return false;">Business</a>
-          <a href="#" data-cat="Transport &amp; Travel" onclick="filterByCategory('Transport & Travel',null);return false;">Transport</a>
-          <a href="#" data-cat="Health &amp; Medicine" onclick="filterByCategory('Health & Medicine',null);return false;">Health</a>
+          <a href="#" data-cat="Safety" onclick="filterByCategory('Safety',null);return false;">Safety</a>
+          <a href="#" data-cat="Government" onclick="filterByCategory('Government',null);return false;">Gov</a>
+          <a href="#" data-cat="Business" onclick="filterByCategory('Business',null);return false;">Business</a>
+          <a href="#" data-cat="Transport" onclick="filterByCategory('Transport',null);return false;">Transport</a>
+          <a href="#" data-cat="Health" onclick="filterByCategory('Health',null);return false;">Health</a>
           <a href="#" data-cat="Sport" onclick="filterByCategory('Sport',null);return false;">Sport</a>
-          <a href="#" data-cat="Weather &amp; Environment" onclick="filterByCategory('Weather & Environment',null);return false;">Weather</a>
-          <a href="#" data-cat="Lifestyle &amp; Entertainment" onclick="filterByCategory('Lifestyle & Entertainment',null);return false;">Lifestyle</a>
+          <a href="#" data-cat="Weather" onclick="filterByCategory('Weather',null);return false;">Weather</a>
+          <a href="#" data-cat="Lifestyle" onclick="filterByCategory('Lifestyle',null);return false;">Lifestyle</a>
           <a href="#" data-cat="Technology" onclick="filterByCategory('Technology',null);return false;">Tech</a>
-          <a href="#" data-cat="World &amp; Region" onclick="filterByCategory('World & Region',null);return false;">World</a>
+          <a href="#" data-cat="World" onclick="filterByCategory('World',null);return false;">World</a>
           <a href="#" data-cat="Community" onclick="filterByCategory('Community',null);return false;">Community</a>
           <a href="/archive">Archive</a>
         </nav>
@@ -2338,17 +2338,17 @@
     <!-- Mobile nav dropdown (toggled by hamburger) -->
     <div class="mobile-nav" id="mobileNav" aria-hidden="true">
       <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;">🗞️ All News</a>
-      <a href="#" onclick="filterByCategory('Safety & Security',null);closeMobileNav();return false;">🛡️ Safety &amp; Security</a>
-      <a href="#" onclick="filterByCategory('Government & Politics',null);closeMobileNav();return false;">🏛️ Government</a>
-      <a href="#" onclick="filterByCategory('Business & Finance',null);closeMobileNav();return false;">💰 Business &amp; Finance</a>
-      <a href="#" onclick="filterByCategory('Transport & Travel',null);closeMobileNav();return false;">✈️ Transport &amp; Travel</a>
-      <a href="#" onclick="filterByCategory('Health & Medicine',null);closeMobileNav();return false;">🏥 Health</a>
+      <a href="#" onclick="filterByCategory('Safety',null);closeMobileNav();return false;">🛡️ Safety</a>
+      <a href="#" onclick="filterByCategory('Government',null);closeMobileNav();return false;">🏛️ Government</a>
+      <a href="#" onclick="filterByCategory('Business',null);closeMobileNav();return false;">💰 Business</a>
+      <a href="#" onclick="filterByCategory('Transport',null);closeMobileNav();return false;">✈️ Transport</a>
+      <a href="#" onclick="filterByCategory('Health',null);closeMobileNav();return false;">🏥 Health</a>
       <a href="#" onclick="filterByCategory('Education',null);closeMobileNav();return false;">📚 Education</a>
       <a href="#" onclick="filterByCategory('Sport',null);closeMobileNav();return false;">⚽ Sport</a>
-      <a href="#" onclick="filterByCategory('Weather & Environment',null);closeMobileNav();return false;">🌤️ Weather</a>
-      <a href="#" onclick="filterByCategory('Lifestyle & Entertainment',null);closeMobileNav();return false;">🎭 Lifestyle</a>
+      <a href="#" onclick="filterByCategory('Weather',null);closeMobileNav();return false;">🌤️ Weather</a>
+      <a href="#" onclick="filterByCategory('Lifestyle',null);closeMobileNav();return false;">🎭 Lifestyle</a>
       <a href="#" onclick="filterByCategory('Technology',null);closeMobileNav();return false;">💻 Tech</a>
-      <a href="#" onclick="filterByCategory('World & Region',null);closeMobileNav();return false;">🌍 World &amp; Region</a>
+      <a href="#" onclick="filterByCategory('World',null);closeMobileNav();return false;">🌍 World</a>
       <a href="#" onclick="filterByCategory('Community',null);closeMobileNav();return false;">👥 Community</a>
       <a href="/archive">📁 Archive</a>
       <a href="/about.html">About</a>
@@ -2864,29 +2864,23 @@
 
     // ── Category icons & order ────────────────────────────────────────────────
     const CAT_ICONS = {
-      'Safety & Security': '🛡️',
-      'Government & Politics': '🏛️',
-      'Business & Finance': '💰',
-      'Transport & Travel': '✈️',
-      'Health & Medicine': '🏥',
+      'Safety': '🛡️',
+      'Government': '🏛️',
+      'Business': '💰',
+      'Transport': '✈️',
+      'Health': '🏥',
       'Education': '📚',
       'Sport': '⚽',
-      'Weather & Environment': '🌤️',
-      'Lifestyle & Entertainment': '🎭',
+      'Weather': '🌤️',
+      'Lifestyle': '🎭',
       'Technology': '💻',
-      'World & Region': '🌍',
+      'World': '🌍',
       'Community': '👥',
-      'General News': '📰',
-      // Legacy
-      'Government': '🏛️', 'Business': '💰', 'Safety': '🛡️',
-      'Health & Education': '🏥', 'Lifestyle': '🎭', 'Media': '📺',
+      'General': '📰',
     };
     const CAT_ORDER = [
-      'Safety & Security','Government & Politics','Business & Finance',
-      'Transport & Travel','Health & Medicine','Education','Sport',
-      'Weather & Environment','Lifestyle & Entertainment','Technology',
-      'World & Region','Community','General News',
-      'Government','Business','Safety','Health & Education','Lifestyle','Media',
+      'Sport','World','Safety','Government','Transport','Health',
+      'Education','Weather','Business','Community','Lifestyle','Technology','General',
     ];
 
     function filterByTopic(topic) {
