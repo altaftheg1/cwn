@@ -105,11 +105,48 @@
     .header-inner{
       max-width:var(--max-width);
       margin:0 auto;
-      padding:16px 24px;
+      padding:13px 24px;
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:24px;
+      position:relative;  /* needed for absolute-centered nav */
+    }
+    /* Left section */
+    .navbar-left{
+      display:flex;
+      align-items:center;
+      flex:1;
+    }
+    /* Center section — truly centered via absolute */
+    .navbar-center{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      align-items:center;
+      gap:2px;
+    }
+    .navbar-center a{
+      color:#FFFFFF;
+      text-decoration:none;
+      font-size:11.5px;
+      font-weight:500;
+      letter-spacing:0.01em;
+      padding:4px 5px 6px;
+      border-bottom:3px solid transparent;
+      transition:border-color 0.2s ease;
+      white-space:nowrap;
+    }
+    .navbar-center a:hover,
+    .navbar-center a.active{
+      border-bottom-color:#FFFFFF;
+    }
+    /* Right section */
+    .navbar-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:1;
+      justify-content:flex-end;
     }
     .brand{
       display:flex;
@@ -162,34 +199,13 @@
       color:#FFFFFF;
     }
 
-    /* Nav bar */
-    nav.main-nav{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      flex:1;
-      justify-content:center;
-    }
-    nav.main-nav a{
-      color:#FFFFFF;
-      text-decoration:none;
-      font-size:12px;
-      font-weight:500;
-      letter-spacing:0.01em;
-      padding:4px 0 6px 0;
-      border-bottom:3px solid transparent;
-      transition:border-color 0.2s ease;
-      white-space:nowrap;
-    }
-    nav.main-nav a:hover,
-    nav.main-nav a.active{
-      border-bottom-color:#FFFFFF;
-    }
+    /* Legacy nav.main-nav — kept for RTL dir overrides only, not used in layout */
+    nav.main-nav{ display:none; }
 
     .header-controls{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:10px;
     }
     .search-box{
       background:rgba(255,255,255,0.15);
@@ -1444,7 +1460,8 @@
       .logo-box{ width:30px; height:30px; font-size:13px; border-radius:4px; }
       .logo-text-main{ font-size:11px; white-space:nowrap; }
       .logo-text-sub{ display:none; }
-      .header-controls{
+      .navbar-center{ display:none; }
+      .navbar-right{
         display:flex;
         align-items:center;
         gap:6px;
@@ -1468,33 +1485,6 @@
       .ticker-scroll{ font-size:12px; }
       .ticker-label{ font-size:10px; padding:0 8px; }
       .ticker-badge{ font-size:8px; }
-
-      /* Topic filter pills: horizontal scroll, no wrap */
-      .topic-filters{
-        padding:8px 12px;
-        overflow-x:auto;
-        overflow-y:hidden;
-        max-width:100vw;
-        box-sizing:border-box;
-      }
-      .filter-pills{
-        min-width:0;          /* override min-width:min-content that breaks layout */
-        overflow-x:auto;
-        flex-wrap:nowrap;
-        -webkit-overflow-scrolling:touch;
-        scrollbar-width:none;
-        padding-bottom:4px;
-        gap:6px;
-        width:max-content;    /* let pills be naturally wide, parent scrolls */
-      }
-      .filter-pills::-webkit-scrollbar{ display:none; }
-      .filter-pill{
-        flex-shrink:0;
-        font-size:12px;
-        padding:5px 12px;
-        min-height:36px;
-        white-space:nowrap;
-      }
 
       /* Main layout */
       .main-content{
@@ -2061,10 +2051,10 @@
     .lang-option.active{color:var(--gold);font-weight:600;}
     /* RTL layout support */
     html[dir="rtl"] .header-inner{flex-direction:row-reverse;}
-    html[dir="rtl"] nav.main-nav{flex-direction:row-reverse;}
+    html[dir="rtl"] nav.navbar-center{flex-direction:row-reverse;}
     html[dir="rtl"] .utility-bar{flex-direction:row-reverse;}
     html[dir="rtl"] .utility-left,html[dir="rtl"] .utility-right{flex-direction:row-reverse;}
-    html[dir="rtl"] .header-controls{flex-direction:row-reverse;}
+    html[dir="rtl"] .navbar-right{flex-direction:row-reverse;}
     html[dir="rtl"] .more-story{direction:rtl;}
     html[dir="rtl"] .more-meta{flex-direction:row-reverse;}
     html[dir="rtl"] .story-content{direction:rtl;}
@@ -2299,18 +2289,20 @@
     <!-- Sticky Navbar -->
     <header>
       <div class="header-inner">
-        <a class="brand" href="/uae-calm-uae-news.html">
-          <div class="logo-boxes">
-            <div class="logo-box">D</div>
-            <div class="logo-box">B</div>
-            <div class="logo-box">B</div>
-          </div>
-          <div class="logo-text">
-            <div class="logo-text-main">TheDubaiBrief</div>
-            <div class="logo-text-sub">UAE Official Sources</div>
-          </div>
-        </a>
-        <nav class="main-nav">
+        <div class="navbar-left">
+          <a class="brand" href="/uae-calm-uae-news.html">
+            <div class="logo-boxes">
+              <div class="logo-box">D</div>
+              <div class="logo-box">B</div>
+              <div class="logo-box">B</div>
+            </div>
+            <div class="logo-text">
+              <div class="logo-text-main">TheDubaiBrief</div>
+              <div class="logo-text-sub">UAE Official Sources</div>
+            </div>
+          </a>
+        </div>
+        <nav class="navbar-center">
           <a href="#" data-cat="all" class="active" onclick="filterByCategory('all',null);return false;">Home</a>
           <a href="#" data-cat="Safety &amp; Security" onclick="filterByCategory('Safety & Security',null);return false;">Safety</a>
           <a href="#" data-cat="Government &amp; Politics" onclick="filterByCategory('Government & Politics',null);return false;">Gov</a>
@@ -2325,7 +2317,7 @@
           <a href="#" data-cat="Community" onclick="filterByCategory('Community',null);return false;">Community</a>
           <a href="/archive">Archive</a>
         </nav>
-        <div class="header-controls">
+        <div class="navbar-right">
           <div class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
             <div class="live-visitors-dot"></div>
             <span id="liveVisitorCount">–</span> online
@@ -2373,24 +2365,6 @@
       </div>
     </div>
 
-    <!-- Topic Filters -->
-    <div class="topic-filters">
-      <div class="filter-pills" id="filterPills">
-        <button class="filter-pill active" data-cat="all" onclick="filterByCategory('all',this);">🗞️ All</button>
-        <button class="filter-pill" data-cat="Safety &amp; Security" onclick="filterByCategory('Safety & Security',this);">🛡️ Safety</button>
-        <button class="filter-pill" data-cat="Government &amp; Politics" onclick="filterByCategory('Government & Politics',this);">🏛️ Government</button>
-        <button class="filter-pill" data-cat="Business &amp; Finance" onclick="filterByCategory('Business & Finance',this);">💰 Business</button>
-        <button class="filter-pill" data-cat="Transport &amp; Travel" onclick="filterByCategory('Transport & Travel',this);">✈️ Transport</button>
-        <button class="filter-pill" data-cat="Health &amp; Medicine" onclick="filterByCategory('Health & Medicine',this);">🏥 Health</button>
-        <button class="filter-pill" data-cat="Education" onclick="filterByCategory('Education',this);">📚 Education</button>
-        <button class="filter-pill" data-cat="Sport" onclick="filterByCategory('Sport',this);">⚽ Sport</button>
-        <button class="filter-pill" data-cat="Weather &amp; Environment" onclick="filterByCategory('Weather & Environment',this);">🌤️ Weather</button>
-        <button class="filter-pill" data-cat="Lifestyle &amp; Entertainment" onclick="filterByCategory('Lifestyle & Entertainment',this);">🎭 Lifestyle</button>
-        <button class="filter-pill" data-cat="Technology" onclick="filterByCategory('Technology',this);">💻 Tech</button>
-        <button class="filter-pill" data-cat="World &amp; Region" onclick="filterByCategory('World & Region',this);">🌍 World</button>
-        <button class="filter-pill" data-cat="Community" onclick="filterByCategory('Community',this);">👥 Community</button>
-      </div>
-    </div>
 
     <!-- Main Content -->
     <div class="main-content" id="news-feed">
@@ -2937,7 +2911,7 @@
         }
       }
       // Update desktop nav links
-      document.querySelectorAll('nav.main-nav a[data-cat]').forEach(a => {
+      document.querySelectorAll('nav.navbar-center a[data-cat]').forEach(a => {
         a.classList.toggle('active', a.dataset.cat === cat);
       });
       renderContent();
