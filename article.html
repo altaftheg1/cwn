@@ -5,6 +5,9 @@
     (function() {
       if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body && document.body.classList.add('dark');
+        });
       }
     })();
   </script>
@@ -13,7 +16,8 @@
   <title>TheDubaiBrief - Article</title>
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    html.dark{background:#0F0F0F;color:#F0F0F0;}
+    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
+    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
     :root{
       --bg:#F5F3ED;
       --surface:#FFFCF7;

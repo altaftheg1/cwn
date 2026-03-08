@@ -5,6 +5,9 @@
     (function() {
       if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body && document.body.classList.add('dark');
+        });
       }
     })();
   </script>
@@ -14,7 +17,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    html.dark{background:#0F0F0F;color:#F0F0F0;}
+    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
+    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'DM Sans', sans-serif;
@@ -97,7 +101,8 @@
     }
   </style>
 <style>
-    html.dark{background:#0F0F0F;color:#F0F0F0;}
+    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
+    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
   /* ===== CWN UNIVERSAL HEADER ===== */
   .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
   .cwn-util-left{display:flex;gap:24px;align-items:center;}
