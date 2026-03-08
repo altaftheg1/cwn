@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UAE Regional Status — TheDubaiBrief</title>
@@ -9,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
+    html.dark{background:#0F0F0F;color:#F0F0F0;}
     :root {
       --red:#C8102E; --red-dark:#9B0B22; --cream:#F7F4EF;
       --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
@@ -161,6 +169,7 @@
     }
   </style>
 <style>
+    html.dark{background:#0F0F0F;color:#F0F0F0;}
   /* ===== CWN UNIVERSAL HEADER ===== */
   .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
   .cwn-util-left{display:flex;gap:24px;align-items:center;}
