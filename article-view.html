@@ -4,11 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Loading… — TheDubaiBrief</title>
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body && document.body.classList.add('dark');
+        });
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
+    /* ── Dark mode — CSS variable overrides cascade to all var() elements ── */
+    html.dark, html.dark body { background: #0A0A0A !important; color: #F0F0F0 !important; }
+    html.dark {
+      --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCCCCC; --ink-light: #999999;
+      --border: #2A2A2A; --surface: #1A1A1A; --blue-light: #0D1B2A; --green-light: #0D1F12;
+    }
+    html.dark .av-nav { background: #111111 !important; border-color: #2A2A2A; }
+    html.dark .av-nav-back { color: #CCCCCC; border-color: #2A2A2A; }
+    html.dark .av-nav-back:hover { background: #1A1A1A; color: #FFFFFF; }
+    html.dark .av-skel-progress-wrap { background: #2A2A2A; }
+    html.dark .av-card, html.dark .av-sidebar-card,
+    html.dark .av-sentiment-card, html.dark .av-related-card,
+    html.dark .av-chart-wrap, html.dark .av-facts-card,
+    html.dark .av-back-link, html.dark .av-share-btn { background: #1A1A1A !important; border-color: #2A2A2A; color: #CCCCCC; }
+    html.dark .av-back-link:hover, html.dark .av-share-btn:hover { background: #222222 !important; }
+    html.dark .av-skel-block { background: #1E1E1E; }
+
     :root {
       --red: #C8102E;
       --red-dark: #9B0B22;
