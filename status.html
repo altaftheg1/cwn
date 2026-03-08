@@ -14,7 +14,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UAE Regional Status — DUB</title>
-  <meta name="description" content="Current UAE regional situation summary from DUB." />
+  <meta name="description" content="Current UAE regional situation summary from TheDubaiBrief." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <style>
 
@@ -322,7 +322,7 @@
       <span><span class="shared-util-clock" id="sharedClock">00:00 GST</span></span>
       <span id="sharedDate">Loading...</span>
       <span>Dubai, UAE</span>
-      <span class="shared-live-visitors" id="sharedLiveVisitors" title="People viewing DUB right now">
+      <span class="shared-live-visitors" id="sharedLiveVisitors" title="People viewing TheDubaiBrief right now">
         <span class="shared-live-dot"></span>
         <span id="sharedVisitorCount">–</span> online
       </span>
@@ -344,8 +344,8 @@
           <div class="shared-logo-box">B</div>
         </div>
         <div class="shared-logo-text">
-          <div class="shared-logo-main">DUB</div>
-          <div class="shared-logo-sub">Dubai's News. Clear &amp; Calm.</div>
+          <div class="shared-logo-main">TheDubaiBrief</div>
+              <div class="shared-logo-sub">UAE Official Sources</div>
         </div>
       </a>
       <div class="shared-header-right">
@@ -588,7 +588,7 @@
 
   <footer>
     <span>
-      &copy; 2026 DUB &mdash;
+      &copy; 2026 TheDubaiBrief &mdash;
       <a href="/uae-calm-uae-news.html">Home</a> &middot;
       <a href="/about.html">About</a> &middot;
       <a href="/privacy.html">Privacy</a> &middot;
@@ -608,7 +608,7 @@
       }) + ' GST';
     }
 
-    // Read latest safety news from DUB API and update status if needed
+    // Read latest safety news from TheDubaiBrief API and update status if needed
     fetch('/api/news').then(function(r) { return r.ok ? r.json() : null; }).then(function(data) {
       if (!data || !data.items) return;
       var safetyItems = data.items.filter(function(i) { return i.topic === 'safety' && i.severity; });
