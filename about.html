@@ -1,550 +1,340 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script>
-    (function() {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.addEventListener('DOMContentLoaded', function() {
-          document.body && document.body.classList.add('dark');
-        });
-      }
-    })();
-  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About — TheDubaiBrief</title>
-  <meta name="description" content="DUB is an independent student project delivering calm, clear UAE news to residents and expats." />
+  <title>About - TheDubaiBrief</title>
+  <meta name="description" content="About TheDubaiBrief and how calm UAE news is produced." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-
-    /* ===== SHARED HEADER (matches main page) ===== */
-    :root{
-      --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
-      --cream:#F7F4EF; --ink:#1A1208; --ink-mid:#3D3328;
-      --ink-light:#7A6E62; --border:#DDD8CF; --gold:#B8860B;
-      --radius-lg:8px; --radius-md:6px;
-      --shadow-soft:0 2px 8px rgba(0,0,0,0.08);
-      --max-width:1320px;
-    }
-    html.dark{ background:#0A0A0A; color:#F0F0F0; }
-    *, *::before, *::after{ box-sizing:border-box; }
-    html{ overflow-x:hidden; }
-    body{ font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-
-    /* Utility bar */
-    .shared-utility-bar{
-      background:var(--red-dark);
-      color:#fff;
-      padding:6px 24px;
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid rgba(0,0,0,0.15);
-    }
-    .shared-util-left{ display:flex; gap:20px; align-items:center; }
-    .shared-util-left span{ display:flex; align-items:center; gap:6px; }
-    .shared-util-clock{ font-family:'Source Serif 4',serif; font-weight:600; }
-    .shared-util-right{ display:flex; gap:20px; align-items:center; }
-    .shared-util-right a{ color:#fff; text-decoration:none; transition:color .2s; font-size:12px; }
-    .shared-util-right a:hover{ color:var(--gold); }
-    .shared-live-visitors{ display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(255,255,255,0.85); }
-    .shared-live-dot{ width:7px; height:7px; border-radius:50%; background:#4ade80; flex-shrink:0; animation:sharedLvPulse 2s ease-in-out infinite; }
-    @keyframes sharedLvPulse{ 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);} }
-
-    /* Main header */
-    .shared-header{
-      position:sticky; top:0; z-index:100;
-      background:var(--red);
-      border-bottom:1px solid rgba(0,0,0,0.15);
-      color:#fff;
-    }
-    .shared-header-inner{
-      max-width:var(--max-width); margin:0 auto;
-      padding:0 24px; height:64px;
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .shared-brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .shared-logo-boxes{ display:flex; gap:8px; }
-    .shared-logo-box{
-      width:42px; height:42px; border-radius:6px;
-      background:var(--red); border:2px solid #fff;
-      display:flex; align-items:center; justify-content:center;
-      font-family:'Playfair Display',serif; font-size:18px; font-weight:900;
-      color:#fff; text-shadow:0 0 2px #000;
-    }
-    .shared-logo-text{ display:flex; flex-direction:column; gap:2px; }
-    .shared-logo-main{ font-family:'Source Serif 4',serif; font-size:13px; font-weight:600; color:#fff; line-height:1; }
-    .shared-logo-sub{ font-family:'DM Sans',sans-serif; font-size:10px; opacity:.9; color:#fff; line-height:1; }
-    .shared-header-right{ display:flex; align-items:center; gap:8px; }
-    .shared-dark-toggle{
-      background:none; border:1px solid rgba(255,255,255,0.4); color:#fff;
-      padding:5px 9px; border-radius:4px; font-size:16px; cursor:pointer;
-      line-height:1; min-width:34px; min-height:34px;
-      display:flex; align-items:center; justify-content:center; transition:border-color .2s;
-    }
-    .shared-dark-toggle:hover{ border-color:rgba(255,255,255,0.9); }
-
-    /* Dark mode */
-    html.dark .shared-utility-bar{ background:var(--red-dark); }
-    html.dark .shared-header{ background:var(--red); border-bottom-color:rgba(0,0,0,0.3); }
-
-    /* Responsive */
-    @media(max-width:768px){
-      .shared-utility-bar{ display:none; }
-      .shared-header-inner{ padding:0 16px; height:56px; }
-      .shared-logo-box{ width:36px; height:36px; font-size:15px; }
-      .shared-logo-main{ font-size:12px; }
+    :root {
+      --red: #c8102e;
+      --red-dark: #9b0b22;
+      --cream: #f7f4ef;
+      --ink: #1a1208;
+      --ink-mid: #3d3328;
+      --ink-light: #7a6e62;
+      --border: #ddd8cf;
+      --gold: #b8860b;
+      --panel: #ffffff;
+      --max-width: 1180px;
     }
 
+    html.dark {
+      --cream: #0a0a0a;
+      --ink: #f0f0f0;
+      --ink-mid: #cccccc;
+      --ink-light: #9b9b9b;
+      --border: #2a2a2a;
+      --panel: #171717;
+      background: #0a0a0a;
+    }
 
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
 
-    </style>
-<style>
-    html.dark,html.dark body{background:#0A0A0A!important;color:#F0F0F0!important;}
-    html.dark{--cream:#0A0A0A;--ink:#F0F0F0;--ink-mid:#CCCCCC;--ink-light:#999999;--border:#2A2A2A;--surface:#1A1A1A;}
-  /* ===== CWN UNIVERSAL HEADER ===== */
-  .cwn-utility-bar{background:#000;color:#fff;padding:10px 24px;font-size:11.5px;display:flex;justify-content:space-between;align-items:center;}
-  .cwn-util-left{display:flex;gap:24px;align-items:center;}
-  .cwn-util-clock{font-family:'Source Serif 4',serif;font-weight:600;}
-  .cwn-util-right{display:flex;gap:20px;align-items:center;}
-  .cwn-util-right a{color:#fff;text-decoration:none;font-size:11.5px;transition:color 0.2s;}
-  .cwn-util-right a:hover{color:#B8860B;}
-  .cwn-header{position:sticky;top:0;z-index:200;background:#C8102E;border-bottom:3px solid #000;color:#fff;}
-  .cwn-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
-  .cwn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
-  .cwn-logo-boxes{display:flex;gap:8px;}
-  .cwn-logo-box{width:42px;height:42px;border-radius:6px;background:#C8102E;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff;}
-  .cwn-logo-text{display:flex;flex-direction:column;gap:2px;}
-  .cwn-logo-main{font-family:'Source Serif 4',serif;font-size:13px;font-weight:600;color:#fff;line-height:1;}
-  .cwn-logo-sub{font-family:'DM Sans',sans-serif;font-size:10px;opacity:0.9;color:#fff;line-height:1;}
-  .cwn-main-nav{display:flex;align-items:center;gap:24px;flex:1;justify-content:center;}
-  .cwn-main-nav a{color:#fff;text-decoration:none;font-size:13px;font-weight:500;padding:4px 0 6px;border-bottom:3px solid transparent;transition:border-color 0.2s;}
-  .cwn-main-nav a:hover,.cwn-main-nav a.cwn-nav-active{border-bottom-color:#fff;}
-  .cwn-header-controls{display:flex;align-items:center;gap:12px;}
-  .cwn-search{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:8px 12px;color:#fff;font-size:13px;width:180px;font-family:'DM Sans',sans-serif;}
-  .cwn-search::placeholder{color:rgba(255,255,255,0.6);}
-  .cwn-search:focus{outline:none;background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.5);}
-  .cwn-notify-btn{background:#fff;color:#C8102E;border:none;border-radius:3px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
-  .cwn-notify-btn:hover{background:rgba(255,255,255,0.9);}
-  .cwn-live-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 11px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
-  .cwn-live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:cwnLvPulse 2s ease-in-out infinite;}
-  @keyframes cwnLvPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);}}
-  .cwn-ticker{background:#000;border-bottom:3px solid #C8102E;padding:10px 24px;display:flex;align-items:center;gap:16px;overflow:hidden;}
-  .cwn-ticker-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#C8102E;text-transform:uppercase;white-space:nowrap;flex-shrink:0;letter-spacing:0.05em;}
-  .cwn-ticker-dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:cwnBlink 1s infinite;}
-  @keyframes cwnBlink{0%,49%{opacity:1;}50%,100%{opacity:0.3;}}
-  .cwn-ticker-content{flex:1;overflow:hidden;}
-  .cwn-ticker-scroll{display:flex;gap:24px;animation:cwnScrollTicker 40s linear infinite;white-space:nowrap;}
-  .cwn-ticker-scroll:hover{animation-play-state:paused;}
-  @keyframes cwnScrollTicker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-  @media(max-width:900px){.cwn-main-nav{display:none;}.cwn-search{width:130px;}}
-  @media(max-width:600px){.cwn-header-controls{gap:6px;}.cwn-notify-btn{display:none;}.cwn-util-left span:last-child{display:none;}}
-</style>
+    .utility-bar {
+      background: var(--red-dark);
+      color: #fff;
+      padding: 6px 20px;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .utility-left, .utility-right { display: flex; align-items: center; gap: 18px; }
+    .utility-right a { color: #fff; text-decoration: none; }
+    .utility-right a:hover { color: var(--gold); }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--red);
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      height: 62px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand { display: flex; gap: 10px; text-decoration: none; color: #fff; align-items: center; }
+    .logo-boxes { display: flex; gap: 6px; }
+    .logo-box {
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fff;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+    }
+    .brand-main { font-family: "Source Serif 4", serif; font-size: 14px; font-weight: 600; line-height: 1; }
+    .brand-sub { font-size: 10px; opacity: 0.9; line-height: 1.1; }
+
+    .dark-toggle {
+      border: 1px solid rgba(255,255,255,0.5);
+      background: transparent;
+      color: #fff;
+      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+    }
+
+    .ticker {
+      background: #000;
+      border-bottom: 2px solid var(--red);
+      padding: 9px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .ticker-label {
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-scroll {
+      display: flex;
+      gap: 22px;
+      white-space: nowrap;
+      width: max-content;
+      animation: ticker 55s linear infinite;
+    }
+
+    .ticker-scroll:hover { animation-play-state: paused; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .hero {
+      max-width: var(--max-width);
+      margin: 28px auto 0;
+      padding: 0 20px;
+    }
+    .hero-card {
+      background: linear-gradient(140deg, #111 0%, #1f1f1f 60%, #2e1218 100%);
+      color: #fff;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 26px;
+    }
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+    .hero h1 { font-family: "Playfair Display", serif; font-size: 38px; margin: 0 0 8px; }
+    .hero p { margin: 0; color: rgba(255,255,255,0.9); }
+
+    main {
+      max-width: var(--max-width);
+      margin: 24px auto 48px;
+      padding: 0 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-family: "Source Serif 4", serif;
+      font-size: 28px;
+    }
+    .card p { margin: 0 0 10px; color: var(--ink-mid); line-height: 1.65; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      background: color-mix(in srgb, var(--panel) 94%, #c8102e 6%);
+    }
+    .mini h3 { margin: 0 0 6px; font-size: 15px; }
+    .mini p { margin: 0; font-size: 14px; color: var(--ink-mid); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 22px 20px;
+      text-align: center;
+      color: var(--ink-light);
+      font-size: 13px;
+    }
+    footer a { color: inherit; }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .utility-bar { display: none; }
+      .header-inner { height: 56px; padding: 0 14px; }
+      .hero h1 { font-size: 30px; }
+    }
+  </style>
 </head>
 <body>
-<div class="cwn-util-right">
-    <a href="/about.html">About</a>
-    <a href="/sources.html">Sources</a>
-    <a href="/contact.html">Contact</a>
-  </div>
-</div><div class="shared-util-right">
-      <a href="/about.html" style="color:var(--gold)">About</a>
-      <a href="/sources.html">Sources</a>
-      <a href="/contact.html">Contact</a>
-    </div>
-  </div>
-
-  <!-- Main Header -->
-  
-  <!-- Early theme: prevents flash -->
-  <script>
-    (function(){
-      if(localStorage.getItem('theme')==='dark'){
-        document.documentElement.classList.add('dark');
-        document.addEventListener('DOMContentLoaded',function(){
-          document.body&&document.body.classList.add('dark');
-        });
-      }
-    })();
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <!-- Utility Bar -->
-  <div class="shared-utility-bar">
-    <div class="shared-util-left">
-      <span><span class="shared-util-clock" id="sharedClock">00:00 GST</span></span>
-      <span id="sharedDate">Loading...</span>
+  <div class="utility-bar">
+    <div class="utility-left">
+      <span id="clockDisplay">00:00 GST</span>
+      <span id="dateDisplay">Loading...</span>
       <span>Dubai, UAE</span>
-      <span class="shared-live-visitors" id="sharedLiveVisitors" title="People viewing TheDubaiBrief right now">
-        <span class="shared-live-dot"></span>
-        <span id="sharedVisitorCount">–</span> online
-      </span>
+      <span><span id="visitorCount">-</span> online</span>
     </div>
-    <div class="shared-util-right">
-      <a href="/about.html" style="color:var(--gold)">About</a>
+    <div class="utility-right">
+      <a href="/about.html" style="color: var(--gold);">About</a>
       <a href="/sources.html">Sources</a>
       <a href="/contact.html">Contact</a>
     </div>
   </div>
 
-  <!-- Main Header -->
-  <header class="shared-header">
-    <div class="shared-header-inner">
-      <a class="shared-brand" href="/uae-calm-uae-news.html">
-        <div class="shared-logo-boxes">
-          <div class="shared-logo-box">D</div>
-          <div class="shared-logo-box">B</div>
-          <div class="shared-logo-box">B</div>
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="/uae-calm-uae-news.html">
+        <div class="logo-boxes">
+          <div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div>
         </div>
-        <div class="shared-logo-text">
-          <div class="shared-logo-main">TheDubaiBrief</div>
-          <div class="shared-logo-sub">UAE Official Sources</div>
+        <div>
+          <div class="brand-main">TheDubaiBrief</div>
+          <div class="brand-sub">Dubai's news. Clear and calm.</div>
         </div>
       </a>
-      <div class="shared-header-right">
-        <button class="shared-dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
-      </div>
+      <button id="darkToggle" class="dark-toggle" aria-label="Toggle dark mode">*</button>
     </div>
   </header>
 
-  <!-- Shared header JS: clock, date, live count, dark toggle -->
-  <script>
-    (function(){
-      'use strict';
-      // Clock
-      function updateClock(){
-        var now=new Date();
-        var h=String(now.getHours()).padStart(2,'0');
-        var m=String(now.getMinutes()).padStart(2,'0');
-        var el=document.getElementById('sharedClock');
-        if(el) el.textContent=h+':'+m+' GST';
-      }
-      updateClock();
-      setInterval(updateClock,1000);
-
-      // Date
-      function updateDate(){
-        var now=new Date();
-        var el=document.getElementById('sharedDate');
-        if(el) el.textContent=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-      }
-      updateDate();
-
-      // Live visitor count
-      var sid=sessionStorage.getItem('cwn-sid');
-      if(!sid){
-        sid='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-        sessionStorage.setItem('cwn-sid',sid);
-      }
-      function pingVisitors(){
-        fetch('/api/ping',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sid:sid})})
-          .then(function(r){return r.ok?r.json():null;})
-          .then(function(d){
-            var el=document.getElementById('sharedVisitorCount');
-            if(el&&d&&typeof d.visitors==='number') el.textContent=d.visitors.toLocaleString();
-          }).catch(function(){});
-      }
-      pingVisitors();
-      setInterval(pingVisitors,20000);
-
-      // Dark toggle
-      var toggle=document.getElementById('darkToggle');
-      if(toggle){
-        var isDark=document.documentElement.classList.contains('dark');
-        toggle.textContent=isDark?'☀':'☾';
-        toggle.addEventListener('click',function(){
-          var dark=!document.documentElement.classList.contains('dark');
-          document.documentElement.classList.toggle('dark',dark);
-          document.body&&document.body.classList.toggle('dark',dark);
-          localStorage.setItem('theme',dark?'dark':'light');
-          toggle.textContent=dark?'☀':'☾';
-        });
-      }
-    })();
-  </script>
-<span>LIVE FEED</span>
+  <div class="ticker">
+    <div class="ticker-label">LIVE FEED</div>
+    <div id="tickerScroll" class="ticker-scroll">Loading...</div>
   </div>
-  <div class="cwn-ticker-content">
-    <div class="cwn-ticker-scroll" id="cwnTickerScroll">Loading…</div>
-  </div>
-</div>
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-tag">About DUB</div>
-    <h1>Calm news for <span>UAE</span> residents</h1>
-    <p class="hero-sub">
-      No panic. No agenda. Just clear, plain-English summaries of what is
-      actually happening in the UAE — every day.
-    </p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">5</div>
-        <div class="hero-stat-label">Official Sources</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">AI</div>
-        <div class="hero-stat-label">Plain English Rewrites</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">24/7</div>
-        <div class="hero-stat-label">Auto-updating Feed</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">0</div>
-        <div class="hero-stat-label">Ads or Trackers</div>
-      </div>
+
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-tag">About DUB</div>
+      <h1>Calm news for UAE residents</h1>
+      <p>No panic. No agenda. Just clear summaries from trusted UAE sources.</p>
     </div>
-  </div>
+  </section>
 
   <main>
+    <article class="card">
+      <h2>Our mission</h2>
+      <p>TheDubaiBrief collects key UAE updates and rewrites headlines and summaries in calm, plain language.</p>
+      <p>The goal is simple: make important information easier to understand for residents and expats.</p>
+      <p>This is an independent student project based in Dubai.</p>
+    </article>
 
-    <!-- Mission -->
-    <div class="mission-card">
-      <h2>Our Mission</h2>
-      <p>
-        Living in the UAE means reading news from dozens of different sources, each written for different
-        audiences, in different styles, and often with different levels of alarm. For residents and expats —
-        especially those whose first language isn&rsquo;t English — it can be hard to know what is actually
-        important and what just sounds scary.
-      </p>
-      <p>
-        TheDubaiBrief was built to solve that. TheDubaiBrief collects the most important UAE news from trusted
-        official sources and rewrites every story in calm, plain English using AI. No jargon. No clickbait.
-        No panic. Just the facts, clearly explained.
-      </p>
-      <p>
-        TheDubaiBrief is built and maintained by a student living in Dubai, as a personal project for the community.
-        It is not affiliated with any government, company, or media organisation.
-      </p>
-    </div>
+    <article class="card">
+      <h2>What we stand for</h2>
+      <div class="grid">
+        <div class="mini">
+          <h3>No panic</h3>
+          <p>Alarmist wording is reduced so the focus stays on facts and decisions.</p>
+        </div>
+        <div class="mini">
+          <h3>No agenda</h3>
+          <p>No paid political spin and no sponsored narrative in the summaries.</p>
+        </div>
+        <div class="mini">
+          <h3>Just facts</h3>
+          <p>Every item traces back to a source article you can verify directly.</p>
+        </div>
+      </div>
+    </article>
 
-    <!-- Pillars -->
-    <div style="margin-bottom:16px;">
-      <div class="section-label">What we stand for</div>
-      <div class="section-heading">Three pillars</div>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-icon">&#129300;</div>
-        <h3>No Panic</h3>
-        <p>Every headline is rewritten to be calm and factual. We strip out alarming language that adds fear without adding information.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon">&#127919;</div>
-        <h3>No Agenda</h3>
-        <p>DUB has no political stance, no commercial interests, and no advertisers. We report what happened, not what someone wants you to think about it.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon">&#128214;</div>
-        <h3>Just Facts</h3>
-        <p>Every story links back to its original official source. We summarise; the source provides the authority. You can always verify.</p>
-      </div>
-    </div>
-
-    <!-- How it works -->
-    <div style="margin-bottom:16px;">
-      <div class="section-label">Under the hood</div>
-      <div class="section-heading">How TheDubaiBrief works</div>
-    </div>
-    <div class="steps" style="margin-bottom:48px;">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <h4>Collect from official sources</h4>
-          <p>DUB monitors WAM, Gulf News, Khaleej Times, Emirates 24|7, and the UAE Government Portal every 30 minutes for new stories.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <h4>AI rewrites every headline in plain English</h4>
-          <p>Each article is sent to Claude (Anthropic&rsquo;s AI) which rewrites the title and summary in simple, calm language that anyone can understand.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <h4>Full article deep analysis</h4>
-          <p>When you click a story, Claude reads the full article and produces a structured breakdown: key facts, what it means for residents, what happens next, and whether you should be concerned.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>
-          <h4>Community observations</h4>
-          <p>UAE residents can submit short ground observations via &ldquo;On The Ground.&rdquo; Every post is AI-moderated before appearing publicly.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div>
-          <h4>Original source always linked</h4>
-          <p>Every story displays its source and includes a direct link to the original article. TheDubaiBrief summarises; the source provides the authority.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quote -->
-    <div class="quote-block">
-      <blockquote>
-        &ldquo;The UAE has 200+ nationalities. Every one of them deserves to understand what is happening
-        around them &mdash; without fear, without confusion, and without a news degree.&rdquo;
-      </blockquote>
-      <cite>TheDubaiBrief &mdash; Built in Dubai, for Dubai and beyond</cite>
-    </div>
-
-    <!-- Sources -->
-    <div style="margin-bottom:16px;">
-      <div class="section-label">Where we get our news</div>
-      <div class="section-heading">Our sources</div>
-    </div>
-    <div class="sources-grid">
-      <div class="source-card">
-        <div class="source-icon">WAM</div>
-        <div>
-          <div class="source-name">Emirates News Agency (WAM)</div>
-          <div class="source-desc">The official UAE state news agency. All government announcements, laws, and official statements.</div>
-          <span class="source-tag">Official Government</span>
-        </div>
-      </div>
-      <div class="source-card">
-        <div class="source-icon" style="font-size:9px;">GULF</div>
-        <div>
-          <div class="source-name">Gulf News</div>
-          <div class="source-desc">UAE&rsquo;s largest English-language newspaper. Broad coverage of UAE, regional, and international news.</div>
-          <span class="source-tag">Established Newsroom</span>
-        </div>
-      </div>
-      <div class="source-card">
-        <div class="source-icon" style="font-size:9px;">KT</div>
-        <div>
-          <div class="source-name">Khaleej Times</div>
-          <div class="source-desc">English-language UAE daily newspaper covering business, society, and local news.</div>
-          <span class="source-tag">Established Newsroom</span>
-        </div>
-      </div>
-      <div class="source-card">
-        <div class="source-icon" style="font-size:9px;">E247</div>
-        <div>
-          <div class="source-name">Emirates 24|7</div>
-          <div class="source-desc">UAE English-language digital news portal with breaking news and lifestyle coverage.</div>
-          <span class="source-tag">Digital Newsroom</span>
-        </div>
-      </div>
-      <div class="source-card">
-        <div class="source-icon" style="font-size:9px;">U.AE</div>
-        <div>
-          <div class="source-name">UAE Government Portal</div>
-          <div class="source-desc">Official UAE federal government portal. Authoritative source for laws, services, and announcements.</div>
-          <span class="source-tag">Official Government</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact -->
-    <div class="contact-section">
-      <h2>Get in touch</h2>
-      <p>
-        TheDubaiBrief is a one-person student project. Feedback, suggestions, corrections, and press enquiries
-        are all welcome. If you spot an error in a summary or have a source recommendation, please reach out.
-      </p>
-      <div class="contact-links">
-        <a class="contact-link" href="mailto:hello@centralwatchnews.com">&#9993; Email us</a>
-        <a class="contact-link secondary" href="/privacy.html">Privacy Policy</a>
-        <a class="contact-link secondary" href="/terms.html">Terms of Use</a>
-      </div>
-    </div>
-
+    <article class="card">
+      <h2>How it works</h2>
+      <p>1. Pull stories from official and established UAE publishers.</p>
+      <p>2. Normalize and deduplicate the feed.</p>
+      <p>3. Rewrite titles and summaries to remove sensational language.</p>
+      <p>4. Publish the calm feed with links to original reporting.</p>
+    </article>
   </main>
 
-  <div style="text-align:center;padding:32px 24px 0;">
-    <a href="https://buymeacoffee.com/cwn" target="_blank" rel="noopener noreferrer"
-       style="display:inline-flex;align-items:center;gap:7px;background:#F7F4EF;color:#1A1208;
-              border:1px solid #DDD8CF;border-radius:6px;padding:10px 20px;
-              font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
-              text-decoration:none;transition:background 0.18s;"
-       onmouseover="this.style.background='#fffdf8'"
-       onmouseout="this.style.background='#F7F4EF'">
-       Support TheDubaiBrief — Keep it free for everyone
-    </a>
-  </div>
-
   <footer>
-    <span>
-      &copy; 2026 TheDubaiBrief &mdash; Built by a student in Dubai &mdash;
-      <a href="/uae-calm-uae-news.html">Home</a> &middot;
-      <a href="/about.html">About</a> &middot;
-      <a href="/sources.html">Sources</a> &middot;
-      <a href="/contact.html">Contact</a> &middot;
-      <a href="/privacy.html">Privacy</a> &middot;
-      <a href="/terms.html">Terms</a>
-    </span>
+    &copy; 2026 TheDubaiBrief - <a href="/uae-calm-uae-news.html">Home</a> - <a href="/privacy.html">Privacy</a> - <a href="/terms.html">Terms</a>
   </footer>
 
-
   <script>
-  (function () {
-    // Clock + date
-    function cwnUpdateTime() {
-      var now = new Date();
-      var cl = document.getElementById('cwnClock');
-      if (cl) cl.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
-      var dl = document.getElementById('cwnDate');
-      if (dl) dl.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
-    }
-    cwnUpdateTime();
-    setInterval(cwnUpdateTime, 1000);
+    (function () {
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+      }
 
-    // Search → redirect to homepage
-    var cwnSrch = document.getElementById('cwnSearch');
-    if (cwnSrch) {
-      cwnSrch.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && cwnSrch.value.trim()) {
-          location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(cwnSrch.value.trim());
-        }
+      function updateTime() {
+        var now = new Date();
+        document.getElementById("clockDisplay").textContent = now.toLocaleTimeString("en-GB", { timeZone: "Asia/Dubai", hour: "2-digit", minute: "2-digit", hour12: false }) + " GST";
+        document.getElementById("dateDisplay").textContent = now.toLocaleDateString("en-GB", { timeZone: "Asia/Dubai", day: "numeric", month: "short", year: "numeric" });
+      }
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      var darkBtn = document.getElementById("darkToggle");
+      darkBtn.textContent = document.documentElement.classList.contains("dark") ? "o" : "*";
+      darkBtn.addEventListener("click", function () {
+        var dark = !document.documentElement.classList.contains("dark");
+        document.documentElement.classList.toggle("dark", dark);
+        localStorage.setItem("theme", dark ? "dark" : "light");
+        darkBtn.textContent = dark ? "o" : "*";
       });
-    }
 
-    // Notify → go to homepage (subscribe modal is there)
-    var cwnNBtn = document.getElementById('cwnNotifyBtn');
-    if (cwnNBtn) cwnNBtn.onclick = function () { location.href = '/uae-calm-uae-news.html#subscribe'; };
+      var sid = localStorage.getItem("cwn-sid") || Math.random().toString(36).slice(2);
+      localStorage.setItem("cwn-sid", sid);
+      function ping() {
+        fetch("/api/ping", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sid: sid }) })
+          .then(function (r) { return r.json(); })
+          .then(function (d) { document.getElementById("visitorCount").textContent = d.visitors || "1"; })
+          .catch(function () {});
+      }
+      ping();
+      setInterval(ping, 30000);
 
-    // Live visitor ping
-    var cwnSid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
-    localStorage.setItem('cwn-sid', cwnSid);
-    function cwnPing() {
-      fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: cwnSid }) })
+      fetch("/api/news")
         .then(function (r) { return r.json(); })
-        .then(function (d) { var el = document.getElementById('cwnVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+        .then(function (d) {
+          var items = (d.items || []).slice(0, 14);
+          var row = items.map(function (item) {
+            var src = (item.sourceName || "DUB").slice(0, 3).toUpperCase();
+            var title = (item.calmTitle || item.title || "").replace(/</g, "&lt;").replace(/>/g, "&gt;").slice(0, 90);
+            return "<span><strong style='color:#c8102e'>" + src + "</strong> " + title + "</span>";
+          }).join(" <span style='color:#c8102e'>?</span> ");
+          document.getElementById("tickerScroll").innerHTML = row + " <span style='color:#c8102e'>?</span> " + row;
+        })
         .catch(function () {});
-    }
-    cwnPing();
-    setInterval(cwnPing, 30000);
-
-    // Ticker
-    fetch('/api/news')
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        var items = (d.items || []).slice(0, 15);
-        if (!items.length) return;
-        var ticker = document.getElementById('cwnTickerScroll');
-        if (!ticker) return;
-        var half = items.map(function (item) {
-          var src = ((item.sourceName || '').substr(0, 3)).toUpperCase();
-          var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 90);
-          return '<span style="display:inline-flex;align-items:center;gap:10px;padding-right:32px;">' +
-            '<span style="background:#C8102E;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;letter-spacing:0.05em;">' + src + '</span>' +
-            '<span style="color:#fff;font-size:12px;font-family:DM Sans,sans-serif;">' + title + '</span>' +
-            '<span style="color:#444;font-size:10px;">&#9670;</span>' +
-            '</span>';
-        }).join('');
-        ticker.innerHTML = half + half; // duplicate for seamless loop
-      })
-      .catch(function () {});
-  }());
+    }());
   </script>
-
 </body>
 </html>
