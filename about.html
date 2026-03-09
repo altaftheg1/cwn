@@ -1,255 +1,538 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About - TheDubaiBrief</title>
   <meta name="description" content="About TheDubaiBrief and how calm UAE news is produced." />
+  <script>
+    (function () {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
   <style>
+    /* ===== GLOBAL + VARIABLES (same as homepage) ===== */
     :root {
-      --red: #c8102e;
-      --red-dark: #9b0b22;
-      --cream: #f7f4ef;
-      --ink: #1a1208;
-      --ink-mid: #3d3328;
-      --ink-light: #7a6e62;
-      --border: #ddd8cf;
-      --gold: #b8860b;
-      --panel: #ffffff;
-      --max-width: 1180px;
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --gold: #B8860B;
+      --radius-lg: 8px;
+      --radius-md: 6px;
+      --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --max-width: 1320px;
     }
 
     html.dark {
-      --cream: #0a0a0a;
-      --ink: #f0f0f0;
-      --ink-mid: #cccccc;
-      --ink-light: #9b9b9b;
-      --border: #2a2a2a;
-      --panel: #171717;
-      background: #0a0a0a;
+      background: #0A0A0A;
+      color: #F0F0F0;
+      --cream: #0A0A0A;
+      --ink: #F0F0F0;
+      --ink-mid: #CCCCCC;
+      --ink-light: #999999;
+      --border: #2A2A2A;
     }
 
-    * { box-sizing: border-box; }
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: "DM Sans", sans-serif;
-      background: var(--cream);
-      color: var(--ink);
+      padding: 0;
+    }
+
+    html {
       overflow-x: hidden;
     }
 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ===== UTILITY BAR ===== */
     .utility-bar {
       background: var(--red-dark);
-      color: #fff;
-      padding: 6px 20px;
+      color: #FFFFFF;
+      padding: 6px 24px;
       font-size: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     }
 
-    .utility-left, .utility-right { display: flex; align-items: center; gap: 18px; }
-    .utility-right a { color: #fff; text-decoration: none; }
-    .utility-right a:hover { color: var(--gold); }
+    .utility-left {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
 
-    .header {
+    .utility-left span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .utility-clock {
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+    }
+
+    .utility-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .utility-right a {
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .utility-right a:hover {
+      color: var(--gold);
+    }
+
+    .live-visitors {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .live-visitors-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      flex-shrink: 0;
+      animation: lv-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes lv-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+      }
+
+      50% {
+        box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
+      }
+    }
+
+    /* ===== STICKY HEADER ===== */
+    header {
       position: sticky;
       top: 0;
       z-index: 100;
       background: var(--red);
-      border-bottom: 1px solid rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      color: #FFFFFF;
     }
 
     .header-inner {
       max-width: var(--max-width);
       margin: 0 auto;
-      height: 62px;
-      padding: 0 20px;
+      padding: 0 24px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .brand { display: flex; gap: 10px; text-decoration: none; color: #fff; align-items: center; }
-    .logo-boxes { display: flex; gap: 6px; }
-    .logo-box {
-      width: 34px;
-      height: 34px;
-      border: 2px solid #fff;
-      border-radius: 6px;
-      display: grid;
-      place-items: center;
-      font-family: "Playfair Display", serif;
-      font-weight: 900;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
     }
-    .brand-main { font-family: "Source Serif 4", serif; font-size: 14px; font-weight: 600; line-height: 1; }
-    .brand-sub { font-size: 10px; opacity: 0.9; line-height: 1.1; }
+
+    .logo-boxes {
+      display: flex;
+      gap: 8px;
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 6px;
+      background: var(--red);
+      border: 2px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #FFFFFF;
+      text-shadow: 0 0 2px #000;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-text-main {
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+
+    .logo-text-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      opacity: 0.9;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
     .dark-toggle {
-      border: 1px solid rgba(255,255,255,0.5);
-      background: transparent;
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.4);
       color: #fff;
-      border-radius: 6px;
-      width: 34px;
-      height: 34px;
+      padding: 5px 9px;
+      border-radius: 4px;
+      font-size: 16px;
       cursor: pointer;
+      line-height: 1;
+      min-width: 34px;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s;
     }
 
-    .ticker {
-      background: #000;
-      border-bottom: 2px solid var(--red);
-      padding: 9px 20px;
+    .dark-toggle:hover {
+      border-color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* ===== LIVE TICKER ===== */
+    .ticker-bar {
+      background: #000000;
+      border-bottom: 3px solid var(--red);
+      padding: 10px 24px;
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 16px;
       overflow: hidden;
     }
 
     .ticker-label {
-      color: var(--red);
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
+      color: var(--red);
+      text-transform: uppercase;
       white-space: nowrap;
       flex-shrink: 0;
     }
 
+    .ticker-dot {
+      width: 8px;
+      height: 8px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      49% {
+        opacity: 1;
+      }
+
+      50%,
+      100% {
+        opacity: 0.3;
+      }
+    }
+
+    .ticker-content {
+      flex: 1;
+      overflow: hidden;
+      min-width: 0;
+    }
+
     .ticker-scroll {
       display: flex;
-      gap: 22px;
+      flex-wrap: nowrap;
+      gap: 24px;
       white-space: nowrap;
       width: max-content;
-      animation: ticker 55s linear infinite;
+      animation: scrollTicker 60s linear infinite;
     }
 
-    .ticker-scroll:hover { animation-play-state: paused; }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-scroll:hover {
+      animation-play-state: paused;
+    }
 
-    .hero {
+    @keyframes scrollTicker {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-text {
+      color: #FFFFFF;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    /* ===== PAGE CONTENT ===== */
+    .page-content {
       max-width: var(--max-width);
-      margin: 28px auto 0;
-      padding: 0 20px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
     }
+
     .hero-card {
       background: linear-gradient(140deg, #111 0%, #1f1f1f 60%, #2e1218 100%);
       color: #fff;
       border: 1px solid #2f2f2f;
       border-radius: 10px;
-      padding: 26px;
+      padding: 28px;
+      margin-bottom: 24px;
     }
+
     .hero-tag {
       display: inline-block;
-      border: 1px solid rgba(255,255,255,0.35);
+      border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 999px;
       padding: 4px 10px;
       font-size: 11px;
       margin-bottom: 10px;
     }
-    .hero h1 { font-family: "Playfair Display", serif; font-size: 38px; margin: 0 0 8px; }
-    .hero p { margin: 0; color: rgba(255,255,255,0.9); }
 
-    main {
-      max-width: var(--max-width);
-      margin: 24px auto 48px;
-      padding: 0 20px;
-      display: grid;
-      gap: 16px;
+    .hero-card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      margin: 0 0 8px;
+    }
+
+    .hero-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
     }
 
     .card {
-      background: var(--panel);
+      background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 22px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    html.dark .card {
+      background: #171717;
     }
 
     .card h2 {
-      margin: 0 0 10px;
-      font-family: "Source Serif 4", serif;
+      margin: 0 0 12px;
+      font-family: 'Source Serif 4', serif;
       font-size: 28px;
     }
-    .card p { margin: 0 0 10px; color: var(--ink-mid); line-height: 1.65; }
 
-    .grid {
+    .card p {
+      margin: 0 0 10px;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+
+    .values-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
     }
-    .mini {
+
+    .value-item {
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 14px;
-      background: color-mix(in srgb, var(--panel) 94%, #c8102e 6%);
+      padding: 16px;
+      background: color-mix(in srgb, #FFFFFF 94%, #C8102E 6%);
     }
-    .mini h3 { margin: 0 0 6px; font-size: 15px; }
-    .mini p { margin: 0; font-size: 14px; color: var(--ink-mid); }
+
+    html.dark .value-item {
+      background: color-mix(in srgb, #171717 94%, #C8102E 6%);
+    }
+
+    .value-item h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .value-item p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--ink-mid);
+    }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 22px 20px;
+      padding: 22px 24px;
       text-align: center;
       color: var(--ink-light);
       font-size: 13px;
     }
-    footer a { color: inherit; }
+
+    footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--red);
+    }
+
+    html.dark .utility-bar {
+      background: var(--red-dark);
+    }
+
+    html.dark header {
+      background: var(--red);
+    }
 
     @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 768px) {
-      .utility-bar { display: none; }
-      .header-inner { height: 56px; padding: 0 14px; }
-      .hero h1 { font-size: 30px; }
+      .utility-bar {
+        display: none;
+      }
+
+      .header-inner {
+        height: 56px;
+        padding: 0 16px;
+      }
+
+      .logo-box {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+      }
+
+      .logo-text-main {
+        font-size: 12px;
+      }
+
+      .hero-card h1 {
+        font-size: 30px;
+      }
+
+      .page-content {
+        padding: 24px 16px 40px;
+      }
     }
   </style>
 </head>
+
 <body>
+  <!-- Utility Bar -->
   <div class="utility-bar">
     <div class="utility-left">
-      <span id="clockDisplay">00:00 GST</span>
+      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
       <span id="dateDisplay">Loading...</span>
       <span>Dubai, UAE</span>
-      <span><span id="visitorCount">-</span> online</span>
+      <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
+        <span class="live-visitors-dot"></span>
+        <span id="visitorCount">–</span> online
+      </span>
     </div>
     <div class="utility-right">
-      <a href="/about.html" style="color: var(--gold);">About</a>
+      <a href="/about.html" style="color: var(--gold)">About</a>
       <a href="/sources.html">Sources</a>
       <a href="/contact.html">Contact</a>
     </div>
   </div>
 
-  <header class="header">
+  <!-- Sticky Header -->
+  <header>
     <div class="header-inner">
       <a class="brand" href="/uae-calm-uae-news.html">
         <div class="logo-boxes">
-          <div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div>
+          <div class="logo-box">D</div>
+          <div class="logo-box">U</div>
+          <div class="logo-box">B</div>
         </div>
-        <div>
-          <div class="brand-main">TheDubaiBrief</div>
-          <div class="brand-sub">Dubai's news. Clear and calm.</div>
+        <div class="logo-text">
+          <div class="logo-text-main">TheDubaiBrief</div>
+          <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
         </div>
       </a>
-      <button id="darkToggle" class="dark-toggle" aria-label="Toggle dark mode">*</button>
+      <div class="header-right">
+        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+      </div>
     </div>
   </header>
 
-  <div class="ticker">
-    <div class="ticker-label">LIVE FEED</div>
-    <div id="tickerScroll" class="ticker-scroll">Loading...</div>
+  <!-- Live Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-label">
+      <div class="ticker-dot"></div>
+      <span>LIVE FEED</span>
+    </div>
+    <div class="ticker-content">
+      <div class="ticker-scroll" id="tickerScroll">Loading…</div>
+    </div>
   </div>
 
-  <section class="hero">
+  <!-- Page Content -->
+  <div class="page-content">
     <div class="hero-card">
       <div class="hero-tag">About DUB</div>
       <h1>Calm news for UAE residents</h1>
       <p>No panic. No agenda. Just clear summaries from trusted UAE sources.</p>
     </div>
-  </section>
 
-  <main>
     <article class="card">
       <h2>Our mission</h2>
       <p>TheDubaiBrief collects key UAE updates and rewrites headlines and summaries in calm, plain language.</p>
@@ -259,16 +542,16 @@
 
     <article class="card">
       <h2>What we stand for</h2>
-      <div class="grid">
-        <div class="mini">
+      <div class="values-grid">
+        <div class="value-item">
           <h3>No panic</h3>
           <p>Alarmist wording is reduced so the focus stays on facts and decisions.</p>
         </div>
-        <div class="mini">
+        <div class="value-item">
           <h3>No agenda</h3>
           <p>No paid political spin and no sponsored narrative in the summaries.</p>
         </div>
-        <div class="mini">
+        <div class="value-item">
           <h3>Just facts</h3>
           <p>Every item traces back to a source article you can verify directly.</p>
         </div>
@@ -282,59 +565,78 @@
       <p>3. Rewrite titles and summaries to remove sensational language.</p>
       <p>4. Publish the calm feed with links to original reporting.</p>
     </article>
-  </main>
+  </div>
 
-  <footer>
-    &copy; 2026 TheDubaiBrief - <a href="/uae-calm-uae-news.html">Home</a> - <a href="/privacy.html">Privacy</a> - <a href="/terms.html">Terms</a>
-  </footer>
+  <footer>&copy; 2026 TheDubaiBrief – <a href="/uae-calm-uae-news.html">Home</a> · <a href="/privacy.html">Privacy</a> ·
+    <a href="/terms.html">Terms</a></footer>
 
   <script>
     (function () {
-      if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark");
-      }
+      'use strict';
 
-      function updateTime() {
+      // Clock
+      function updateClock() {
         var now = new Date();
-        document.getElementById("clockDisplay").textContent = now.toLocaleTimeString("en-GB", { timeZone: "Asia/Dubai", hour: "2-digit", minute: "2-digit", hour12: false }) + " GST";
-        document.getElementById("dateDisplay").textContent = now.toLocaleDateString("en-GB", { timeZone: "Asia/Dubai", day: "numeric", month: "short", year: "numeric" });
+        var el = document.getElementById('clockDisplay');
+        if (el) el.textContent = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false }) + ' GST';
       }
-      updateTime();
-      setInterval(updateTime, 1000);
+      updateClock();
+      setInterval(updateClock, 1000);
 
-      var darkBtn = document.getElementById("darkToggle");
-      darkBtn.textContent = document.documentElement.classList.contains("dark") ? "o" : "*";
-      darkBtn.addEventListener("click", function () {
-        var dark = !document.documentElement.classList.contains("dark");
-        document.documentElement.classList.toggle("dark", dark);
-        localStorage.setItem("theme", dark ? "dark" : "light");
-        darkBtn.textContent = dark ? "o" : "*";
-      });
+      // Date
+      (function () {
+        var now = new Date();
+        var el = document.getElementById('dateDisplay');
+        if (el) el.textContent = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', year: 'numeric' });
+      })();
 
-      var sid = localStorage.getItem("cwn-sid") || Math.random().toString(36).slice(2);
-      localStorage.setItem("cwn-sid", sid);
+      // Dark toggle
+      var toggle = document.getElementById('darkToggle');
+      if (toggle) {
+        var isDark = document.documentElement.classList.contains('dark');
+        toggle.textContent = isDark ? '☀' : '☾';
+        toggle.addEventListener('click', function () {
+          var dark = !document.documentElement.classList.contains('dark');
+          document.documentElement.classList.toggle('dark', dark);
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          toggle.textContent = dark ? '☀' : '☾';
+        });
+      }
+
+      // Live visitor ping
+      var sid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
+      localStorage.setItem('cwn-sid', sid);
       function ping() {
-        fetch("/api/ping", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sid: sid }) })
+        fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: sid }) })
           .then(function (r) { return r.json(); })
-          .then(function (d) { document.getElementById("visitorCount").textContent = d.visitors || "1"; })
-          .catch(function () {});
+          .then(function (d) { var el = document.getElementById('visitorCount'); if (el) el.textContent = d.visitors || '1'; })
+          .catch(function () { });
       }
       ping();
       setInterval(ping, 30000);
 
-      fetch("/api/news")
+      // Live Ticker
+      fetch('/api/news')
         .then(function (r) { return r.json(); })
         .then(function (d) {
-          var items = (d.items || []).slice(0, 14);
-          var row = items.map(function (item) {
-            var src = (item.sourceName || "DUB").slice(0, 3).toUpperCase();
-            var title = (item.calmTitle || item.title || "").replace(/</g, "&lt;").replace(/>/g, "&gt;").slice(0, 90);
-            return "<span><strong style='color:#c8102e'>" + src + "</strong> " + title + "</span>";
-          }).join(" <span style='color:#c8102e'>?</span> ");
-          document.getElementById("tickerScroll").innerHTML = row + " <span style='color:#c8102e'>?</span> " + row;
+          var items = (d.items || []).slice(0, 15);
+          var ticker = document.getElementById('tickerScroll');
+          if (ticker && items.length) {
+            var html = items.map(function (item) {
+              var src = (item.sourceName || 'DUB').substr(0, 3).toUpperCase();
+              var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 80);
+              return '<div class="ticker-item">' +
+                '<span style="font-size:10px;padding:2px 6px;background:#C8102E;color:#fff;border-radius:2px;font-weight:700;letter-spacing:0.05em;">' + src + '</span>' +
+                '<span class="ticker-text">' + title + '</span>' +
+                '<span style="color:#C8102E;margin:0 15px;">&#9670;</span>' +
+                '</div>';
+            }).join('');
+            ticker.innerHTML = html + html;
+          }
         })
-        .catch(function () {});
-    }());
+        .catch(function () { });
+    })();
   </script>
 </body>
+
 </html>
