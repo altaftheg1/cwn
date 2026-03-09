@@ -1038,11 +1038,15 @@
     .ticker-content {
       flex: 1;
       overflow: hidden;
+      min-width: 0;
     }
 
     .ticker-scroll {
       display: flex;
+      flex-wrap: nowrap;
       gap: 24px;
+      white-space: nowrap;
+      width: max-content;
       animation: scrollTicker 15s linear infinite;
     }
 
@@ -1054,6 +1058,32 @@
       100% {
         transform: translateX(-50%);
       }
+    }
+
+    .ticker-scroll:hover {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-text {
+      color: #FFFFFF;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .ticker-sep {
+      color: var(--red);
+      font-size: 10px;
     }
 
     /* Subnav Navigation */
