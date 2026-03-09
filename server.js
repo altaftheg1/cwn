@@ -33,31 +33,24 @@ const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const RESEND_FROM = process.env.RESEND_FROM || "onboarding@resend.dev";
 const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
-const TOPIC_KEYS = new Set(["safety", "politics", "finance", "health", "community", "transport", "news", "education"]);
-const TIMING_KEYS = new Set(["morning", "evening", "breaking", "weekly"]);
 
 const SUB_FILE = path.join(__dirname, "subscribers.json");
 const DIGEST_STATE_FILE = path.join(__dirname, "digest-state.json");
 let subscribers = [];
-let digestState = { morningDate: "", eveningDate: "", weeklyDate: "", breakingLastMs: 0 };
+let digestState = { dailyDate: "", lastStoryId: "" };
 
-function normalizeTopics(topics) {
-  if (!Array.isArray(topics)) return [];
-  return [...new Set(
-    topics
-      .map((t) => String(t || "").trim().toLowerCase())
-      .map((t) => (t === "world" ? "community" : t))
-      .filter((t) => TOPIC_KEYS.has(t))
-  )];
-}
+const SUBJECT_TEMPLATES = [
+  "The biggest story today",
+  "This is the one story everyone is talking about",
+  "Today's most important news",
+  "You shouldn't miss this story today",
+  "Here's the story dominating the news today",
+  "One story you need to read today",
+  "The top story from the UAE right now",
+];
 
-function normalizeTiming(timing) {
-  if (!Array.isArray(timing)) return [];
-  return [...new Set(
-    timing
-      .map((t) => String(t || "").trim().toLowerCase())
-      .filter((t) => TIMING_KEYS.has(t))
-  )];
+function randomSubject() {
+  return SUBJECT_TEMPLATES[Math.floor(Math.random() * SUBJECT_TEMPLATES.length)];
 }
 
 function loadSubscribers() {
@@ -67,21 +60,13 @@ function loadSubscribers() {
     subscribers = raw
       .map((entry) => {
         if (typeof entry === "string") {
-          return {
-            email: entry.toLowerCase(),
-            topics: [],
-            timing: ["morning", "evening"],
-            subscribedAt: new Date().toISOString(),
-            active: true,
-          };
+          return { email: entry.toLowerCase(), subscribedAt: new Date().toISOString(), active: true };
         }
         if (!entry || typeof entry !== "object") return null;
         const email = String(entry.email || "").trim().toLowerCase();
         if (!email) return null;
         return {
           email,
-          topics: normalizeTopics(entry.topics),
-          timing: normalizeTiming(entry.timing?.length ? entry.timing : ["morning", "evening"]),
           subscribedAt: entry.subscribedAt || entry.createdAt || new Date().toISOString(),
           active: entry.active !== false,
         };
@@ -91,6 +76,7 @@ function loadSubscribers() {
     subscribers = [];
   }
 }
+
 function saveSubscribers() {
   try { fs.writeFileSync(SUB_FILE, JSON.stringify(subscribers, null, 2)); } catch {}
 }
@@ -99,11 +85,11 @@ function loadDigestState() {
   try {
     const raw = JSON.parse(fs.readFileSync(DIGEST_STATE_FILE, "utf8"));
     digestState = {
-      morningDate: String(raw.morningDate || ""),
-      eveningDate: String(raw.eveningDate || ""),
+      dailyDate: String(raw.dailyDate || ""),
+      lastStoryId: String(raw.lastStoryId || ""),
     };
   } catch {
-    digestState = { morningDate: "", eveningDate: "" };
+    digestState = { dailyDate: "", lastStoryId: "" };
   }
 }
 
@@ -157,6 +143,20 @@ function classifyTopic(item) {
   return "news";
 }
 
+function getTopStoryOfDay(lastStoryId) {
+  const items = getCachedNews()?.items || [];
+  if (!items.length) return null;
+  const PRIORITY_ORDER = ["safety", "politics", "finance", "health", "transport", "community", "education", "news"];
+  const sorted = [...items].sort((a, b) => {
+    const topicA = PRIORITY_ORDER.indexOf(classifyTopic(a));
+    const topicB = PRIORITY_ORDER.indexOf(classifyTopic(b));
+    if (topicA !== topicB) return topicA - topicB;
+    return Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0);
+  });
+  const candidate = sorted.find((s) => s.id !== lastStoryId) || sorted[0];
+  return candidate || null;
+}
+
 function getDubaiParts(now = new Date()) {
   const fmt = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Asia/Dubai",
@@ -190,30 +190,6 @@ function formatDubaiDateKey(parts) {
   return `${y}-${m}-${d}`;
 }
 
-function prettyTopic(t) {
-  const map = {
-    safety: "Safety",
-    politics: "Government",
-    finance: "Finance",
-    health: "Health",
-    transport: "Transport",
-    community: "World Affairs",
-    education: "Education",
-    news: "General News",
-  };
-  return map[t] || t;
-}
-
-function prettyTiming(t) {
-  const map = {
-    morning: "Morning Digest (7:00 AM GST)",
-    evening: "Evening Digest (8:00 PM GST)",
-    breaking: "Breaking Only (Max 3/day)",
-    weekly: "Weekly Summary (Friday)",
-  };
-  return map[t] || t;
-}
-
 function escapeHtml(text) {
   return String(text || "")
     .replaceAll("&", "&amp;")
@@ -223,78 +199,41 @@ function escapeHtml(text) {
     .replaceAll("'", "&#39;");
 }
 
-function nextScheduledTimeLabel(timing) {
-  const picks = Array.isArray(timing) ? timing : [];
-  if (picks.includes("morning")) return "tomorrow at 7:00 AM GST";
-  if (picks.includes("evening")) return "today at 8:00 PM GST";
-  if (picks.includes("weekly")) return "this Friday evening";
-  if (picks.includes("breaking")) return "when a major UAE update is published";
-  return "on the next digest cycle";
-}
-
 // ── Unsubscribe link helper ──────────────────────────────────────────────────
 function unsubLink(email) {
   return `${APP_BASE_URL}/unsubscribe?email=${encodeURIComponent(email)}`;
 }
 
-// ── Get stories for a digest window ──────────────────────────────────────────
-function getDigestStories({ fromMs, toMs, topics, limit = 5 }) {
-  const items = getCachedNews()?.items || [];
-  return items
-    .filter((item) => {
-      const published = Number(item.publishedAtMs || new Date(item.publishedAt || 0).getTime() || 0);
-      if (!published) return false;
-      if (published < fromMs || published > toMs) return false;
-      if (!topics?.length) return true;
-      return topics.includes(classifyTopic(item));
-    })
-    .sort((a, b) => Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0))
-    .slice(0, limit);
-}
-
-// ── Rich digest email builders ────────────────────────────────────────────────
-function buildDigestHtml({ greeting, stories, recipientEmail, dateStr }) {
-  const unsub = unsubLink(recipientEmail);
-  const storyItems = stories.map((s) => {
-    const title   = escapeHtml(s.calmTitle || s.title || "Update");
-    const summary = escapeHtml(s.calmSummary || s.description || "");
-    const impact  = s.residentImpact ? escapeHtml(s.residentImpact) : "";
-    const source  = escapeHtml(s.sourceName || "");
-    const url     = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
-    return `
-    <div style="border-bottom:1px solid #E8E4DF;padding:20px 0;">
-      ${source ? `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#C8102E;font-weight:700;margin-bottom:8px;font-family:Arial,sans-serif;">${source}</div>` : ""}
-      <h3 style="font-family:Georgia,serif;font-size:18px;color:#1A1208;margin:0 0 10px;line-height:1.35;font-weight:700;">${title}</h3>
-      <p style="color:#3D3328;font-size:14px;line-height:1.6;margin:0 0 12px;">${summary}</p>
-      ${impact ? `<div style="background:#F7F4EF;border-left:3px solid #C8102E;padding:10px 14px;font-size:13px;color:#444;margin:0 0 12px;"><strong>What this means for you:</strong> ${impact}</div>` : ""}
-      <a href="${url}" style="color:#C8102E;font-size:13px;font-weight:700;text-decoration:none;">Read full story &rarr;</a>
-    </div>`;
-  }).join("");
+// ── Daily brief email builders ────────────────────────────────────────────────
+function buildDailyBriefHtml({ story, recipientEmail, dateStr }) {
+  const unsub   = unsubLink(recipientEmail);
+  const title   = escapeHtml(story.calmTitle || story.title || "Today's Top Story");
+  const summary = escapeHtml(story.calmSummary || story.description || "");
+  const source  = escapeHtml(story.sourceName || "");
 
   return `<!DOCTYPE html>
 <html><body style="margin:0;padding:20px;background:#F7F4EF;font-family:Arial,sans-serif;">
 <div style="max-width:600px;margin:0 auto;">
   <div style="background:#C8102E;border-radius:12px 12px 0 0;padding:22px 24px;text-align:center;">
     <div style="color:white;font-size:22px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">TheDubaiBrief</div>
-    <p style="color:rgba(255,255,255,0.8);font-size:12px;margin:4px 0 0;">TheDubaiBrief</p>
+    <p style="color:rgba(255,255,255,0.85);font-size:13px;font-weight:600;margin:6px 0 0;letter-spacing:0.5px;">Daily Brief</p>
   </div>
-  <div style="background:#1A1208;padding:18px 24px;">
-    <h1 style="color:white;font-size:20px;font-family:Georgia,serif;margin:0 0 4px;">${escapeHtml(greeting)}</h1>
+  <div style="background:#1A1208;padding:14px 24px;">
     <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;">${escapeHtml(dateStr)}</p>
   </div>
-  <div style="background:white;padding:8px 24px 8px;">
-    ${storyItems || '<p style="color:#888;padding:24px 0;text-align:center;">No new stories in your selected topics yet. Check back soon.</p>'}
-  </div>
-  <div style="background:white;border-top:1px solid #E8E4DF;padding:20px 24px;text-align:center;">
-    <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:12px 28px;border-radius:6px;font-weight:700;font-size:14px;">Read all stories on TheDubaiBrief &rarr;</a>
+  <div style="background:white;padding:28px 24px;">
+    ${source ? `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#C8102E;font-weight:700;margin-bottom:12px;font-family:Arial,sans-serif;">${source}</div>` : ""}
+    <h2 style="font-family:Georgia,serif;font-size:22px;color:#1A1208;margin:0 0 16px;line-height:1.35;font-weight:700;">${title}</h2>
+    <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 28px;">${summary}</p>
+    <div style="text-align:center;">
+      <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:14px 32px;border-radius:6px;font-weight:700;font-size:15px;">Read More Latest News &rarr;</a>
+    </div>
   </div>
   <div style="background:#F7F4EF;border-radius:0 0 12px 12px;padding:18px 24px;text-align:center;border-top:1px solid #E8E4DF;">
-    <p style="font-size:13px;color:#888;margin:0 0 6px;">
-      <a href="https://buymeacoffee.com/cwn" style="color:#C8102E;text-decoration:none;font-weight:600;">&curren; Support DUB</a>
-    </p>
     <p style="font-size:11px;color:#aaa;margin:0;">
-      <a href="${unsub}" style="color:#aaa;">Unsubscribe</a> &nbsp;&middot;&nbsp;
-      <a href="${APP_BASE_URL}/privacy.html" style="color:#aaa;">Privacy Policy</a>
+      You are receiving this because you subscribed to daily news updates.
+      &nbsp;&middot;&nbsp; <a href="${unsub}" style="color:#aaa;">Unsubscribe</a>
+      &nbsp;&middot;&nbsp; <a href="${APP_BASE_URL}/privacy.html" style="color:#aaa;">Privacy Policy</a>
       &nbsp;&middot;&nbsp; TheDubaiBrief &middot; Dubai, UAE
     </p>
   </div>
@@ -302,114 +241,55 @@ function buildDigestHtml({ greeting, stories, recipientEmail, dateStr }) {
 </body></html>`;
 }
 
-function buildDigestText({ greeting, stories, recipientEmail, dateStr }) {
-  const unsub = unsubLink(recipientEmail);
-  const items = stories.map((s, i) => {
-    const title   = s.calmTitle || s.title || "Update";
-    const summary = s.calmSummary || s.description || "";
-    const url     = `${APP_BASE_URL}/article.html?id=${encodeURIComponent(s.id)}`;
-    return `${i + 1}. ${title}\n${summary}\n${url}`;
-  }).join("\n\n");
-  return `${greeting}\nTheDubaiBrief · Dubai, UAE\n${dateStr}\n\n${items}\n\n---\nRead all: ${APP_BASE_URL}\nSupport DUB: https://buymeacoffee.com/cwn\nUnsubscribe: ${unsub}`;
+function buildDailyBriefText({ story, recipientEmail, dateStr }) {
+  const unsub   = unsubLink(recipientEmail);
+  const title   = story.calmTitle || story.title || "Today's Top Story";
+  const summary = story.calmSummary || story.description || "";
+  return `TheDubaiBrief — Daily Brief\n${dateStr}\n\n${title}\n\n${summary}\n\nRead More Latest News: ${APP_BASE_URL}\n\n---\nYou are receiving this because you subscribed to daily news updates.\nUnsubscribe: ${unsub}`;
 }
 
-// ── Dispatch a digest slot to all matching active subscribers ─────────────────
-async function sendDigestToSubscribers({ slotKey, greeting, subject, fromMs, toMs }) {
-  if (!RESEND_API_KEY) { console.log(`[Digest:${slotKey}] No RESEND_API_KEY — skipping.`); return; }
+// ── Send daily brief to all active subscribers ────────────────────────────────
+async function sendDailyBrief() {
+  if (!RESEND_API_KEY) { console.log("[DailyBrief] No RESEND_API_KEY — skipping."); return; }
   const active = subscribers.filter((s) => s.active !== false);
-  if (!active.length) { console.log(`[Digest:${slotKey}] No active subscribers.`); return; }
+  if (!active.length) { console.log("[DailyBrief] No active subscribers."); return; }
 
-  const parts   = getDubaiParts();
+  const story = getTopStoryOfDay(digestState.lastStoryId);
+  if (!story) { console.log("[DailyBrief] No stories available — skipping."); return; }
+
   const dateStr = new Date().toLocaleDateString("en-GB", {
     timeZone: "Asia/Dubai", weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
-  let sent = 0, skipped = 0, failed = 0;
+  const subject = randomSubject();
+  let sent = 0, failed = 0;
 
   for (const sub of active) {
-    const timings = normalizeTiming(sub.timing);
-    // Default (no preference saved) → gets morning + evening
-    const wantsSlot = timings.length === 0
-      ? ["morning", "evening"].includes(slotKey)
-      : timings.includes(slotKey);
-    if (!wantsSlot) { skipped++; continue; }
-
-    const limit   = slotKey === "weekly" ? 10 : 5;
-    const stories = getDigestStories({ fromMs, toMs, topics: sub.topics, limit });
-    if (!stories.length) { skipped++; continue; }
-
-    const html = buildDigestHtml({ greeting, stories, recipientEmail: sub.email, dateStr });
-    const text = buildDigestText({ greeting, stories, recipientEmail: sub.email, dateStr });
+    const html = buildDailyBriefHtml({ story, recipientEmail: sub.email, dateStr });
+    const text = buildDailyBriefText({ story, recipientEmail: sub.email, dateStr });
     try {
       await sendResendEmail({ to: sub.email, subject, html, text });
       sent++;
     } catch (err) {
       failed++;
-      console.error(`[Digest:${slotKey}] Failed for ${sub.email}:`, err.message);
+      console.error(`[DailyBrief] Failed for ${sub.email}:`, err.message);
     }
   }
-  console.log(`[Digest:${slotKey}] sent=${sent} skipped=${skipped} failed=${failed}`);
+
+  digestState.lastStoryId = story.id || "";
+  digestState.dailyDate   = formatDubaiDateKey(getDubaiParts());
+  saveDigestState();
+  console.log(`[DailyBrief] sent=${sent} failed=${failed} story="${story.calmTitle || story.title}"`);
 }
 
-// ── Cron-based scheduler (all times UTC, Dubai = UTC+4) ───────────────────────
-// Morning digest — 7:00 AM Dubai = 03:00 UTC
+// ── Cron-based scheduler — 7:00 AM Dubai = 03:00 UTC ─────────────────────────
 cron.schedule("0 3 * * *", async () => {
-  console.log("[Cron] Morning digest starting…");
-  const now = Date.now();
-  await sendDigestToSubscribers({
-    slotKey: "morning",
-    greeting: "Good Morning, UAE 🇦🇪",
-    subject:  "TheDubaiBrief Morning Digest 🇦🇪",
-    fromMs: now - 12 * 60 * 60 * 1000,
-    toMs: now,
-  });
-}, { timezone: "UTC" });
-
-// Evening digest — 8:00 PM Dubai = 16:00 UTC
-cron.schedule("0 16 * * *", async () => {
-  console.log("[Cron] Evening digest starting…");
-  const parts = getDubaiParts();
-  await sendDigestToSubscribers({
-    slotKey: "evening",
-    greeting: "Good Evening, UAE 🇦🇪",
-    subject:  "TheDubaiBrief Evening Digest 🇦🇪",
-    fromMs: dubaiLocalToUtcMs(parts.year, parts.month, parts.day, 0, 0, 0),
-    toMs: Date.now(),
-  });
-}, { timezone: "UTC" });
-
-// Weekly digest — Friday 9:00 AM Dubai = Friday 05:00 UTC
-cron.schedule("0 5 * * 5", async () => {
-  console.log("[Cron] Weekly digest starting…");
-  const now = Date.now();
-  await sendDigestToSubscribers({
-    slotKey: "weekly",
-    greeting: "Your Weekly UAE News Roundup 🇦🇪",
-    subject:  "TheDubaiBrief Weekly Summary — Top Stories This Week",
-    fromMs: now - 7 * 24 * 60 * 60 * 1000,
-    toMs: now,
-  });
-}, { timezone: "UTC" });
-
-// Breaking news check — every 5 minutes
-cron.schedule("*/5 * * * *", async () => {
-  if (!RESEND_API_KEY) return;
-  const BREAKING_COOLDOWN_MS = 60 * 60 * 1000; // max 1 breaking alert per hour
-  if (Date.now() - (digestState.breakingLastMs || 0) < BREAKING_COOLDOWN_MS) return;
-  const items    = getCachedNews()?.items || [];
-  const cutoffMs = Date.now() - 5 * 60 * 1000;
-  const urgent   = items.filter((i) => Number(i.publishedAtMs || 0) > cutoffMs && i.severity === "high");
-  if (!urgent.length) return;
-  console.log(`[Cron] Breaking: ${urgent.length} urgent item(s) found — alerting subscribers`);
-  const now = Date.now();
-  await sendDigestToSubscribers({
-    slotKey: "breaking",
-    greeting: "🚨 Breaking UAE Update",
-    subject:  `Breaking: ${urgent[0].calmTitle || urgent[0].title || "Urgent UAE Update"} — CWN`,
-    fromMs: cutoffMs,
-    toMs: now,
-  });
-  digestState.breakingLastMs = now;
-  saveDigestState();
+  console.log("[Cron] Daily brief starting…");
+  const todayKey = formatDubaiDateKey(getDubaiParts());
+  if (digestState.dailyDate === todayKey) {
+    console.log("[Cron] Daily brief already sent today — skipping.");
+    return;
+  }
+  await sendDailyBrief();
 }, { timezone: "UTC" });
 
 // Health check FIRST — before all middleware so it always responds
@@ -757,57 +637,44 @@ app.get("/api/article", async (req, res) => {
   }
 });
 
-async function sendWelcomeEmail({ email, topics, timing }) {
+async function sendWelcomeEmail({ email }) {
   if (!RESEND_API_KEY) {
     console.warn("[Email] No RESEND_API_KEY — welcome email skipped for", email);
     return;
   }
-  const topicsList = topics.length ? topics.map(prettyTopic) : ["All Topics"];
-  const timingList = timing.length ? timing.map(prettyTiming) : ["Morning Digest (7:00 AM GST)", "Evening Digest (8:00 PM GST)"];
-  const nextTime   = nextScheduledTimeLabel(timing);
-  const unsub      = unsubLink(email);
+  const unsub = unsubLink(email);
 
   const html = `<!DOCTYPE html>
-<html><body style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;">
+<html><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;">
   <div style="text-align:center;margin-bottom:32px;">
-    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;">TheDubaiBrief</div>
-    <p style="color:#666;font-size:13px;margin-top:8px;">TheDubaiBrief</p>
+    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">TheDubaiBrief</div>
   </div>
-  <h1 style="font-size:28px;color:#1A1208;text-align:center;margin-bottom:8px;">You're all set! 🇦🇪</h1>
-  <p style="text-align:center;color:#666;margin-bottom:32px;">UAE news — calm, clear, and in plain English.</p>
-  <div style="background:white;border-radius:12px;padding:24px;margin-bottom:24px;">
-    <h2 style="font-size:16px;color:#1A1208;margin-bottom:16px;">Your subscription summary:</h2>
-    <p style="color:#444;margin-bottom:8px;">📋 Topics: ${escapeHtml(topicsList.join(", "))}</p>
-    <p style="color:#444;margin-bottom:8px;">🕐 Timing: ${escapeHtml(timingList.join(", "))}</p>
-    <p style="color:#444;">📧 Email: ${escapeHtml(email)}</p>
-  </div>
+  <h1 style="font-size:26px;color:#1A1208;text-align:center;margin-bottom:8px;font-family:Georgia,serif;">You're subscribed!</h1>
+  <p style="text-align:center;color:#3D3328;font-size:15px;margin-bottom:32px;line-height:1.6;">You'll receive one daily email with the most important news story.</p>
   <div style="background:#C8102E;border-radius:12px;padding:24px;margin-bottom:24px;text-align:center;">
     <p style="color:white;font-size:15px;margin-bottom:16px;">"No panic. No agenda. Just clear UAE news for residents."</p>
     <a href="${APP_BASE_URL}" style="background:white;color:#C8102E;padding:12px 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Read Today's News &rarr;</a>
   </div>
   <p style="text-align:center;color:#999;font-size:12px;">
-    Your first digest arrives ${escapeHtml(nextTime)}.<br><br>
+    Your first daily brief arrives tomorrow at 7:00 AM GST.<br><br>
     <a href="${unsub}" style="color:#aaa;">Unsubscribe anytime</a><br><br>
     TheDubaiBrief &middot; Dubai, UAE 🇦🇪
   </p>
 </body></html>`;
 
-  const text = `DUB
+  const text = `TheDubaiBrief
 
-You're all set!
+You're subscribed!
 
-Topics: ${topicsList.join(", ")}
-Timing: ${timingList.join(", ")}
-Email: ${email}
-
-Your first digest arrives ${nextTime}.
+You'll receive one daily email with the most important news story.
+Your first daily brief arrives tomorrow at 7:00 AM GST.
 
 Read Today's News: ${APP_BASE_URL}
 Unsubscribe: ${unsub}`;
 
   await sendResendEmail({
     to: email,
-    subject: "Welcome to TheDubaiBrief 🇦🇪",
+    subject: "You're subscribed to TheDubaiBrief 🇦🇪",
     html,
     text,
   });
@@ -839,30 +706,21 @@ Changed your mind? Visit: ${resubUrl}`;
 app.post("/api/subscribe", async (req, res) => {
   try {
     const email = String(req.body.email || "").trim().toLowerCase();
-    const topics = normalizeTopics(req.body.topics);
-    const timing = normalizeTiming(req.body.timing?.length ? req.body.timing : ["morning", "evening"]);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       return res.status(400).json({ error: "Invalid email" });
     }
     const existing = subscribers.find((s) => s.email === email);
     if (existing) {
       return res.json({ status: "exists", message: "You're already subscribed!" });
-    } else {
-      const entry = {
-        email,
-        topics,
-        timing,
-        subscribedAt: new Date().toISOString(),
-        active: true,
-      };
-      subscribers.push(entry);
-      console.log("New subscriber", email, "topics:", topics.length ? topics.join(",") : "all");
-      saveSubscribers();
-      try {
-        await sendWelcomeEmail(entry);
-      } catch (err) {
-        console.error("Welcome email failed:", err.message);
-      }
+    }
+    const entry = { email, subscribedAt: new Date().toISOString(), active: true };
+    subscribers.push(entry);
+    console.log("New subscriber", email);
+    saveSubscribers();
+    try {
+      await sendWelcomeEmail(entry);
+    } catch (err) {
+      console.error("Welcome email failed:", err.message);
     }
     return res.json({ status: "ok" });
   } catch (err) {
