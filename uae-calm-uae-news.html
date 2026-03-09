@@ -1361,30 +1361,6 @@
       background: var(--red-dark);
     }
 
-    .subscribe-topics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .subscribe-topics label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.85);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 999px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-
-    .subscribe-topics input {
-      accent-color: #C8102E;
-    }
-
     .subscribe-note {
       font-size: 11px;
       color: rgba(255, 255, 255, 0.65);
@@ -1577,111 +1553,10 @@
       min-height: 18px;
     }
 
-    .cwn-topics-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .cwn-inline-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: #3D3328;
-    }
-
-    .cwn-topic-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .cwn-topic-card {
-      border: 1px solid #DDD8CF;
-      border-radius: 10px;
-      background: #F7F4EF;
-      padding: 12px 10px;
-      text-align: center;
-      cursor: pointer;
-      color: #1A1208;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .cwn-topic-card.selected {
-      background: #C8102E;
-      color: #fff;
-      border-color: #C8102E;
-    }
-
-    .cwn-topic-actions {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .cwn-topic-actions button {
-      border: 1px solid #DDD8CF;
-      background: #fff;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .cwn-timing-list {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .cwn-timing-card {
-      border: 1px solid #DDD8CF;
-      border-left: 4px solid transparent;
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-      background: #fff;
-    }
-
-    .cwn-timing-card.selected {
-      border-left-color: #C8102E;
-      background: #fdf1f4;
-    }
-
-    .cwn-timing-head {
-      font-weight: 700;
-      color: #1A1208;
-      margin-bottom: 4px;
-    }
-
-    .cwn-timing-copy {
-      font-size: 13px;
-      color: #7A6E62;
-      line-height: 1.35;
-      white-space: pre-line;
-    }
-
     .cwn-success-icon {
       text-align: center;
       font-size: 34px;
       margin-bottom: 8px;
-    }
-
-    .cwn-summary {
-      margin: 10px 0 16px;
-      border: 1px solid #DDD8CF;
-      border-radius: 10px;
-      padding: 12px;
-      background: #F7F4EF;
-      font-size: 13px;
-      color: #3D3328;
-      line-height: 1.5;
     }
 
     @media (max-width:768px) {
@@ -1691,10 +1566,6 @@
 
       .cwn-modal-title {
         font-size: 28px;
-      }
-
-      .cwn-topic-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -3231,25 +3102,6 @@
       color: #F0F0F0;
     }
 
-    body.dark .cwn-topic-card {
-      color: #F0F0F0;
-      background: #0A0A0A;
-      border-color: #2A2A2A;
-    }
-
-    body.dark .cwn-timing-card {
-      background: #0A0A0A;
-      border-color: #2A2A2A;
-    }
-
-    body.dark .cwn-timing-head {
-      color: #F0F0F0;
-    }
-
-    body.dark .cwn-timing-copy {
-      color: #888888;
-    }
-
     body.dark .cwn-modal-input {
       background: #0A0A0A;
       border-color: #2A2A2A;
@@ -4033,7 +3885,7 @@
             <input type="email" id="digestEmail" placeholder="Your email" required>
             <button type="button" id="digestSubscribeBtn">Subscribe</button>
           </form>
-          <div class="subscribe-note" id="footerSubNote">Choose topics and delivery timing in the popup.</div>
+          <div class="subscribe-note" id="footerSubNote">You'll receive one daily email with the most important news story.</div>
         </div>
       </div>
       <!-- Disclaimer -->
@@ -4560,30 +4412,13 @@
       });
     }
 
-    // Unified subscription modal (navbar + footer)
+    // Subscription modal (navbar + footer)
     const subscribeState = {
       step: 'email',
       email: '',
-      allTopics: false,
-      topics: [],
-      timing: [],
       status: '',
       submitting: false,
     };
-    const TOPIC_OPTIONS = [
-      { id: 'safety', icon: '', label: 'Safety' },
-      { id: 'politics', icon: '', label: 'Government' },
-      { id: 'finance', icon: '', label: 'Finance' },
-      { id: 'health', icon: '', label: 'Health' },
-      { id: 'transport', icon: '', label: 'Transport' },
-      { id: 'community', icon: '', label: 'World Affairs' },
-    ];
-    const TIMING_OPTIONS = [
-      { id: 'morning', head: ' Morning Digest', body: "Top stories from overnight\nDelivered 7:00 AM GST" },
-      { id: 'evening', head: ' Evening Digest', body: "Top stories from the day\nDelivered 8:00 PM GST" },
-      { id: 'breaking', head: ' Breaking Only', body: "Only major stories\nMax 3 per day" },
-      { id: 'weekly', head: ' Weekly Summary', body: "One email every Friday\nThe week's top 10 stories" },
-    ];
 
     const subscribeModal = document.getElementById('cwnSubscribeModal');
     const subscribeMount = document.getElementById('cwnSubscribeMount');
@@ -4609,55 +4444,16 @@
       renderSubscribeModal();
     }
 
-    function toggleArrayValue(arr, value) {
-      const has = arr.includes(value);
-      return has ? arr.filter((x) => x !== value) : [...arr, value];
-    }
-
     function isValidEmail(email) {
       return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(email || '').trim());
     }
 
-    function prettyTopic(id) {
-      const found = TOPIC_OPTIONS.find((t) => t.id === id);
-      return found ? found.label : id;
-    }
-
-    function prettyTiming(id) {
-      const found = TIMING_OPTIONS.find((t) => t.id === id);
-      return found ? found.head.replace(/^.\s/, '') : id;
-    }
-
-    function summarizeTiming(ids) {
-      if (!ids.length) return 'daily digest';
-      return ids.map(prettyTiming).join(' + ').toLowerCase();
-    }
-
-    function nextStep() {
-      if (subscribeState.step === 'email') {
-        if (!isValidEmail(subscribeState.email)) {
-          subscribeState.status = 'Please enter a valid email address.';
-          renderSubscribeModal();
-          return;
-        }
-        subscribeState.status = '';
-        subscribeState.step = 'topics';
+    async function submitSubscription() {
+      if (!isValidEmail(subscribeState.email)) {
+        subscribeState.status = 'Please enter a valid email address.';
         renderSubscribeModal();
         return;
       }
-      if (subscribeState.step === 'topics') {
-        subscribeState.step = 'timing';
-        renderSubscribeModal();
-        return;
-      }
-      if (subscribeState.step === 'timing') {
-        finishSubscription();
-      }
-    }
-
-    async function finishSubscription() {
-      const selectedTopics = subscribeState.allTopics ? [] : subscribeState.topics;
-      const selectedTiming = subscribeState.timing.length ? subscribeState.timing : ['morning', 'evening'];
       subscribeState.submitting = true;
       subscribeState.status = '';
       renderSubscribeModal();
@@ -4665,19 +4461,11 @@
         const r = await fetch(`${API_BASE}/api/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: subscribeState.email.trim(),
-            topics: selectedTopics,
-            timing: selectedTiming,
-          }),
+          body: JSON.stringify({ email: subscribeState.email.trim() }),
         });
         const payload = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(payload.error || 'Could not save subscription');
-        if (payload.status === 'exists') {
-          subscribeState.step = 'exists';
-        } else {
-          subscribeState.step = 'success';
-        }
+        subscribeState.step = payload.status === 'exists' ? 'exists' : 'success';
       } catch (err) {
         subscribeState.status = err.message || 'Subscription failed';
       } finally {
@@ -4693,113 +4481,35 @@
         html = `
           <div class="cwn-modal-kicker"></div>
           <h2 class="cwn-modal-title">Stay informed. No panic.</h2>
-          <p class="cwn-modal-subtitle">Get UAE news delivered to you, rewritten in calm plain English.</p>
+          <p class="cwn-modal-subtitle">One email per day. The single most important UAE news story, calmly written.</p>
           <input id="cwnModalEmail" class="cwn-modal-input" type="email" placeholder="Your email address" value="${(subscribeState.email || '').replace(/"/g, '&quot;')}" />
-          <button id="cwnModalContinueEmail" class="cwn-modal-primary">Continue →</button>
-          <div class="cwn-modal-error">${subscribeState.status || ''}</div>
-        `;
-      } else if (subscribeState.step === 'topics') {
-        const topicCards = TOPIC_OPTIONS.map((topic) => {
-          const selected = subscribeState.topics.includes(topic.id);
-          return `<button type="button" class="cwn-topic-card ${selected ? 'selected' : ''}" data-topic="${topic.id}">${topic.icon}<div>${topic.label}</div></button>`;
-        }).join('');
-        html = `
-          <h2 class="cwn-modal-title">What do you want to hear about?</h2>
-          <p class="cwn-modal-subtitle">Pick as many as you like.</p>
-          <div class="cwn-topics-header">
-            <label class="cwn-inline-toggle"><input type="checkbox" id="cwnAllTopics" ${subscribeState.allTopics ? 'checked' : ''}/> All topics</label>
-          </div>
-          <div class="cwn-topic-grid">${topicCards}</div>
-          <div class="cwn-topic-actions">
-            <button type="button" id="cwnSelectAllTopics">Select All</button>
-            <button type="button" id="cwnClearTopics">Clear</button>
-          </div>
-          <button id="cwnModalContinueTopics" class="cwn-modal-primary">Continue →</button>
-          <div class="cwn-modal-error">${subscribeState.status || ''}</div>
-        `;
-      } else if (subscribeState.step === 'timing') {
-        const timingCards = TIMING_OPTIONS.map((opt) => {
-          const selected = subscribeState.timing.includes(opt.id);
-          return `<button type="button" class="cwn-timing-card ${selected ? 'selected' : ''}" data-timing="${opt.id}">
-            <div class="cwn-timing-head">${opt.head}</div>
-            <div class="cwn-timing-copy">${opt.body}</div>
-          </button>`;
-        }).join('');
-        html = `
-          <h2 class="cwn-modal-title">When do you want updates?</h2>
-          <p class="cwn-modal-subtitle">We only send when there's something worth reading.</p>
-          <div class="cwn-timing-list">${timingCards}</div>
-          <button id="cwnModalFinish" class="cwn-modal-primary" ${subscribeState.submitting ? 'disabled' : ''}>${subscribeState.submitting ? 'Saving...' : 'Finish →'}</button>
+          <button id="cwnModalSubscribeBtn" class="cwn-modal-primary" ${subscribeState.submitting ? 'disabled' : ''}>${subscribeState.submitting ? 'Subscribing...' : 'Subscribe'}</button>
           <div class="cwn-modal-error">${subscribeState.status || ''}</div>
         `;
       } else if (subscribeState.step === 'success') {
-        const topicText = subscribeState.allTopics ? 'All Topics' : (subscribeState.topics.length ? subscribeState.topics.map(prettyTopic).join(', ') : 'All Topics');
-        const timingText = summarizeTiming(subscribeState.timing);
         html = `
-          <div class="cwn-success-icon"></div>
-          <h2 class="cwn-modal-title">You're all set!</h2>
-          <p class="cwn-modal-subtitle">You'll receive ${timingText} updates about ${topicText}.</p>
-          <div class="cwn-summary">
-            <div> ${timingText}</div>
-            <div> ${topicText}</div>
-          </div>
+          <div class="cwn-success-icon">✅</div>
+          <h2 class="cwn-modal-title">You're subscribed!</h2>
+          <p class="cwn-modal-subtitle">You'll receive one daily email with the most important news story.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Done</button>
         `;
       } else if (subscribeState.step === 'exists') {
         html = `
-          <div class="cwn-success-icon"></div>
+          <div class="cwn-success-icon">✅</div>
           <h2 class="cwn-modal-title">Already subscribed!</h2>
-          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g, '&lt;')} is already on the TheDubaiBrief list. You're good — we'll keep sending you calm UAE updates.</p>
+          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g, '&lt;')} is already on the TheDubaiBrief list. You'll receive your daily brief each morning.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Got it</button>
         `;
       }
       subscribeMount.innerHTML = html;
 
       const emailEl = document.getElementById('cwnModalEmail');
-      if (emailEl) emailEl.addEventListener('input', (e) => { subscribeState.email = e.target.value; });
-      const continueEmailBtn = document.getElementById('cwnModalContinueEmail');
-      if (continueEmailBtn) continueEmailBtn.addEventListener('click', nextStep);
-
-      const allTopicsToggle = document.getElementById('cwnAllTopics');
-      if (allTopicsToggle) {
-        allTopicsToggle.addEventListener('change', (e) => {
-          subscribeState.allTopics = !!e.target.checked;
-          if (subscribeState.allTopics) subscribeState.topics = TOPIC_OPTIONS.map((t) => t.id);
-          renderSubscribeModal();
-        });
+      if (emailEl) {
+        emailEl.addEventListener('input', (e) => { subscribeState.email = e.target.value; });
+        emailEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitSubscription(); });
       }
-      document.querySelectorAll('.cwn-topic-card').forEach((el) => {
-        el.addEventListener('click', () => {
-          const topic = el.getAttribute('data-topic');
-          subscribeState.topics = toggleArrayValue(subscribeState.topics, topic);
-          subscribeState.allTopics = subscribeState.topics.length === TOPIC_OPTIONS.length;
-          renderSubscribeModal();
-        });
-      });
-      const selectAllBtn = document.getElementById('cwnSelectAllTopics');
-      if (selectAllBtn) selectAllBtn.addEventListener('click', () => {
-        subscribeState.topics = TOPIC_OPTIONS.map((t) => t.id);
-        subscribeState.allTopics = true;
-        renderSubscribeModal();
-      });
-      const clearBtn = document.getElementById('cwnClearTopics');
-      if (clearBtn) clearBtn.addEventListener('click', () => {
-        subscribeState.topics = [];
-        subscribeState.allTopics = false;
-        renderSubscribeModal();
-      });
-      const continueTopicsBtn = document.getElementById('cwnModalContinueTopics');
-      if (continueTopicsBtn) continueTopicsBtn.addEventListener('click', nextStep);
-
-      document.querySelectorAll('.cwn-timing-card').forEach((el) => {
-        el.addEventListener('click', () => {
-          const timing = el.getAttribute('data-timing');
-          subscribeState.timing = toggleArrayValue(subscribeState.timing, timing);
-          renderSubscribeModal();
-        });
-      });
-      const finishBtn = document.getElementById('cwnModalFinish');
-      if (finishBtn) finishBtn.addEventListener('click', nextStep);
+      const subscribeBtn = document.getElementById('cwnModalSubscribeBtn');
+      if (subscribeBtn) subscribeBtn.addEventListener('click', submitSubscription);
       const doneBtn = document.getElementById('cwnModalDone');
       if (doneBtn) doneBtn.addEventListener('click', closeSubscribeModal);
     }
