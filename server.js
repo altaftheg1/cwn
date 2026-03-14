@@ -761,6 +761,7 @@ app.post("/api/resubscribe", (req, res) => {
 app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article-view.html')));
 app.use('/article', articleRouter);
 app.get('/archive', (req, res) => res.sendFile(path.join(__dirname, 'archive.html')));
+app.get('/support', (req, res) => res.sendFile(path.join(__dirname, 'support.html')));
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`DUB server running on port ${PORT}`);

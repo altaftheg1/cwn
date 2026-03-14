@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Support TheDubaiBrief — Keep UAE News Free &amp; Independent</title>
+  <meta name="description" content="Help keep TheDubaiBrief free for every UAE resident. Advertise with us or donate to support independent UAE news." />
+  <script>
+    (function () {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --gold: #B8860B;
+      --radius-lg: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { overflow-x: hidden; }
+    html.dark { background: #0A0A0A; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    body.dark {
+      background: #0A0A0A;
+      color: #F0F0F0;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--red);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-boxes { display: flex; gap: 6px; }
+
+    .logo-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 5px;
+      background: var(--red);
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .brand-name {
+      font-family: 'Source Serif 4', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .back-link {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: #fff; }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    /* ── Hero ── */
+    .page-hero {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 5vw, 44px);
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    body.dark .page-hero h1 { color: #F0F0F0; }
+
+    .page-hero .subtitle {
+      font-family: 'Source Serif 4', serif;
+      font-size: 18px;
+      color: var(--ink-mid);
+      margin-bottom: 20px;
+    }
+
+    body.dark .page-hero .subtitle { color: #AAAAAA; }
+
+    .page-hero .desc {
+      max-width: 560px;
+      margin: 0 auto;
+      font-size: 15px;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
+
+    body.dark .page-hero .desc { color: #888; }
+
+    /* ── Two option cards ── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 52px;
+    }
+
+    @media (max-width: 640px) {
+      .options-grid { grid-template-columns: 1fr; }
+    }
+
+    .option-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    body.dark .option-card {
+      background: #1A1A1A;
+      border-color: #2A2A2A;
+    }
+
+    .option-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+      transform: translateY(-3px);
+    }
+
+    .option-icon {
+      font-size: 40px;
+      margin-bottom: 14px;
+    }
+
+    .option-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    body.dark .option-title { color: #F0F0F0; }
+
+    .option-desc {
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    body.dark .option-desc { color: #888; }
+
+    .option-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s, transform 0.12s;
+    }
+
+    .option-btn:hover { transform: translateY(-1px); }
+
+    .option-btn.red {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .option-btn.red:hover { background: var(--red-dark); }
+
+    .option-btn.coffee {
+      background: #FFDD00;
+      color: #000;
+    }
+
+    .option-btn.coffee:hover { background: #FFE733; }
+
+    /* ── Detail panel ── */
+    .detail-panel {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      margin-bottom: 36px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    body.dark .detail-panel {
+      background: #1A1A1A;
+      border-color: #2A2A2A;
+    }
+
+    .detail-panel.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    body.dark .detail-panel h2 { color: #F0F0F0; }
+
+    /* Ad options */
+    .ad-options { display: flex; flex-direction: column; gap: 16px; }
+
+    .ad-row {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    body.dark .ad-row {
+      border-color: #2A2A2A;
+    }
+
+    .ad-row-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+
+    .ad-row-body { flex: 1; }
+
+    .ad-row-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    body.dark .ad-row-title { color: #F0F0F0; }
+
+    .ad-row-desc {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    body.dark .ad-row-desc { color: #888; }
+
+    .ad-row-price {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-mid);
+      margin-bottom: 12px;
+    }
+
+    body.dark .ad-row-price { color: #AAAAAA; }
+
+    .ad-contact-btn {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .ad-contact-btn:hover { background: var(--red-dark); }
+
+    /* Donate options */
+    .donate-intro {
+      font-size: 15px;
+      color: var(--ink-mid);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    body.dark .donate-intro { color: #AAAAAA; }
+
+    .donate-amounts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .donate-btn {
+      display: inline-block;
+      background: #FFDD00;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.12s;
+    }
+
+    .donate-btn:hover {
+      background: #FFE733;
+      transform: translateY(-1px);
+    }
+
+    .donate-covers h3 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    body.dark .donate-covers h3 { color: #F0F0F0; }
+
+    .donate-covers ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .donate-covers li {
+      font-size: 14px;
+      color: var(--ink-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body.dark .donate-covers li { color: #AAAAAA; }
+
+    .donate-covers li::before {
+      content: '✓';
+      color: var(--red);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Back button */
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--red);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-btn:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .page-footer {
+      text-align: center;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--ink-light);
+    }
+
+    body.dark .page-footer {
+      border-color: #2A2A2A;
+      color: #555;
+    }
+
+    .page-footer a {
+      color: var(--ink-light);
+      text-decoration: none;
+    }
+
+    body.dark .page-footer a { color: #555; }
+
+    .page-footer a:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <div class="logo-boxes">
+          <div class="logo-box">D</div>
+          <div class="logo-box">U</div>
+          <div class="logo-box">B</div>
+        </div>
+        <span class="brand-name">TheDubaiBrief</span>
+      </a>
+      <a class="back-link" href="/">← Back to news</a>
+    </div>
+  </header>
+
+  <div class="page">
+
+    <!-- ── Page hero ── -->
+    <div class="page-hero">
+      <h1>Support TheDubaiBrief</h1>
+      <p class="subtitle">Keep UAE news free, calm, and independent</p>
+      <p class="desc">TheDubaiBrief is built and run independently to give UAE residents free access to calm, clear news. We don't have a big media budget. Your support keeps us going.</p>
+    </div>
+
+    <!-- ── Two option cards ── -->
+    <div class="options-grid" id="optionsGrid">
+
+      <div class="option-card" onclick="showPanel('advertise')">
+        <div class="option-icon">📢</div>
+        <div class="option-title">Advertise with us</div>
+        <p class="option-desc">Reach UAE residents directly through a calm, trusted platform. Tasteful placements that respect your audience.</p>
+        <span class="option-btn red">Learn More</span>
+      </div>
+
+      <div class="option-card" onclick="showPanel('donate')">
+        <div class="option-icon">☕</div>
+        <div class="option-title">Donate</div>
+        <p class="option-desc">Buy us a coffee and keep DUB free for every UAE resident. Every contribution, however small, makes a difference.</p>
+        <span class="option-btn coffee">Support Now</span>
+      </div>
+
+    </div>
+
+    <!-- ── Advertise panel ── -->
+    <div class="detail-panel" id="advertisePanel">
+      <button class="back-btn" onclick="hidePanel()">← Back</button>
+      <h2>Advertise with TheDubaiBrief</h2>
+
+      <div class="ad-options">
+
+        <div class="ad-row">
+          <div class="ad-row-icon">📧</div>
+          <div class="ad-row-body">
+            <div class="ad-row-title">Email Digest Sponsorship</div>
+            <div class="ad-row-desc">
+              Your brand featured in our morning or evening news digest.<br>
+              Reaches subscribers daily — one tasteful line at the top:<br>
+              <em>"Today's digest brought to you by [Your Brand]"</em>
+            </div>
+            <div class="ad-row-price">Price: Contact us for rates</div>
+            <a href="mailto:hello@thedubaiBrief.com?subject=Advertising%20inquiry%20%E2%80%94%20TheDubaiBrief%20(Email%20Digest)" class="ad-contact-btn">Get in touch</a>
+          </div>
+        </div>
+
+        <div class="ad-row">
+          <div class="ad-row-icon">🌐</div>
+          <div class="ad-row-body">
+            <div class="ad-row-title">Site Banner (non-intrusive)</div>
+            <div class="ad-row-desc">
+              A small, tasteful banner on TheDubaiBrief. Never popups, never aggressive. Designed to match DUB's calm aesthetic and respect your readers.
+            </div>
+            <div class="ad-row-price">Price: Contact us for rates</div>
+            <a href="mailto:hello@thedubaiBrief.com?subject=Advertising%20inquiry%20%E2%80%94%20TheDubaiBrief%20(Site%20Banner)" class="ad-contact-btn">Get in touch</a>
+          </div>
+        </div>
+
+        <div class="ad-row">
+          <div class="ad-row-icon">📊</div>
+          <div class="ad-row-body">
+            <div class="ad-row-title">Sponsored Data Report</div>
+            <div class="ad-row-desc">
+              A weekly UAE news trend report, branded with your company logo and distributed to our subscribers. Position your brand as a thought leader in the UAE market.
+            </div>
+            <div class="ad-row-price">Price: Contact us for rates</div>
+            <a href="mailto:hello@thedubaiBrief.com?subject=Advertising%20inquiry%20%E2%80%94%20TheDubaiBrief%20(Sponsored%20Report)" class="ad-contact-btn">Get in touch</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Donate panel ── -->
+    <div class="detail-panel" id="donatePanel">
+      <button class="back-btn" onclick="hidePanel()">← Back</button>
+      <h2>Support TheDubaiBrief ☕</h2>
+
+      <p class="donate-intro">We run on roughly $25/month. Every contribution helps keep DUB free and independent.</p>
+
+      <div class="donate-amounts">
+        <a href="https://www.buymeacoffee.com/thedubaiBrief" target="_blank" rel="noopener noreferrer" class="donate-btn">☕ $3 — A coffee</a>
+        <a href="https://www.buymeacoffee.com/thedubaiBrief" target="_blank" rel="noopener noreferrer" class="donate-btn">🧡 $5 — A week of news</a>
+        <a href="https://www.buymeacoffee.com/thedubaiBrief" target="_blank" rel="noopener noreferrer" class="donate-btn">💛 $10 — A month of DUB</a>
+        <a href="https://www.buymeacoffee.com/thedubaiBrief" target="_blank" rel="noopener noreferrer" class="donate-btn">💝 Custom amount</a>
+      </div>
+
+      <div class="donate-covers">
+        <h3>What your support covers:</h3>
+        <ul>
+          <li>AI that rewrites headlines calmly</li>
+          <li>Server costs to run 24/7</li>
+          <li>News fetching from 25+ sources</li>
+          <li>Free for every UAE resident</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <div class="page-footer">
+      <p>
+        <a href="/">TheDubaiBrief</a> &nbsp;·&nbsp;
+        <a href="/privacy.html">Privacy</a> &nbsp;·&nbsp;
+        <a href="/about.html">About</a> &nbsp;·&nbsp;
+        <a href="mailto:hello@thedubaiBrief.com">hello@thedubaiBrief.com</a>
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // Apply dark mode class to body
+    (function () {
+      if (localStorage.getItem('theme') === 'dark' || document.documentElement.classList.contains('dark')) {
+        document.body.classList.add('dark');
+      }
+    })();
+
+    // Handle URL hash on load (e.g. /support#advertise or /support#donate)
+    (function () {
+      var hash = window.location.hash.replace('#', '');
+      if (hash === 'advertise' || hash === 'donate') {
+        showPanel(hash);
+      }
+    })();
+
+    function showPanel(type) {
+      var advertisePanel = document.getElementById('advertisePanel');
+      var donatePanel    = document.getElementById('donatePanel');
+      var optionsGrid    = document.getElementById('optionsGrid');
+
+      if (advertisePanel) advertisePanel.classList.remove('visible');
+      if (donatePanel)    donatePanel.classList.remove('visible');
+
+      if (type === 'advertise' && advertisePanel) {
+        advertisePanel.classList.add('visible');
+        advertisePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (history.replaceState) history.replaceState(null, '', '#advertise');
+      } else if (type === 'donate' && donatePanel) {
+        donatePanel.classList.add('visible');
+        donatePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (history.replaceState) history.replaceState(null, '', '#donate');
+      }
+    }
+
+    function hidePanel() {
+      document.getElementById('advertisePanel').classList.remove('visible');
+      document.getElementById('donatePanel').classList.remove('visible');
+      if (history.replaceState) history.replaceState(null, '', '/support');
+      document.getElementById('optionsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+
+</body>
+</html>
