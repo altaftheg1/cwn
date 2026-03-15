@@ -1782,6 +1782,116 @@
       animation: splashCenterFadeIn .8s ease-out .7s both;
     }
 
+    /* ===== GREETING SCREEN ===== */
+    .greeting-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: #1A1208;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .greeting-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .greeting-screen.exit {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .greeting-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .greeting-hii {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 700;
+      color: #FFFFFF;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      line-height: 1;
+    }
+
+    .greeting-hii.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .greeting-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      line-height: 1.3;
+    }
+
+    .greeting-sub.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .greeting-smile {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .greeting-smile.show {
+      opacity: 1;
+    }
+
+    .smile-path {
+      stroke-dasharray: 130;
+      stroke-dashoffset: 130;
+    }
+
+    .smile-path.draw {
+      animation: drawSmile 0.8s ease forwards;
+    }
+
+    @keyframes drawSmile {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .greeting-skip {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.3);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 8px 12px;
+      transition: color 0.2s;
+    }
+
+    .greeting-skip:hover {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 768px) {
+      .greeting-hii { font-size: 48px; }
+      .greeting-sub { font-size: 20px; }
+      .greeting-skip { bottom: 24px; right: 20px; }
+    }
+
     /* Media queries */
     @media (max-width:1400px) {
       .story-grid {
@@ -3737,6 +3847,28 @@
     <div class="splash-name">TheDubaiBrief</div>
   </div>
 
+  <!-- Greeting screen -->
+  <div class="greeting-screen" id="greetingScreen">
+    <div class="greeting-inner">
+      <h1 class="greeting-hii" id="greetingHii">Hii</h1>
+      <p class="greeting-sub" id="greetingSub">How are you today?</p>
+      <div class="greeting-smile" id="greetingSmile">
+        <svg width="120" height="60" viewBox="0 0 120 60" aria-hidden="true">
+          <path
+            d="M 10 10 Q 60 55 110 10"
+            stroke="white"
+            stroke-width="4"
+            stroke-linecap="round"
+            fill="none"
+            class="smile-path"
+            id="smilePath"
+          />
+        </svg>
+      </div>
+    </div>
+    <button class="greeting-skip" id="greetingSkip">skip →</button>
+  </div>
+
   <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
     <!-- Utility Bar -->
     <div class="utility-bar">
@@ -4193,40 +4325,133 @@
       if (s.includes('khaleej')) return 'khaleej';
       return 'emirates';
     }
-    // Splash logic
+    // Splash + Greeting logic
     (function () {
-      const splash = document.getElementById('splash');
-      const app = document.getElementById('appShell');
+      const splash    = document.getElementById('splash');
+      const greeting  = document.getElementById('greetingScreen');
+      const app       = document.getElementById('appShell');
+      const skipBtn   = document.getElementById('greetingSkip');
       if (!app) return;
 
-      let isReload = false;
-      let isFirst = true;
-      try {
-        const nav = performance.getEntriesByType('navigation')[0];
-        isReload = !!(nav && nav.type === 'reload');
-      } catch { }
-      try {
-        isFirst = !sessionStorage.getItem('cwn_visited');
-      } catch {
-        isFirst = true;
+      // Determine visit type
+      const isFirstEver   = !localStorage.getItem('cwn_greeted');
+      const isFirstSession = !sessionStorage.getItem('cwn_visited');
+      const showFullGreeting = isFirstEver || isFirstSession;
+
+      try { sessionStorage.setItem('cwn_visited', '1'); } catch {}
+
+      // ── Immediately show site (called at end of all paths) ──────────────────
+      function revealApp() {
+        app.style.opacity = '1';
       }
 
-      const showApp = () => {
-        app.style.opacity = '1';
-        if (splash) {
-          splash.classList.add('exit');
-          setTimeout(() => splash.remove(), 600);
+      // ── Hide greeting and show site ──────────────────────────────────────────
+      function endGreeting() {
+        if (!greeting) { revealApp(); return; }
+        greeting.classList.add('exit');
+        setTimeout(() => {
+          greeting.remove();
+          revealApp();
+        }, 500);
+      }
+
+      // ── Skip everything immediately ──────────────────────────────────────────
+      function skipAll() {
+        if (splash) { splash.classList.add('exit'); setTimeout(() => splash.remove(), 10); }
+        if (greeting) { greeting.remove(); }
+        revealApp();
+      }
+
+      // ── Full greeting sequence ───────────────────────────────────────────────
+      function runGreeting() {
+        if (!greeting) { revealApp(); return; }
+
+        const hii   = document.getElementById('greetingHii');
+        const sub   = document.getElementById('greetingSub');
+        const smile = document.getElementById('greetingSmile');
+        const path  = document.getElementById('smilePath');
+
+        let skipped = false;
+
+        function skip() {
+          if (skipped) return;
+          skipped = true;
+          endGreeting();
         }
-      };
 
-      if (isReload || isFirst) {
-        try { sessionStorage.setItem('cwn_visited', '1'); } catch { }
-        setTimeout(showApp, 1500);
-        if (splash) splash.onclick = showApp;
-      } else {
-        if (splash) splash.remove();
-        app.style.opacity = '1';
+        // Skip on click, keydown, or skip button
+        greeting.addEventListener('click', skip, { once: true });
+        document.addEventListener('keydown', skip, { once: true });
+        if (skipBtn) skipBtn.addEventListener('click', function(e) { e.stopPropagation(); skip(); });
+
+        // Show greeting screen
+        greeting.classList.add('visible');
+
+        // 0.0s — "Hii" fades in
+        setTimeout(() => { if (!skipped && hii) hii.classList.add('show'); }, 0);
+
+        // 0.5s — "How are you today?" fades in
+        setTimeout(() => { if (!skipped && sub) sub.classList.add('show'); }, 500);
+
+        // 1.3s — smile appears and draws
+        setTimeout(() => {
+          if (!skipped && smile && path) {
+            smile.classList.add('show');
+            path.classList.add('draw');
+          }
+        }, 1300);
+
+        // 3.0s — fade out greeting, reveal site
+        setTimeout(() => { if (!skipped) endGreeting(); }, 3000);
+
+        // Mark as greeted so next visit skips greeting
+        try { localStorage.setItem('cwn_greeted', '1'); } catch {}
       }
+
+      // ── Short greeting for return visits in same session ────────────────────
+      function runShortGreeting() {
+        if (!greeting) { revealApp(); return; }
+        greeting.classList.add('visible');
+        const hii = document.getElementById('greetingHii');
+        if (hii) hii.classList.add('show');
+        setTimeout(endGreeting, 1500);
+        greeting.addEventListener('click', endGreeting, { once: true });
+        document.addEventListener('keydown', endGreeting, { once: true });
+        if (skipBtn) skipBtn.addEventListener('click', endGreeting, { once: true });
+      }
+
+      // ── Decide which path to take ────────────────────────────────────────────
+      if (!showFullGreeting && !isFirstEver) {
+        // Returning visitor in same session — skip everything
+        if (splash) splash.remove();
+        if (greeting) greeting.remove();
+        revealApp();
+        return;
+      }
+
+      // Show splash first, then greeting
+      if (splash) {
+        // Allow clicking splash to speed through
+        splash.addEventListener('click', function () {
+          splash.classList.add('exit');
+          setTimeout(() => {
+            splash.remove();
+            if (isFirstEver) runGreeting();
+            else runShortGreeting();
+          }, 400);
+        }, { once: true });
+      }
+
+      // Auto-advance splash after 2s
+      setTimeout(() => {
+        if (!splash || !document.contains(splash)) return;
+        splash.classList.add('exit');
+        setTimeout(() => {
+          if (splash.parentNode) splash.remove();
+          if (isFirstEver) runGreeting();
+          else runShortGreeting();
+        }, 600);
+      }, 2000);
     })();
 
     // Load and render news
