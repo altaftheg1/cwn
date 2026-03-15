@@ -5,297 +5,845 @@
     (function() {
       if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
-        document.addEventListener('DOMContentLoaded', function() {
-          document.body && document.body.classList.add('dark');
-        });
       }
     })();
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DUB - Article</title>
-  <style>
-
-    /* ===== SHARED HEADER (matches main page) ===== */
-    :root{
-      --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
-      --cream:#F7F4EF; --ink:#1A1208; --ink-mid:#3D3328;
-      --ink-light:#7A6E62; --border:#DDD8CF; --gold:#B8860B;
-      --radius-lg:8px; --radius-md:6px;
-      --shadow-soft:0 2px 8px rgba(0,0,0,0.08);
-      --max-width:1320px;
-    }
-    html.dark{ background:#0A0A0A; color:#F0F0F0; }
-    *, *::before, *::after{ box-sizing:border-box; }
-    html{ overflow-x:hidden; }
-    body{ font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
-
-    /* Utility bar */
-    .shared-utility-bar{
-      background:var(--red-dark);
-      color:#fff;
-      padding:6px 24px;
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid rgba(0,0,0,0.15);
-    }
-    .shared-util-left{ display:flex; gap:20px; align-items:center; }
-    .shared-util-left span{ display:flex; align-items:center; gap:6px; }
-    .shared-util-clock{ font-family:'Source Serif 4',serif; font-weight:600; }
-    .shared-util-right{ display:flex; gap:20px; align-items:center; }
-    .shared-util-right a{ color:#fff; text-decoration:none; transition:color .2s; font-size:12px; }
-    .shared-util-right a:hover{ color:var(--gold); }
-    .shared-live-visitors{ display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(255,255,255,0.85); }
-    .shared-live-dot{ width:7px; height:7px; border-radius:50%; background:#4ade80; flex-shrink:0; animation:sharedLvPulse 2s ease-in-out infinite; }
-    @keyframes sharedLvPulse{ 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);} }
-
-    /* Main header */
-    .shared-header{
-      position:sticky; top:0; z-index:100;
-      background:var(--red);
-      border-bottom:1px solid rgba(0,0,0,0.15);
-      color:#fff;
-    }
-    .shared-header-inner{
-      max-width:var(--max-width); margin:0 auto;
-      padding:0 24px; height:64px;
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .shared-brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .shared-logo-boxes{ display:flex; gap:8px; }
-    .shared-logo-box{
-      width:42px; height:42px; border-radius:6px;
-      background:var(--red); border:2px solid #fff;
-      display:flex; align-items:center; justify-content:center;
-      font-family:'Playfair Display',serif; font-size:18px; font-weight:900;
-      color:#fff; text-shadow:0 0 2px #000;
-    }
-    .shared-logo-text{ display:flex; flex-direction:column; gap:2px; }
-    .shared-logo-main{ font-family:'Source Serif 4',serif; font-size:13px; font-weight:600; color:#fff; line-height:1; }
-    .shared-logo-sub{ font-family:'DM Sans',sans-serif; font-size:10px; opacity:.9; color:#fff; line-height:1; }
-    .shared-header-right{ display:flex; align-items:center; gap:8px; }
-    .shared-dark-toggle{
-      background:none; border:1px solid rgba(255,255,255,0.4); color:#fff;
-      padding:5px 9px; border-radius:4px; font-size:16px; cursor:pointer;
-      line-height:1; min-width:34px; min-height:34px;
-      display:flex; align-items:center; justify-content:center; transition:border-color .2s;
-    }
-    .shared-dark-toggle:hover{ border-color:rgba(255,255,255,0.9); }
-
-    /* Dark mode */
-    html.dark .shared-utility-bar{ background:var(--red-dark); }
-    html.dark .shared-header{ background:var(--red); border-bottom-color:rgba(0,0,0,0.3); }
-
-    /* Responsive */
-    @media(max-width:768px){
-      .shared-utility-bar{ display:none; }
-      .shared-header-inner{ padding:0 16px; height:56px; }
-      .shared-logo-box{ width:36px; height:36px; font-size:15px; }
-      .shared-logo-main{ font-size:12px; }
-    }
-
-
-
-    </style>
-</head>
-<body><div class="shared-util-right">
-      <a href="/about.html">About</a>
-      <a href="/sources.html">Sources</a>
-      <a href="/contact.html">Contact</a>
-    </div>
-  </div>
-
-  <!-- Main Header -->
-  
-  <!-- Early theme: prevents flash -->
+  <title>TheDubaiBrief — Article</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <script>
-    (function(){
-      if(localStorage.getItem('theme')==='dark'){
-        document.documentElement.classList.add('dark');
-        document.addEventListener('DOMContentLoaded',function(){
-          document.body&&document.body.classList.add('dark');
-        });
-      }
-    })();
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,ml,hi,tl,en', autoDisplay: false }, 'google_translate_element');
+    }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    :root {
+      --red: #C8102E; --red-dark: #9B0B22; --red-light: #f5e5e8;
+      --cream: #F7F4EF; --ink: #1A1208; --ink-mid: #3D3328; --ink-light: #7A6E62;
+      --border: #DDD8CF; --gold: #B8860B; --radius-lg: 8px; --radius-md: 6px;
+      --shadow-soft: 0 2px 8px rgba(0,0,0,0.08); --max-width: 1320px;
+    }
+    html.dark { background: #0A0A0A; color: #F0F0F0; --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCC; --ink-light: #999; --border: #2A2A2A; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; background: var(--cream); color: var(--ink); }
+    body.dark { background: #0A0A0A; color: #F0F0F0; }
 
-  <!-- Utility Bar -->
-  <div class="shared-utility-bar">
-    <div class="shared-util-left">
-      <span><span class="shared-util-clock" id="sharedClock">00:00 GST</span></span>
-      <span id="sharedDate">Loading...</span>
+    /* ── Shared header styles ── */
+    .utility-bar { background: var(--red-dark); color: #fff; padding: 6px 24px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.15); }
+    .utility-left { display: flex; gap: 24px; align-items: center; }
+    .utility-left span { display: flex; align-items: center; gap: 8px; }
+    .utility-clock { font-family: 'Source Serif 4', serif; font-weight: 600; }
+    .utility-right { display: flex; gap: 20px; align-items: center; }
+    .utility-right a { color: #fff; text-decoration: none; transition: color .2s; }
+    .utility-right a:hover { color: var(--gold); }
+    .live-visitors { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    .live-visitors-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; animation: lv-pulse 2s ease-in-out infinite; }
+    @keyframes lv-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.7);}50%{box-shadow:0 0 0 4px rgba(74,222,128,0);} }
+    .lang-switcher { position: relative; }
+    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 12px; padding: 3px 8px; border-radius: 3px; cursor: pointer; }
+    .lang-dropdown { display: none; position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #ddd; border-radius: 4px; min-width: 120px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .lang-dropdown.open { display: block; }
+    .lang-option { padding: 8px 12px; font-size: 13px; color: #1A1208; cursor: pointer; }
+    .lang-option:hover { background: #f5e5e8; color: var(--red); }
+    header { position: sticky; top: 0; z-index: 100; background: var(--red); border-bottom: 1px solid rgba(0,0,0,0.15); color: #fff; }
+    .header-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .navbar-left { display: flex; align-items: center; flex: 1; }
+    .navbar-right { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-boxes { display: flex; gap: 8px; }
+    .logo-box { width: 42px; height: 42px; border-radius: 6px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 0 2px #000; }
+    .logo-text { display: flex; flex-direction: column; gap: 2px; }
+    .logo-text-main { font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
+    .logo-text-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; opacity: .9; color: #fff; line-height: 1; }
+    .search-box { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 10px; color: #fff; font-size: 13px; flex: 0 0 150px; }
+    .search-box::placeholder { color: rgba(255,255,255,0.6); }
+    .search-box:focus { outline: none; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+    .notify-btn { background: #fff; color: var(--red); border: none; border-radius: 3px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .notify-btn:hover { background: rgba(255,255,255,0.9); }
+    .dark-toggle { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .hamburger-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 16px; display: none; align-items: center; justify-content: center; }
+    .mobile-search-bar { display: none; background: var(--red-dark); padding: 8px 16px; }
+    .mobile-search-wrap { position: relative; }
+    .mobile-search-input { width: 100%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 12px; color: #fff; font-size: 14px; }
+    .mobile-search-input::placeholder { color: rgba(255,255,255,0.6); }
+    .mobile-nav { display: none; flex-direction: column; background: var(--red-dark); border-bottom: 3px solid #000; z-index: 99; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { padding: 14px 24px; color: #fff; text-decoration: none; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .mobile-nav a:hover { background: rgba(255,255,255,0.1); }
+    .subnav-bar { background: var(--red); border-bottom: 3px solid var(--red-dark); }
+    .subnav-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+    .subnav-inner::-webkit-scrollbar { display: none; }
+    .subnav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 500; padding: 12px 14px; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; flex-shrink: 0; }
+    .subnav-link:hover { color: #fff; border-bottom-color: rgba(255,255,255,0.6); }
+    .ticker-bar { background: #000; border-bottom: 3px solid var(--red); padding: 10px 24px; display: flex; align-items: center; gap: 16px; overflow: hidden; }
+    .ticker-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--red); text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+    .ticker-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
+    @keyframes blink { 0%,49%{opacity:1;}50%,100%{opacity:0.3;} }
+    .ticker-content { flex: 1; overflow: hidden; min-width: 0; }
+    .ticker-scroll { display: flex; flex-wrap: nowrap; gap: 24px; white-space: nowrap; width: max-content; animation: scrollTicker 60s linear infinite; }
+    .ticker-scroll:hover { animation-play-state: paused; }
+    @keyframes scrollTicker { 0%{transform:translateX(0);}100%{transform:translateX(-50%);} }
+    .ticker-item { display: flex; align-items: center; gap: 12px; white-space: nowrap; flex-shrink: 0; }
+    .ticker-text { color: #fff; font-size: 12px; }
+    .ticker-sep { color: var(--red); font-size: 10px; }
+    body.dark .utility-bar { background: #111; border-color: #1a1a1a; }
+    body.dark .ticker-bar { background: #000; }
+    body.dark .subnav-bar { background: var(--red-dark); border-color: #000; }
+    @media (max-width: 768px) {
+      .utility-bar { display: none; }
+      .hamburger-btn { display: flex; }
+      .mobile-search-bar { display: block; }
+      .search-box { display: none; }
+      .notify-btn { display: none; }
+      .subnav-bar { display: none; }
+      .header-inner { padding: 0 16px; height: 56px; }
+      .logo-box { width: 36px; height: 36px; font-size: 15px; }
+      .logo-text-main { font-size: 12px; }
+    }
+
+    /* ── Article page layout ── */
+    .article-page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-light);
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 28px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--red); }
+    .back-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .article-category {
+      display: inline-block;
+      padding: 3px 8px;
+      background: var(--red-light);
+      color: var(--red);
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    .article-source { color: var(--ink-light); font-weight: 500; }
+    .article-time { color: var(--ink-light); }
+    .meta-dot { color: var(--border); }
+
+    .article-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .article-hero-img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      margin-bottom: 28px;
+      display: none;
+    }
+
+    .article-summary {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--ink-mid);
+      margin-bottom: 28px;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 400;
+    }
+
+    /* Resident impact box */
+    .impact-box {
+      background: #FFF8E7;
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: none;
+    }
+    .impact-box .impact-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .impact-box p { font-size: 15px; color: var(--ink); line-height: 1.6; }
+
+    /* Sections */
+    .article-sections { margin-bottom: 32px; }
+    .article-section { margin-bottom: 24px; }
+    .article-section h3 {
+      font-family: 'Source Serif 4', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+    }
+    .article-section p { font-size: 16px; line-height: 1.75; color: var(--ink-mid); }
+
+    /* Key facts */
+    .key-facts { margin-bottom: 28px; }
+    .key-facts-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+    .key-facts ul { list-style: none; padding: 0; }
+    .key-facts li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      color: var(--ink);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .key-facts li::before { content: '→'; color: var(--red); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* What happens next / Should I worry */
+    .next-box, .worry-box {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      display: none;
+    }
+    .next-box { background: #E8F5E9; border-left: 4px solid #2E7D32; }
+    .next-box .box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #2E7D32; margin-bottom: 6px; }
+    .next-box p { font-size: 15px; color: #1A1208; line-height: 1.6; }
+    .worry-box { background: #FBF3FF; border-left: 4px solid #7B1FA2; }
+    .worry-box .box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #7B1FA2; margin-bottom: 6px; }
+    .worry-box p { font-size: 15px; color: #1A1208; line-height: 1.6; }
+
+    /* Chart / data */
+    .chart-section { margin-bottom: 28px; display: none; }
+    .chart-title { font-size: 13px; font-weight: 600; color: var(--ink-light); margin-bottom: 12px; }
+    .bar-chart { display: flex; flex-direction: column; gap: 8px; }
+    .bar-row { display: grid; grid-template-columns: 140px 1fr auto; gap: 10px; align-items: center; }
+    .bar-label { font-size: 13px; color: var(--ink); text-align: right; }
+    .bar-track { background: var(--border); border-radius: 3px; height: 20px; overflow: hidden; }
+    .bar-fill { background: var(--red); height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+    .bar-value { font-size: 13px; color: var(--ink-light); font-weight: 600; min-width: 40px; }
+
+    /* Read original button */
+    .read-original-wrap {
+      margin: 36px 0;
+      padding-top: 28px;
+      border-top: 2px solid var(--border);
+    }
+    .read-original-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+    .read-original-btn:hover { background: var(--red-dark); }
+
+    /* Loading / error */
+    .loading-state {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--ink-light);
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-state {
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .error-state h2 { font-size: 22px; margin-bottom: 12px; }
+    .error-state p { color: var(--ink-light); }
+
+    /* Related articles */
+    .related-section { margin-top: 48px; padding-top: 28px; border-top: 2px solid var(--border); }
+    .related-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .related-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .related-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .related-thumb {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+    .related-thumb-placeholder {
+      width: 100%;
+      height: 120px;
+    }
+    .related-body { padding: 12px; }
+    .related-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+    .related-title { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+
+    /* Dark mode adjustments */
+    body.dark .article-headline { color: #F0F0F0; }
+    body.dark .article-summary { color: #CCC; }
+    body.dark .article-section h3 { color: #F0F0F0; border-color: #2A2A2A; }
+    body.dark .article-section p { color: #CCC; }
+    body.dark .key-facts li { color: #F0F0F0; border-color: #2A2A2A; }
+    body.dark .impact-box { background: #1A1400; }
+    body.dark .impact-box p { color: #F0F0F0; }
+    body.dark .next-box { background: #0D1F0D; }
+    body.dark .next-box p { color: #E0F2E0; }
+    body.dark .worry-box { background: #1A0D2E; }
+    body.dark .worry-box p { color: #E8D5F5; }
+    body.dark .related-card { background: #111; border-color: #2A2A2A; }
+    body.dark .related-title { color: #F0F0F0; }
+    body.dark .bar-track { background: #2A2A2A; }
+    body.dark .read-original-wrap { border-color: #2A2A2A; }
+
+    @media (max-width: 768px) {
+      .article-page { padding: 20px 16px 48px; }
+      .article-headline { font-size: 24px; }
+      .article-summary { font-size: 16px; }
+      .related-grid { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 100px 1fr auto; }
+      .read-original-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== CONSISTENT SITE HEADER ===== -->
+  <div class="utility-bar">
+    <div class="utility-left">
+      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
+      <span id="dateDisplay">Loading...</span>
       <span>Dubai, UAE</span>
-      <span class="shared-live-visitors" id="sharedLiveVisitors" title="People viewing TheDubaiBrief right now">
-        <span class="shared-live-dot"></span>
-        <span id="sharedVisitorCount">–</span> online
+      <span class="live-visitors" id="liveVisitors">
+        <span class="live-visitors-dot"></span>
+        <span id="liveVisitorCount">–</span> online
       </span>
     </div>
-    <div class="shared-util-right">
+    <div class="utility-right">
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn">English ▾</button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option" data-lang="en">English</div>
+          <div class="lang-option" data-lang="ml">മലയാളം</div>
+          <div class="lang-option" data-lang="ar">العربية</div>
+          <div class="lang-option" data-lang="hi">हिन्दी</div>
+          <div class="lang-option" data-lang="tl">Filipino</div>
+        </div>
+      </div>
       <a href="/about.html">About</a>
       <a href="/sources.html">Sources</a>
       <a href="/contact.html">Contact</a>
     </div>
   </div>
-
-  <!-- Main Header -->
-  <header class="shared-header">
-    <div class="shared-header-inner">
-      <a class="shared-brand" href="/uae-calm-uae-news.html">
-        <div class="shared-logo-boxes">
-          <div class="shared-logo-box">D</div>
-          <div class="shared-logo-box">B</div>
-          <div class="shared-logo-box">B</div>
-        </div>
-        <div class="shared-logo-text">
-          <div class="shared-logo-main">TheDubaiBrief</div>
-          <div class="shared-logo-sub">UAE Official Sources</div>
-        </div>
-      </a>
-      <div class="shared-header-right">
-        <button class="shared-dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+  <header>
+    <div class="header-inner">
+      <div class="navbar-left">
+        <a class="brand" href="/uae-calm-uae-news.html">
+          <div class="logo-boxes"><div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div></div>
+          <div class="logo-text">
+            <div class="logo-text-main">TheDubaiBrief</div>
+            <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+          </div>
+        </a>
+      </div>
+      <div class="navbar-right">
+        <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
+        <button id="notifyBtn" class="notify-btn">Notify me</button>
+        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
       </div>
     </div>
   </header>
+  <div class="mobile-search-bar" id="mobileSearchBar">
+    <div class="mobile-search-wrap">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="/uae-calm-uae-news.html">All News</a>
+    <a href="/uae-calm-uae-news.html" style="color:#C8102E;font-weight:700;">Breaking</a>
+    <a href="/uae-calm-uae-news.html">UAE Gov</a>
+    <a href="/uae-calm-uae-news.html">Dubai</a>
+    <a href="/uae-calm-uae-news.html">Abu Dhabi</a>
+    <a href="/uae-calm-uae-news.html">Economy</a>
+    <a href="/uae-calm-uae-news.html">Tech</a>
+    <a href="/uae-calm-uae-news.html">Sports</a>
+    <a href="/uae-calm-uae-news.html">Politics</a>
+    <a href="/government.html">Gov Live</a>
+    <a href="/archive">Archive</a>
+    <a href="/about.html">About</a>
+  </div>
+  <nav class="subnav-bar">
+    <div class="subnav-inner">
+      <a href="/uae-calm-uae-news.html" class="subnav-link">All</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Breaking</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">UAE Gov</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Dubai</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Abu Dhabi</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Economy</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Tech</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Sports</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">Politics</a>
+      <a href="/government.html" class="subnav-link">Gov Live</a>
+      <a href="/archive" class="subnav-link">Archive</a>
+    </div>
+  </nav>
+  <div class="ticker-bar">
+    <div class="ticker-label"><div class="ticker-dot"></div><span>LIVE FEED</span></div>
+    <div class="ticker-content"><div class="ticker-scroll" id="tickerScroll">Loading…</div></div>
+  </div>
 
-  <!-- Shared header JS: clock, date, live count, dark toggle -->
+  <!-- ===== ARTICLE CONTENT ===== -->
+  <div class="article-page" id="articlePage">
+    <div class="loading-state" id="loadingState">
+      <div class="loading-spinner"></div>
+      <p>Loading article…</p>
+    </div>
+    <div class="error-state" id="errorState" style="display:none;">
+      <h2>Article not found</h2>
+      <p id="errorMsg">This article could not be loaded. Please go back and try again.</p>
+      <a href="/uae-calm-uae-news.html" style="display:inline-block;margin-top:16px;color:var(--red);">← Back to TheDubaiBrief</a>
+    </div>
+    <div id="articleContent" style="display:none;">
+      <!-- Back button -->
+      <a href="/uae-calm-uae-news.html" class="back-btn" id="backBtn" onclick="if(history.length>1){history.back();return false;}">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to TheDubaiBrief
+      </a>
+
+      <!-- Meta -->
+      <div class="article-meta">
+        <span class="article-category" id="articleCategory"></span>
+        <span class="meta-dot">·</span>
+        <span class="article-source" id="articleSource"></span>
+        <span class="meta-dot">·</span>
+        <span class="article-time" id="articleTime"></span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="article-headline" id="articleHeadline">Loading…</h1>
+
+      <!-- Hero image -->
+      <img class="article-hero-img" id="articleHeroImg" alt="" referrerpolicy="no-referrer" />
+
+      <!-- Summary -->
+      <p class="article-summary" id="articleSummary"></p>
+
+      <!-- Resident impact -->
+      <div class="impact-box" id="impactBox">
+        <div class="impact-label">🏠 For residents in UAE</div>
+        <p id="impactText"></p>
+      </div>
+
+      <!-- Sections -->
+      <div class="article-sections" id="articleSections"></div>
+
+      <!-- Key facts -->
+      <div class="key-facts" id="keyFacts" style="display:none;">
+        <div class="key-facts-label">Key Facts</div>
+        <ul id="keyFactsList"></ul>
+      </div>
+
+      <!-- Chart / data -->
+      <div class="chart-section" id="chartSection">
+        <div class="chart-title" id="chartTitle"></div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+
+      <!-- What happens next -->
+      <div class="next-box" id="nextBox">
+        <div class="box-label">📅 What happens next</div>
+        <p id="nextText"></p>
+      </div>
+
+      <!-- Should I worry -->
+      <div class="worry-box" id="worryBox">
+        <div class="box-label">💬 Should I be concerned?</div>
+        <p id="worryText"></p>
+      </div>
+
+      <!-- Read original -->
+      <div class="read-original-wrap">
+        <a class="read-original-btn" id="readOriginalBtn" href="#" target="_blank" rel="noopener noreferrer">
+          Read full story on <span id="sourceNameLabel">source</span> →
+        </a>
+      </div>
+
+      <!-- Related articles -->
+      <div class="related-section" id="relatedSection" style="display:none;">
+        <div class="related-label" id="relatedLabel">More stories</div>
+        <div class="related-grid" id="relatedGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared header JS -->
   <script>
-    (function(){
+    (function() {
       'use strict';
-      // Clock
-      function updateClock(){
-        var now=new Date();
-        var h=String(now.getHours()).padStart(2,'0');
-        var m=String(now.getMinutes()).padStart(2,'0');
-        var el=document.getElementById('sharedClock');
-        if(el) el.textContent=h+':'+m+' GST';
+      function updateClock() {
+        var now = new Date();
+        var parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false,
+          month: 'short', day: 'numeric', year: 'numeric'
+        }).formatToParts(now);
+        function get(t) { var p = parts.find(function(x){return x.type===t;}); return p ? p.value : ''; }
+        var clk = document.getElementById('clockDisplay');
+        var dt = document.getElementById('dateDisplay');
+        if (clk) clk.textContent = get('hour').padStart(2,'0') + ':' + get('minute').padStart(2,'0') + ' GST';
+        if (dt) dt.textContent = get('month') + ' ' + get('day') + ', ' + get('year');
       }
-      updateClock();
-      setInterval(updateClock,1000);
+      setInterval(updateClock, 1000); updateClock();
 
-      // Date
-      function updateDate(){
-        var now=new Date();
-        var el=document.getElementById('sharedDate');
-        if(el) el.textContent=now.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-      }
-      updateDate();
-
-      // Live visitor count
-      var sid=sessionStorage.getItem('cwn-sid');
-      if(!sid){
-        sid='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-        sessionStorage.setItem('cwn-sid',sid);
-      }
-      function pingVisitors(){
-        fetch('/api/ping',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sid:sid})})
-          .then(function(r){return r.ok?r.json():null;})
-          .then(function(d){
-            var el=document.getElementById('sharedVisitorCount');
-            if(el&&d&&typeof d.visitors==='number') el.textContent=d.visitors.toLocaleString();
-          }).catch(function(){});
-      }
-      pingVisitors();
-      setInterval(pingVisitors,20000);
-
-      // Dark toggle
-      var toggle=document.getElementById('darkToggle');
-      if(toggle){
-        var isDark=document.documentElement.classList.contains('dark');
-        toggle.textContent=isDark?'☀':'☾';
-        toggle.addEventListener('click',function(){
-          var dark=!document.documentElement.classList.contains('dark');
-          document.documentElement.classList.toggle('dark',dark);
-          document.body&&document.body.classList.toggle('dark',dark);
-          localStorage.setItem('theme',dark?'dark':'light');
-          toggle.textContent=dark?'☀':'☾';
+      var toggle = document.getElementById('darkToggle');
+      if (toggle) {
+        function applyDark(dark) {
+          document.documentElement.classList.toggle('dark', dark);
+          document.body.classList.toggle('dark', dark);
+          toggle.textContent = dark ? '☀' : '☾';
+        }
+        applyDark(localStorage.getItem('theme') === 'dark');
+        toggle.addEventListener('click', function() {
+          var dark = !document.body.classList.contains('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          applyDark(dark);
         });
       }
-    })();
+
+      var sid = sessionStorage.getItem('cwn-sid');
+      if (!sid) { sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); sessionStorage.setItem('cwn-sid', sid); }
+      var countEl = document.getElementById('liveVisitorCount');
+      function ping() {
+        fetch('/api/ping', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({sid:sid}) })
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(d){ if (d && typeof d.visitors==='number' && countEl) countEl.textContent = d.visitors.toLocaleString(); })
+          .catch(function(){});
+      }
+      ping(); setInterval(ping, 20000);
+
+      var hBtn = document.getElementById('hamburgerBtn'), mNav = document.getElementById('mobileNav');
+      if (hBtn && mNav) {
+        hBtn.addEventListener('click', function() {
+          var open = mNav.classList.toggle('open');
+          hBtn.setAttribute('aria-expanded', open);
+          mNav.setAttribute('aria-hidden', !open);
+          hBtn.innerHTML = open ? '&#10005;' : '&#9776;';
+        });
+        document.addEventListener('click', function(e) {
+          if (!hBtn.contains(e.target) && !mNav.contains(e.target)) {
+            mNav.classList.remove('open'); mNav.setAttribute('aria-hidden','true');
+            hBtn.setAttribute('aria-expanded','false'); hBtn.innerHTML = '&#9776;';
+          }
+        });
+      }
+
+      var search = document.getElementById('headerSearch'), mSearch = document.getElementById('mobileSearch');
+      function doSearch(q) { if (q.trim()) window.location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(q.trim()); }
+      if (search) search.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(search.value); });
+      if (mSearch) mSearch.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(mSearch.value); });
+
+      var notifyBtn = document.getElementById('notifyBtn');
+      if (notifyBtn) notifyBtn.addEventListener('click', function() { window.location.href = '/uae-calm-uae-news.html#subscribe'; });
+
+      var langBtn = document.getElementById('langBtn'), langDropdown = document.getElementById('langDropdown');
+      if (langBtn && langDropdown) {
+        langBtn.addEventListener('click', function(e) { e.stopPropagation(); langDropdown.classList.toggle('open'); });
+        document.addEventListener('click', function() { langDropdown.classList.remove('open'); });
+        langDropdown.querySelectorAll('.lang-option').forEach(function(opt) {
+          opt.addEventListener('click', function() {
+            langBtn.textContent = opt.textContent + ' ▾';
+            langDropdown.classList.remove('open');
+            var lang = opt.dataset.lang;
+            if (lang !== 'en') { var gf = document.querySelector('.goog-te-gadget select'); if (gf) { gf.value = lang; gf.dispatchEvent(new Event('change')); } }
+          });
+        });
+      }
+
+      var tickerEl = document.getElementById('tickerScroll');
+      if (tickerEl) {
+        fetch('/api/news?limit=20')
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(data) {
+            var items = (data && (data.articles || data.items || data)) || [];
+            if (!Array.isArray(items) || !items.length) return;
+            var html = items.slice(0,15).map(function(a) {
+              var t = (a.calmTitle || a.title || '').replace(/</g,'&lt;');
+              return '<span class="ticker-item"><span class="ticker-text">' + t + '</span><span class="ticker-sep">◆</span></span>';
+            }).join('');
+            tickerEl.innerHTML = html + html;
+          }).catch(function(){});
+      }
+    }());
   </script>
-<main>
-    <div class="card">
-      <img id="articleImg" class="article-img" style="display:none;" />
-      <div id="meta" class="meta"></div>
-      <h1 id="title" class="title">Loading…</h1>
-      <p id="summary" class="summary"></p>
-      <a id="sourceLink" class="sourceLink" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">
-        Open original source
-      </a>
-      <div id="err" class="error" style="display:none;"></div>
-    </div>
-  </main>
 
+  <!-- Article loading JS -->
   <script>
-    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+    (function() {
+      'use strict';
 
-    function qs(name){
-      const u = new URL(window.location.href);
-      return u.searchParams.get(name) || "";
-    }
+      var API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
 
-    function formatDate(iso){
-      const d = new Date(iso);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleString([], { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
-    }
-
-    async function load(){
-      const id = qs("id");
-      if(!id){
-        document.getElementById("title").textContent = "Article not found";
-        document.getElementById("err").style.display = "block";
-        document.getElementById("err").textContent = "Missing article id.";
-        return;
-      }
-      const res = await fetch(`${API_BASE}/api/article?id=` + encodeURIComponent(id));
-      if(!res.ok){
-        document.getElementById("title").textContent = "Article not found";
-        document.getElementById("err").style.display = "block";
-        document.getElementById("err").textContent = "Could not load this article yet. Try refreshing in a moment.";
-        return;
-      }
-      const a = await res.json();
-
-      // Show image if available
-      if (a.imageUrl) {
-        const imgEl = document.getElementById("articleImg");
-        imgEl.src = a.imageUrl;
-        imgEl.alt = a.calmTitle || a.title || "Article image";
-        imgEl.referrerPolicy = "no-referrer";
-        imgEl.onerror = function(){ this.style.display = "none"; };
-        imgEl.onload = function(){ this.style.display = "block"; };
+      function qs(name) {
+        return new URL(window.location.href).searchParams.get(name) || '';
       }
 
-      const fullTitle = a.calmTitle || a.calm_headline || a.title || "Update";
-      document.getElementById("title").textContent = fullTitle;
-      // set browser tab title
-      document.title = fullTitle + " - DUB";
-      document.getElementById("summary").textContent =
-        a.calmSummary || a.summary || a.summarizedContent || a.description || a.excerpt || "";
-
-
-      const metaBits = [];
-      if (a.sourceName) metaBits.push("Source: " + a.sourceName);
-      if (a.publishedAt) metaBits.push("Posted: " + formatDate(a.publishedAt));
-      if (a.url) metaBits.push("Link verified: yes");
-      document.getElementById("meta").textContent = metaBits.join(" · ");
-
-      if (a.url){
-        const link = document.getElementById("sourceLink");
-        link.href = a.url;
-        link.style.display = "inline-flex";
+      function formatDubaiTime(iso) {
+        if (!iso) return '';
+        try {
+          var d = new Date(iso);
+          if (isNaN(d)) return '';
+          var parts = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Dubai', month: 'short', day: 'numeric',
+            year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
+          }).formatToParts(d);
+          function gp(t) { var p = parts.find(function(x){return x.type===t;}); return p ? p.value : ''; }
+          return gp('month') + ' ' + gp('day') + ', ' + gp('year') + ' · ' + gp('hour') + ':' + gp('minute') + ' ' + gp('dayPeriod') + ' GST';
+        } catch(e) { return ''; }
       }
-    }
 
-    load().catch(() => {
-      document.getElementById("title").textContent = "Could not load article";
-      document.getElementById("err").style.display = "block";
-      document.getElementById("err").textContent = "Please refresh and try again.";
-    });
+      function relTime(iso) {
+        if (!iso) return 'Recently';
+        var s = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (s < 60) return 'Just now';
+        var m = Math.floor(s/60); if (m < 60) return m + 'm ago';
+        var h = Math.floor(m/60); if (h < 24) return h + 'h ago';
+        return Math.floor(h/24) + 'd ago';
+      }
+
+      function gradientFor(topic) {
+        var map = { safety:'135deg,#1a1a2e,#c0392b', health:'135deg,#134e5e,#71b280', finance:'135deg,#373b44,#4286f4', government:'135deg,#1a1208,#c8102e', politics:'135deg,#1a1208,#c8102e' };
+        return 'linear-gradient(' + (map[(topic||'').toLowerCase()] || '135deg,#2c3e50,#3498db') + ')';
+      }
+
+      function showError(msg) {
+        document.getElementById('loadingState').style.display = 'none';
+        var errEl = document.getElementById('errorState');
+        errEl.style.display = 'block';
+        if (msg) document.getElementById('errorMsg').textContent = msg;
+      }
+
+      function renderArticle(a) {
+        // Title
+        var title = a.calm_title || a.calmTitle || a.title || 'Article';
+        document.getElementById('articleHeadline').textContent = title;
+        document.title = title + ' — TheDubaiBrief';
+
+        // Meta
+        var cat = a.topic || a.category || '';
+        var catEl = document.getElementById('articleCategory');
+        catEl.textContent = cat.toUpperCase();
+        catEl.style.display = cat ? '' : 'none';
+        document.getElementById('articleSource').textContent = a.sourceName || '';
+        document.getElementById('articleTime').textContent = relTime(a.publishedAt);
+
+        // Image
+        if (a.imageUrl) {
+          var img = document.getElementById('articleHeroImg');
+          img.src = API_BASE + '/api/image?url=' + encodeURIComponent(a.imageUrl);
+          img.style.display = 'block';
+          img.onerror = function() { this.style.display = 'none'; };
+        }
+
+        // Summary
+        var summary = a.summary || a.calmSummary || a.description || '';
+        document.getElementById('articleSummary').textContent = summary;
+
+        // Resident impact
+        var impact = a.resident_impact || a.residentImpact || '';
+        if (impact && impact !== 'null') {
+          document.getElementById('impactBox').style.display = 'block';
+          document.getElementById('impactText').textContent = impact;
+        }
+
+        // Sections
+        var sections = a.sections || [];
+        if (sections.length) {
+          var secHTML = sections.map(function(sec) {
+            if (!sec || (!sec.heading && !sec.content)) return '';
+            return '<div class="article-section"><h3>' + esc(sec.heading || '') + '</h3><p>' + esc(sec.content || '') + '</p></div>';
+          }).join('');
+          document.getElementById('articleSections').innerHTML = secHTML;
+        }
+
+        // Key facts
+        var facts = a.key_facts || a.keyFacts || [];
+        if (facts.length) {
+          var factsEl = document.getElementById('keyFacts');
+          factsEl.style.display = 'block';
+          document.getElementById('keyFactsList').innerHTML = facts.map(function(f) {
+            return '<li>' + esc(String(f)) + '</li>';
+          }).join('');
+        }
+
+        // Chart data (from sections with has_data)
+        var chartSec = (a.sections || []).find(function(s) { return s && s.has_data && s.data_labels && s.data_values && s.data_values.length; });
+        if (chartSec) {
+          var max = Math.max.apply(null, chartSec.data_values);
+          if (max > 0) {
+            document.getElementById('chartSection').style.display = 'block';
+            document.getElementById('chartTitle').textContent = chartSec.data_title || chartSec.heading || 'Data';
+            var bars = chartSec.data_labels.map(function(label, i) {
+              var val = chartSec.data_values[i] || 0;
+              var pct = Math.round((val / max) * 100);
+              return '<div class="bar-row"><div class="bar-label">' + esc(String(label)) + '</div>' +
+                '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+                '<div class="bar-value">' + esc(String(val)) + '</div></div>';
+            }).join('');
+            document.getElementById('barChart').innerHTML = bars;
+          }
+        }
+
+        // What happens next
+        var next = a.what_happens_next || a.whatHappensNext || '';
+        if (next && next !== 'null') {
+          document.getElementById('nextBox').style.display = 'block';
+          document.getElementById('nextText').textContent = next;
+        }
+
+        // Should I worry
+        var worry = a.should_i_worry || a.shouldIWorry || '';
+        if (worry && worry !== 'null') {
+          document.getElementById('worryBox').style.display = 'block';
+          document.getElementById('worryText').textContent = worry;
+        }
+
+        // Read original button
+        if (a.url) {
+          var btn = document.getElementById('readOriginalBtn');
+          btn.href = a.url;
+          var srcName = a.sourceName || 'source';
+          document.getElementById('sourceNameLabel').textContent = srcName;
+        }
+
+        // Show content
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('articleContent').style.display = 'block';
+      }
+
+      function esc(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function loadRelated(topic, currentId) {
+        fetch(API_BASE + '/api/news?limit=50')
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(data) {
+            var all = (data && (data.items || data.articles || [])) || [];
+            var related = all.filter(function(a) {
+              return a.id !== currentId && (a.topic === topic || a.category === topic);
+            }).slice(0, 3);
+            if (!related.length) {
+              related = all.filter(function(a){ return a.id !== currentId; }).slice(0, 3);
+            }
+            if (!related.length) return;
+            var relSection = document.getElementById('relatedSection');
+            var relLabel = document.getElementById('relatedLabel');
+            var relGrid = document.getElementById('relatedGrid');
+            relLabel.textContent = topic ? 'More ' + topic + ' stories' : 'More stories';
+            relGrid.innerHTML = related.map(function(a) {
+              var imgEl = a.imageUrl
+                ? '<img class="related-thumb" src="' + API_BASE + '/api/image?url=' + encodeURIComponent(a.imageUrl) + '" alt="" onerror="this.style.display=\'none\'">'
+                : '<div class="related-thumb-placeholder" style="background:' + gradientFor(a.topic) + '"></div>';
+              return '<a class="related-card" href="/article?id=' + encodeURIComponent(a.id) + '">' +
+                imgEl +
+                '<div class="related-body">' +
+                '<div class="related-cat">' + esc(a.topic || a.category || '') + '</div>' +
+                '<div class="related-title">' + esc(a.calmTitle || a.title || '') + '</div>' +
+                '</div></a>';
+            }).join('');
+            relSection.style.display = 'block';
+          }).catch(function(){});
+      }
+
+      async function load() {
+        var id = qs('id');
+        if (!id) { showError('No article ID provided.'); return; }
+
+        try {
+          // Try deep rewrite first (rich structured content, Claude-powered, cached)
+          var deepRes = await fetch(API_BASE + '/article/deep/' + encodeURIComponent(id));
+          if (deepRes.ok) {
+            var data = await deepRes.json();
+            renderArticle(data);
+            loadRelated(data.topic || data.category || '', id);
+            return;
+          }
+        } catch(e) { /* fall through to basic */ }
+
+        try {
+          // Fallback: basic article data
+          var basicRes = await fetch(API_BASE + '/api/article?id=' + encodeURIComponent(id));
+          if (!basicRes.ok) { showError('Could not load this article. Please try again.'); return; }
+          var basic = await basicRes.json();
+          renderArticle(basic);
+          loadRelated(basic.topic || basic.category || '', id);
+        } catch(e) {
+          showError('Network error. Please check your connection and try again.');
+        }
+      }
+
+      load();
+    }());
   </script>
 </body>
 </html>
-

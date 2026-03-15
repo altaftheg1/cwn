@@ -758,6 +758,7 @@ app.post("/api/resubscribe", (req, res) => {
   console.log("[Resubscribe] Reactivated:", email);
   res.json({ status: "ok" });
 });
+app.get('/article', (req, res) => res.sendFile(path.join(__dirname, 'article.html')));
 app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article-view.html')));
 app.use('/article', articleRouter);
 app.get('/archive', (req, res) => res.sendFile(path.join(__dirname, 'archive.html')));

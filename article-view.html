@@ -21,6 +21,12 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap"
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,ml,hi,tl,en', autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <style>
     /* ── Dark mode — CSS variable overrides cascade to all var() elements ── */
     html.dark,
@@ -1416,34 +1422,29 @@
 
   <!-- Mobile nav dropdown -->
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <a href="/uae-calm-uae-news.html?cat=all"> All News</a>
-    <a href="/uae-calm-uae-news.html?cat=Breaking News" style="color:#C8102E;font-weight:700;"> Breaking</a>
-    <a href="/uae-calm-uae-news.html?cat=UAE Government"> UAE Gov</a>
-    <a href="/uae-calm-uae-news.html?cat=Dubai News"> Dubai</a>
-    <a href="/uae-calm-uae-news.html?cat=Abu Dhabi News"> Abu Dhabi</a>
-    <a href="/uae-calm-uae-news.html?cat=Economy & Business"> Economy</a>
-    <a href="/uae-calm-uae-news.html?cat=Technology"> Tech</a>
-    <a href="/uae-calm-uae-news.html?cat=Sports"> Sports</a>
-    <a href="/uae-calm-uae-news.html?cat=Politics"> Politics</a>
-    <a href="/government.html"> Gov Live</a>
-    <a href="/archive"> Archive</a>
+    <a href="/uae-calm-uae-news.html">All News</a>
+    <a href="/uae-calm-uae-news.html" style="color:#C8102E;font-weight:700;">Breaking</a>
+    <a href="/uae-calm-uae-news.html?cat=Business">Business</a>
+    <a href="/uae-calm-uae-news.html?cat=Culture">Culture</a>
+    <a href="/uae-calm-uae-news.html?cat=Sport">Sport</a>
+    <a href="/uae-calm-uae-news.html?cat=Weather">Weather</a>
+    <a href="/uae-calm-uae-news.html?cat=Travel">Travel</a>
     <a href="/about.html">About</a>
   </div>
 
   <!-- Category Navigation Bar -->
   <nav class="subnav-bar" id="subnavBar">
     <div class="subnav-inner">
-      <a href="/uae-calm-uae-news.html?cat=all" class="subnav-link"> All</a>
-      <a href="/uae-calm-uae-news.html?cat=Breaking News" class="subnav-link"> Breaking</a>
-      <a href="/uae-calm-uae-news.html?cat=UAE Government" class="subnav-link"> UAE Gov</a>
-      <a href="/uae-calm-uae-news.html?cat=Dubai News" class="subnav-link"> Dubai</a>
-      <a href="/uae-calm-uae-news.html?cat=Abu Dhabi News" class="subnav-link"> Abu Dhabi</a>
-      <a href="/uae-calm-uae-news.html?cat=Economy & Business" class="subnav-link"> Economy</a>
-      <a href="/uae-calm-uae-news.html?cat=Technology" class="subnav-link"> Tech</a>
-      <a href="/uae-calm-uae-news.html?cat=Sports" class="subnav-link"> Sports</a>
-      <a href="/uae-calm-uae-news.html?cat=Politics" class="subnav-link"> Politics</a>
-      <a href="/government.html" class="subnav-link"> Gov Live</a>
-      <a href="/archive" class="subnav-link"> Archive</a>
+      <a href="/uae-calm-uae-news.html" class="subnav-link">All</a>
+      <a href="/uae-calm-uae-news.html?cat=Breaking" class="subnav-link">Breaking</a>
+      <a href="/uae-calm-uae-news.html?cat=Business" class="subnav-link">Business</a>
+      <a href="/uae-calm-uae-news.html?cat=Culture" class="subnav-link">Culture</a>
+      <a href="/uae-calm-uae-news.html?cat=Sport" class="subnav-link">Sport</a>
+      <a href="/uae-calm-uae-news.html?cat=Weather" class="subnav-link">Weather</a>
+      <a href="/uae-calm-uae-news.html?cat=Travel" class="subnav-link">Travel</a>
+      <a href="/uae-calm-uae-news.html?cat=Health" class="subnav-link">Health</a>
+      <a href="/uae-calm-uae-news.html?cat=Tech" class="subnav-link">Tech</a>
+      <a href="/archive" class="subnav-link">Archive</a>
     </div>
   </nav>
 
@@ -2118,15 +2119,15 @@
     (function () {
       'use strict';
 
-      // 1. Clock & Date
+      // 1. Clock & Date (Dubai timezone)
       function updateClock() {
         var now = new Date();
-        var h = String(now.getHours()).padStart(2, '0');
-        var m = String(now.getMinutes()).padStart(2, '0');
+        var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false, month: 'short', day: 'numeric', year: 'numeric' }).formatToParts(now);
+        function get(type) { var p = parts.find(function(x){return x.type===type;}); return p ? p.value : ''; }
         var cl = document.getElementById('clockDisplay');
-        if (cl) cl.textContent = h + ':' + m + ' GST';
+        if (cl) cl.textContent = get('hour').padStart(2,'0') + ':' + get('minute').padStart(2,'0') + ' GST';
         var dl = document.getElementById('dateDisplay');
-        if (dl) dl.textContent = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        if (dl) dl.textContent = get('month') + ' ' + get('day') + ', ' + get('year');
       }
       updateClock();
       setInterval(updateClock, 1000);
@@ -2134,36 +2135,39 @@
       // 2. Dark Mode Toggle
       var themeBtn = document.getElementById('darkToggle');
       if (themeBtn) {
-        var isDark = document.documentElement.classList.contains('dark');
-        themeBtn.innerHTML = isDark ? '&#9728;' : '&#9789;';
-        themeBtn.onclick = function () {
-          var dark = document.documentElement.classList.toggle('dark');
+        function applyDark(dark) {
+          document.documentElement.classList.toggle('dark', dark);
           document.body.classList.toggle('dark', dark);
+          themeBtn.textContent = dark ? '☀' : '☾';
+        }
+        applyDark(localStorage.getItem('theme') === 'dark');
+        themeBtn.onclick = function () {
+          var dark = !document.body.classList.contains('dark');
           localStorage.setItem('theme', dark ? 'dark' : 'light');
-          themeBtn.innerHTML = dark ? '&#9728;' : '&#9789;';
+          applyDark(dark);
         };
       }
 
-      // 3. Language Switcher
+      // 3. Language Switcher (Google Translate)
       (function () {
         var btn = document.getElementById('langBtn');
         var dropdown = document.getElementById('langDropdown');
         if (btn && dropdown) {
-          btn.onclick = function (e) {
+          btn.addEventListener('click', function (e) {
             e.stopPropagation();
             dropdown.classList.toggle('open');
-          };
+          });
           document.addEventListener('click', function () { dropdown.classList.remove('open'); });
-          document.querySelectorAll('.lang-option').forEach(function (el) {
-            el.onclick = function () {
-              var lang = el.dataset.lang;
-              if (lang === 'en') {
-                location.reload();
-              } else {
-                // Simplified translate trigger for demo consistency
-                alert('Translation to ' + lang + ' would trigger here.');
+          dropdown.querySelectorAll('.lang-option').forEach(function (opt) {
+            opt.addEventListener('click', function () {
+              var lang = opt.dataset.lang;
+              btn.textContent = opt.textContent.trim() + ' ▾';
+              dropdown.classList.remove('open');
+              if (lang !== 'en') {
+                var gf = document.querySelector('.goog-te-gadget select');
+                if (gf) { gf.value = lang; gf.dispatchEvent(new Event('change')); }
               }
-            };
+            });
           });
         }
       })();
@@ -2173,44 +2177,50 @@
         var btn = document.getElementById('hamburgerBtn');
         var nav = document.getElementById('mobileNav');
         if (btn && nav) {
-          btn.onclick = function () {
+          btn.addEventListener('click', function () {
             var open = nav.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open);
+            nav.setAttribute('aria-hidden', !open);
             btn.innerHTML = open ? '&#10005;' : '&#9776;';
-          };
+          });
+          document.addEventListener('click', function (e) {
+            if (!btn.contains(e.target) && !nav.contains(e.target)) {
+              nav.classList.remove('open');
+              nav.setAttribute('aria-hidden', 'true');
+              btn.setAttribute('aria-expanded', 'false');
+              btn.innerHTML = '&#9776;';
+            }
+          });
         }
       })();
 
-      // 5. Visitor Count Ping
-      var sid = localStorage.getItem('cwn-sid') || Math.random().toString(36).slice(2);
-      localStorage.setItem('cwn-sid', sid);
+      // 5. Visitor Count Ping (sessionStorage, 20s interval)
+      var sid = sessionStorage.getItem('cwn-sid');
+      if (!sid) { sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); sessionStorage.setItem('cwn-sid', sid); }
+      var countEl = document.getElementById('liveVisitorCount');
       function ping() {
         fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: sid }) })
-          .then(function (r) { return r.json(); })
-          .then(function (d) { var el = document.getElementById('liveVisitorCount'); if (el) el.textContent = d.visitors || '1'; })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) { if (d && typeof d.visitors === 'number' && countEl) countEl.textContent = d.visitors.toLocaleString(); })
           .catch(function () { });
       }
       ping();
-      setInterval(ping, 30000);
+      setInterval(ping, 20000);
 
       // 6. Live Ticker
-      fetch('/api/news')
-        .then(function (r) { return r.json(); })
-        .then(function (d) {
-          var items = (d.items || []).slice(0, 15);
+      fetch('/api/news?limit=20')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          var items = (data && (data.articles || data.items || data)) || [];
+          if (!Array.isArray(items) || !items.length) return;
           var ticker = document.getElementById('tickerScroll');
-          if (ticker && items.length) {
-            var html = items.map(function (item) {
-              var src = (item.sourceName || 'DUB').substr(0, 3).toUpperCase();
-              var title = (item.calmTitle || item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').slice(0, 80);
-              return '<div class="ticker-item">' +
-                '<span class="ticker-badge" style="font-size:10px;padding:2px 6px;background:#C8102E;color:#fff;border-radius:2px;margin-right:8px;">' + src + '</span>' +
-                '<span class="ticker-text" style="color:#fff;font-size:12px;">' + title + '</span>' +
-                '<span style="color:#C8102E;margin:0 15px;">&#9670;</span>' +
-                '</div>';
-            }).join('');
-            ticker.innerHTML = html + html;
-          }
-        });
+          if (!ticker) return;
+          var html = items.slice(0,15).map(function (a) {
+            var title = (a.calmTitle || a.title || '').replace(/</g, '&lt;');
+            return '<span class="ticker-item"><span class="ticker-text">' + title + '</span><span class="ticker-sep">◆</span></span>';
+          }).join('');
+          ticker.innerHTML = html + html;
+        }).catch(function () {});
 
       // 7. Command Palette
       (function () {

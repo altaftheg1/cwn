@@ -647,6 +647,12 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
 
     .hero-image {
@@ -753,6 +759,8 @@
       display: grid;
       grid-template-columns: auto 1fr;
       gap: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
       animation: fadeInUp 0.6s ease-out;
       animation-delay: 0.1s;
       animation-fill-mode: both;
@@ -850,6 +858,7 @@
       animation: fadeInUp 0.6s ease-out;
       animation-fill-mode: both;
       transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
     }
 
     .story-card:nth-child(1) {
@@ -1198,10 +1207,12 @@
       background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      transition: all 0.2s;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .more-story:hover {
+      transform: translateY(-2px);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
@@ -4209,9 +4220,7 @@
 
     function openStoryInFeed(id) {
       if (!id) return;
-      pinnedStoryId = id;
-      renderContent();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.location.href = '/article?id=' + encodeURIComponent(id);
     }
 
     function renderContent() {

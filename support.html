@@ -12,11 +12,19 @@
       }
     })();
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,ml,hi,tl,en', autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <style>
     :root {
       --red: #C8102E;
       --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
       --cream: #F7F4EF;
       --ink: #1A1208;
       --ink-mid: #3D3328;
@@ -24,12 +32,12 @@
       --border: #DDD8CF;
       --gold: #B8860B;
       --radius-lg: 10px;
+      --max-width: 1320px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { overflow-x: hidden; }
-    html.dark { background: #0A0A0A; }
+    html.dark { background: #0A0A0A; color: #F0F0F0; --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCC; --ink-light: #999; --border: #2A2A2A; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -39,71 +47,105 @@
       line-height: 1.6;
     }
 
-    body.dark {
-      background: #0A0A0A;
-      color: #F0F0F0;
-    }
+    body.dark { background: #0A0A0A; color: #F0F0F0; }
+
+    /* Utility Bar */
+    .utility-bar { background: var(--red-dark); color: #fff; padding: 6px 24px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.15); }
+    .utility-left { display: flex; gap: 24px; align-items: center; }
+    .utility-left span { display: flex; align-items: center; gap: 8px; }
+    .utility-clock { font-family: 'Source Serif 4', serif; font-weight: 600; }
+    .utility-right { display: flex; gap: 20px; align-items: center; }
+    .utility-right a { color: #fff; text-decoration: none; transition: color .2s; }
+    .utility-right a:hover { color: var(--gold); }
+    .live-visitors { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    .live-visitors-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; animation: lv-pulse 2s ease-in-out infinite; }
+    @keyframes lv-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); } 50% { box-shadow: 0 0 0 4px rgba(74,222,128,0); } }
 
     /* ── Header ── */
     header {
       background: var(--red);
-      padding: 0 24px;
+      padding: 0;
       position: sticky;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+      color: #fff;
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: var(--max-width);
       margin: 0 auto;
-      height: 60px;
+      padding: 0 24px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-boxes { display: flex; gap: 8px; }
+    .logo-box { width: 42px; height: 42px; border-radius: 6px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 0 2px #000; }
+    .logo-text { display: flex; flex-direction: column; gap: 2px; }
+    .logo-text-main { font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
+    .logo-text-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; opacity: .9; color: #fff; line-height: 1; }
+    .navbar-left { display: flex; align-items: center; flex: 1; }
+    .navbar-right { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; }
+    .search-box { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 10px; color: #FFFFFF; font-size: 13px; flex: 0 0 150px; }
+    .search-box::placeholder { color: rgba(255,255,255,0.6); }
+    .search-box:focus { outline: none; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+    .notify-btn { background: #FFFFFF; color: #C8102E; border: none; border-radius: 3px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .notify-btn:hover { background: rgba(255,255,255,0.9); }
+    .dark-toggle { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .dark-toggle:hover { border-color: rgba(255,255,255,0.9); }
+    .lang-switcher { position: relative; }
+    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 12px; padding: 3px 8px; border-radius: 3px; cursor: pointer; }
+    .lang-dropdown { display: none; position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #ddd; border-radius: 4px; min-width: 120px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .lang-dropdown.open { display: block; }
+    .lang-option { padding: 8px 12px; font-size: 13px; color: #1A1208; cursor: pointer; }
+    .lang-option:hover { background: #f5e5e8; color: #C8102E; }
+    .hamburger-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #FFFFFF; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 16px; display: none; align-items: center; justify-content: center; }
+    .mobile-search-bar { display: none; background: #9B0B22; padding: 8px 16px; }
+    .mobile-search-wrap { position: relative; }
+    .mobile-search-input { width: 100%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 12px; color: #fff; font-size: 14px; }
+    .mobile-search-input::placeholder { color: rgba(255,255,255,0.6); }
+    .mobile-nav { display: none; flex-direction: column; background: #9B0B22; border-bottom: 3px solid #000; z-index: 99; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { padding: 14px 24px; color: #fff; text-decoration: none; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .mobile-nav a:hover { background: rgba(255,255,255,0.1); }
+    .subnav-bar { background: #C8102E; border-bottom: 3px solid #9B0B22; }
+    .subnav-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+    .subnav-inner::-webkit-scrollbar { display: none; }
+    .subnav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 500; padding: 12px 14px; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; flex-shrink: 0; }
+    .subnav-link:hover { color: #FFFFFF; border-bottom-color: rgba(255,255,255,0.6); }
+
+    /* Ticker */
+    .ticker-bar { background: #000; border-bottom: 3px solid var(--red); padding: 10px 24px; display: flex; align-items: center; gap: 16px; overflow: hidden; }
+    .ticker-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--red); text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+    .ticker-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.3; } }
+    .ticker-content { flex: 1; overflow: hidden; min-width: 0; }
+    .ticker-scroll { display: flex; flex-wrap: nowrap; gap: 24px; white-space: nowrap; width: max-content; animation: scrollTicker 60s linear infinite; }
+    .ticker-scroll:hover { animation-play-state: paused; }
+    @keyframes scrollTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-item { display: flex; align-items: center; flex-wrap: nowrap; gap: 12px; white-space: nowrap; flex-shrink: 0; }
+    .ticker-text { color: #fff; font-size: 12px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+    .ticker-sep { color: #C8102E; }
+
+    html.dark .utility-bar { background: #0A0A0A; border-color: #1a1a1a; }
+    html.dark .ticker-bar { background: #000; }
+    html.dark .subnav-bar { background: #9B0B22; border-color: #000; }
+
+    @media(max-width:768px) {
+      .utility-bar { display: none; }
+      .hamburger-btn { display: flex; }
+      .mobile-search-bar { display: block; }
+      .search-box { display: none; }
+      .notify-btn { display: none; }
+      .subnav-bar { display: none; }
+      .header-inner { height: 56px; padding: 0 16px; }
+      .logo-box { width: 36px; height: 36px; font-size: 15px; }
+      .logo-text-main { font-size: 12px; }
     }
-
-    .logo-boxes { display: flex; gap: 6px; }
-
-    .logo-box {
-      width: 36px;
-      height: 36px;
-      border-radius: 5px;
-      background: var(--red);
-      border: 2px solid #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
-      font-weight: 900;
-      color: #fff;
-    }
-
-    .brand-name {
-      font-family: 'Source Serif 4', serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .back-link {
-      color: rgba(255,255,255,0.85);
-      text-decoration: none;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-    }
-
-    .back-link:hover { color: #fff; }
 
     /* ── Page wrapper ── */
     .page {
@@ -445,19 +487,85 @@
 </head>
 <body>
 
+  <!-- ===== CONSISTENT SITE HEADER ===== -->
+  <div class="utility-bar">
+    <div class="utility-left">
+      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
+      <span id="dateDisplay">Loading...</span>
+      <span>Dubai, UAE</span>
+      <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
+        <span class="live-visitors-dot"></span>
+        <span id="liveVisitorCount">–</span> online
+      </span>
+    </div>
+    <div class="utility-right">
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn">English ▾</button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option" data-lang="en">English</div>
+          <div class="lang-option" data-lang="ml">മലയാളം</div>
+          <div class="lang-option" data-lang="ar">العربية</div>
+          <div class="lang-option" data-lang="hi">हिन्दी</div>
+          <div class="lang-option" data-lang="tl">Filipino</div>
+        </div>
+      </div>
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
   <header>
     <div class="header-inner">
-      <a class="brand" href="/">
-        <div class="logo-boxes">
-          <div class="logo-box">D</div>
-          <div class="logo-box">U</div>
-          <div class="logo-box">B</div>
-        </div>
-        <span class="brand-name">TheDubaiBrief</span>
-      </a>
-      <a class="back-link" href="/">← Back to news</a>
+      <div class="navbar-left">
+        <a class="brand" href="/uae-calm-uae-news.html">
+          <div class="logo-boxes"><div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div></div>
+          <div class="logo-text">
+            <div class="logo-text-main">TheDubaiBrief</div>
+            <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+          </div>
+        </a>
+      </div>
+      <div class="navbar-right">
+        <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
+        <button id="notifyBtn" class="notify-btn">Notify me</button>
+        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
+      </div>
     </div>
   </header>
+  <div class="mobile-search-bar" id="mobileSearchBar">
+    <div class="mobile-search-wrap">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="/uae-calm-uae-news.html">All News</a>
+    <a href="/uae-calm-uae-news.html" style="color:#C8102E;font-weight:700;">Breaking</a>
+    <a href="/uae-calm-uae-news.html?cat=Business">Business</a>
+    <a href="/uae-calm-uae-news.html?cat=Culture">Culture</a>
+    <a href="/uae-calm-uae-news.html?cat=Sport">Sport</a>
+    <a href="/uae-calm-uae-news.html?cat=Weather">Weather</a>
+    <a href="/uae-calm-uae-news.html?cat=Travel">Travel</a>
+    <a href="/about.html">About</a>
+  </div>
+  <nav class="subnav-bar">
+    <div class="subnav-inner">
+      <a href="/uae-calm-uae-news.html" class="subnav-link">All</a>
+      <a href="/uae-calm-uae-news.html?cat=Breaking" class="subnav-link">Breaking</a>
+      <a href="/uae-calm-uae-news.html?cat=Business" class="subnav-link">Business</a>
+      <a href="/uae-calm-uae-news.html?cat=Culture" class="subnav-link">Culture</a>
+      <a href="/uae-calm-uae-news.html?cat=Sport" class="subnav-link">Sport</a>
+      <a href="/uae-calm-uae-news.html?cat=Weather" class="subnav-link">Weather</a>
+      <a href="/uae-calm-uae-news.html?cat=Travel" class="subnav-link">Travel</a>
+      <a href="/uae-calm-uae-news.html?cat=Health" class="subnav-link">Health</a>
+      <a href="/uae-calm-uae-news.html?cat=Tech" class="subnav-link">Tech</a>
+      <a href="/archive" class="subnav-link">Archive</a>
+    </div>
+  </nav>
+  <div class="ticker-bar">
+    <div class="ticker-label"><div class="ticker-dot"></div><span>LIVE FEED</span></div>
+    <div class="ticker-content"><div class="ticker-scroll" id="tickerScroll">Loading…</div></div>
+  </div>
 
   <div class="page">
 
@@ -573,12 +681,28 @@
   </div>
 
   <script>
-    // Apply dark mode class to body
-    (function () {
-      if (localStorage.getItem('theme') === 'dark' || document.documentElement.classList.contains('dark')) {
-        document.body.classList.add('dark');
-      }
-    })();
+    // ===== SHARED HEADER JS =====
+    (function() {
+      'use strict';
+      function updateClock() { var now = new Date(); var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false, month: 'short', day: 'numeric', year: 'numeric' }).formatToParts(now); function get(type) { var p = parts.find(function(x){return x.type===type;}); return p ? p.value : ''; } var clk = document.getElementById('clockDisplay'); var dt = document.getElementById('dateDisplay'); if (clk) clk.textContent = get('hour').padStart(2,'0') + ':' + get('minute').padStart(2,'0') + ' GST'; if (dt) dt.textContent = get('month') + ' ' + get('day') + ', ' + get('year'); }
+      setInterval(updateClock, 1000); updateClock();
+      var toggle = document.getElementById('darkToggle');
+      if (toggle) { function applyDark(dark) { document.documentElement.classList.toggle('dark', dark); document.body.classList.toggle('dark', dark); toggle.textContent = dark ? '☀' : '☾'; } applyDark(localStorage.getItem('theme') === 'dark'); toggle.addEventListener('click', function() { var dark = !document.body.classList.contains('dark'); localStorage.setItem('theme', dark ? 'dark' : 'light'); applyDark(dark); }); }
+      var sid = sessionStorage.getItem('cwn-sid'); if (!sid) { sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); sessionStorage.setItem('cwn-sid', sid); }
+      var countEl = document.getElementById('liveVisitorCount');
+      function ping() { fetch('/api/ping', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({sid: sid}) }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (d && typeof d.visitors === 'number' && countEl) countEl.textContent = d.visitors.toLocaleString(); }).catch(function(){}); }
+      ping(); setInterval(ping, 20000);
+      var hBtn = document.getElementById('hamburgerBtn'); var mNav = document.getElementById('mobileNav');
+      if (hBtn && mNav) { hBtn.addEventListener('click', function() { var open = mNav.classList.toggle('open'); hBtn.setAttribute('aria-expanded', open); mNav.setAttribute('aria-hidden', !open); hBtn.innerHTML = open ? '&#10005;' : '&#9776;'; }); document.addEventListener('click', function(e) { if (!hBtn.contains(e.target) && !mNav.contains(e.target)) { mNav.classList.remove('open'); mNav.setAttribute('aria-hidden', 'true'); hBtn.setAttribute('aria-expanded', 'false'); hBtn.innerHTML = '&#9776;'; } }); }
+      var search = document.getElementById('headerSearch'); var mSearch = document.getElementById('mobileSearch');
+      function doSearch(q) { if (q.trim()) window.location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(q.trim()); }
+      if (search) { search.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(search.value); }); }
+      if (mSearch) { mSearch.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(mSearch.value); }); }
+      var notifyBtn = document.getElementById('notifyBtn'); if (notifyBtn) notifyBtn.addEventListener('click', function() { window.location.href = '/uae-calm-uae-news.html#subscribe'; });
+      var langBtn = document.getElementById('langBtn'); var langDropdown = document.getElementById('langDropdown');
+      if (langBtn && langDropdown) { langBtn.addEventListener('click', function(e) { e.stopPropagation(); langDropdown.classList.toggle('open'); }); document.addEventListener('click', function() { langDropdown.classList.remove('open'); }); langDropdown.querySelectorAll('.lang-option').forEach(function(opt) { opt.addEventListener('click', function() { var lang = opt.dataset.lang; langBtn.textContent = opt.textContent + ' ▾'; langDropdown.classList.remove('open'); if (lang !== 'en') { var gf = document.querySelector('.goog-te-gadget select'); if (gf) { gf.value = lang; gf.dispatchEvent(new Event('change')); } } }); }); }
+      var tickerEl = document.getElementById('tickerScroll'); if (tickerEl) { fetch('/api/news?limit=20').then(function(r){ return r.ok ? r.json() : null; }).then(function(data) { var items = (data && (data.articles || data.items || data)) || []; if (!Array.isArray(items) || !items.length) return; var html = items.slice(0,15).map(function(a) { var title = a.calmTitle || a.title || ''; return '<span class="ticker-item"><span class="ticker-text">' + title.replace(/</g,'&lt;') + '</span><span class="ticker-sep">◆</span></span>'; }).join(''); tickerEl.innerHTML = html + html; }).catch(function(){}); }
+    }());
 
     // Handle URL hash on load (e.g. /support#advertise or /support#donate)
     (function () {
