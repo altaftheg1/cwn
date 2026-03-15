@@ -18,6 +18,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap"
     rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;800&display=swap"
+    rel="stylesheet">
   <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -1787,10 +1790,11 @@
       position: fixed;
       inset: 0;
       z-index: 9998;
-      background: #1A1208;
+      background: #FFFDF9;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.5s ease;
@@ -1806,23 +1810,70 @@
       pointer-events: none;
     }
 
+    /* Floating confetti dots */
+    .g-dot {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: gFloat linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gFloat {
+      0%   { transform: translateY(0px) rotate(0deg); }
+      50%  { transform: translateY(-14px) rotate(180deg); }
+      100% { transform: translateY(0px) rotate(360deg); }
+    }
+
     .greeting-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 0 24px;
+    }
+
+    /* Waving hand */
+    .wave-emoji {
+      display: inline-block;
+      font-size: 48px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform-origin: bottom right;
+      line-height: 1;
+    }
+
+    .wave-emoji.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .wave-emoji.wave {
+      animation: waveHand 0.4s ease 3;
+    }
+
+    @keyframes waveHand {
+      0%   { transform: translateY(0) rotate(0deg); }
+      25%  { transform: translateY(0) rotate(-20deg); }
+      75%  { transform: translateY(0) rotate(20deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
 
     .greeting-hii {
-      font-family: 'Playfair Display', serif;
-      font-size: 72px;
-      font-weight: 700;
-      color: #FFFFFF;
+      font-family: 'Pacifico', cursive;
+      font-size: 80px;
+      font-weight: 400;
+      color: #C8102E;
+      letter-spacing: 2px;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
-      line-height: 1;
+      line-height: 1.1;
+      margin: 0;
     }
 
     .greeting-hii.show {
@@ -1831,14 +1882,16 @@
     }
 
     .greeting-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 28px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.7);
+      font-family: 'Nunito', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1A1208;
+      letter-spacing: 0.5px;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
       line-height: 1.3;
+      margin: 0;
     }
 
     .greeting-sub.show {
@@ -1849,15 +1902,14 @@
     .greeting-smile {
       opacity: 0;
       transition: opacity 0.3s ease;
+      margin-top: 4px;
     }
 
-    .greeting-smile.show {
-      opacity: 1;
-    }
+    .greeting-smile.show { opacity: 1; }
 
     .smile-path {
-      stroke-dasharray: 130;
-      stroke-dashoffset: 130;
+      stroke-dasharray: 145;
+      stroke-dashoffset: 145;
     }
 
     .smile-path.draw {
@@ -1868,27 +1920,43 @@
       to { stroke-dashoffset: 0; }
     }
 
+    .greeting-tagline {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(26, 18, 8, 0.4);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      margin: 0;
+    }
+
+    .greeting-tagline.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .greeting-skip {
       position: absolute;
       bottom: 32px;
       right: 32px;
       background: none;
       border: none;
-      color: rgba(255, 255, 255, 0.3);
-      font-family: 'DM Sans', sans-serif;
+      color: #999;
+      font-family: 'Nunito', sans-serif;
       font-size: 13px;
       cursor: pointer;
       padding: 8px 12px;
       transition: color 0.2s;
+      z-index: 3;
     }
 
-    .greeting-skip:hover {
-      color: rgba(255, 255, 255, 0.7);
-    }
+    .greeting-skip:hover { color: #555; }
 
     @media (max-width: 768px) {
-      .greeting-hii { font-size: 48px; }
-      .greeting-sub { font-size: 20px; }
+      .greeting-hii { font-size: 52px; }
+      .greeting-sub { font-size: 18px; }
+      .wave-emoji  { font-size: 38px; }
       .greeting-skip { bottom: 24px; right: 20px; }
     }
 
@@ -3849,15 +3917,24 @@
 
   <!-- Greeting screen -->
   <div class="greeting-screen" id="greetingScreen">
+    <!-- Confetti dots -->
+    <div class="g-dot" style="width:8px;height:8px;background:#C8102E;top:12%;left:8%;animation-duration:4.1s;animation-delay:0s;"></div>
+    <div class="g-dot" style="width:6px;height:6px;background:#FFD700;top:20%;right:12%;animation-duration:5.3s;animation-delay:0.6s;"></div>
+    <div class="g-dot" style="width:7px;height:7px;background:#4CAF50;bottom:18%;left:14%;animation-duration:4.7s;animation-delay:0.3s;"></div>
+    <div class="g-dot" style="width:6px;height:6px;background:#C8102E;bottom:25%;right:9%;animation-duration:5.8s;animation-delay:1.1s;"></div>
+    <div class="g-dot" style="width:5px;height:5px;background:#FFD700;top:35%;left:5%;animation-duration:6.2s;animation-delay:0.8s;"></div>
+    <div class="g-dot" style="width:7px;height:7px;background:#4CAF50;top:15%;right:6%;animation-duration:4.9s;animation-delay:0.2s;"></div>
+
     <div class="greeting-inner">
+      <span class="wave-emoji" id="greetingWave">👋</span>
       <h1 class="greeting-hii" id="greetingHii">Hii</h1>
       <p class="greeting-sub" id="greetingSub">How are you today?</p>
       <div class="greeting-smile" id="greetingSmile">
-        <svg width="120" height="60" viewBox="0 0 120 60" aria-hidden="true">
+        <svg width="140" height="70" viewBox="0 0 140 70" aria-hidden="true">
           <path
-            d="M 10 10 Q 60 55 110 10"
-            stroke="white"
-            stroke-width="4"
+            d="M 10 12 Q 70 65 130 12"
+            stroke="#C8102E"
+            stroke-width="5"
             stroke-linecap="round"
             fill="none"
             class="smile-path"
@@ -3865,6 +3942,7 @@
           />
         </svg>
       </div>
+      <p class="greeting-tagline" id="greetingTagline">Dubai's news, served calm 🇦🇪</p>
     </div>
     <button class="greeting-skip" id="greetingSkip">skip →</button>
   </div>
@@ -4366,10 +4444,12 @@
       function runGreeting() {
         if (!greeting) { revealApp(); return; }
 
-        const hii   = document.getElementById('greetingHii');
-        const sub   = document.getElementById('greetingSub');
-        const smile = document.getElementById('greetingSmile');
-        const path  = document.getElementById('smilePath');
+        const wave    = document.getElementById('greetingWave');
+        const hii     = document.getElementById('greetingHii');
+        const sub     = document.getElementById('greetingSub');
+        const smile   = document.getElementById('greetingSmile');
+        const path    = document.getElementById('smilePath');
+        const tagline = document.getElementById('greetingTagline');
 
         let skipped = false;
 
@@ -4387,34 +4467,47 @@
         // Show greeting screen
         greeting.classList.add('visible');
 
-        // 0.0s — "Hii" fades in
-        setTimeout(() => { if (!skipped && hii) hii.classList.add('show'); }, 0);
+        // 0.0s — wave emoji fades in
+        setTimeout(() => {
+          if (!skipped && wave) {
+            wave.classList.add('show');
+            setTimeout(() => { if (!skipped) wave.classList.add('wave'); }, 200);
+          }
+        }, 0);
 
-        // 0.5s — "How are you today?" fades in
-        setTimeout(() => { if (!skipped && sub) sub.classList.add('show'); }, 500);
+        // 0.4s — "Hii" fades in
+        setTimeout(() => { if (!skipped && hii) hii.classList.add('show'); }, 400);
 
-        // 1.3s — smile appears and draws
+        // 0.9s — "How are you today?" fades in
+        setTimeout(() => { if (!skipped && sub) sub.classList.add('show'); }, 900);
+
+        // 1.7s — smile appears and draws
         setTimeout(() => {
           if (!skipped && smile && path) {
             smile.classList.add('show');
             path.classList.add('draw');
           }
-        }, 1300);
+        }, 1700);
 
-        // 3.0s — fade out greeting, reveal site
-        setTimeout(() => { if (!skipped) endGreeting(); }, 3000);
+        // 2.6s — tagline fades in
+        setTimeout(() => { if (!skipped && tagline) tagline.classList.add('show'); }, 2600);
 
-        // Mark as greeted so next visit skips greeting
+        // 4.0s — fade out greeting, reveal site
+        setTimeout(() => { if (!skipped) endGreeting(); }, 4000);
+
+        // Mark as greeted so next visit shows short version
         try { localStorage.setItem('cwn_greeted', '1'); } catch {}
       }
 
-      // ── Short greeting for return visits in same session ────────────────────
+      // ── Short greeting for return visits ────────────────────────────────────
       function runShortGreeting() {
         if (!greeting) { revealApp(); return; }
         greeting.classList.add('visible');
-        const hii = document.getElementById('greetingHii');
-        if (hii) hii.classList.add('show');
-        setTimeout(endGreeting, 1500);
+        const wave = document.getElementById('greetingWave');
+        const hii  = document.getElementById('greetingHii');
+        if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 100); }
+        if (hii)  hii.classList.add('show');
+        setTimeout(endGreeting, 2000);
         greeting.addEventListener('click', endGreeting, { once: true });
         document.addEventListener('keydown', endGreeting, { once: true });
         if (skipBtn) skipBtn.addEventListener('click', endGreeting, { once: true });
