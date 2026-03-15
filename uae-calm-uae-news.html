@@ -340,90 +340,97 @@
 
     /* ===== SUPPORT BANNER ===== */
     .support-banner {
-      background: #FFF8E7;
-      border-bottom: 1px solid #F0D080;
-      padding: 10px 24px;
+      background: #fff;
+      border-bottom: 2px solid var(--border);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .support-banner-header {
+      background: #2C2318;
+      color: #fff;
+      padding: 8px 24px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .support-banner-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
       font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      position: relative;
+      cursor: pointer;
+      padding: 2px 4px;
+      line-height: 1;
+      transition: color 0.2s;
     }
 
-    .support-banner-text {
-      color: var(--ink-mid);
+    .support-banner-close:hover { color: #fff; }
+
+    .support-banner-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 10px 24px 14px;
     }
 
-    .support-banner-link {
+    .support-banner-subtitle {
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-bottom: 10px;
+    }
+
+    .support-banner-subtitle a {
       color: var(--red);
-      font-weight: 600;
       text-decoration: none;
-      padding: 4px 10px;
-      border: 1.5px solid var(--red);
-      border-radius: 20px;
-      transition: background 0.2s, color 0.2s;
-      white-space: nowrap;
+      font-weight: 500;
     }
 
-    .support-banner-link:hover {
+    .support-banner-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .support-banner-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .support-banner-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .support-banner-btn.advertise {
       background: var(--red);
       color: #fff;
     }
 
-    .support-banner-divider {
-      color: var(--ink-light);
-      font-size: 12px;
-    }
-
-    .support-banner-close {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--ink-light);
-      font-size: 13px;
-      cursor: pointer;
-      padding: 4px 6px;
-      line-height: 1;
-      border-radius: 3px;
-      transition: color 0.2s, background 0.2s;
-    }
-
-    .support-banner-close:hover {
-      color: var(--ink);
-      background: rgba(0,0,0,0.06);
+    .support-banner-btn.donate {
+      background: #FFDD00;
+      color: #1A1208;
     }
 
     body.dark .support-banner {
-      background: #1A1400;
-      border-color: #3A2E00;
+      background: #111;
+      border-color: #2A2A2A;
     }
 
-    body.dark .support-banner-text {
-      color: #CCC;
-    }
-
-    body.dark .support-banner-close {
-      color: #666;
-    }
-
-    body.dark .support-banner-close:hover {
-      color: #CCC;
-      background: rgba(255,255,255,0.06);
-    }
+    body.dark .support-banner-subtitle { color: #888; }
 
     @media (max-width: 600px) {
-      .support-banner {
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 10px 36px 10px 16px;
-        justify-content: flex-start;
-      }
-      .support-banner-text { width: 100%; }
+      .support-banner-inner { padding: 10px 16px 14px; }
     }
 
     /* ===== LIVE TICKER BAR ===== */
@@ -3849,11 +3856,17 @@
 
     <!-- Support Banner -->
     <div class="support-banner" id="supportBanner">
-      <span class="support-banner-text">TheDubaiBrief is free for everyone —</span>
-      <a href="/support#advertise" class="support-banner-link">📢 Advertise with us</a>
-      <span class="support-banner-divider">or</span>
-      <a href="/support#donate" class="support-banner-link">☕ Donate to keep it free</a>
-      <button class="support-banner-close" id="supportBannerClose" aria-label="Dismiss">✕</button>
+      <div class="support-banner-header">
+        <span>KEEP DUB FREE 💛</span>
+        <button class="support-banner-close" id="supportBannerClose" aria-label="Dismiss">✕</button>
+      </div>
+      <div class="support-banner-inner">
+        <p class="support-banner-subtitle">Independent UAE news — free for everyone. <a href="/support">Help us keep it that way.</a></p>
+        <div class="support-banner-buttons">
+          <a href="/support#advertise" class="support-banner-btn advertise">📢 Advertise with us</a>
+          <a href="/support#donate" class="support-banner-btn donate">☕ Donate</a>
+        </div>
+      </div>
     </div>
 
     <!-- Main Content -->
