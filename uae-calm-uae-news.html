@@ -338,6 +338,94 @@
       }
     }
 
+    /* ===== SUPPORT BANNER ===== */
+    .support-banner {
+      background: #FFF8E7;
+      border-bottom: 1px solid #F0D080;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      position: relative;
+    }
+
+    .support-banner-text {
+      color: var(--ink-mid);
+    }
+
+    .support-banner-link {
+      color: var(--red);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1.5px solid var(--red);
+      border-radius: 20px;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .support-banner-link:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .support-banner-divider {
+      color: var(--ink-light);
+      font-size: 12px;
+    }
+
+    .support-banner-close {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--ink-light);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 4px 6px;
+      line-height: 1;
+      border-radius: 3px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .support-banner-close:hover {
+      color: var(--ink);
+      background: rgba(0,0,0,0.06);
+    }
+
+    body.dark .support-banner {
+      background: #1A1400;
+      border-color: #3A2E00;
+    }
+
+    body.dark .support-banner-text {
+      color: #CCC;
+    }
+
+    body.dark .support-banner-close {
+      color: #666;
+    }
+
+    body.dark .support-banner-close:hover {
+      color: #CCC;
+      background: rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 600px) {
+      .support-banner {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 36px 10px 16px;
+        justify-content: flex-start;
+      }
+      .support-banner-text { width: 100%; }
+    }
+
     /* ===== LIVE TICKER BAR ===== */
     .ticker-bar {
       background: #000000;
@@ -3759,6 +3847,15 @@
       </div>
     </div>
 
+    <!-- Support Banner -->
+    <div class="support-banner" id="supportBanner">
+      <span class="support-banner-text">TheDubaiBrief is free for everyone —</span>
+      <a href="/support#advertise" class="support-banner-link">📢 Advertise with us</a>
+      <span class="support-banner-divider">or</span>
+      <a href="/support#donate" class="support-banner-link">☕ Donate to keep it free</a>
+      <button class="support-banner-close" id="supportBannerClose" aria-label="Dismiss">✕</button>
+    </div>
+
     <!-- Main Content -->
     <div class="main-content" id="news-feed">
       <div class="section-header">
@@ -5507,6 +5604,22 @@
         mobileSearchEl.addEventListener('focus', function () { mobileSearchEl.blur(); open(); });
       }
     })();
+  </script>
+
+  <!-- ===== SUPPORT BANNER DISMISS ===== -->
+  <script>
+    (function () {
+      var banner = document.getElementById('supportBanner');
+      var closeBtn = document.getElementById('supportBannerClose');
+      if (!banner || !closeBtn) return;
+      if (localStorage.getItem('cwn-support-banner-dismissed') === '1') {
+        banner.style.display = 'none';
+      }
+      closeBtn.addEventListener('click', function () {
+        banner.style.display = 'none';
+        localStorage.setItem('cwn-support-banner-dismissed', '1');
+      });
+    }());
   </script>
 
   <!-- ===== BACK TO TOP / HOME BUTTON ===== -->
