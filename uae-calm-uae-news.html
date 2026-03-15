@@ -1583,7 +1583,7 @@
 
     .cwn-modal-card {
       position: relative;
-      width: min(760px, 96vw);
+      width: min(480px, 96vw);
       max-height: 92vh;
       overflow: auto;
       background: #FFFFFF;
@@ -1630,11 +1630,19 @@
 
     .cwn-modal-input {
       width: 100%;
-      border: 1px solid #DDD8CF;
+      border: 1.5px solid #DDD8CF;
       border-radius: 8px;
-      padding: 12px 14px;
+      padding: 0 14px;
       font-size: 15px;
-      margin-bottom: 12px;
+      height: 44px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .cwn-modal-input:focus {
+      border-color: #C8102E;
     }
 
     .cwn-modal-primary {
@@ -1645,7 +1653,8 @@
       color: #fff;
       font-weight: 700;
       letter-spacing: 0.03em;
-      padding: 12px 14px;
+      height: 44px;
+      font-size: 15px;
       cursor: pointer;
     }
 
@@ -4411,16 +4420,14 @@
       const skipBtn  = document.getElementById('greetingSkip');
       if (!app) return;
 
-      // Use versioned key so old stale values don't interfere
-      const GREETED_KEY = 'cwn_greeted_v3';
-      const SESSION_KEY = 'cwn_session_v3';
+      // Versioned session key — bump version to invalidate stale keys
+      const SESSION_KEY = 'cwn_session_v4';
 
-      const seenBefore    = !!localStorage.getItem(GREETED_KEY);   // visited on any previous session
-      const sessionActive = !!sessionStorage.getItem(SESSION_KEY); // already loaded this session
+      // True only if greeting was already shown in this browser tab/window
+      const shownThisTab = !!sessionStorage.getItem(SESSION_KEY);
 
-      // Mark this session as active immediately
+      // Mark this tab immediately so refresh doesn't replay
       try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
-      try { localStorage.setItem(GREETED_KEY, '1'); } catch {}
 
       // ── Reveal main site ────────────────────────────────────────────────────
       function revealApp() { app.style.opacity = '1'; }
@@ -4432,7 +4439,7 @@
         setTimeout(() => { if (greeting.parentNode) greeting.remove(); revealApp(); }, 500);
       }
 
-      // ── Full greeting sequence (new visitors) ───────────────────────────────
+      // ── Full greeting sequence ───────────────────────────────────────────────
       function runGreeting() {
         if (!greeting) { revealApp(); return; }
 
@@ -4455,64 +4462,41 @@
 
         greeting.classList.add('visible');
 
-        // 0.0s — wave
         setTimeout(() => {
           if (done) return;
           if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 200); }
         }, 0);
-        // 0.4s — Hii
         setTimeout(() => { if (!done && hii) hii.classList.add('show'); }, 400);
-        // 0.9s — subtitle
         setTimeout(() => { if (!done && sub) sub.classList.add('show'); }, 900);
-        // 1.7s — smile draws
         setTimeout(() => {
           if (done) return;
           if (smile) smile.classList.add('show');
           if (path) path.classList.add('draw');
         }, 1700);
-        // 2.6s — tagline
         setTimeout(() => { if (!done && tagline) tagline.classList.add('show'); }, 2600);
-        // 4.0s — auto exit
-        setTimeout(() => { if (!done) skip(); }, 4000);
+        // 5s auto-exit (longer so user can enjoy it)
+        setTimeout(() => { if (!done) skip(); }, 5000);
       }
 
-      // ── Short greeting (returning visitors, first load of new session) ───────
-      function runShortGreeting() {
-        if (!greeting) { revealApp(); return; }
-
-        const wave = document.getElementById('greetingWave');
-        const hii  = document.getElementById('greetingHii');
-
-        let done = false;
-        function skip() { if (done) return; done = true; endGreeting(); }
-
-        greeting.addEventListener('click', skip, { once: true });
-        document.addEventListener('keydown', skip, { once: true });
-        if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
-
-        greeting.classList.add('visible');
-        if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 100); }
-        setTimeout(() => { if (!done && hii) hii.classList.add('show'); }, 200);
-        setTimeout(() => { if (!done) skip(); }, 2000);
-      }
-
-      // ── Route to correct path ────────────────────────────────────────────────
-      if (sessionActive) {
-        // Already loaded once this session — no animations at all
+      // ── Route ────────────────────────────────────────────────────────────────
+      if (shownThisTab) {
+        // Same tab refresh — skip everything
         if (splash) splash.remove();
         if (greeting) greeting.remove();
         revealApp();
         return;
       }
 
-      // Advance past splash then run appropriate greeting
+      // Fresh session — show splash then full greeting
       function afterSplash() {
-        if (!splash || !document.contains(splash)) return;
+        if (!splash || !document.contains(splash)) {
+          runGreeting();
+          return;
+        }
         splash.classList.add('exit');
         setTimeout(() => {
-          if (splash.parentNode) splash.remove();
-          if (seenBefore) runShortGreeting();
-          else runGreeting();
+          if (splash && splash.parentNode) splash.remove();
+          runGreeting();
         }, 600);
       }
 
@@ -4935,7 +4919,7 @@
         html = `
           <div class="cwn-modal-kicker"></div>
           <h2 class="cwn-modal-title">Stay informed. No panic.</h2>
-          <p class="cwn-modal-subtitle">One email per day. The single most important UAE news story, calmly written.</p>
+          <p class="cwn-modal-subtitle">Two calm emails per day — ☀️ 7 AM + 🌆 8 PM. One top UAE story each, no noise.</p>
           <input id="cwnModalEmail" class="cwn-modal-input" type="email" placeholder="Your email address" value="${(subscribeState.email || '').replace(/"/g, '&quot;')}" />
           <button id="cwnModalSubscribeBtn" class="cwn-modal-primary" ${subscribeState.submitting ? 'disabled' : ''}>${subscribeState.submitting ? 'Subscribing...' : 'Subscribe'}</button>
           <div class="cwn-modal-error">${subscribeState.status || ''}</div>
@@ -4944,14 +4928,14 @@
         html = `
           <div class="cwn-success-icon">✅</div>
           <h2 class="cwn-modal-title">You're subscribed!</h2>
-          <p class="cwn-modal-subtitle">You'll receive one daily email with the most important news story.</p>
+          <p class="cwn-modal-subtitle">Expect two calm emails per day — ☀️ 7:00 AM and 🌆 8:00 PM GST. One top story each.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Done</button>
         `;
       } else if (subscribeState.step === 'exists') {
         html = `
           <div class="cwn-success-icon">✅</div>
           <h2 class="cwn-modal-title">Already subscribed!</h2>
-          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g, '&lt;')} is already on the TheDubaiBrief list. You'll receive your daily brief each morning.</p>
+          <p class="cwn-modal-subtitle">${(subscribeState.email || 'Your email').replace(/</g, '&lt;')} is already on the list. You get two calm briefs per day — ☀️ 7 AM &amp; 🌆 8 PM GST.</p>
           <button id="cwnModalDone" class="cwn-modal-primary">Got it</button>
         `;
       }

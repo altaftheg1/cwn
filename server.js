@@ -37,7 +37,8 @@ const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
 const SUB_FILE = path.join(__dirname, "subscribers.json");
 const DIGEST_STATE_FILE = path.join(__dirname, "digest-state.json");
 let subscribers = [];
-let digestState = { dailyDate: "", lastStoryId: "" };
+let digestState = { dailyDate: "", lastStoryId: "", eveningDate: "", lastEveningStoryId: "" };
+let emailLogs = []; // { storyId, sentAt, type: 'morning'|'evening' }
 
 const SUBJECT_TEMPLATES = [
   "The biggest story today",
@@ -87,14 +88,45 @@ function loadDigestState() {
     digestState = {
       dailyDate: String(raw.dailyDate || ""),
       lastStoryId: String(raw.lastStoryId || ""),
+      eveningDate: String(raw.eveningDate || ""),
+      lastEveningStoryId: String(raw.lastEveningStoryId || ""),
     };
+    emailLogs = Array.isArray(raw.emailLogs) ? raw.emailLogs : [];
   } catch {
-    digestState = { dailyDate: "", lastStoryId: "" };
+    digestState = { dailyDate: "", lastStoryId: "", eveningDate: "", lastEveningStoryId: "" };
+    emailLogs = [];
   }
 }
 
 function saveDigestState() {
-  try { fs.writeFileSync(DIGEST_STATE_FILE, JSON.stringify(digestState, null, 2)); } catch {}
+  try { fs.writeFileSync(DIGEST_STATE_FILE, JSON.stringify({ ...digestState, emailLogs }, null, 2)); } catch {}
+}
+
+function wasStoryRecentlySent(storyId) {
+  // Avoid sending the same story twice — check last 20 sends
+  const recent = emailLogs.slice(-20);
+  return recent.some(l => l.storyId === storyId);
+}
+
+function logEmailSent(storyId, type) {
+  emailLogs.push({ storyId, sentAt: new Date().toISOString(), type });
+  // Keep only last 100 entries
+  if (emailLogs.length > 100) emailLogs = emailLogs.slice(-100);
+}
+
+function getTopStoryForSend(excludeIds = []) {
+  const items = getCachedNews()?.items || [];
+  if (!items.length) return null;
+  const PRIORITY_ORDER = ["safety", "politics", "finance", "health", "transport", "community", "education", "news"];
+  const sorted = [...items].sort((a, b) => {
+    const topicA = PRIORITY_ORDER.indexOf(classifyTopic(a));
+    const topicB = PRIORITY_ORDER.indexOf(classifyTopic(b));
+    if (topicA !== topicB) return topicA - topicB;
+    return Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0);
+  });
+  // Skip any IDs that were recently sent
+  const candidate = sorted.find(s => !excludeIds.includes(s.id)) || sorted[0];
+  return candidate || null;
 }
 
 loadSubscribers();
@@ -143,19 +175,6 @@ function classifyTopic(item) {
   return "news";
 }
 
-function getTopStoryOfDay(lastStoryId) {
-  const items = getCachedNews()?.items || [];
-  if (!items.length) return null;
-  const PRIORITY_ORDER = ["safety", "politics", "finance", "health", "transport", "community", "education", "news"];
-  const sorted = [...items].sort((a, b) => {
-    const topicA = PRIORITY_ORDER.indexOf(classifyTopic(a));
-    const topicB = PRIORITY_ORDER.indexOf(classifyTopic(b));
-    if (topicA !== topicB) return topicA - topicB;
-    return Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0);
-  });
-  const candidate = sorted.find((s) => s.id !== lastStoryId) || sorted[0];
-  return candidate || null;
-}
 
 function getDubaiParts(now = new Date()) {
   const fmt = new Intl.DateTimeFormat("en-GB", {
@@ -205,67 +224,117 @@ function unsubLink(email) {
 }
 
 // ── Daily brief email builders ────────────────────────────────────────────────
-function buildDailyBriefHtml({ story, recipientEmail, dateStr }) {
-  const unsub   = unsubLink(recipientEmail);
-  const title   = escapeHtml(story.calmTitle || story.title || "Today's Top Story");
-  const summary = escapeHtml(story.calmSummary || story.description || "");
-  const source  = escapeHtml(story.sourceName || "");
+function buildDailyBriefHtml({ story, recipientEmail, dateStr, sendType = "morning" }) {
+  const unsub    = unsubLink(recipientEmail);
+  const title    = escapeHtml(story.calmTitle || story.title || "Today's Top Story");
+  const summary  = escapeHtml(story.calmSummary || story.description || "");
+  const source   = escapeHtml(story.sourceName || "");
+  const category = escapeHtml(story.topic ? story.topic.charAt(0).toUpperCase() + story.topic.slice(1) : "UAE News");
+  const image    = story.image || story.imageUrl || "";
+  const articleUrl = story.id ? `${APP_BASE_URL}/article?id=${encodeURIComponent(story.id)}` : APP_BASE_URL;
+  const timeLabel = sendType === "evening" ? "🌆 Evening Edition" : "☀️ Morning Edition";
+  const isBreaking = story.topic === "safety" || story.topic === "politics";
+
+  // Resident impact — use calmified impact if available
+  const impact = story.residentImpact || story.impact || "";
 
   return `<!DOCTYPE html>
-<html><body style="margin:0;padding:20px;background:#F7F4EF;font-family:Arial,sans-serif;">
-<div style="max-width:600px;margin:0 auto;">
-  <div style="background:#C8102E;border-radius:12px 12px 0 0;padding:22px 24px;text-align:center;">
-    <div style="color:white;font-size:22px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">TheDubaiBrief</div>
-    <p style="color:rgba(255,255,255,0.85);font-size:13px;font-weight:600;margin:6px 0 0;letter-spacing:0.5px;">Daily Brief</p>
-  </div>
-  <div style="background:#1A1208;padding:14px 24px;">
-    <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;">${escapeHtml(dateStr)}</p>
-  </div>
-  <div style="background:white;padding:28px 24px;">
-    ${source ? `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#C8102E;font-weight:700;margin-bottom:12px;font-family:Arial,sans-serif;">${source}</div>` : ""}
-    <h2 style="font-family:Georgia,serif;font-size:22px;color:#1A1208;margin:0 0 16px;line-height:1.35;font-weight:700;">${title}</h2>
-    <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 28px;">${summary}</p>
-    <div style="text-align:center;">
-      <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:14px 32px;border-radius:6px;font-weight:700;font-size:15px;">Read More Latest News &rarr;</a>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F7F4EF;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4EF;padding:24px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <!-- Header -->
+  <tr><td style="background:#C8102E;border-radius:12px 12px 0 0;padding:20px 28px;text-align:center;">
+    <div style="color:white;font-size:24px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;margin-bottom:4px;">TheDubaiBrief</div>
+    <div style="color:rgba(255,255,255,0.8);font-size:12px;letter-spacing:1px;font-weight:600;">${escapeHtml(timeLabel)} &nbsp;·&nbsp; ${escapeHtml(dateStr)}</div>
+  </td></tr>
+
+  <!-- Hero image (if available) -->
+  ${image ? `<tr><td style="padding:0;"><img src="${escapeHtml(image)}" alt="" width="600" style="display:block;width:100%;max-width:600px;height:280px;object-fit:cover;" /></td></tr>` : ""}
+
+  <!-- Story body -->
+  <tr><td style="background:#FFFFFF;padding:28px 32px 24px;">
+    <!-- Category + source badges -->
+    <div style="margin-bottom:14px;">
+      <span style="display:inline-block;background:#FFF0F2;color:#C8102E;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;margin-right:8px;">${category}</span>
+      ${source ? `<span style="display:inline-block;color:#9A8E82;font-size:12px;">via ${source}</span>` : ""}
     </div>
-  </div>
-  <div style="background:#F7F4EF;border-radius:0 0 12px 12px;padding:18px 24px;text-align:center;border-top:1px solid #E8E4DF;">
-    <p style="font-size:11px;color:#aaa;margin:0;">
-      You are receiving this because you subscribed to daily news updates.
-      &nbsp;&middot;&nbsp; <a href="${unsub}" style="color:#aaa;">Unsubscribe</a>
-      &nbsp;&middot;&nbsp; <a href="${APP_BASE_URL}/privacy.html" style="color:#aaa;">Privacy Policy</a>
-      &nbsp;&middot;&nbsp; TheDubaiBrief &middot; Dubai, UAE
+
+    <!-- Headline -->
+    <h1 style="font-family:Georgia,serif;font-size:28px;color:#1A1208;margin:0 0 18px;line-height:1.3;font-weight:700;">${title}</h1>
+
+    <!-- Summary -->
+    <p style="color:#3D3328;font-size:16px;line-height:1.75;margin:0 0 24px;font-family:Georgia,serif;">${summary}</p>
+
+    ${impact ? `
+    <!-- Resident impact box -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+    <tr><td style="background:#FFFBF0;border-left:4px solid #C8102E;border-radius:0 8px 8px 0;padding:14px 18px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#C8102E;margin-bottom:6px;">What This Means For You</div>
+      <div style="font-size:14px;color:#3D3328;line-height:1.6;">${escapeHtml(impact)}</div>
+    </td></tr>
+    </table>
+    ` : ""}
+
+    <!-- CTA -->
+    <div style="text-align:center;padding-top:8px;">
+      <a href="${articleUrl}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;letter-spacing:0.3px;">Find more latest news &rarr;</a>
+    </div>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="background:#F0EDE8;border-radius:0 0 12px 12px;padding:18px 28px;text-align:center;border-top:1px solid #E2DDD5;">
+    <p style="font-size:11px;color:#AAA;margin:0;line-height:1.8;">
+      You subscribed to TheDubaiBrief — Dubai news, served calm.<br>
+      <a href="${unsub}" style="color:#C8102E;text-decoration:none;">Unsubscribe</a>
+      &nbsp;·&nbsp; <a href="${APP_BASE_URL}/privacy.html" style="color:#AAA;text-decoration:none;">Privacy Policy</a>
+      &nbsp;·&nbsp; TheDubaiBrief &middot; Dubai, UAE 🇦🇪
     </p>
-  </div>
-</div>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
 </body></html>`;
 }
 
-function buildDailyBriefText({ story, recipientEmail, dateStr }) {
+function buildDailyBriefText({ story, recipientEmail, dateStr, sendType = "morning" }) {
   const unsub   = unsubLink(recipientEmail);
   const title   = story.calmTitle || story.title || "Today's Top Story";
   const summary = story.calmSummary || story.description || "";
-  return `TheDubaiBrief — Daily Brief\n${dateStr}\n\n${title}\n\n${summary}\n\nRead More Latest News: ${APP_BASE_URL}\n\n---\nYou are receiving this because you subscribed to daily news updates.\nUnsubscribe: ${unsub}`;
+  const timeLabel = sendType === "evening" ? "Evening Edition" : "Morning Edition";
+  return `TheDubaiBrief — ${timeLabel}\n${dateStr}\n\n${title}\n\n${summary}\n\nFind more latest news: ${APP_BASE_URL}\n\n---\nYou subscribed to TheDubaiBrief — Dubai news, served calm.\nUnsubscribe: ${unsub}`;
 }
 
 // ── Send daily brief to all active subscribers ────────────────────────────────
-async function sendDailyBrief() {
+async function sendDailyBrief(sendType = "morning") {
   if (!RESEND_API_KEY) { console.log("[DailyBrief] No RESEND_API_KEY — skipping."); return; }
   const active = subscribers.filter((s) => s.active !== false);
   if (!active.length) { console.log("[DailyBrief] No active subscribers."); return; }
 
-  const story = getTopStoryOfDay(digestState.lastStoryId);
+  // Avoid re-sending same story as any recent send
+  const recentIds = emailLogs.slice(-20).map(l => l.storyId);
+  const story = getTopStoryForSend(recentIds);
   if (!story) { console.log("[DailyBrief] No stories available — skipping."); return; }
 
   const dateStr = new Date().toLocaleDateString("en-GB", {
     timeZone: "Asia/Dubai", weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
-  const subject = randomSubject();
+
+  // Subject: breaking stories get urgent tone, otherwise calm
+  const isBreaking = story.topic === "safety" || story.topic === "politics";
+  const subject = sendType === "evening"
+    ? (isBreaking ? `🚨 Breaking tonight: ${story.calmTitle || story.title}`.slice(0, 78) : `🌆 Your evening brief — ${story.calmTitle || story.title}`.slice(0, 78))
+    : (isBreaking ? `🚨 ${story.calmTitle || story.title}`.slice(0, 78) : `☀️ Your morning brief — ${story.calmTitle || story.title}`.slice(0, 78));
+
   let sent = 0, failed = 0;
 
   for (const sub of active) {
-    const html = buildDailyBriefHtml({ story, recipientEmail: sub.email, dateStr });
-    const text = buildDailyBriefText({ story, recipientEmail: sub.email, dateStr });
+    const html = buildDailyBriefHtml({ story, recipientEmail: sub.email, dateStr, sendType });
+    const text = buildDailyBriefText({ story, recipientEmail: sub.email, dateStr, sendType });
     try {
       await sendResendEmail({ to: sub.email, subject, html, text });
       sent++;
@@ -275,21 +344,40 @@ async function sendDailyBrief() {
     }
   }
 
-  digestState.lastStoryId = story.id || "";
-  digestState.dailyDate   = formatDubaiDateKey(getDubaiParts());
+  // Update state
+  logEmailSent(story.id || "", sendType);
+  const todayKey = formatDubaiDateKey(getDubaiParts());
+  if (sendType === "evening") {
+    digestState.lastEveningStoryId = story.id || "";
+    digestState.eveningDate = todayKey;
+  } else {
+    digestState.lastStoryId = story.id || "";
+    digestState.dailyDate   = todayKey;
+  }
   saveDigestState();
-  console.log(`[DailyBrief] sent=${sent} failed=${failed} story="${story.calmTitle || story.title}"`);
+  console.log(`[DailyBrief:${sendType}] sent=${sent} failed=${failed} story="${story.calmTitle || story.title}"`);
 }
 
-// ── Cron-based scheduler — 7:00 AM Dubai = 03:00 UTC ─────────────────────────
+// ── Cron: 7:00 AM Dubai = 03:00 UTC ──────────────────────────────────────────
 cron.schedule("0 3 * * *", async () => {
-  console.log("[Cron] Daily brief starting…");
+  console.log("[Cron] Morning brief starting…");
   const todayKey = formatDubaiDateKey(getDubaiParts());
   if (digestState.dailyDate === todayKey) {
-    console.log("[Cron] Daily brief already sent today — skipping.");
+    console.log("[Cron] Morning brief already sent today — skipping.");
     return;
   }
-  await sendDailyBrief();
+  await sendDailyBrief("morning");
+}, { timezone: "UTC" });
+
+// ── Cron: 8:00 PM Dubai = 16:00 UTC ──────────────────────────────────────────
+cron.schedule("0 16 * * *", async () => {
+  console.log("[Cron] Evening brief starting…");
+  const todayKey = formatDubaiDateKey(getDubaiParts());
+  if (digestState.eveningDate === todayKey) {
+    console.log("[Cron] Evening brief already sent today — skipping.");
+    return;
+  }
+  await sendDailyBrief("evening");
 }, { timezone: "UTC" });
 
 // Health check FIRST — before all middleware so it always responds
@@ -645,36 +733,86 @@ async function sendWelcomeEmail({ email }) {
   const unsub = unsubLink(email);
 
   const html = `<!DOCTYPE html>
-<html><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:40px 20px;">
-  <div style="text-align:center;margin-bottom:32px;">
-    <div style="background:#C8102E;color:white;display:inline-block;padding:12px 24px;font-size:24px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;">TheDubaiBrief</div>
-  </div>
-  <h1 style="font-size:26px;color:#1A1208;text-align:center;margin-bottom:8px;font-family:Georgia,serif;">You're subscribed!</h1>
-  <p style="text-align:center;color:#3D3328;font-size:15px;margin-bottom:32px;line-height:1.6;">You'll receive one daily email with the most important news story.</p>
-  <div style="background:#C8102E;border-radius:12px;padding:24px;margin-bottom:24px;text-align:center;">
-    <p style="color:white;font-size:15px;margin-bottom:16px;">"No panic. No agenda. Just clear UAE news for residents."</p>
-    <a href="${APP_BASE_URL}" style="background:white;color:#C8102E;padding:12px 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:14px;">Read Today's News &rarr;</a>
-  </div>
-  <p style="text-align:center;color:#999;font-size:12px;">
-    Your first daily brief arrives tomorrow at 7:00 AM GST.<br><br>
-    <a href="${unsub}" style="color:#aaa;">Unsubscribe anytime</a><br><br>
-    TheDubaiBrief &middot; Dubai, UAE 🇦🇪
-  </p>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F7F4EF;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4EF;padding:24px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <!-- Header -->
+  <tr><td style="background:#C8102E;border-radius:12px 12px 0 0;padding:28px 28px 24px;text-align:center;">
+    <div style="color:white;font-size:26px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;margin-bottom:6px;">TheDubaiBrief</div>
+    <div style="color:rgba(255,255,255,0.75);font-size:13px;letter-spacing:0.5px;">Dubai's news, served calm 🇦🇪</div>
+  </td></tr>
+
+  <!-- Body -->
+  <tr><td style="background:#FFFFFF;padding:36px 32px 28px;text-align:center;">
+    <div style="font-size:40px;margin-bottom:16px;">🎉</div>
+    <h1 style="font-family:Georgia,serif;font-size:28px;color:#1A1208;margin:0 0 12px;line-height:1.2;">You're in!</h1>
+    <p style="color:#3D3328;font-size:16px;line-height:1.7;margin:0 0 28px;">Welcome to TheDubaiBrief — the calmer way to stay informed about what's happening in the UAE.</p>
+
+    <!-- Schedule info box -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+    <tr><td style="background:#FFF8F0;border:1px solid #F0E8DC;border-radius:10px;padding:20px 24px;text-align:left;">
+      <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9A8E82;margin-bottom:14px;">Your delivery schedule</div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding:6px 0;font-size:15px;color:#1A1208;">☀️ <strong>Morning</strong></td>
+          <td style="padding:6px 0;font-size:14px;color:#7A6E62;text-align:right;">7:00 AM GST</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;font-size:15px;color:#1A1208;">🌆 <strong>Evening</strong></td>
+          <td style="padding:6px 0;font-size:14px;color:#7A6E62;text-align:right;">8:00 PM GST</td>
+        </tr>
+      </table>
+      <div style="font-size:13px;color:#9A8E82;margin-top:12px;">One top story per send — no noise, no panic.</div>
+    </td></tr>
+    </table>
+
+    <!-- Quote -->
+    <div style="border-left:3px solid #C8102E;padding:12px 18px;text-align:left;margin-bottom:28px;background:#FAFAF9;border-radius:0 6px 6px 0;">
+      <p style="color:#3D3328;font-size:14px;font-style:italic;margin:0;line-height:1.6;">"No panic. No agenda. Just clear UAE news for residents who want to stay informed without the stress."</p>
+    </div>
+
+    <!-- CTA -->
+    <a href="${APP_BASE_URL}" style="display:inline-block;background:#C8102E;color:white;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Read Today's News &rarr;</a>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="background:#F0EDE8;border-radius:0 0 12px 12px;padding:18px 28px;text-align:center;border-top:1px solid #E2DDD5;">
+    <p style="font-size:11px;color:#AAA;margin:0;line-height:1.8;">
+      You subscribed to TheDubaiBrief — Dubai news, served calm.<br>
+      <a href="${unsub}" style="color:#C8102E;text-decoration:none;">Unsubscribe anytime</a>
+      &nbsp;·&nbsp; <a href="${APP_BASE_URL}/privacy.html" style="color:#AAA;text-decoration:none;">Privacy Policy</a>
+      &nbsp;·&nbsp; TheDubaiBrief &middot; Dubai, UAE 🇦🇪
+    </p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
 </body></html>`;
 
-  const text = `TheDubaiBrief
+  const text = `TheDubaiBrief — Dubai's news, served calm 🇦🇪
 
-You're subscribed!
+You're in! Welcome to TheDubaiBrief.
 
-You'll receive one daily email with the most important news story.
-Your first daily brief arrives tomorrow at 7:00 AM GST.
+Your delivery schedule:
+  ☀️ Morning — 7:00 AM GST
+  🌆 Evening — 8:00 PM GST
+
+One top story per send — no noise, no panic.
 
 Read Today's News: ${APP_BASE_URL}
-Unsubscribe: ${unsub}`;
+
+---
+Unsubscribe: ${unsub}
+TheDubaiBrief · Dubai, UAE`;
 
   await sendResendEmail({
     to: email,
-    subject: "You're subscribed to TheDubaiBrief 🇦🇪",
+    subject: "Welcome to TheDubaiBrief 🇦🇪 — your calm UAE news",
     html,
     text,
   });
