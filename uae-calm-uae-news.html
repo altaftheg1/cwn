@@ -4405,42 +4405,34 @@
     }
     // Splash + Greeting logic
     (function () {
-      const splash    = document.getElementById('splash');
-      const greeting  = document.getElementById('greetingScreen');
-      const app       = document.getElementById('appShell');
-      const skipBtn   = document.getElementById('greetingSkip');
+      const splash   = document.getElementById('splash');
+      const greeting = document.getElementById('greetingScreen');
+      const app      = document.getElementById('appShell');
+      const skipBtn  = document.getElementById('greetingSkip');
       if (!app) return;
 
-      // Determine visit type
-      const isFirstEver   = !localStorage.getItem('cwn_greeted');
-      const isFirstSession = !sessionStorage.getItem('cwn_visited');
-      const showFullGreeting = isFirstEver || isFirstSession;
+      // Use versioned key so old stale values don't interfere
+      const GREETED_KEY = 'cwn_greeted_v3';
+      const SESSION_KEY = 'cwn_session_v3';
 
-      try { sessionStorage.setItem('cwn_visited', '1'); } catch {}
+      const seenBefore    = !!localStorage.getItem(GREETED_KEY);   // visited on any previous session
+      const sessionActive = !!sessionStorage.getItem(SESSION_KEY); // already loaded this session
 
-      // ── Immediately show site (called at end of all paths) ──────────────────
-      function revealApp() {
-        app.style.opacity = '1';
-      }
+      // Mark this session as active immediately
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
+      try { localStorage.setItem(GREETED_KEY, '1'); } catch {}
 
-      // ── Hide greeting and show site ──────────────────────────────────────────
+      // ── Reveal main site ────────────────────────────────────────────────────
+      function revealApp() { app.style.opacity = '1'; }
+
+      // ── Fade out greeting then show site ────────────────────────────────────
       function endGreeting() {
-        if (!greeting) { revealApp(); return; }
+        if (!greeting || !document.contains(greeting)) { revealApp(); return; }
         greeting.classList.add('exit');
-        setTimeout(() => {
-          greeting.remove();
-          revealApp();
-        }, 500);
+        setTimeout(() => { if (greeting.parentNode) greeting.remove(); revealApp(); }, 500);
       }
 
-      // ── Skip everything immediately ──────────────────────────────────────────
-      function skipAll() {
-        if (splash) { splash.classList.add('exit'); setTimeout(() => splash.remove(), 10); }
-        if (greeting) { greeting.remove(); }
-        revealApp();
-      }
-
-      // ── Full greeting sequence ───────────────────────────────────────────────
+      // ── Full greeting sequence (new visitors) ───────────────────────────────
       function runGreeting() {
         if (!greeting) { revealApp(); return; }
 
@@ -4451,100 +4443,81 @@
         const path    = document.getElementById('smilePath');
         const tagline = document.getElementById('greetingTagline');
 
-        let skipped = false;
-
+        let done = false;
         function skip() {
-          if (skipped) return;
-          skipped = true;
+          if (done) return; done = true;
           endGreeting();
         }
 
-        // Skip on click, keydown, or skip button
         greeting.addEventListener('click', skip, { once: true });
         document.addEventListener('keydown', skip, { once: true });
-        if (skipBtn) skipBtn.addEventListener('click', function(e) { e.stopPropagation(); skip(); });
+        if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
 
-        // Show greeting screen
         greeting.classList.add('visible');
 
-        // 0.0s — wave emoji fades in
+        // 0.0s — wave
         setTimeout(() => {
-          if (!skipped && wave) {
-            wave.classList.add('show');
-            setTimeout(() => { if (!skipped) wave.classList.add('wave'); }, 200);
-          }
+          if (done) return;
+          if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 200); }
         }, 0);
-
-        // 0.4s — "Hii" fades in
-        setTimeout(() => { if (!skipped && hii) hii.classList.add('show'); }, 400);
-
-        // 0.9s — "How are you today?" fades in
-        setTimeout(() => { if (!skipped && sub) sub.classList.add('show'); }, 900);
-
-        // 1.7s — smile appears and draws
+        // 0.4s — Hii
+        setTimeout(() => { if (!done && hii) hii.classList.add('show'); }, 400);
+        // 0.9s — subtitle
+        setTimeout(() => { if (!done && sub) sub.classList.add('show'); }, 900);
+        // 1.7s — smile draws
         setTimeout(() => {
-          if (!skipped && smile && path) {
-            smile.classList.add('show');
-            path.classList.add('draw');
-          }
+          if (done) return;
+          if (smile) smile.classList.add('show');
+          if (path) path.classList.add('draw');
         }, 1700);
-
-        // 2.6s — tagline fades in
-        setTimeout(() => { if (!skipped && tagline) tagline.classList.add('show'); }, 2600);
-
-        // 4.0s — fade out greeting, reveal site
-        setTimeout(() => { if (!skipped) endGreeting(); }, 4000);
-
-        // Mark as greeted so next visit shows short version
-        try { localStorage.setItem('cwn_greeted', '1'); } catch {}
+        // 2.6s — tagline
+        setTimeout(() => { if (!done && tagline) tagline.classList.add('show'); }, 2600);
+        // 4.0s — auto exit
+        setTimeout(() => { if (!done) skip(); }, 4000);
       }
 
-      // ── Short greeting for return visits ────────────────────────────────────
+      // ── Short greeting (returning visitors, first load of new session) ───────
       function runShortGreeting() {
         if (!greeting) { revealApp(); return; }
-        greeting.classList.add('visible');
+
         const wave = document.getElementById('greetingWave');
         const hii  = document.getElementById('greetingHii');
+
+        let done = false;
+        function skip() { if (done) return; done = true; endGreeting(); }
+
+        greeting.addEventListener('click', skip, { once: true });
+        document.addEventListener('keydown', skip, { once: true });
+        if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
+
+        greeting.classList.add('visible');
         if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 100); }
-        if (hii)  hii.classList.add('show');
-        setTimeout(endGreeting, 2000);
-        greeting.addEventListener('click', endGreeting, { once: true });
-        document.addEventListener('keydown', endGreeting, { once: true });
-        if (skipBtn) skipBtn.addEventListener('click', endGreeting, { once: true });
+        setTimeout(() => { if (!done && hii) hii.classList.add('show'); }, 200);
+        setTimeout(() => { if (!done) skip(); }, 2000);
       }
 
-      // ── Decide which path to take ────────────────────────────────────────────
-      if (!showFullGreeting && !isFirstEver) {
-        // Returning visitor in same session — skip everything
+      // ── Route to correct path ────────────────────────────────────────────────
+      if (sessionActive) {
+        // Already loaded once this session — no animations at all
         if (splash) splash.remove();
         if (greeting) greeting.remove();
         revealApp();
         return;
       }
 
-      // Show splash first, then greeting
-      if (splash) {
-        // Allow clicking splash to speed through
-        splash.addEventListener('click', function () {
-          splash.classList.add('exit');
-          setTimeout(() => {
-            splash.remove();
-            if (isFirstEver) runGreeting();
-            else runShortGreeting();
-          }, 400);
-        }, { once: true });
-      }
-
-      // Auto-advance splash after 2s
-      setTimeout(() => {
+      // Advance past splash then run appropriate greeting
+      function afterSplash() {
         if (!splash || !document.contains(splash)) return;
         splash.classList.add('exit');
         setTimeout(() => {
           if (splash.parentNode) splash.remove();
-          if (isFirstEver) runGreeting();
-          else runShortGreeting();
+          if (seenBefore) runShortGreeting();
+          else runGreeting();
         }, 600);
-      }, 2000);
+      }
+
+      if (splash) splash.addEventListener('click', afterSplash, { once: true });
+      setTimeout(afterSplash, 2000);
     })();
 
     // Load and render news
