@@ -5508,6 +5508,54 @@
       }
     })();
   </script>
+
+  <!-- ===== BACK TO TOP / HOME BUTTON ===== -->
+  <button id="backToTopBtn" title="Back to top" aria-label="Back to top" style="
+    position: fixed;
+    bottom: 28px;
+    left: 24px;
+    z-index: 1000;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    display: none;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s, transform 0.2s, opacity 0.3s;
+    opacity: 0;
+  ">&#8593; Home</button>
+  <script>
+    (function () {
+      var btn = document.getElementById('backToTopBtn');
+      if (!btn) return;
+      var visible = false;
+      window.addEventListener('scroll', function () {
+        var shouldShow = window.scrollY > 400;
+        if (shouldShow && !visible) {
+          visible = true;
+          btn.style.display = 'flex';
+          requestAnimationFrame(function () { btn.style.opacity = '1'; });
+        } else if (!shouldShow && visible) {
+          visible = false;
+          btn.style.opacity = '0';
+          setTimeout(function () { if (!visible) btn.style.display = 'none'; }, 300);
+        }
+      }, { passive: true });
+      btn.addEventListener('click', function () {
+        filterByCategory('all', null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      btn.addEventListener('mouseenter', function () { btn.style.background = 'var(--red-dark)'; btn.style.transform = 'translateY(-2px)'; });
+      btn.addEventListener('mouseleave', function () { btn.style.background = 'var(--red)'; btn.style.transform = ''; });
+    }());
+  </script>
 </body>
 
 </html>
