@@ -4,7 +4,14 @@ import { execFile } from "child_process";
 import { promisify } from "util";
 
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (compatible; TheDubaiBrief/1.0; +https://thedubaiBrief.com)";
+
+const RSS_HEADERS = {
+  "User-Agent": USER_AGENT,
+  "Accept": "application/rss+xml, application/xml, text/xml, */*",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Cache-Control": "no-cache",
+};
 
 const execFileAsync = promisify(execFile);
 
@@ -166,11 +173,7 @@ async function fetchRss(rssUrl) {
     try {
       const res = await fetch(rssUrl, {
         signal: controller.signal,
-        headers: {
-          "user-agent": USER_AGENT,
-          accept: "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
-          "accept-language": "en-US,en;q=0.9",
-        },
+        headers: RSS_HEADERS,
       });
       clearTimeout(timer);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

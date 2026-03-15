@@ -29,28 +29,33 @@ function gnRss(site, extra) {
 const ALL_SOURCES = [
   // TIER 1 — OFFICIAL GOVERNMENT (highest priority)
   {
-    key: "wam", name: "Emirates News Agency (WAM)", tier: 1, category: "Government",
-    rssUrl: gnRss("wam.ae"),
+    key: "wam", name: "Emirates News Agency (WAM)", tier: 1, category: "Government", isGovSource: true,
+    rssUrl: "https://wam.ae/page/en/rss",
     scrapeUrl: "https://www.wam.ae/en/home/main",
   },
   {
-    key: "uaegov", name: "UAE Government Portal", tier: 1, category: "Government",
+    key: "uaegov", name: "UAE Government Portal", tier: 1, category: "Government", isGovSource: true,
     rssUrl: gnRss("u.ae", "UAE government news"),
     scrapeUrl: "https://u.ae/en/information-and-services/news",
     scrapeType: "uae",
   },
   {
-    key: "dmo", name: "Dubai Media Office", tier: 1, category: "Government",
-    rssUrl: gnRss("mediaoffice.ae"),
+    key: "dmo", name: "Dubai Media Office", tier: 1, category: "Government", isGovSource: true,
+    rssUrl: "https://mediaoffice.ae/rss",
     scrapeUrl: "https://mediaoffice.ae/en/news/",
   },
   {
-    key: "adgov", name: "Abu Dhabi Government", tier: 1, category: "Government",
+    key: "uaecabinet", name: "UAE Cabinet", tier: 1, category: "Government", isGovSource: true,
+    rssUrl: gnRss("uaecabinet.ae"),
+    scrapeUrl: "https://uaecabinet.ae/en/news",
+  },
+  {
+    key: "adgov", name: "Abu Dhabi Government", tier: 1, category: "Government", isGovSource: true,
     rssUrl: gnRss("abudhabi.ae"),
     scrapeUrl: "https://www.abudhabi.ae/en/news",
   },
   {
-    key: "shgov", name: "Sharjah Government", tier: 1, category: "Government",
+    key: "shgov", name: "Sharjah Government", tier: 1, category: "Government", isGovSource: true,
     rssUrl: gnRss("sharjah.ae"),
     scrapeUrl: "https://www.sharjah.ae/en/news",
   },
@@ -433,126 +438,51 @@ function deduplicateArticles(articles) {
 }
 
 // ─── Smart article categorization ─────────────────────────────────────────────
-function categorizeArticle(title, summary) {
+function categorizeArticle(title, summary, source) {
   const text = ((title || '') + ' ' + (summary || '')).toLowerCase();
 
-  // BREAKING NEWS — checked first, overrides all other categories
-  const BREAKING_KEYWORDS = [
-    'breaking', 'urgent', 'just in', 'alert', 'emergency declared',
-    'immediate', 'developing story', 'flash', 'bulletin', 'just announced',
-    'confirmed dead', 'explosion reported', 'evacuation ordered', 'breaking news',
-  ];
-  for (const kw of BREAKING_KEYWORDS) {
-    if (text.includes(kw)) return 'Breaking News';
+  // BREAKING NEWS — highest priority
+  const breakingKws = ['breaking', 'urgent', 'just in', 'alert', 'emergency', 'developing', 'flash', 'bulletin', 'just announced', 'breaking news', 'live updates'];
+  for (const kw of breakingKws) { if (text.includes(kw)) return 'Breaking News'; }
+
+  // SPORTS — check before politics to avoid F1/football going to politics
+  const sportsKws = ['f1', 'formula 1', 'formula one', 'grand prix', ' gp ', 'motogp', 'verstappen', 'hamilton', 'russell', 'leclerc', 'sainz', 'norris', 'alonso', 'perez', 'stroll', 'ferrari', 'mercedes f1', 'red bull racing', 'mclaren', 'football', 'soccer', 'premier league', 'la liga', 'serie a', 'bundesliga', 'champions league', 'europa league', 'uae pro league', 'arabian gulf league', 'al ain fc', 'al jazira', 'al wahda', 'shabab al ahli', 'dubai fc', 'al hilal', 'al nassr', 'al ittihad', 'fifa', 'uefa', 'world cup', 'cricket', 'ipl', 'test match', 'bcci', 'icc', 'tennis', 'atp', 'wta', 'wimbledon', 'us open', 'french open', 'australian open', 'dubai tennis', 'golf', 'pga tour', 'ryder cup', 'dp world tour', 'rugby', 'nba', 'basketball', 'swimming', 'athletics', 'olympics', 'horse racing', 'dubai world cup', 'meydan', 'nad al sheba', 'ufc', 'boxing', 'wrestling', 'mma', 'marathon', 'cycling', 'triathlon', 'athlete', 'transfer', 'squad', 'match result', 'final score', 'championship', 'tournament', 'hat trick', 'podium', 'race result', 'qualifying', 'pole position', 'medal', 'gold medal', 'defeated', 'won the match', 'playoffs', 'strade bianche', 'tour de france'];
+  for (const kw of sportsKws) { if (text.includes(kw)) return 'Sports'; }
+
+  // POLITICS — regional & international conflicts
+  const politicsKws = ['iran', 'iranian', 'tehran', 'israel', 'israeli', 'tel aviv', 'palestine', 'palestinian', 'gaza', 'west bank', 'hamas', 'hezbollah', 'lebanon', 'beirut', 'saudi arabia', 'riyadh', 'qatar', 'doha', 'kuwait', 'bahrain', 'egypt', 'cairo', 'jordan', 'amman', 'syria', 'damascus', 'iraq', 'baghdad', 'yemen', 'sanaa', 'russia', 'ukraine', 'moscow', 'nato', 'pentagon', 'white house', 'us president', 'china', 'beijing', 'india', 'modi', 'pakistan', 'islamabad', 'united nations', 'un security', 'g20', 'g7', 'ceasefire', 'peace talks', 'sanctions', 'embargo', 'diplomatic crisis', 'foreign minister', 'political prisoner', 'election results', 'coup', 'military strike', 'airstrike', 'missile attack', 'drone attack', 'invasion', 'troops', 'nuclear deal', 'arms deal', 'geopolitical', 'regional conflict', 'gcc summit', 'arab league'];
+  for (const kw of politicsKws) { if (text.includes(kw)) return 'Politics'; }
+
+  // DUBAI NEWS
+  const dubaiKws = ['dubai', 'dxb', 'rta', 'dubai metro', 'dubai tram', 'dubai airport', 'burj khalifa', 'burj al arab', 'palm jumeirah', 'downtown dubai', 'dubai marina', 'jumeirah', 'deira', 'bur dubai', 'business bay', 'jlt', 'jvc', 'dubai hills', 'dubai creek', 'creek harbour', 'expo city', 'dubai south', 'silicon oasis', 'dubai chamber', 'salik', 'nol card', 'dubai mall', 'mall of emirates', 'dubai police', 'dubai municipality', 'dubai health authority', 'dha dubai', 'dubai court', 'dubai ruler', 'dubai government', 'emirate of dubai'];
+  for (const kw of dubaiKws) { if (text.includes(kw)) return 'Dubai News'; }
+
+  // ABU DHABI NEWS
+  const abuDhabiKws = ['abu dhabi', 'auh', 'adnoc', 'adgm', 'adek', 'mubadala', 'adq', 'aldar', 'abu dhabi airport', 'louvre abu dhabi', 'saadiyat island', 'yas island', 'yas mall', 'al reem island', 'masdar city', 'abu dhabi corniche', 'abu dhabi government', 'abu dhabi ruler', 'abu dhabi crown prince', 'abu dhabi chamber', 'abu dhabi tourism', 'abu dhabi court', 'abu dhabi municipality', 'zayed city'];
+  for (const kw of abuDhabiKws) { if (text.includes(kw)) return 'Abu Dhabi News'; }
+
+  // ECONOMY & BUSINESS
+  const economyKws = ['economy', 'gdp', 'inflation', 'stock market', 'stock exchange', 'dfm', 'adx', 'difc', 'investment', 'real estate', 'property market', 'mortgage', 'rent increase', 'startup funding', 'series a', 'series b', 'venture capital', 'ipo', 'acquisition', 'merger', 'revenue', 'profit', 'quarterly results', 'annual report', 'oil price', 'crude oil', 'barrel', 'opec', 'gold price', 'dirham', 'exchange rate', 'retail sales', 'trade deal', 'export', 'import', 'tourism revenue', 'hotel occupancy', 'business license', 'entrepreneur', 'founder', 'unicorn', 'valuation', 'bank rate', 'interest rate', 'central bank', 'financial results', 'earnings'];
+  for (const kw of economyKws) { if (text.includes(kw)) return 'Economy & Business'; }
+
+  // TECHNOLOGY
+  const techKws = ['artificial intelligence', ' ai ', 'chatgpt', 'openai', 'gemini', 'machine learning', 'large language model', 'llm', 'robotics', 'automation', 'cybersecurity', 'data breach', 'hacking', 'cyber attack', '5g', 'blockchain', 'cryptocurrency', 'bitcoin', 'ethereum', 'nft', 'gitex', 'tech summit', 'cloud computing', 'fintech', 'smart city', 'iot', 'internet of things', 'electric vehicle', 'tesla', 'self driving', 'autonomous', 'metaverse', 'virtual reality', 'augmented reality', 'digital transformation', 'tech startup', 'data center', 'semiconductor', 'satellite'];
+  for (const kw of techKws) { if (text.includes(kw)) return 'Technology'; }
+
+  // UAE GOVERNMENT — federal level only
+  const govKws = ['sheikh', 'his highness', 'ruler of', 'crown prince of', 'uae president', 'uae vice president', 'prime minister of uae', 'federal authority', 'uae cabinet', 'uae ministry', 'uae minister', 'uae law', 'uae decree', 'uae policy', 'wam news', 'uae government', 'emirates news agency', 'uae vision', 'uae strategy', 'uae council', 'uae federal', 'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz', 'hamdan bin mohammed', 'khaled bin mohammed', 'maktoum', 'nahyan', 'issued a decree', 'approved by cabinet', 'official visit', 'state visit', 'received in audience'];
+  for (const kw of govKws) { if (text.includes(kw)) return 'UAE Government'; }
+
+  // Default based on source
+  if (source) {
+    const src = source.toLowerCase();
+    if (src.includes('wam') || src.includes('emirates news')) return 'UAE Government';
+    if (src.includes('dubai')) return 'Dubai News';
+    if (src.includes('abu dhabi')) return 'Abu Dhabi News';
+    if (src.includes('gulf business') || src.includes('arabian business')) return 'Economy & Business';
   }
 
-  const categories = {
-    'UAE Government': [
-      'sheikh', 'his highness', 'hh sheikh', 'ruler of dubai', 'ruler of abu dhabi',
-      'crown prince', 'uae president', 'uae vice president', 'prime minister uae',
-      'federal authority', 'uae cabinet', 'uae ministry', 'uae minister',
-      'uae law', 'uae decree', 'uae policy', 'wam', 'uae government', 'emirates news',
-      'uae vision 2031', 'uae strategy', 'uae council', 'uae federal',
-      'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz',
-      'hamdan bin mohammed', 'khaled bin mohammed',
-    ],
-    'Dubai News': [
-      'dubai', 'dxb', 'dubai municipality', 'dubai police', 'dubai health authority',
-      'dha', 'rta dubai', 'dubai metro', 'dubai airport', 'terminal 3',
-      'dubai frame', 'burj khalifa', 'downtown dubai', 'dubai marina',
-      'jumeirah', 'deira', 'bur dubai', 'business bay', 'palm jumeirah',
-      'dubai hills', 'dubai creek', 'creek harbour', 'expo city dubai',
-      'dubai chamber', 'ded dubai', 'dubai tourism', 'visit dubai',
-      'dubai court', 'dubai prosecution', 'dubai government', 'dubai ruler',
-      'dubai smart city', 'dubai future',
-    ],
-    'Abu Dhabi News': [
-      'abu dhabi', 'auh', 'adnoc', 'adgm', 'abu dhabi police', 'doh abu dhabi',
-      'abu dhabi health', 'adek', 'abu dhabi investment', 'mubadala', 'adq', 'aldar',
-      'abu dhabi airport', 'zayed', 'louvre abu dhabi', 'saadiyat',
-      'yas island', 'al reem island', 'masdar city', 'abu dhabi corniche',
-      'abu dhabi government', 'abu dhabi ruler', 'abu dhabi crown prince',
-      'abu dhabi chamber', 'abu dhabi tourism', 'abu dhabi court',
-      'abu dhabi municipality', 'abu dhabi smart city',
-    ],
-    'Economy & Business': [
-      'economy', 'gdp', 'inflation', 'market', 'stock exchange', 'dfm', 'adx', 'difc',
-      'investment', 'finance', 'banking', 'real estate', 'property', 'mortgage',
-      'startup', 'funding', 'ipo', 'acquisition', 'revenue', 'profit', 'quarterly results',
-      'oil price', 'crude', 'barrel', 'opec', 'gold price', 'dirham', 'exchange rate',
-      'retail', 'trade', 'export', 'import', 'tourism revenue', 'hospitality revenue',
-      'business license', 'commercial', 'entrepreneur', 'venture capital',
-      'merger', 'partnership announced', 'economic growth', 'recession',
-      'cost of living', 'salary', 'wages',
-    ],
-    'Technology': [
-      'artificial intelligence', 'ai model', 'machine learning', 'deep learning',
-      'robotics', 'automation', 'drone', 'cybersecurity', 'data breach', 'hacking',
-      '5g', '6g', 'network infrastructure', 'blockchain', 'web3', 'cryptocurrency',
-      'bitcoin', 'ethereum', 'nft', 'gitex', 'tech summit', 'hackathon',
-      'app launch', 'software', 'platform', 'cloud computing', 'saas', 'fintech',
-      'smart city', 'iot', 'sensors', 'electric vehicle', 'self driving',
-      'autonomous', 'metaverse', 'vr', 'ar', 'digital transformation', 'coding',
-      'tech startup', 'unicorn', 'tech ipo',
-    ],
-    'Sports': [
-      'f1', 'formula 1', 'formula one', 'grand prix', 'verstappen', 'hamilton',
-      'russell', 'leclerc', 'sainz', 'norris', 'football', 'soccer', 'premier league',
-      'la liga', 'serie a', 'bundesliga', 'uae pro league', 'arabian gulf league',
-      'al ain fc', 'al jazira', 'al wahda', 'shabab al ahli', 'dubai fc',
-      'al hilal', 'al nassr', 'cricket', 'ipl', 'test match', 'odi',
-      'tennis', 'atp', 'wta', 'wimbledon', 'us open', 'french open', 'australian open',
-      'golf', 'pga', 'ryder cup', 'uae golf', 'emirates golf club',
-      'rugby', 'nba', 'basketball', 'swimming', 'athletics', 'olympics',
-      'world cup 2026', 'asian cup', 'horse racing', 'dubai world cup',
-      'meydan', 'nad al sheba', 'ufc', 'boxing', 'wrestling',
-      'marathon', 'cycling', 'triathlon', 'abu dhabi grand prix', 'dubai marathon',
-      'coach', 'transfer', 'signing', 'contract', 'stadium', 'match result',
-      'score', 'championship', 'tournament', 'league table', 'player of the match', 'hat trick',
-    ],
-    'Politics': [
-      'iran', 'israel', 'palestine', 'gaza', 'lebanon', 'hezbollah', 'hamas',
-      'saudi arabia', 'riyadh', 'neom', 'qatar', 'doha', 'kuwait', 'bahrain',
-      'oman', 'muscat', 'egypt', 'cairo', 'jordan', 'amman', 'syria', 'damascus',
-      'iraq', 'baghdad', 'yemen', 'sanaa', 'russia', 'ukraine', 'nato',
-      'united states', 'washington', 'white house', 'pentagon',
-      'china', 'beijing', 'xi jinping', 'india', 'modi', 'pakistan',
-      'united nations', 'un security council', 'opec meeting', 'g20', 'g7',
-      'ceasefire', 'peace talks', 'sanctions', 'diplomatic relations', 'ambassador',
-      'bilateral meeting', 'foreign minister', 'political prisoner', 'election',
-      'coup', 'protest', 'demonstration', 'regional conflict', 'geopolitical',
-      'missile strike', 'military operation', 'war', 'invasion', 'occupation',
-      'nuclear deal', 'arms deal', 'arab spring', 'revolution',
-    ],
-  };
-
-  // Score each category
-  const scores = {};
-  for (const [cat, kws] of Object.entries(categories)) {
-    scores[cat] = 0;
-    for (const kw of kws) {
-      if (text.includes(kw)) scores[cat]++;
-    }
-  }
-
-  // Priority: Dubai > Abu Dhabi > UAE Gov > Economy > Sports > Technology > Politics
-  // (Dubai/Abu Dhabi beat UAE Gov when location-specific keywords are present)
-  const priority = [
-    'Dubai News', 'Abu Dhabi News', 'UAE Government',
-    'Economy & Business', 'Sports', 'Technology', 'Politics',
-  ];
-
-  let bestCategory = null;
-  let highestScore = 0;
-  for (const cat of priority) {
-    if (scores[cat] > highestScore) {
-      highestScore = scores[cat];
-      bestCategory = cat;
-    }
-  }
-
-  // Default to UAE Government (most articles from official UAE sources fall here)
-  return bestCategory || 'UAE Government';
+  return 'UAE Government';
 }
 
 // ─── Cache plumbing ───────────────────────────────────────────────────────────
@@ -608,31 +538,34 @@ async function performBuild() {
   } else {
     console.log(`[news-cache] Fetching from ${ALL_SOURCES.length} sources...`);
 
-    // Fetch all sources in parallel, each with its own error boundary
-    const results = await Promise.allSettled(
-      ALL_SOURCES.map(async (s) => {
-        const before = Date.now();
-        try {
-          const raw = await fetchSourceArticles(s);
-          const elapsed = Date.now() - before;
-          sourceStatus.set(s.key, {
-            ok: true,
-            lastCheck: new Date(),
-            articleCount: raw.length,
-            elapsed,
-          });
-          return { source: s, raw };
-        } catch (err) {
-          sourceStatus.set(s.key, {
-            ok: false,
-            lastCheck: new Date(),
-            articleCount: 0,
-            error: err.message,
-          });
-          throw err;
-        }
-      })
-    );
+    // Fetch sources sequentially with 1s delay to avoid rate limiting
+    const results = [];
+    for (let i = 0; i < ALL_SOURCES.length; i++) {
+      const s = ALL_SOURCES[i];
+      if (i > 0) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      const before = Date.now();
+      try {
+        const raw = await fetchSourceArticles(s);
+        const elapsed = Date.now() - before;
+        sourceStatus.set(s.key, {
+          ok: true,
+          lastCheck: new Date(),
+          articleCount: raw.length,
+          elapsed,
+        });
+        results.push({ status: "fulfilled", value: { source: s, raw } });
+      } catch (err) {
+        sourceStatus.set(s.key, {
+          ok: false,
+          lastCheck: new Date(),
+          articleCount: 0,
+          error: err.message,
+        });
+        results.push({ status: "rejected", reason: err });
+      }
+    }
 
     rawSourceResults = results;
     sourceCache = results;
@@ -673,7 +606,7 @@ async function performBuild() {
       if (!normalized.url) continue;
       normalized.id = stableId(normalized);
       // Tag government sources for the Gov feed section
-      normalized.isGovSource = [1, 5, 7].includes(source.tier);
+      normalized.isGovSource = source.isGovSource || [1, 5, 7].includes(source.tier);
 
       // Carry forward cached metadata to avoid re-fetching
       if (prevMap.has(normalized.url)) {
@@ -731,7 +664,8 @@ async function performBuild() {
   for (const item of deduped) {
     item.category = categorizeArticle(
       item.calmTitle || item.title || '',
-      item.calmSummary || item.description || ''
+      item.calmSummary || item.description || '',
+      item.sourceName || ''
     );
     item.isBreaking = item.category === 'Breaking News';
   }

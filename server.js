@@ -117,10 +117,12 @@ function logEmailSent(storyId, type) {
 function getTopStoryForSend(excludeIds = []) {
   const items = getCachedNews()?.items || [];
   if (!items.length) return null;
-  const PRIORITY_ORDER = ["safety", "politics", "finance", "health", "transport", "community", "education", "news"];
+  const PRIORITY_ORDER = ["Breaking News", "Sports", "Politics", "Dubai News", "Abu Dhabi News", "Economy & Business", "Technology", "UAE Government"];
   const sorted = [...items].sort((a, b) => {
-    const topicA = PRIORITY_ORDER.indexOf(classifyTopic(a));
-    const topicB = PRIORITY_ORDER.indexOf(classifyTopic(b));
+    const catA = a.category || a.topic || '';
+    const catB = b.category || b.topic || '';
+    const topicA = PRIORITY_ORDER.indexOf(catA);
+    const topicB = PRIORITY_ORDER.indexOf(catB);
     if (topicA !== topicB) return topicA - topicB;
     return Number(b.publishedAtMs || 0) - Number(a.publishedAtMs || 0);
   });
@@ -421,6 +423,16 @@ app.get("/api/news", async (req, res) => {
 app.get("/api/source-status", (req, res) => {
   res.json(getSourceStatus());
 });
+
+app.get('/api/government', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const govItems = items
+    .filter(item => item.isGovSource || item.topic === 'UAE Government' || item.category === 'UAE Government')
+    .slice(0, 20);
+  res.json({ items: govItems });
+});
+
+app.get('/government', (req, res) => res.sendFile(path.join(__dirname, 'government.html')));
 
 // ── Archive: query all historical articles from Supabase ──────────────────────
 app.get("/api/archive", async (req, res) => {

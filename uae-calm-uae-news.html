@@ -3908,6 +3908,81 @@
       }
     }
   </style>
+  <style>
+    /* ===== GOVERNMENT ANNOUNCEMENTS WIDGET ===== */
+    .gov-widget {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #E8E4DF;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .gov-widget-header {
+      background: #1A1208;
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gov-widget-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      flex: 1;
+    }
+    .gov-widget-badge {
+      background: #C8102E;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      display: none;
+    }
+    .gov-widget-badge.active { display: inline-block; }
+    .gov-widget-updated {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+    .gov-widget-list { padding: 4px 0; }
+    .gov-widget-item {
+      padding: 10px 16px;
+      border-bottom: 1px solid #F5F2EE;
+      cursor: pointer;
+    }
+    .gov-widget-item:last-child { border-bottom: none; }
+    .gov-widget-source-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      color: white;
+    }
+    .gov-widget-headline {
+      font-size: 13px;
+      color: #1A1208;
+      line-height: 1.4;
+      margin-bottom: 3px;
+    }
+    .gov-widget-time {
+      font-size: 11px;
+      color: #AAA;
+    }
+    .gov-widget-more {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      color: #C8102E;
+      text-decoration: none;
+      font-weight: 600;
+      border-top: 1px solid #F5F2EE;
+    }
+    .gov-widget-loading { padding: 16px; color: #AAA; font-size: 13px; text-align: center; }
+  </style>
 </head>
 
 <body>
@@ -4663,10 +4738,22 @@
         </div>`).join('');
       document.getElementById('heroGrid').innerHTML = `${heroHTML}<div class="hero-sides">${sidesHTML}</div>`;
 
-      // ── Sidebar: support widget (desktop only) ──────────────────────────────
+      // ── Sidebar: gov widget + support widget (desktop only) ─────────────────
       const sidebarEl = document.getElementById('sidebar');
       if (sidebarEl) {
         sidebarEl.innerHTML = `
+          <!-- Government Announcements Widget -->
+          <div class="gov-widget" id="govWidget">
+            <div class="gov-widget-header">
+              <span class="gov-widget-title">🏛️ Gov Announcements</span>
+              <span class="gov-widget-badge" id="govBadge"></span>
+              <span class="gov-widget-updated" id="govUpdated"></span>
+            </div>
+            <div class="gov-widget-list" id="govWidgetList">
+              <div class="gov-widget-loading">Loading...</div>
+            </div>
+            <a href="/government" class="gov-widget-more">View all →</a>
+          </div>
           <div class="widget" id="supportWidget" style="display:none;">
             <div class="widget-header dark">Keep DUB free 💛</div>
             <div class="widget-content" style="display:flex;flex-direction:column;gap:10px;padding:14px;">
@@ -5955,6 +6042,52 @@
       btn.addEventListener('mouseenter', function () { btn.style.background = 'var(--red-dark)'; btn.style.transform = 'translateY(-2px)'; });
       btn.addEventListener('mouseleave', function () { btn.style.background = 'var(--red)'; btn.style.transform = ''; });
     }());
+  </script>
+
+  <script>
+    // Government widget
+    async function loadGovWidget() {
+      const list = document.getElementById('govWidgetList');
+      const badge = document.getElementById('govBadge');
+      const updated = document.getElementById('govUpdated');
+      if (!list) return;
+      try {
+        const data = await fetch('/api/government').then(r => r.json());
+        const items = data.items || [];
+        const SOURCE_COLORS = {
+          'wam': '#C8A84B', 'media office': '#003F8A', 'dubai police': '#003F8A',
+          'rta': '#00873C', 'ministry of interior': '#C8102E', 'dha': '#00897B',
+          'khda': '#7B1FA2', 'abu dhabi police': '#1565C0', 'uae cabinet': '#8D1A1A'
+        };
+        function getColor(source) {
+          const s = (source || '').toLowerCase();
+          for (const [k, v] of Object.entries(SOURCE_COLORS)) { if (s.includes(k)) return v; }
+          return '#666';
+        }
+        function timeAgo(ms) {
+          const diff = Date.now() - ms;
+          if (diff < 60000) return 'just now';
+          if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
+          if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
+          return Math.floor(diff/86400000) + 'd ago';
+        }
+        const recent30 = items.filter(i => Date.now() - (i.publishedAtMs || 0) < 30*60*1000);
+        if (recent30.length > 0 && badge) { badge.textContent = recent30.length + ' NEW'; badge.classList.add('active'); }
+        if (updated) updated.textContent = 'Updated just now';
+        list.innerHTML = items.slice(0, 6).map(item => `
+          <div class="gov-widget-item" onclick="window.open('${(item.url||'').replace(/'/g,"\\'")}','_blank')">
+            <span class="gov-widget-source-badge" style="background:${getColor(item.sourceName)}">${item.sourceName || 'Official'}</span>
+            <div class="gov-widget-headline">${item.calmTitle || item.title || ''}</div>
+            <div class="gov-widget-time">${timeAgo(item.publishedAtMs || 0)}</div>
+          </div>
+        `).join('');
+        if (!items.length) list.innerHTML = '<div class="gov-widget-loading">No announcements available</div>';
+      } catch (e) {
+        if (list) list.innerHTML = '<div class="gov-widget-loading">Could not load announcements</div>';
+      }
+    }
+    loadGovWidget();
+    setInterval(loadGovWidget, 5 * 60 * 1000);
   </script>
 </body>
 
