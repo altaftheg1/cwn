@@ -3101,6 +3101,48 @@
 
   <!-- Language switcher styles -->
   <style>
+    /* Globe button in navbar (visible on all screen sizes) */
+    .nav-lang-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff;
+      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .nav-lang-btn:hover { border-color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.1); }
+
+    /* Mobile lang row inside hamburger menu */
+    .mobile-lang-row {
+      padding: 10px 20px 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .mobile-lang-label { font-size: 12px; color: rgba(255,255,255,0.6); flex-shrink: 0; }
+    .mobile-lang-opt {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 16px;
+      padding: 4px 11px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.15s;
+    }
+    .mobile-lang-opt:hover, .mobile-lang-opt.active { background: var(--red); border-color: var(--red); }
+
     .lang-switcher {
       position: relative;
     }
@@ -4521,6 +4563,7 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
           <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
           <button id="notifyBtn" class="notify-btn"> Notify me</button>
           <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+          <button class="nav-lang-btn" id="navLangBtn" title="Change language" aria-label="Change language">🌐</button>
           <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
         </div>
       </div>
@@ -4548,6 +4591,14 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       <a href="/government.html"> Gov Live</a>
       <a href="/archive"> Archive</a>
       <a href="/about.html">About</a>
+      <div class="mobile-lang-row">
+        <span class="mobile-lang-label">🌐 Language:</span>
+        <button class="mobile-lang-opt" data-lang="en">English</button>
+        <button class="mobile-lang-opt" data-lang="ar">العربية</button>
+        <button class="mobile-lang-opt" data-lang="ml">മലയാളം</button>
+        <button class="mobile-lang-opt" data-lang="hi">हिन्दी</button>
+        <button class="mobile-lang-opt" data-lang="tl">Filipino</button>
+      </div>
     </div>
 
     <!-- Category Navigation Bar -->
@@ -6242,6 +6293,34 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       }
 
       init();
+
+      // Globe button in navbar → open desktop dropdown (or scroll utility bar into view on desktop)
+      var navLangBtn = document.getElementById('navLangBtn');
+      if (navLangBtn) {
+        navLangBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          // On desktop, toggle the utility bar dropdown
+          var dropdown = document.getElementById('langDropdown');
+          if (dropdown) dropdown.classList.toggle('open');
+          // On mobile, open the hamburger menu and scroll to language row
+          var mobileNav = document.getElementById('mobileNav');
+          if (mobileNav && window.innerWidth <= 768) {
+            mobileNav.classList.add('open');
+            var row = mobileNav.querySelector('.mobile-lang-row');
+            if (row) setTimeout(function () { row.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+          }
+        });
+      }
+
+      // Mobile lang option buttons
+      document.querySelectorAll('.mobile-lang-opt').forEach(function (el) {
+        el.addEventListener('click', function () {
+          document.querySelectorAll('.mobile-lang-opt').forEach(function (b) { b.classList.remove('active'); });
+          el.classList.add('active');
+          changeLanguage(el.dataset.lang);
+        });
+      });
+
     }());
   </script>
 
