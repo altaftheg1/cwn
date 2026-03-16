@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Saved Articles — TheDubaiBrief</title>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #C8102E; --red-dark: #9B0B22; --red-light: #f5e5e8;
+      --cream: #F7F4EF; --ink: #1A1208; --ink-mid: #3D3328; --ink-light: #7A6E62;
+      --border: #DDD8CF; --gold: #B8860B;
+      --max-width: 900px;
+    }
+    html.dark { background: #0A0A0A; color: #F0F0F0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body.dark { background: #111; color: #E8E0D4; }
+
+    /* Navbar */
+    .nav { background: var(--ink); color: #fff; padding: 0 24px; display: flex; align-items: center; gap: 16px; height: 52px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: 0.5px; }
+    .nav-back { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-left: auto; }
+    .nav-back:hover { color: #fff; }
+
+    /* Page header */
+    .page-header { max-width: var(--max-width); margin: 32px auto 24px; padding: 0 24px; }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+    body.dark .page-title { color: #E8E0D4; }
+    .page-subtitle { font-size: 13px; color: var(--ink-light); }
+
+    /* Search */
+    .search-wrap { max-width: var(--max-width); margin: 0 auto 24px; padding: 0 24px; }
+    .search-input {
+      width: 100%; padding: 11px 16px; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: #fff;
+      outline: none; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--red); }
+    body.dark .search-input { background: #1A1A1A; border-color: #2A2A2A; color: #E8E0D4; }
+
+    /* Toolbar */
+    .toolbar { max-width: var(--max-width); margin: 0 auto 16px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .toolbar-count { font-size: 13px; color: var(--ink-light); }
+    .clear-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--ink-light); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+    .clear-btn:hover { border-color: var(--red); color: var(--red); }
+
+    /* Articles list */
+    .articles { max-width: var(--max-width); margin: 0 auto; padding: 0 24px 48px; display: flex; flex-direction: column; gap: 12px; }
+
+    .saved-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      display: flex; gap: 14px; align-items: flex-start; padding: 14px;
+      cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; position: relative;
+    }
+    .saved-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    body.dark .saved-card { background: #1A1A1A; border-color: #2A2A2A; }
+
+    .saved-card-thumb { width: 88px; height: 68px; border-radius: 6px; overflow: hidden; flex-shrink: 0; background: var(--border); }
+    .saved-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .saved-card-body { flex: 1; min-width: 0; }
+    .saved-card-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 4px; }
+    .saved-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    body.dark .saved-card-title { color: #E8E0D4; }
+    .saved-card-meta { font-size: 11px; color: var(--ink-light); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .saved-card-source { font-weight: 600; }
+
+    .saved-card-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--ink-light); line-height: 1; padding: 4px; border-radius: 4px; transition: color 0.15s; }
+    .saved-card-remove:hover { color: var(--red); }
+
+    .empty-state { text-align: center; padding: 60px 24px; color: var(--ink-light); }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 8px; }
+    body.dark .empty-title { color: #E8E0D4; }
+    .empty-sub { font-size: 14px; line-height: 1.6; }
+    .empty-cta { display: inline-block; margin-top: 20px; background: var(--red); color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+
+    @media (max-width: 600px) {
+      .saved-card-thumb { width: 70px; height: 56px; }
+      .saved-card-title { font-size: 13.5px; }
+      .page-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">TheDubaiBrief</a>
+    <a href="/" class="nav-back">← Back to news</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-title">🔖 Saved Articles</div>
+    <div class="page-subtitle" id="pageSubtitle">Your bookmarked stories, all in one place</div>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="savedSearch" placeholder="Search your saved articles..." autocomplete="off" aria-label="Search saved articles">
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-count" id="savedCount"></div>
+    <button class="clear-btn" id="clearAllBtn">Clear all</button>
+  </div>
+
+  <div class="articles" id="savedList"></div>
+
+  <script>
+    const SAVED_KEY = 'cwn_saved_articles';
+    let searchQuery = '';
+
+    function getSaved() {
+      try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); } catch { return []; }
+    }
+
+    function removeSaved(id) {
+      const saved = getSaved().filter(a => a.id !== id);
+      localStorage.setItem(SAVED_KEY, JSON.stringify(saved));
+      render();
+    }
+
+    function clearAll() {
+      if (!confirm('Remove all saved articles?')) return;
+      localStorage.removeItem(SAVED_KEY);
+      render();
+    }
+
+    function relativeTime(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      const s = Math.floor((Date.now() - d) / 1000);
+      if (s < 60) return 'just now';
+      const m = Math.floor(s / 60);
+      if (m < 60) return m + 'm ago';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + 'h ago';
+      return Math.floor(h / 24) + 'd ago';
+    }
+
+    function escHtml(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function render() {
+      const saved = getSaved();
+      const list = document.getElementById('savedList');
+      const countEl = document.getElementById('savedCount');
+
+      // Filter by search
+      const q = searchQuery.toLowerCase();
+      const filtered = q
+        ? saved.filter(a => (a.calmTitle + ' ' + a.title + ' ' + a.sourceName + ' ' + a.category).toLowerCase().includes(q))
+        : saved;
+
+      countEl.textContent = filtered.length + ' saved article' + (filtered.length !== 1 ? 's' : '') + (q ? ' matching "' + q + '"' : '');
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="empty-state">
+          <div class="empty-icon">${q ? '🔍' : '🔖'}</div>
+          <div class="empty-title">${q ? 'No matches found' : 'No saved articles yet'}</div>
+          <div class="empty-sub">${q ? 'Try a different search term.' : 'Tap the 🔖 bookmark on any story to save it here.'}</div>
+          ${!q ? '<a href="/" class="empty-cta">Browse news →</a>' : ''}
+        </div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(a => {
+        const API_BASE = '';
+        const thumb = a.imageUrl
+          ? `<div class="saved-card-thumb"><img src="${API_BASE}/api/image?url=${encodeURIComponent(a.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none'"></div>`
+          : `<div class="saved-card-thumb" style="background:linear-gradient(135deg,#2c3e50,#C8102E);"></div>`;
+        return `<div class="saved-card" onclick="window.location.href='/article?id=${escHtml(a.id)}'">
+          ${thumb}
+          <div class="saved-card-body">
+            <div class="saved-card-cat">${escHtml(a.category || 'UAE News')}</div>
+            <div class="saved-card-title">${escHtml(a.calmTitle || a.title || 'Untitled')}</div>
+            <div class="saved-card-meta">
+              <span class="saved-card-source">${escHtml(a.sourceName || '')}</span>
+              ${a.publishedAt ? '<span>' + relativeTime(a.publishedAt) + '</span>' : ''}
+              ${a.savedAt ? '<span>Saved ' + relativeTime(a.savedAt) + '</span>' : ''}
+            </div>
+          </div>
+          <button class="saved-card-remove" onclick="event.stopPropagation();removeSaved('${escHtml(a.id)}')" title="Remove" aria-label="Remove from saved">✕</button>
+        </div>`;
+      }).join('');
+    }
+
+    document.getElementById('savedSearch').addEventListener('input', e => {
+      searchQuery = e.target.value;
+      render();
+    });
+
+    document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+    render();
+  </script>
+</body>
+</html>

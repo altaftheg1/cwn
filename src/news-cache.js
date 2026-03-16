@@ -418,7 +418,7 @@ function deduplicateArticles(articles) {
       // Title similarity check
       const candidateWords = new Set(titleKeywords(candidate.title || ""));
       const sim = jaccardSimilarity(primaryWords, candidateWords);
-      if (sim >= 0.5) {
+      if (sim >= 0.65) {
         usedIndices.add(j);
         // Only show "also reported by" for major/gov sources (not lifestyle/health)
         if (candidate.sourceName && candidate.tier <= 3) {
@@ -473,16 +473,19 @@ function categorizeArticle(title, summary, source) {
   const govKws = ['sheikh', 'his highness', 'ruler of', 'crown prince of', 'uae president', 'uae vice president', 'prime minister of uae', 'federal authority', 'uae cabinet', 'uae ministry', 'uae minister', 'uae law', 'uae decree', 'uae policy', 'wam news', 'uae government', 'emirates news agency', 'uae vision', 'uae strategy', 'uae council', 'uae federal', 'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz', 'hamdan bin mohammed', 'khaled bin mohammed', 'maktoum', 'nahyan', 'issued a decree', 'approved by cabinet', 'official visit', 'state visit', 'received in audience'];
   for (const kw of govKws) { if (text.includes(kw)) return 'UAE Government'; }
 
-  // Default based on source
+  // Default based on source name
   if (source) {
     const src = source.toLowerCase();
-    if (src.includes('wam') || src.includes('emirates news')) return 'UAE Government';
+    if (src.includes('wam') || src.includes('emirates news agency')) return 'UAE Government';
+    if (src.includes('uae cabinet') || src.includes('uae government') || src.includes('federal')) return 'UAE Government';
+    if (src.includes('dubai media office') || src.includes('dubai police') || src.includes('rta') || src.includes('dha ')) return 'Dubai News';
     if (src.includes('dubai')) return 'Dubai News';
     if (src.includes('abu dhabi')) return 'Abu Dhabi News';
-    if (src.includes('gulf business') || src.includes('arabian business')) return 'Economy & Business';
+    if (src.includes('gulf business') || src.includes('arabian business') || src.includes('zawya') || src.includes('bloomberg')) return 'Economy & Business';
+    if (src.includes('gulf news') || src.includes('khaleej times') || src.includes('the national') || src.includes('time out') || src.includes('emirates 24') || src.includes('al arabiya') || src.includes('arab news') || src.includes('thenational')) return 'Dubai News';
   }
 
-  return 'UAE Government';
+  return 'Dubai News';
 }
 
 // ─── Cache plumbing ───────────────────────────────────────────────────────────

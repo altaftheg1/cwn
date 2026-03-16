@@ -4351,6 +4351,36 @@ body.dark .top10-headline,
 body.dark .otg-scroll-card-text,
 body.dark .gov-feed-card-title { color: #E8E0D4; }
 body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
+
+/* ===== SAVE / BOOKMARK FEATURE ===== */
+.save-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.92);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  transition: transform 0.15s, background 0.15s;
+  z-index: 10;
+  flex-shrink: 0;
+}
+.save-btn:hover { transform: scale(1.1); background: #fff; }
+.save-btn.saved { background: var(--red); color: #fff; }
+body.dark .save-btn { background: rgba(30,30,30,0.92); color: #E8E0D4; }
+body.dark .save-btn.saved { background: var(--red); color: #fff; }
+
+/* Cards that have a save btn need position:relative */
+.top10-card { position: relative; }
+.cat-section-card { position: relative; }
+.more-story { position: relative; }
 </style>
 </head>
 
@@ -4503,6 +4533,7 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
         <a href="/government.html" class="subnav-link subnav-govlive"><span class="subnav-govlive-dot"
             id="govLiveNavDot"></span> Gov Live</a>
         <a href="/archive" class="subnav-link"> Archive</a>
+        <a href="/saved" class="subnav-link" id="savedNavLink"> Saved <span id="savedNavCount" style="display:none;background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:2px;font-weight:700;"></span></a>
       </div>
     </nav>
 
@@ -5031,7 +5062,8 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
           </div>`;
           lastLabel = label;
         }
-        html += `<div class="more-story" onclick="openStoryInFeed('${item.id}')">
+        html += `<div class="more-story" onclick="openStoryInFeed('${item.id}')" style="position:relative;">
+              ${saveBtnHtml(item.id)}
           <div class="more-thumb">
             ${item.imageUrl
             ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
@@ -5166,6 +5198,7 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
                 <div class="top10-headline">${item.calmTitle || item.title || ''}</div>
                 <div class="top10-meta">${item.sourceName || ''} · ${relativeTime(item.publishedAt)}</div>
               </div>
+              ${saveBtnHtml(item.id)}
             </div>`;
           }).join('');
         } else {
@@ -5243,6 +5276,71 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
     function closeOtgModal() {
       const modal = document.getElementById('otgSubmitModal');
       if (modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
+    }
+
+    // ── Save / Bookmark Feature ───────────────────────────────────────────────
+    const SAVED_KEY = 'cwn_saved_articles';
+
+    function getSavedArticles() {
+      try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); } catch { return []; }
+    }
+
+    function isSaved(id) {
+      return getSavedArticles().some(a => a.id === id);
+    }
+
+    function toggleSave(id, e) {
+      if (e) { e.stopPropagation(); }
+      const saved = getSavedArticles();
+      const idx = saved.findIndex(a => a.id === id);
+      if (idx >= 0) {
+        saved.splice(idx, 1);
+      } else {
+        // Find article in allNews
+        const item = allNews.find(a => a.id === id);
+        if (item) {
+          saved.unshift({
+            id: item.id,
+            calmTitle: item.calmTitle || item.title || '',
+            title: item.title || '',
+            calmSummary: item.calmSummary || '',
+            sourceName: item.sourceName || '',
+            publishedAt: item.publishedAt || '',
+            imageUrl: item.imageUrl || '',
+            category: item.category || item.topic || '',
+            url: item.url || '',
+            savedAt: new Date().toISOString(),
+          });
+        }
+      }
+      try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved.slice(0, 200))); } catch {}
+      updateAllSaveBtns();
+      updateSavedNavCount();
+    }
+
+    function updateAllSaveBtns() {
+      document.querySelectorAll('[data-save-id]').forEach(btn => {
+        const id = btn.dataset.saveId;
+        const saved = isSaved(id);
+        btn.classList.toggle('saved', saved);
+        btn.title = saved ? 'Remove from saved' : 'Save article';
+        btn.textContent = saved ? '🔖' : '🔖';
+        btn.style.opacity = saved ? '1' : '0.7';
+      });
+    }
+
+    function updateSavedNavCount() {
+      const count = getSavedArticles().length;
+      const el = document.getElementById('savedNavCount');
+      if (el) {
+        el.textContent = count;
+        el.style.display = count > 0 ? 'inline' : 'none';
+      }
+    }
+
+    function saveBtnHtml(id) {
+      const saved = isSaved(id);
+      return `<button class="save-btn${saved ? ' saved' : ''}" data-save-id="${id}" onclick="toggleSave('${id}',event)" title="${saved ? 'Remove from saved' : 'Save article'}" aria-label="Save article" style="opacity:${saved ? '1' : '0.7'}">🔖</button>`;
     }
 
     function scrollToSection(id) {
@@ -5364,6 +5462,7 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
             : `<div class="cat-section-card-img" style="background:${grad};"></div>`;
           const borderCol = categoryBorderColor(cat);
           return `<div class="cat-section-card" style="border-left:4px solid ${borderCol};" onclick="openStoryInFeed('${item.id}')">
+              ${saveBtnHtml(item.id)}
             ${imgPart}
             <div class="cat-section-card-body">
               <div class="cat-section-card-title">${item.calmTitle || item.title || ''}</div>
@@ -5558,6 +5657,9 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
 
     // Load OTG horizontal scroll posts
     loadOtgScrollPosts();
+
+    // Init saved nav count
+    updateSavedNavCount();
 
     // Initial load + refresh every 30s
     loadNews();

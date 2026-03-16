@@ -484,6 +484,7 @@ app.get('/api/government', (req, res) => {
 });
 
 app.get('/government', (req, res) => res.sendFile(path.join(__dirname, 'government.html')));
+app.get('/saved', (req, res) => res.sendFile(path.join(__dirname, 'saved.html')));
 
 // ── Archive: query all historical articles from Supabase ──────────────────────
 app.get("/api/archive", async (req, res) => {

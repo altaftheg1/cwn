@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C8102E"/>
+      <stop offset="100%" stop-color="#9B0B22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background pill -->
+  <rect x="0" y="0" width="400" height="120" rx="12" fill="url(#bg)"/>
+
+  <!-- UAE flag stripe accent (thin gold bar top) -->
+  <rect x="0" y="0" width="400" height="5" rx="0" fill="#B8860B"/>
+  <rect x="0" y="0" width="400" height="5" rx="12" fill="#B8860B"/>
+
+  <!-- Flag bar (left side vertical) -->
+  <rect x="0" y="0" width="8" height="120" rx="0" fill="#B8860B"/>
+  <rect x="0" y="0" width="8" height="120" rx="6" fill="#B8860B"/>
+
+  <!-- Wordmark -->
+  <text
+    x="28"
+    y="58"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="38"
+    font-weight="700"
+    fill="#FFFFFF"
+    letter-spacing="1"
+  >TheDubaiBrief</text>
+
+  <!-- Tagline -->
+  <text
+    x="28"
+    y="85"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="13"
+    font-weight="400"
+    fill="rgba(255,255,255,0.75)"
+    letter-spacing="2.5"
+  >CALM · TIMELY · UAE NEWS</text>
+
+  <!-- UAE flag emoji area — small flag bars top-right -->
+  <rect x="358" y="22" width="30" height="8"  rx="2" fill="#C8102E" opacity="0.9"/>
+  <rect x="358" y="34" width="30" height="8"  rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="358" y="46" width="30" height="8"  rx="2" fill="#1A1208" opacity="0.85"/>
+  <rect x="352" y="22" width="10" height="34" rx="2" fill="#00732F" opacity="0.95"/>
+</svg>
