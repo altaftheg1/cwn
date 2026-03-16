@@ -1241,28 +1241,28 @@ async function sendAdRejectedEmail(ad, reason) {
   await sendResendEmail({ to: ad.email, subject: 'Update on your TheDubaiBrief ad request', html, text: `Hi ${ad.contact_name},\n\nWe cannot approve your ad at this time. Reason: ${reason||'N/A'}\n\nA full refund has been processed.\n\nTheDubaiBrief Team` });
 }
 
-app.listen(PORT, '0.0.0.0', async () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`DUB server running on port ${PORT}`);
-  
-  // Prime cache on startup
-  console.log('Priming cache on startup...');
-  try {
-    await buildNewsCache({ force: true });
-    console.log('Cache primed successfully on startup');
-  } catch (err) {
-    console.error('Error priming cache on startup:', err.message);
-  }
+
+  // Prime cache in background — don't block the listener so health checks pass immediately
+  setImmediate(async () => {
+    console.log('Priming cache on startup...');
+    try {
+      await buildNewsCache({ force: true });
+      console.log('Cache primed successfully on startup');
+    } catch (err) {
+      console.error('Error priming cache on startup:', err.message);
+    }
+  });
 
   // Run background rebuild every 30 seconds
   setInterval(async () => {
-    console.log('Triggering scheduled background rebuild...');
     try {
       await buildNewsCache({ force: false });
-      console.log('Scheduled background rebuild completed');
     } catch (err) {
       console.error('Error in scheduled background rebuild:', err.message);
     }
-  }, 30000); // 30 seconds
+  }, 30000);
 
   // Digest scheduling handled by node-cron (see cron.schedule calls above)
 });
