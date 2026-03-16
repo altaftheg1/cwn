@@ -1800,23 +1800,17 @@
       inset: 0;
       z-index: 9998;
       background: #FFFDF9;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    .greeting-screen.visible {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     .greeting-screen.exit {
-      opacity: 0;
+      opacity: 0 !important;
       pointer-events: none;
+      transition: opacity 0.5s ease !important;
     }
 
     /* Floating confetti dots */
@@ -4031,7 +4025,7 @@
     <button class="greeting-skip" id="greetingSkip">skip →</button>
   </div>
 
-  <div class="app-shell" style="opacity: 0; transition: opacity 0.5s ease 0.1s;" id="appShell">
+  <div class="app-shell" id="appShell">
     <!-- Utility Bar -->
     <div class="utility-bar">
       <div class="utility-left">
@@ -4402,22 +4396,24 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // helper: gradient placeholder for topic when no image
-    function gradientForTopic(topic) {
-      switch ((topic || "").toLowerCase()) {
-        case 'safety': return 'linear-gradient(135deg, #1a1a2e, #c0392b)';
-        case 'health': return 'linear-gradient(135deg, #134e5e, #71b280)';
-        case 'finance': return 'linear-gradient(135deg, #373b44, #4286f4)';
-        case 'government':
-        case 'politics': return 'linear-gradient(135deg, #1a1208, #c8102e)';
-        case 'news': return 'linear-gradient(135deg, #0f2027, #2c5364)';
-        default: return 'linear-gradient(135deg, #2c3e50, #3498db)';
+    // helper: gradient placeholder for category when no image
+    function gradientForTopic(cat) {
+      switch ((cat || "").toLowerCase()) {
+        case 'breaking news':       return 'linear-gradient(135deg, #1a1a2e, #c0392b)';
+        case 'sports':              return 'linear-gradient(135deg, #1a3a1a, #27ae60)';
+        case 'politics':            return 'linear-gradient(135deg, #2c1810, #8e44ad)';
+        case 'dubai news':          return 'linear-gradient(135deg, #1a1208, #c8102e)';
+        case 'abu dhabi news':      return 'linear-gradient(135deg, #0d1b2a, #1565c0)';
+        case 'economy & business':  return 'linear-gradient(135deg, #373b44, #4286f4)';
+        case 'technology':          return 'linear-gradient(135deg, #0f2027, #2c5364)';
+        case 'uae government':      return 'linear-gradient(135deg, #1a1208, #b8860b)';
+        default:                    return 'linear-gradient(135deg, #2c3e50, #3498db)';
       }
     }
 
     // construct HTML for any item's image area, falling back to gradient
     function imageHtml(item) {
-      const grad = gradientForTopic(item.topic);
+      const grad = gradientForTopic(item.category || item.topic);
       if (item.imageUrl) {
         const proxied = `${API_BASE}/api/image?url=` + encodeURIComponent(item.imageUrl);
         return `<div class="story-image"><img src="${proxied}" alt="" style="object-fit:cover;width:100%;height:100%;" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${grad}';" /></div>`;
@@ -4489,43 +4485,46 @@
     }
     // Splash + Greeting logic
     (function () {
-      const splash   = document.getElementById('splash');
-      const greeting = document.getElementById('greetingScreen');
-      const app      = document.getElementById('appShell');
-      const skipBtn  = document.getElementById('greetingSkip');
-      if (!app) return;
+      var splash   = document.getElementById('splash');
+      var greeting = document.getElementById('greetingScreen');
+      var skipBtn  = document.getElementById('greetingSkip');
 
-      // Versioned session key — bump version to invalidate stale keys
-      const SESSION_KEY = 'cwn_session_v4';
+      // Timestamp-based: skip if shown within the last 90 seconds (handles refresh)
+      var ANIM_KEY = 'cwn_anim_ts';
+      var now = Date.now();
+      var lastShown = 0;
+      try { lastShown = parseInt(localStorage.getItem(ANIM_KEY) || '0', 10); } catch {}
+      var recentlyShown = (now - lastShown) < 90000;
 
-      // True only if greeting was already shown in this browser tab/window
-      const shownThisTab = !!sessionStorage.getItem(SESSION_KEY);
+      // If shown recently, just remove overlays and exit
+      if (recentlyShown) {
+        if (splash) splash.remove();
+        if (greeting) greeting.remove();
+        return;
+      }
 
-      // Mark this tab immediately so refresh doesn't replay
-      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch {}
+      // Record show time
+      try { localStorage.setItem(ANIM_KEY, String(now)); } catch {}
 
-      // ── Reveal main site ────────────────────────────────────────────────────
-      function revealApp() { app.style.opacity = '1'; }
-
-      // ── Fade out greeting then show site ────────────────────────────────────
+      // ── Fade out greeting ────────────────────────────────────────────────────
       function endGreeting() {
-        if (!greeting || !document.contains(greeting)) { revealApp(); return; }
+        if (!greeting) return;
         greeting.classList.add('exit');
-        setTimeout(() => { if (greeting.parentNode) greeting.remove(); revealApp(); }, 500);
+        setTimeout(function () { if (greeting && greeting.parentNode) greeting.parentNode.removeChild(greeting); }, 500);
       }
 
       // ── Full greeting sequence ───────────────────────────────────────────────
       function runGreeting() {
-        if (!greeting) { revealApp(); return; }
+        if (!greeting) return;
 
-        const wave    = document.getElementById('greetingWave');
-        const hii     = document.getElementById('greetingHii');
-        const sub     = document.getElementById('greetingSub');
-        const smile   = document.getElementById('greetingSmile');
-        const path    = document.getElementById('smilePath');
-        const tagline = document.getElementById('greetingTagline');
+        var wave    = document.getElementById('greetingWave');
+        var hii     = document.getElementById('greetingHii');
+        var sub     = document.getElementById('greetingSub');
+        var smile   = document.getElementById('greetingSmile');
+        var path    = document.getElementById('smilePath');
+        var tagline = document.getElementById('greetingTagline');
 
-        let done = false;
+        var done = false;
         function skip() {
           if (done) return; done = true;
           endGreeting();
@@ -4535,48 +4534,44 @@
         document.addEventListener('keydown', skip, { once: true });
         if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
 
-        greeting.classList.add('visible');
+        // Make greeting visible
+        greeting.style.opacity = '0';
+        greeting.style.display = 'flex';
+        greeting.style.transition = 'opacity 0.4s ease';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            greeting.style.opacity = '1';
+          });
+        });
 
-        setTimeout(() => {
+        setTimeout(function () {
           if (done) return;
-          if (wave) { wave.classList.add('show'); setTimeout(() => wave.classList.add('wave'), 200); }
-        }, 0);
-        setTimeout(() => { if (!done && hii) hii.classList.add('show'); }, 400);
-        setTimeout(() => { if (!done && sub) sub.classList.add('show'); }, 900);
-        setTimeout(() => {
+          if (wave) { wave.classList.add('show'); setTimeout(function () { wave.classList.add('wave'); }, 200); }
+        }, 300);
+        setTimeout(function () { if (!done && hii) hii.classList.add('show'); }, 700);
+        setTimeout(function () { if (!done && sub) sub.classList.add('show'); }, 1200);
+        setTimeout(function () {
           if (done) return;
           if (smile) smile.classList.add('show');
           if (path) path.classList.add('draw');
-        }, 1700);
-        setTimeout(() => { if (!done && tagline) tagline.classList.add('show'); }, 2600);
-        // 5s auto-exit (longer so user can enjoy it)
-        setTimeout(() => { if (!done) skip(); }, 5000);
+        }, 2000);
+        setTimeout(function () { if (!done && tagline) tagline.classList.add('show'); }, 2900);
+        // Auto-exit after 5.5s
+        setTimeout(function () { if (!done) skip(); }, 5500);
       }
 
-      // ── Route ────────────────────────────────────────────────────────────────
-      if (shownThisTab) {
-        // Same tab refresh — skip everything
-        if (splash) splash.remove();
-        if (greeting) greeting.remove();
-        revealApp();
-        return;
-      }
-
-      // Fresh session — show splash then full greeting
+      // ── Splash exit then greeting ────────────────────────────────────────────
       function afterSplash() {
-        if (!splash || !document.contains(splash)) {
-          runGreeting();
-          return;
-        }
+        if (!splash) { runGreeting(); return; }
         splash.classList.add('exit');
-        setTimeout(() => {
-          if (splash && splash.parentNode) splash.remove();
+        setTimeout(function () {
+          if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
           runGreeting();
         }, 600);
       }
 
       if (splash) splash.addEventListener('click', afterSplash, { once: true });
-      setTimeout(afterSplash, 2000);
+      setTimeout(afterSplash, 2200);
     })();
 
     // Load and render news
@@ -4587,7 +4582,9 @@
         const d = await r.json();
         allNews = (Array.isArray(d.items) ? d.items : []).map(item => ({
           ...item,
-          topic: classifyTopic(item)
+          // Use backend category; fall back to frontend classifyTopic for legacy items
+          topic: item.category || classifyTopic(item),
+          category: item.category || classifyTopic(item),
         }));
 
         if (!allNews.length) {
@@ -4649,8 +4646,8 @@
         html += `<div class="more-story" onclick="openStoryInFeed('${item.id}')">
           <div class="more-thumb">
             ${item.imageUrl
-            ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.topic)}';" />`
-            : `<div style="width:100%;height:100%;background:${gradientForTopic(item.topic)};"></div>`}
+            ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" onerror="this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.category||item.topic)}';" />`
+            : `<div style="width:100%;height:100%;background:${gradientForTopic(item.category||item.topic)};"></div>`}
           </div>
           <div class="more-text">
             <h4 class="more-headline">${item.calmTitle || item.title}</h4>
@@ -4725,7 +4722,7 @@
         </div>`;
       const sidesHTML = items.slice(1, 3).map((item, i) => `
         <div class="side-story" onclick="openStoryInFeed('${item.id}')">
-          <div class="side-thumb" style="background:${item.imageUrl ? '' : gradientForTopic(item.topic)}">
+          <div class="side-thumb" style="background:${item.imageUrl ? '' : gradientForTopic(item.category||item.topic)}">
             ${item.imageUrl ? `<img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" />` : ''}
             <div class="side-number">0${i + 2}</div>
           </div>

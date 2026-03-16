@@ -261,7 +261,7 @@ Return ONLY this JSON:
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-6",
         max_tokens: 500,
         messages: [
           { role: "user", content: systemPrompt + "\n\n" + userMessage }
@@ -538,34 +538,27 @@ async function performBuild() {
   } else {
     console.log(`[news-cache] Fetching from ${ALL_SOURCES.length} sources...`);
 
-    // Fetch sources sequentially with 1s delay to avoid rate limiting
-    const results = [];
-    for (let i = 0; i < ALL_SOURCES.length; i++) {
-      const s = ALL_SOURCES[i];
-      if (i > 0) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+    // Fetch sources in parallel with concurrency limit of 6 to balance speed vs rate-limiting
+    const CONCURRENCY = 6;
+    const results = new Array(ALL_SOURCES.length);
+    let idx = 0;
+    const workers = Array.from({ length: Math.min(CONCURRENCY, ALL_SOURCES.length) }, async () => {
+      while (idx < ALL_SOURCES.length) {
+        const i = idx++;
+        const s = ALL_SOURCES[i];
+        const before = Date.now();
+        try {
+          const raw = await fetchSourceArticles(s);
+          const elapsed = Date.now() - before;
+          sourceStatus.set(s.key, { ok: true, lastCheck: new Date(), articleCount: raw.length, elapsed });
+          results[i] = { status: "fulfilled", value: { source: s, raw } };
+        } catch (err) {
+          sourceStatus.set(s.key, { ok: false, lastCheck: new Date(), articleCount: 0, error: err.message });
+          results[i] = { status: "rejected", reason: err };
+        }
       }
-      const before = Date.now();
-      try {
-        const raw = await fetchSourceArticles(s);
-        const elapsed = Date.now() - before;
-        sourceStatus.set(s.key, {
-          ok: true,
-          lastCheck: new Date(),
-          articleCount: raw.length,
-          elapsed,
-        });
-        results.push({ status: "fulfilled", value: { source: s, raw } });
-      } catch (err) {
-        sourceStatus.set(s.key, {
-          ok: false,
-          lastCheck: new Date(),
-          articleCount: 0,
-          error: err.message,
-        });
-        results.push({ status: "rejected", reason: err });
-      }
-    }
+    });
+    await Promise.all(workers);
 
     rawSourceResults = results;
     sourceCache = results;
