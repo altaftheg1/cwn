@@ -23,7 +23,7 @@ function supabaseReady() {
 
 // Google News RSS helper — returns verified working feed URL for any domain
 function gnRss(site, extra) {
-  return `https://news.google.com/rss/search?q=site:${site}${extra ? "+" + encodeURIComponent(extra) : ""}&hl=en-US&gl=US&ceid=US:en`;
+  return `https://news.google.com/rss/search?q=site:${site}${extra ? "+" + encodeURIComponent(extra) : ""}&hl=en-AE&gl=AE&ceid=AE:en`;
 }
 
 const ALL_SOURCES = [

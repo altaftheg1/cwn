@@ -194,8 +194,8 @@ router.post('/submit', async (req, res) => {
     try {
       modResult = await moderateText(content, location);
     } catch (err) {
-      console.error('[community] Moderation error:', err.message);
-      return res.status(502).json({ error: 'Moderation service unavailable. Try again shortly.' });
+      console.error('[community] Moderation unavailable, failing open:', err.message);
+      modResult = { approved: true, reason: 'moderation unavailable', risk_level: 'medium' };
     }
 
     if (!modResult.approved) {
@@ -340,6 +340,21 @@ router.post('/translate-post', async (req, res) => {
   } catch (err) {
     console.error('[community] translate-post error:', err.message);
     return res.status(500).json({ error: 'Translation failed.' });
+  }
+});
+
+// ── DELETE /api/community/posts/all  (admin only) ─────────────────────────────
+router.delete('/posts/all', async (req, res) => {
+  const token = req.headers['x-admin-token'] || req.query.token;
+  if (!process.env.ADMIN_TOKEN || token !== process.env.ADMIN_TOKEN) {
+    return res.status(403).json({ error: 'Forbidden.' });
+  }
+  try {
+    const { error } = await supabase.from('posts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    if (error) return res.status(500).json({ error: error.message });
+    return res.json({ ok: true, message: 'All community posts deleted.' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 });
 
