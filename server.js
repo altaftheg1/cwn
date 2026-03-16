@@ -528,26 +528,47 @@ app.get("/api/palette-search", async (req, res) => {
   const q = String(req.query.q || "").trim().slice(0, 200);
   if (!q) return res.json({ articles: [], aiAnswer: null });
   try {
-    // 1. Article search — all historical articles (no date cutoff)
-    let articles = [];
-    if (_supabase) {
-      const isSchool = /school|closure|holiday|reopen|khda|adek|exam|term/i.test(q);
-      let query = _supabase
+    // 1a. Search live in-memory cache first (catches articles not yet in Supabase)
+    const ql = q.toLowerCase();
+    const liveCache = getCachedNews();
+    const liveMatches = (liveCache?.items || [])
+      .filter(a => {
+        const text = ((a.calmTitle || a.title || '') + ' ' + (a.calmSummary || a.description || '') + ' ' + (a.sourceName || '') + ' ' + (a.category || '')).toLowerCase();
+        return text.includes(ql);
+      })
+      .slice(0, 8)
+      .map(a => ({
+        id: a.id,
+        calm_headline: a.calmTitle || a.title || '',
+        original_title: a.title || '',
+        summary: a.calmSummary || '',
+        source: a.sourceName || '',
+        published_at: a.publishedAt || null,
+        category: a.category || '',
+        image_url: a.imageUrl || null,
+        _fromCache: true,
+      }));
+
+    // 1b. Search Supabase archive (all historical articles, no date cutoff)
+    let articles = [...liveMatches];
+    try {
+      const safeQ = q.replace(/[%_]/g, '\\$&');
+      const { data } = await _supabase
         .from("articles")
         .select("id, calm_headline, original_title, summary, source, published_at, category, image_url")
+        .or(`calm_headline.ilike.%${safeQ}%,original_title.ilike.%${safeQ}%,summary.ilike.%${safeQ}%`)
         .order("published_at", { ascending: false })
         .limit(12);
-      if (isSchool) {
-        query = query.or(
-          `calm_headline.ilike.%school%,original_title.ilike.%school%,summary.ilike.%school%,category.eq.Education`
-        );
-      } else {
-        query = query.or(
-          `calm_headline.ilike.%${q}%,original_title.ilike.%${q}%,summary.ilike.%${q}%`
-        );
+      // Merge Supabase results, skip any already covered by live cache
+      const liveTitles = new Set(liveMatches.map(a => (a.calm_headline || '').toLowerCase()));
+      for (const a of (data || [])) {
+        if (!liveTitles.has((a.calm_headline || '').toLowerCase())) {
+          articles.push(a);
+        }
       }
-      const { data } = await query;
-      articles = data || [];
+      articles = articles.slice(0, 12);
+    } catch (err) {
+      console.warn('[palette-search] Supabase query failed:', err.message);
     }
 
     // 2. AI smart answer — only for questions or complex queries (>3 words)
