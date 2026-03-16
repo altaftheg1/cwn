@@ -478,7 +478,7 @@ app.get("/api/source-status", (req, res) => {
 app.get('/api/government', (req, res) => {
   const items = getCachedNews()?.items || [];
   const govItems = items
-    .filter(item => item.isGovSource || item.topic === 'UAE Government' || item.category === 'UAE Government')
+    .filter(item => item.isGovSource === true)
     .slice(0, 20);
   res.json({ items: govItems });
 });

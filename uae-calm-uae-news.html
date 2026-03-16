@@ -4607,6 +4607,9 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       </div>
     </div>
 
+    <!-- Government Announcements (always visible on mobile & desktop) -->
+    <div class="gov-feed-section" id="govFeedSection"></div>
+
     <!-- Category Sections + Filtered view -->
     <div class="main-content" id="categorySectionsWrap" style="padding-top:0;">
       <div class="more-stories" id="filteredStoriesWrap" style="display:none;">
@@ -4621,9 +4624,6 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       </div>
       <div id="categorySections"></div>
     </div>
-
-    <!-- Government Feed -->
-    <div class="gov-feed-section" id="govFeedSection"></div>
 
     <!-- OTG Submission Modal -->
     <div class="otg-submit-modal" id="otgSubmitModal" aria-hidden="true">
@@ -5232,10 +5232,7 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
     function renderGovFeed(allItems) {
       const govEl = document.getElementById('govFeedSection');
       if (!govEl) return;
-      const govItems = allItems.filter(item =>
-        (item.category || '').toLowerCase() === 'uae government' ||
-        (item.isGovSource === true)
-      ).slice(0, 6);
+      const govItems = allItems.filter(item => item.isGovSource === true).slice(0, 6);
       if (!govItems.length) { govEl.innerHTML = ''; return; }
       const cards = govItems.map(item => `
         <div class="gov-feed-card" onclick="openStoryInFeed('${item.id}')">

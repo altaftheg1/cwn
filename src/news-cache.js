@@ -191,6 +191,84 @@ const ALL_SOURCES = [
     rssUrl: gnRss("moe.gov.ae"),
     scrapeUrl: "https://www.moe.gov.ae/en/mediaCenter/News",
   },
+
+  // TIER 2 — ADDITIONAL MAJOR OUTLETS
+  {
+    key: "gulftoday", name: "Gulf Today", tier: 2, category: "General News",
+    rssUrl: gnRss("gulftoday.ae", "UAE"),
+    scrapeUrl: "https://www.gulftoday.ae/",
+  },
+  {
+    key: "24ae", name: "24.ae", tier: 2, category: "General News",
+    rssUrl: gnRss("24.ae"),
+    scrapeUrl: "https://24.ae/",
+  },
+  {
+    key: "zawya", name: "Zawya", tier: 2, category: "Business",
+    rssUrl: gnRss("zawya.com", "UAE"),
+    scrapeUrl: "https://www.zawya.com/en/uae/",
+  },
+  {
+    key: "meed", name: "MEED", tier: 2, category: "Business",
+    rssUrl: gnRss("meed.com", "UAE"),
+    scrapeUrl: "https://www.meed.com/",
+  },
+
+  // TIER 3 — ADDITIONAL BROADCAST & REGIONAL
+  {
+    key: "skynewsarabia", name: "Sky News Arabia", tier: 3, category: "General News",
+    rssUrl: gnRss("skynewsarabia.com", "UAE"),
+    scrapeUrl: "https://www.skynewsarabia.com/",
+  },
+  {
+    key: "dubaichronicle", name: "Dubai Chronicle", tier: 3, category: "General News",
+    rssUrl: gnRss("dubaichronicle.com"),
+    scrapeUrl: "https://dubaichronicle.com/",
+  },
+  {
+    key: "sport360", name: "Sport360", tier: 3, category: "Sports",
+    rssUrl: "https://sport360.com/feed/",
+    scrapeUrl: "https://sport360.com/",
+  },
+  {
+    key: "constructionweek", name: "Construction Week", tier: 3, category: "Business",
+    rssUrl: gnRss("constructionweekonline.com", "UAE"),
+    scrapeUrl: "https://www.constructionweekonline.com/",
+  },
+
+  // TIER 3 — ARABIC LANGUAGE OUTLETS
+  {
+    key: "albayan", name: "Al Bayan", tier: 3, category: "General News",
+    rssUrl: gnRss("albayan.ae"),
+    scrapeUrl: "https://www.albayan.ae/",
+  },
+  {
+    key: "alittihad", name: "Al Ittihad", tier: 3, category: "General News",
+    rssUrl: gnRss("alittihad.ae"),
+    scrapeUrl: "https://www.alittihad.ae/",
+  },
+  {
+    key: "emaratalyoum", name: "Emarat Al Youm", tier: 3, category: "General News",
+    rssUrl: gnRss("emaratalyoum.com"),
+    scrapeUrl: "https://www.emaratalyoum.com/",
+  },
+  {
+    key: "alkhaleej", name: "Al Khaleej", tier: 3, category: "General News",
+    rssUrl: gnRss("alkhaleej.ae"),
+    scrapeUrl: "https://www.alkhaleej.ae/",
+  },
+
+  // TIER 4 — ADDITIONAL LIFESTYLE & TRADE
+  {
+    key: "menews247", name: "MeNews247", tier: 4, category: "General News",
+    rssUrl: gnRss("menews247.com", "UAE"),
+    scrapeUrl: "https://menews247.com/",
+  },
+  {
+    key: "hoteliermiddleeast", name: "Hotelier Middle East", tier: 4, category: "Lifestyle",
+    rssUrl: gnRss("hoteliermiddleeast.com", "UAE"),
+    scrapeUrl: "https://www.hoteliermiddleeast.com/",
+  },
 ];
 
 // Source status tracking (updated on each build)
@@ -481,8 +559,10 @@ function categorizeArticle(title, summary, source) {
     if (src.includes('dubai media office') || src.includes('dubai police') || src.includes('rta') || src.includes('dha ')) return 'Dubai News';
     if (src.includes('dubai')) return 'Dubai News';
     if (src.includes('abu dhabi')) return 'Abu Dhabi News';
-    if (src.includes('gulf business') || src.includes('arabian business') || src.includes('zawya') || src.includes('bloomberg')) return 'Economy & Business';
-    if (src.includes('gulf news') || src.includes('khaleej times') || src.includes('the national') || src.includes('time out') || src.includes('emirates 24') || src.includes('al arabiya') || src.includes('arab news') || src.includes('thenational')) return 'Dubai News';
+    if (src.includes('gulf business') || src.includes('arabian business') || src.includes('zawya') || src.includes('meed') || src.includes('bloomberg') || src.includes('construction week')) return 'Economy & Business';
+    if (src.includes('sport360')) return 'Sports';
+    if (src.includes('hotelier')) return 'Economy & Business';
+    if (src.includes('gulf news') || src.includes('khaleej times') || src.includes('the national') || src.includes('time out') || src.includes('emirates 24') || src.includes('al arabiya') || src.includes('arab news') || src.includes('thenational') || src.includes('gulf today') || src.includes('24.ae') || src.includes('sky news') || src.includes('dubai chronicle') || src.includes('menews247') || src.includes('al bayan') || src.includes('al ittihad') || src.includes('emarat') || src.includes('al khaleej')) return 'Dubai News';
   }
 
   return 'Dubai News';
