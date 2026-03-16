@@ -6483,7 +6483,7 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         // Article results
         currentItems = [];
         if (data.articles && data.articles.length) {
-          html += '<div class="cp-section-label">Search results</div>';
+          html += '<div class="cp-section-label">' + (data.aiMatched ? '🤖 AI matched these for you' : 'Search results') + '</div>';
           data.articles.forEach(function (a, i) {
             var title = a.calm_headline || a.original_title || 'Update';
             var ago = typeof relativeTime === 'function' ? relativeTime(a.published_at) : '';
@@ -6518,10 +6518,9 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
           }
         });
         if (!html) {
-          // No results — still offer archive link
           var archiveIdx2 = currentItems.length;
           currentItems.push({ action: function () { location.href = '/archive?q=' + encodeURIComponent(q); close(); } });
-          html = '<div style="padding:16px 16px 4px;text-align:center;color:#AAA;font-size:13px;">No recent results for "' + escHtml(q) + '"</div>' +
+          html = '<div style="padding:16px 16px 4px;text-align:center;color:#AAA;font-size:13px;">Nothing found for "' + escHtml(q) + '"</div>' +
             '<div class="cp-item cp-archive-link" data-idx="' + archiveIdx2 + '">' +
             '<span class="cp-item-icon">&#128197;</span>' +
             '<div class="cp-item-text"><div class="cp-item-title">Search the full archive for "' + escHtml(q) + '"</div>' +
@@ -6583,11 +6582,11 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
 
         // Debounced search
         searchTimer = setTimeout(function () {
-          results.innerHTML = '<div style="padding:16px;text-align:center;color:#AAA;font-size:13px;">Searching...</div>';
+          results.innerHTML = '<div style="padding:16px;text-align:center;color:#AAA;font-size:13px;">Searching…</div>';
           fetch('/api/palette-search?q=' + encodeURIComponent(q))
             .then(function (r) { return r.json(); })
             .then(function (d) { renderSearchResults(q, d); })
-            .catch(function () { renderSearchResults(q, { articles: [], aiAnswer: null }); });
+            .catch(function () { renderSearchResults(q, { articles: [], aiAnswer: null, aiMatched: false }); });
         }, 320);
       });
 

@@ -571,25 +571,60 @@ app.get("/api/palette-search", async (req, res) => {
       console.warn('[palette-search] Supabase query failed:', err.message);
     }
 
-    // 2. AI smart answer — only for questions or complex queries (>3 words)
+    // 2. If no text matches found — use Claude to semantic-match from live cache
+    let aiMatched = false;
+    if (articles.length === 0 && process.env.CLAUDE_API_KEY) {
+      const cacheItems = (liveCache?.items || []).slice(0, 50);
+      if (cacheItems.length > 0) {
+        try {
+          const articleList = cacheItems
+            .map((a, i) => `${i}|${a.calmTitle || a.title || ''}|${a.sourceName || ''}|${a.category || ''}`)
+            .join('\n');
+          const resp = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-api-key": process.env.CLAUDE_API_KEY, "anthropic-version": "2023-06-01" },
+            body: JSON.stringify({
+              model: "claude-haiku-4-5-20251001",
+              max_tokens: 60,
+              messages: [{
+                role: "user",
+                content: `User searched: "${q}"\n\nNews articles (index|title|source|category):\n${articleList}\n\nReturn a JSON array of up to 5 index numbers of the most relevant articles. Return ONLY the JSON array, e.g. [2,7,14]`
+              }]
+            }),
+          });
+          if (resp.ok) {
+            const d = await resp.json();
+            const raw = (d.content?.[0]?.text || '').trim();
+            const match = raw.match(/\[[\d,\s]+\]/);
+            if (match) {
+              const indices = JSON.parse(match[0]);
+              articles = indices
+                .filter(i => Number.isInteger(i) && i >= 0 && i < cacheItems.length)
+                .map(i => {
+                  const a = cacheItems[i];
+                  return { id: a.id, calm_headline: a.calmTitle || a.title || '', original_title: a.title || '', summary: a.calmSummary || '', source: a.sourceName || '', published_at: a.publishedAt || null, category: a.category || '', image_url: a.imageUrl || null };
+                });
+              if (articles.length > 0) aiMatched = true;
+            }
+          }
+        } catch (err) {
+          console.warn('[palette-search] AI match failed:', err.message);
+        }
+      }
+    }
+
+    // 3. AI smart answer — for questions or complex queries
     let aiAnswer = null;
     const looksLikeQuestion = q.includes("?") || q.split(" ").length >= 3;
     if (looksLikeQuestion && process.env.CLAUDE_API_KEY) {
       try {
         const resp = await fetch("https://api.anthropic.com/v1/messages", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": process.env.CLAUDE_API_KEY,
-            "anthropic-version": "2023-06-01",
-          },
+          headers: { "Content-Type": "application/json", "x-api-key": process.env.CLAUDE_API_KEY, "anthropic-version": "2023-06-01" },
           body: JSON.stringify({
             model: "claude-haiku-4-5-20251001",
             max_tokens: 200,
-            messages: [{
-              role: "user",
-              content: `You are a helpful assistant for TheDubaiBrief, a UAE news site. Answer this question in 2-3 calm, friendly sentences based on general knowledge about UAE. Never cause panic. Be warm and reassuring. Question: ${q}`
-            }]
+            messages: [{ role: "user", content: `You are a helpful assistant for TheDubaiBrief, a UAE news site. Answer this question in 2-3 calm, friendly sentences based on general knowledge about UAE. Never cause panic. Be warm and reassuring. Question: ${q}` }]
           }),
         });
         if (resp.ok) {
@@ -599,7 +634,7 @@ app.get("/api/palette-search", async (req, res) => {
       } catch {}
     }
 
-    res.json({ articles, aiAnswer });
+    res.json({ articles, aiAnswer, aiMatched });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
