@@ -416,6 +416,7 @@ app.use(cors());
 // ── Stripe webhook MUST be registered before express.json() middleware ─────────
 // It needs the raw body buffer, not parsed JSON
 app.post('/api/ads/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  if (!_stripe) return res.status(503).json({ error: 'Stripe not configured' });
   const sig = req.headers['stripe-signature'];
   let event;
   try {
@@ -968,7 +969,16 @@ app.get('/admin-dub-2026', (req, res) => res.sendFile(path.join(__dirname, 'admi
 
 // ── Advertising System ────────────────────────────────────────────────────────
 
-const _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+let _stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+  try {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  } catch (err) {
+    console.warn('WARNING: Stripe init failed — payment features disabled:', err.message);
+  }
+} else {
+  console.warn('WARNING: STRIPE_SECRET_KEY not set — payment features disabled');
+}
 
 const AD_PACKAGES = {
   morning:   { name: 'Morning Spotlight ☀️',   price: 49, slot: '06:00-12:00' },
@@ -1018,6 +1028,7 @@ async function uploadAdImage(base64data, filename) {
 
 // POST /api/ads/create-payment
 app.post('/api/ads/create-payment', async (req, res) => {
+  if (!_stripe) return res.status(503).json({ error: 'Payment system not configured' });
   try {
     const { companyName, contactName, email, phone, websiteUrl, packages, includeEmailAddon, headline, description, ctaText, destinationUrl, startDate, adImage, adLogo } = req.body;
 
@@ -1159,7 +1170,7 @@ app.post('/api/admin/ads/:id/reject', async (req, res) => {
   if (!ad) return res.status(404).json({ error: 'Ad not found' });
 
   // Process Stripe refund
-  if (ad.stripe_payment_id && process.env.STRIPE_SECRET_KEY) {
+  if (ad.stripe_payment_id && _stripe) {
     try {
       await _stripe.refunds.create({ payment_intent: ad.stripe_payment_id });
       console.log('[ads] Refund processed for ad', id);
