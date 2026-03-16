@@ -5139,6 +5139,8 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
             <a href="/government" class="gov-widget-more">View all →</a>
           </div>
 `;
+        // Sidebar just rendered — load gov widget now that the element exists
+        if (typeof loadGovWidget === 'function') loadGovWidget();
       }
 
       // storyGrid kept empty (hidden)
@@ -6490,7 +6492,6 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
         if (list) list.innerHTML = '<div class="gov-widget-loading">Could not load announcements</div>';
       }
     }
-    loadGovWidget();
     setInterval(loadGovWidget, 5 * 60 * 1000);
   </script>
 </body>
