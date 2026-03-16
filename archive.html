@@ -337,6 +337,10 @@
       let totalArticles = 0;
       const PAGE_SIZE = 20;
 
+      // Pre-fill from URL ?q= param (coming from search palette "See all results")
+      var urlQ = new URLSearchParams(window.location.search).get('q');
+      if (urlQ) document.getElementById('q').value = urlQ;
+
       // Run initial load
       search(1);
 

@@ -3763,6 +3763,14 @@
       flex-shrink: 0;
     }
 
+    .cp-archive-link {
+      border-top: 1px solid #F0F0F0;
+      margin-top: 4px;
+      background: #FAFAFA;
+    }
+    .cp-archive-link:hover, .cp-archive-link.selected { background: #F5E5E8 !important; }
+    body.dark .cp-archive-link { background: #181818; border-color: #2A2A2A; }
+
     .cp-divider {
       height: 1px;
       background: #F0F0F0;
@@ -6475,17 +6483,25 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         // Article results
         currentItems = [];
         if (data.articles && data.articles.length) {
-          html += '<div class="cp-section-label">Articles from last 30 days</div>';
+          html += '<div class="cp-section-label">Search results</div>';
           data.articles.forEach(function (a, i) {
             var title = a.calm_headline || a.original_title || 'Update';
             var ago = typeof relativeTime === 'function' ? relativeTime(a.published_at) : '';
-            currentItems.push({ action: function (art) { return function () { location.href = '/article-view.html?id=' + encodeURIComponent(art.id); close(); }; }(a) });
+            currentItems.push({ action: function (art) { return function () { location.href = '/article?id=' + encodeURIComponent(art.id); close(); }; }(a) });
             html += '<div class="cp-item' + (i === 0 ? ' selected' : '') + '" data-idx="' + i + '">' +
               '<span class="cp-item-icon">&#128240;</span>' +
               '<div class="cp-item-text"><div class="cp-item-title">' + escHtml(title) + '</div>' +
-              '<div class="cp-item-meta">' + (a.source || '') + (ago ? ' &middot; ' + ago : '') + '</div></div>' +
+              '<div class="cp-item-meta">' + escHtml(a.source || '') + (ago ? ' &middot; ' + ago : '') + '</div></div>' +
               '<span class="cp-item-arrow">&#8594;</span></div>';
           });
+          // "See all" link to archive
+          var archiveIdx = currentItems.length;
+          currentItems.push({ action: function () { location.href = '/archive?q=' + encodeURIComponent(q); close(); } });
+          html += '<div class="cp-item cp-archive-link" data-idx="' + archiveIdx + '">' +
+            '<span class="cp-item-icon">&#128197;</span>' +
+            '<div class="cp-item-text"><div class="cp-item-title">See all results for "' + escHtml(q) + '"</div>' +
+            '<div class="cp-item-meta">Search the full article archive</div></div>' +
+            '<span class="cp-item-arrow">&#8594;</span></div>';
         }
         // Section nav
         var CAT_MAP = { safety: 'Safety', government: 'Government', gov: 'Government', business: 'Business', transport: 'Transport', health: 'Health', sport: 'Sport', world: 'World', education: 'Education', school: 'Education', weather: 'Weather', tech: 'Technology', technology: 'Technology', lifestyle: 'Lifestyle', community: 'Community' };
@@ -6502,7 +6518,15 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
           }
         });
         if (!html) {
-          html = '<div style="padding:20px 16px;text-align:center;color:#AAA;font-size:13px;">No results found for "' + escHtml(q) + '"</div>';
+          // No results — still offer archive link
+          var archiveIdx2 = currentItems.length;
+          currentItems.push({ action: function () { location.href = '/archive?q=' + encodeURIComponent(q); close(); } });
+          html = '<div style="padding:16px 16px 4px;text-align:center;color:#AAA;font-size:13px;">No recent results for "' + escHtml(q) + '"</div>' +
+            '<div class="cp-item cp-archive-link" data-idx="' + archiveIdx2 + '">' +
+            '<span class="cp-item-icon">&#128197;</span>' +
+            '<div class="cp-item-text"><div class="cp-item-title">Search the full archive for "' + escHtml(q) + '"</div>' +
+            '<div class="cp-item-meta">Browse all saved articles</div></div>' +
+            '<span class="cp-item-arrow">&#8594;</span></div>';
         }
         selectedIdx = 0;
         results.innerHTML = html;

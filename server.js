@@ -528,24 +528,23 @@ app.get("/api/palette-search", async (req, res) => {
   const q = String(req.query.q || "").trim().slice(0, 200);
   if (!q) return res.json({ articles: [], aiAnswer: null });
   try {
-    // 1. Article search — last 30 days
+    // 1. Article search — all historical articles (no date cutoff)
     let articles = [];
     if (_supabase) {
-      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
       const isSchool = /school|closure|holiday|reopen|khda|adek|exam|term/i.test(q);
       let query = _supabase
         .from("articles")
         .select("id, calm_headline, original_title, summary, source, published_at, category, image_url")
         .order("published_at", { ascending: false })
-        .limit(8);
+        .limit(12);
       if (isSchool) {
         query = query.or(
           `calm_headline.ilike.%school%,original_title.ilike.%school%,summary.ilike.%school%,category.eq.Education`
-        ).gte("created_at", cutoff);
+        );
       } else {
         query = query.or(
           `calm_headline.ilike.%${q}%,original_title.ilike.%${q}%,summary.ilike.%${q}%`
-        ).gte("created_at", cutoff);
+        );
       }
       const { data } = await query;
       articles = data || [];
