@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Search — TheDubaiBrief</title>
+  <meta name="description" content="Search all UAE news, dates, and topics on TheDubaiBrief."/>
+  <script>
+    (function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    function googleTranslateElementInit(){
+      new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'ar,ml,hi,tl,en',autoDisplay:false},'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    :root{
+      --red:#C8102E; --red-dark:#9B0B22; --red-light:#f5e5e8;
+      --cream:#F7F4EF; --ink:#1A1208; --ink-mid:#3D3328; --ink-light:#7A6E62;
+      --border:#DDD8CF; --gold:#B8860B;
+      --radius-lg:8px; --max-width:1320px;
+      --shadow-soft:0 2px 8px rgba(0,0,0,0.08);
+    }
+    html.dark{ background:#0A0A0A; color:#F0F0F0; }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'DM Sans',sans-serif; background:#F7F4EF; color:var(--ink);
+      -webkit-font-smoothing:antialiased; min-height:100vh;
+    }
+    body.dark{ background:#111; color:#e8e8e8; }
+
+    /* ── NAVBAR ── */
+    header{
+      position:sticky; top:0; z-index:200; background:var(--red);
+      border-bottom:1px solid rgba(0,0,0,0.15); color:#fff;
+    }
+    .header-inner{
+      max-width:var(--max-width); margin:0 auto; padding:0 20px;
+      height:60px; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+    .logo-boxes{ display:flex; gap:6px; }
+    .logo-box{
+      width:36px; height:36px; border-radius:6px; background:var(--red);
+      border:2px solid #fff; display:flex; align-items:center; justify-content:center;
+      font-family:'Playfair Display',serif; font-size:16px; font-weight:900; color:#fff;
+    }
+    .logo-text-main{ font-family:'Source Serif 4',serif; font-size:12px; font-weight:600; color:#fff; }
+    .logo-text-sub{ font-size:9px; opacity:0.85; color:#fff; }
+    .nav-links{ display:flex; gap:2px; align-items:center; }
+    .nav-links a{
+      color:#fff; text-decoration:none; font-size:12px; font-weight:500;
+      padding:4px 8px; border-bottom:2px solid transparent; transition:border-color 0.2s;
+      white-space:nowrap;
+    }
+    .nav-links a:hover{ border-bottom-color:#fff; }
+    .nav-right{ display:flex; align-items:center; gap:8px; }
+    .dark-toggle{
+      width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.15);
+      border:none; cursor:pointer; font-size:16px; color:#fff; display:flex; align-items:center; justify-content:center;
+    }
+    .dark-toggle:hover{ background:rgba(255,255,255,0.25); }
+    @media(max-width:768px){
+      .nav-links{ display:none; }
+      .logo-text-sub{ display:none; }
+    }
+
+    /* ── SEARCH HERO ── */
+    .search-hero{
+      background:var(--cream); border-bottom:1px solid var(--border);
+      padding:32px 20px 24px;
+    }
+    body.dark .search-hero{ background:#161616; border-color:#2a2a2a; }
+    .search-hero-inner{ max-width:740px; margin:0 auto; }
+    .search-hero-label{
+      font-size:12px; font-weight:600; letter-spacing:0.08em; color:var(--red);
+      text-transform:uppercase; margin-bottom:12px;
+    }
+
+    /* ── MAIN SEARCH BAR ── */
+    .search-bar-wrap{ position:relative; width:100%; }
+    .search-bar{
+      width:100%; height:56px; border-radius:28px;
+      border:2px solid var(--border); background:#fff;
+      padding:0 130px 0 52px;
+      font-family:'DM Sans',sans-serif; font-size:16px; color:var(--ink);
+      box-shadow:0 4px 20px rgba(0,0,0,0.08); outline:none;
+      transition:border-color 0.2s, box-shadow 0.2s;
+    }
+    body.dark .search-bar{ background:#1e1e1e; color:#e8e8e8; border-color:#333; }
+    .search-bar:focus{ border-color:var(--red); box-shadow:0 4px 24px rgba(200,16,46,0.15); }
+    .search-bar::placeholder{ color:#aaa; }
+    .search-icon{
+      position:absolute; left:20px; top:50%; transform:translateY(-50%);
+      color:var(--red); font-size:20px; pointer-events:none;
+    }
+    .search-clear{
+      position:absolute; right:116px; top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer; color:#aaa; font-size:18px;
+      display:none; padding:4px; line-height:1;
+    }
+    .search-clear:hover{ color:#666; }
+    .search-submit{
+      position:absolute; right:8px; top:50%; transform:translateY(-50%);
+      background:var(--red); color:#fff; border:none; border-radius:20px;
+      padding:8px 20px; font-size:14px; font-weight:600; cursor:pointer;
+      font-family:'DM Sans',sans-serif; transition:background 0.2s;
+      white-space:nowrap;
+    }
+    .search-submit:hover{ background:var(--red-dark); }
+    @media(max-width:560px){
+      .search-bar{ height:48px; padding:0 56px 0 48px; font-size:15px; border-radius:24px; }
+      .search-submit{ display:none; }
+      .search-clear{ right:12px; }
+    }
+
+    /* ── SUGGESTIONS DROPDOWN ── */
+    .suggestions-box{
+      position:absolute; top:calc(100% + 8px); left:0; right:0; z-index:300;
+      background:#fff; border-radius:16px; border:1px solid var(--border);
+      box-shadow:0 8px 32px rgba(0,0,0,0.12); overflow:hidden; display:none;
+    }
+    body.dark .suggestions-box{ background:#1e1e1e; border-color:#333; }
+    .suggestions-box.visible{ display:block; }
+    .suggestion-item{
+      display:flex; align-items:center; gap:12px; padding:12px 20px;
+      cursor:pointer; transition:background 0.15s; border-bottom:1px solid var(--border);
+    }
+    body.dark .suggestion-item{ border-color:#2a2a2a; }
+    .suggestion-item:last-child{ border-bottom:none; }
+    .suggestion-item:hover, .suggestion-item.active{ background:var(--red-light); }
+    body.dark .suggestion-item:hover, body.dark .suggestion-item.active{ background:#2a1010; }
+    .suggestion-icon{ font-size:16px; flex-shrink:0; }
+    .suggestion-label{ font-size:14px; color:var(--ink); flex:1; }
+    body.dark .suggestion-label{ color:#e8e8e8; }
+    .suggestion-meta{ font-size:12px; color:var(--ink-light); }
+
+    /* ── HISTORY ── */
+    .history-section{ padding:12px 20px 4px; }
+    .history-title{ font-size:11px; font-weight:600; color:var(--ink-light); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+    .history-clear{ background:none; border:none; cursor:pointer; font-size:11px; color:var(--red); font-family:'DM Sans',sans-serif; }
+    .history-item{
+      display:flex; align-items:center; gap:10px; padding:8px 0;
+      cursor:pointer; border-bottom:1px solid var(--border);
+    }
+    body.dark .history-item{ border-color:#2a2a2a; }
+    .history-item:last-child{ border-bottom:none; }
+    .history-item:hover .history-label{ color:var(--red); }
+    .history-label{ font-size:14px; color:var(--ink); }
+    body.dark .history-label{ color:#e8e8e8; }
+
+    /* ── TOPIC CHIPS (hero) ── */
+    .chips-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+    .chip{
+      background:#fff; border:1px solid var(--border); border-radius:20px;
+      padding:6px 14px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif;
+      color:var(--ink); transition:all 0.15s; white-space:nowrap; text-decoration:none; display:inline-block;
+    }
+    body.dark .chip{ background:#1e1e1e; border-color:#333; color:#e8e8e8; }
+    .chip:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
+    /* ── RESULTS SECTION ── */
+    .results-section{ max-width:var(--max-width); margin:0 auto; padding:24px 20px; }
+
+    /* ── INFO BAR ── */
+    .info-bar{
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+      gap:8px; margin-bottom:20px;
+    }
+    .info-count{ font-size:15px; font-weight:600; color:var(--red); }
+    .info-count span{ color:var(--ink-light); font-weight:400; font-size:13px; }
+    body.dark .info-count span{ color:#999; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar{
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+      padding:14px 20px; margin-bottom:20px;
+      display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+    }
+    body.dark .filter-bar{ background:#1a1a1a; border-color:#2a2a2a; }
+    .filter-group{ display:flex; align-items:center; gap:8px; }
+    .filter-label{ font-size:12px; font-weight:600; color:var(--ink-light); white-space:nowrap; }
+    .filter-select{
+      background:#F7F4EF; border:1px solid var(--border); border-radius:6px;
+      padding:5px 10px; font-size:13px; font-family:'DM Sans',sans-serif; color:var(--ink);
+      cursor:pointer; outline:none;
+    }
+    body.dark .filter-select{ background:#2a2a2a; border-color:#444; color:#e8e8e8; }
+    .filter-btn{
+      background:#F7F4EF; border:1px solid var(--border); border-radius:6px;
+      padding:5px 12px; font-size:12px; font-family:'DM Sans',sans-serif; color:var(--ink);
+      cursor:pointer; transition:all 0.15s;
+    }
+    body.dark .filter-btn{ background:#2a2a2a; border-color:#444; color:#e8e8e8; }
+    .filter-btn.active, .filter-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
+    /* ── SUB-SEARCH ── */
+    .sub-search-wrap{ position:relative; margin-bottom:24px; }
+    .sub-search{
+      width:100%; height:42px; border-radius:21px; border:1px solid var(--border);
+      background:#fff; padding:0 20px 0 44px; font-size:14px; font-family:'DM Sans',sans-serif;
+      color:var(--ink); outline:none; transition:border-color 0.2s;
+    }
+    body.dark .sub-search{ background:#1a1a1a; border-color:#333; color:#e8e8e8; }
+    .sub-search:focus{ border-color:var(--red); }
+    .sub-search::placeholder{ color:#aaa; }
+    .sub-search-icon{ position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#aaa; font-size:15px; pointer-events:none; }
+
+    /* ── AI ANSWER BOX ── */
+    .ai-answer-box{
+      background:#F0F7FF; border-left:4px solid #0066CC; border-radius:8px;
+      padding:20px 24px; margin-bottom:24px;
+    }
+    body.dark .ai-answer-box{ background:#0A1628; }
+    .ai-answer-header{
+      display:flex; align-items:center; gap:8px; margin-bottom:10px;
+    }
+    .ai-answer-header-title{ font-size:14px; font-weight:700; color:#0066CC; }
+    .ai-answer-sub{ font-size:11px; color:#0066CC; opacity:0.7; }
+    .ai-answer-text{ font-size:14px; line-height:1.6; color:var(--ink); }
+    body.dark .ai-answer-text{ color:#e8e8e8; }
+
+    /* ── DATE TABS ── */
+    .date-tabs-wrap{ margin-bottom:20px; }
+    .date-nav{
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+    }
+    .date-nav-arrow{
+      background:none; border:1px solid var(--border); border-radius:8px;
+      padding:6px 14px; font-size:13px; cursor:pointer; color:var(--ink);
+      font-family:'DM Sans',sans-serif; transition:all 0.15s;
+    }
+    body.dark .date-nav-arrow{ border-color:#333; color:#e8e8e8; }
+    .date-nav-arrow:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+    .date-nav-title{ font-size:16px; font-weight:700; color:var(--ink); }
+    body.dark .date-nav-title{ color:#e8e8e8; }
+    .date-tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+    .date-tab{
+      background:#fff; border:1px solid var(--border); border-radius:20px;
+      padding:6px 16px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif;
+      color:var(--ink-mid); transition:all 0.15s; display:flex; align-items:center; gap:6px;
+    }
+    body.dark .date-tab{ background:#1e1e1e; border-color:#333; color:#aaa; }
+    .date-tab.active{ background:var(--red); color:#fff; border-color:var(--red); }
+    .date-tab-count{
+      background:rgba(0,0,0,0.1); border-radius:10px; padding:1px 7px; font-size:11px;
+    }
+    .date-tab.active .date-tab-count{ background:rgba(255,255,255,0.25); }
+
+    /* ── RESULTS GRID ── */
+    .results-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+    @media(max-width:640px){ .results-grid{ grid-template-columns:1fr; } }
+
+    /* ── ARTICLE CARD ── */
+    .arc-card{
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+      overflow:hidden; display:flex; flex-direction:column; transition:box-shadow 0.2s;
+      text-decoration:none; color:inherit;
+    }
+    body.dark .arc-card{ background:#1a1a1a; border-color:#2a2a2a; }
+    .arc-card:hover{ box-shadow:0 6px 24px rgba(0,0,0,0.12); }
+    .arc-card-img{ width:100%; height:180px; object-fit:cover; display:block; }
+    .arc-card-img-ph{
+      width:100%; height:160px; background:linear-gradient(135deg,#f0ece4,#e8e4dc);
+      display:flex; align-items:center; justify-content:center; font-size:32px;
+    }
+    body.dark .arc-card-img-ph{ background:linear-gradient(135deg,#1e1e1e,#2a2a2a); }
+    .arc-card-body{ padding:16px; flex:1; display:flex; flex-direction:column; gap:8px; }
+    .arc-card-cat{
+      font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+      color:var(--red); background:var(--red-light); border-radius:4px; padding:2px 8px;
+      display:inline-block; align-self:flex-start;
+    }
+    body.dark .arc-card-cat{ background:#2a1010; }
+    .arc-card-title{
+      font-family:'Source Serif 4',serif; font-size:16px; font-weight:600; line-height:1.35;
+      color:var(--ink); margin:0;
+    }
+    body.dark .arc-card-title{ color:#e8e8e8; }
+    .arc-card-summary{ font-size:13px; line-height:1.5; color:var(--ink-light); margin:0; }
+    body.dark .arc-card-summary{ color:#999; }
+    .arc-card-footer{
+      display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:auto;
+      padding-top:10px; border-top:1px solid var(--border);
+    }
+    body.dark .arc-card-footer{ border-color:#2a2a2a; }
+    .arc-card-meta{ font-size:11px; color:var(--ink-light); }
+    .arc-card-meta strong{ font-weight:600; }
+    .arc-save-btn{
+      background:none; border:none; cursor:pointer; font-size:16px; padding:4px;
+      transition:transform 0.2s; line-height:1;
+    }
+    .arc-save-btn:hover{ transform:scale(1.2); }
+
+    /* ── KEYWORD HIGHLIGHT ── */
+    mark{ background:#FFE066; border-radius:3px; padding:0 2px; }
+
+    /* ── PAGINATION ── */
+    .pagination{ display:flex; align-items:center; justify-content:center; gap:8px; margin-top:32px; flex-wrap:wrap; }
+    .page-btn{
+      background:#fff; border:1px solid var(--border); border-radius:8px;
+      padding:8px 16px; font-size:14px; font-family:'DM Sans',sans-serif; cursor:pointer; color:var(--ink); transition:all 0.15s;
+    }
+    body.dark .page-btn{ background:#1a1a1a; border-color:#333; color:#e8e8e8; }
+    .page-btn.active{ background:var(--red); color:#fff; border-color:var(--red); }
+    .page-btn:hover:not(.active):not(:disabled){ background:var(--red-light); }
+    .page-btn:disabled{ opacity:0.4; cursor:default; }
+    .load-more-btn{
+      display:block; width:100%; max-width:320px; margin:24px auto 0;
+      background:var(--red); color:#fff; border:none; border-radius:28px;
+      padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif;
+      transition:background 0.2s;
+    }
+    .load-more-btn:hover{ background:var(--red-dark); }
+    .load-more-btn:disabled{ opacity:0.6; cursor:default; }
+
+    /* ── RELATED SEARCHES ── */
+    .related-section{ margin-top:32px; }
+    .related-title{ font-size:13px; font-weight:600; color:var(--ink-light); margin-bottom:10px; }
+    .related-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+    .related-chip{
+      background:#fff; border:1px solid var(--border); border-radius:20px;
+      padding:6px 14px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif;
+      color:var(--ink); transition:all 0.15s; text-decoration:none;
+    }
+    body.dark .related-chip{ background:#1a1a1a; border-color:#333; color:#e8e8e8; }
+    .related-chip:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
+    /* ── TOPIC OVERVIEW ── */
+    .topic-overview{
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+      padding:20px 24px; margin-bottom:24px;
+      display:flex; gap:16px; align-items:flex-start;
+    }
+    body.dark .topic-overview{ background:#1a1a1a; border-color:#2a2a2a; }
+    .topic-overview-icon{ font-size:28px; flex-shrink:0; }
+    .topic-overview-content h3{ font-size:15px; font-weight:700; margin-bottom:4px; }
+    .topic-overview-content p{ font-size:13px; color:var(--ink-light); line-height:1.5; }
+    body.dark .topic-overview-content p{ color:#999; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state{
+      text-align:center; padding:60px 20px;
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+    }
+    body.dark .empty-state{ background:#1a1a1a; border-color:#2a2a2a; }
+    .empty-icon{ font-size:48px; margin-bottom:16px; }
+    .empty-title{ font-size:20px; font-weight:700; margin-bottom:8px; }
+    .empty-text{ font-size:14px; color:var(--ink-light); line-height:1.6; }
+    body.dark .empty-text{ color:#999; }
+    .empty-tips{ margin-top:16px; text-align:left; display:inline-block; }
+    .empty-tips li{ font-size:13px; color:var(--ink-light); margin:4px 0; }
+
+    /* ── LOADING ── */
+    .loading-wrap{ text-align:center; padding:60px 20px; }
+    .spinner{
+      width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--red);
+      border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .loading-text{ font-size:14px; color:var(--ink-light); }
+    body.dark .loading-text{ color:#999; }
+
+    /* ── FOOTER ── */
+    footer{
+      background:#1A1208; color:rgba(255,255,255,0.6); text-align:center;
+      padding:24px; font-size:12px; margin-top:auto;
+    }
+    footer a{ color:rgba(255,255,255,0.7); text-decoration:none; margin:0 8px; }
+
+    /* ── MOBILE FULLSCREEN ── */
+    @media(max-width:768px){
+      .search-hero{ padding:20px 16px 16px; }
+      .filter-bar{ padding:12px 16px; gap:10px; }
+      .filter-group{ flex-wrap:wrap; }
+      .results-section{ padding:16px; }
+    }
+
+    /* ── SKELETON ── */
+    .skel{
+      background:linear-gradient(90deg,#f0ece4 25%,#e8e4dc 50%,#f0ece4 75%);
+      background-size:200% 100%; animation:skel 1.4s infinite; border-radius:6px;
+    }
+    body.dark .skel{ background:linear-gradient(90deg,#222 25%,#2a2a2a 50%,#222 75%); background-size:200% 100%; }
+    @keyframes skel{ to{ background-position:-200% 0; } }
+    .skel-card{ background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; padding:0 0 16px; }
+    body.dark .skel-card{ background:#1a1a1a; border-color:#2a2a2a; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/uae-calm-uae-news.html">
+      <div class="logo-boxes">
+        <div class="logo-box">D</div>
+        <div class="logo-box">U</div>
+        <div class="logo-box">B</div>
+      </div>
+      <div>
+        <div class="logo-text-main">TheDubaiBrief</div>
+        <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="/uae-calm-uae-news.html">Home</a>
+      <a href="/government.html">Gov Live</a>
+      <a href="/archive">Archive</a>
+      <a href="/saved">Saved</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="nav-right">
+      <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+</header>
+
+<!-- SEARCH HERO (sticky on scroll) -->
+<div class="search-hero" id="searchHero">
+  <div class="search-hero-inner">
+    <div class="search-hero-label">🔍 Search TheDubaiBrief</div>
+
+    <!-- Main search bar -->
+    <div class="search-bar-wrap" id="searchBarWrap">
+      <span class="search-icon">🔍</span>
+      <input
+        class="search-bar"
+        id="mainSearch"
+        type="text"
+        placeholder="Search UAE news, dates, topics..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="search-clear" id="searchClear" title="Clear">✕</button>
+      <button class="search-submit" id="searchSubmit">Search</button>
+
+      <!-- Suggestions dropdown -->
+      <div class="suggestions-box" id="suggestionsBox">
+        <div id="historySection"></div>
+        <div id="suggestionsList"></div>
+      </div>
+    </div>
+
+    <!-- Quick chips -->
+    <div class="chips-row" id="chipsRow">
+      <a class="chip" href="/search?q=Breaking+News">🔴 Breaking</a>
+      <a class="chip" href="/search?q=Dubai+News">🏙️ Dubai</a>
+      <a class="chip" href="/search?q=Abu+Dhabi+News">🌴 Abu Dhabi</a>
+      <a class="chip" href="/search?q=Economy+%26+Business">💰 Business</a>
+      <a class="chip" href="/search?q=Sports">⚽ Sports</a>
+      <a class="chip" href="/search?q=Politics">🌍 Politics</a>
+      <a class="chip" href="/search?q=today">📅 Today</a>
+      <a class="chip" href="/search?q=this+week">📅 This Week</a>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results-section" id="resultsSection" style="display:none;">
+  <!-- Info bar -->
+  <div class="info-bar" id="infoBar"></div>
+
+  <!-- AI Answer -->
+  <div class="ai-answer-box" id="aiAnswerBox" style="display:none;">
+    <div class="ai-answer-header">
+      <span>🤖</span>
+      <div>
+        <div class="ai-answer-header-title">AI Answer</div>
+        <div class="ai-answer-sub">Based on TheDubaiBrief coverage</div>
+      </div>
+    </div>
+    <div class="ai-answer-text" id="aiAnswerText"></div>
+  </div>
+
+  <!-- Topic Overview -->
+  <div class="topic-overview" id="topicOverview" style="display:none;">
+    <div class="topic-overview-icon">📊</div>
+    <div class="topic-overview-content">
+      <h3 id="topicOverviewTitle"></h3>
+      <p id="topicOverviewText"></p>
+    </div>
+  </div>
+
+  <!-- Date tabs -->
+  <div class="date-tabs-wrap" id="dateTabsWrap" style="display:none;">
+    <div class="date-nav">
+      <button class="date-nav-arrow" id="datePrevBtn">← Previous day</button>
+      <div class="date-nav-title" id="dateNavTitle"></div>
+      <button class="date-nav-arrow" id="dateNextBtn">Next day →</button>
+    </div>
+    <div class="date-tabs" id="dateTabs"></div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-group">
+      <span class="filter-label">Sort:</span>
+      <select class="filter-select" id="sortSelect">
+        <option value="latest">Latest first</option>
+        <option value="oldest">Oldest first</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Date:</span>
+      <button class="filter-btn active" data-period="any">Any</button>
+      <button class="filter-btn" data-period="today">Today</button>
+      <button class="filter-btn" data-period="week">Week</button>
+      <button class="filter-btn" data-period="month">Month</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Category:</span>
+      <select class="filter-select" id="catSelect">
+        <option value="all">All</option>
+        <option value="Breaking News">Breaking</option>
+        <option value="UAE Government">UAE Gov</option>
+        <option value="Dubai News">Dubai</option>
+        <option value="Abu Dhabi News">Abu Dhabi</option>
+        <option value="Economy & Business">Economy</option>
+        <option value="Technology">Tech</option>
+        <option value="Sports">Sports</option>
+        <option value="Politics">Politics</option>
+        <option value="Health & Living">Health</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Sub-search -->
+  <div class="sub-search-wrap" id="subSearchWrap" style="display:none;">
+    <span class="sub-search-icon">🔍</span>
+    <input class="sub-search" id="subSearch" type="text" placeholder="Filter these results..." autocomplete="off"/>
+  </div>
+
+  <!-- Loading state -->
+  <div class="loading-wrap" id="loadingWrap" style="display:none;">
+    <div class="spinner"></div>
+    <div class="loading-text">Searching UAE news archives...</div>
+  </div>
+
+  <!-- Results grid -->
+  <div class="results-grid" id="resultsGrid"></div>
+
+  <!-- Load more / Pagination -->
+  <div id="paginationWrap"></div>
+
+  <!-- Related searches -->
+  <div class="related-section" id="relatedSection" style="display:none;">
+    <div class="related-title">Related searches:</div>
+    <div class="related-chips" id="relatedChips"></div>
+  </div>
+</div>
+
+<!-- INITIAL STATE (before any search) -->
+<div id="initialState" style="max-width:740px;margin:60px auto;padding:0 20px;text-align:center;">
+  <div style="font-size:48px;margin-bottom:16px;">🇦🇪</div>
+  <h2 style="font-family:'Source Serif 4',serif;font-size:24px;font-weight:700;margin-bottom:8px;">Search all UAE news</h2>
+  <p style="font-size:15px;color:var(--ink-light);line-height:1.6;">
+    Search by keyword, date, question, topic or category.<br>
+    Try: <em>"february 16"</em>, <em>"school closure"</em>, <em>"what happened in Dubai last week?"</em>
+  </p>
+</div>
+
+<footer>
+  <a href="/uae-calm-uae-news.html">Home</a>
+  <a href="/archive">Archive</a>
+  <a href="/saved">Saved</a>
+  <a href="/about.html">About</a>
+  <br style="margin:8px 0;">
+  &copy; 2026 TheDubaiBrief. Dubai's news, clear &amp; calm.
+</footer>
+
+<div id="google_translate_element" style="display:none;"></div>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentQuery = '';
+let currentPage  = 1;
+let totalResults = 0;
+let currentType  = 'keyword';
+let allResults   = [];  // all loaded results (for sub-search)
+let filteredResults = [];
+let currentDateObj  = null;
+let activeDateCat   = 'all';
+let activePeriod    = 'any';
+let suggest_debounce = null;
+let suggest_idx = -1;
+
+const SAVED_KEY   = 'cwn_saved_articles';
+const HISTORY_KEY = 'searchHistory';
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initDarkMode();
+  const params = new URLSearchParams(location.search);
+  const q = params.get('q') || '';
+  if (q) {
+    document.getElementById('mainSearch').value = q;
+    document.getElementById('searchClear').style.display = 'block';
+    runSearch(q, 1);
+  }
+  initSearchBar();
+  initFilters();
+  initSubSearch();
+  initSuggestions();
+});
+
+// ─── DARK MODE ────────────────────────────────────────────────────────────────
+function initDarkMode() {
+  const btn = document.getElementById('darkToggle');
+  const isDark = () => document.documentElement.classList.contains('dark');
+  btn.textContent = isDark() ? '☀️' : '🌙';
+  btn.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    document.body.classList.toggle('dark', document.documentElement.classList.contains('dark'));
+    localStorage.setItem('theme', isDark() ? 'dark' : 'light');
+    btn.textContent = isDark() ? '☀️' : '🌙';
+  });
+  if (isDark()) document.body.classList.add('dark');
+}
+
+// ─── SEARCH BAR ───────────────────────────────────────────────────────────────
+function initSearchBar() {
+  const input = document.getElementById('mainSearch');
+  const clear = document.getElementById('searchClear');
+  const submit = document.getElementById('searchSubmit');
+
+  input.addEventListener('input', () => {
+    const v = input.value.trim();
+    clear.style.display = v ? 'block' : 'none';
+    onSuggestInput(v);
+  });
+  input.addEventListener('focus', () => {
+    if (!input.value.trim()) showHistory();
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { closeSuggestions(); doSearch(); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveSuggestion(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); moveSuggestion(-1); }
+    if (e.key === 'Escape') closeSuggestions();
+  });
+  clear.addEventListener('click', () => {
+    input.value = ''; clear.style.display = 'none'; input.focus();
+    closeSuggestions(); showHistory();
+  });
+  submit.addEventListener('click', () => { closeSuggestions(); doSearch(); });
+
+  document.addEventListener('click', (e) => {
+    if (!document.getElementById('searchBarWrap').contains(e.target)) closeSuggestions();
+  });
+}
+
+function doSearch() {
+  const q = document.getElementById('mainSearch').value.trim();
+  if (!q) return;
+  saveHistory(q);
+  history.replaceState(null,'','/search?q='+encodeURIComponent(q));
+  runSearch(q, 1);
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+function initFilters() {
+  document.getElementById('sortSelect').addEventListener('change', () => rerunSearch());
+  document.getElementById('catSelect').addEventListener('change', () => rerunSearch());
+  document.querySelectorAll('.filter-btn[data-period]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn[data-period]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activePeriod = btn.dataset.period;
+      rerunSearch();
+    });
+  });
+}
+
+function rerunSearch() {
+  if (currentQuery) runSearch(currentQuery, 1);
+}
+
+// ─── SUB-SEARCH ───────────────────────────────────────────────────────────────
+function initSubSearch() {
+  document.getElementById('subSearch').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    if (!term) { filteredResults = [...allResults]; }
+    else {
+      filteredResults = allResults.filter(a => {
+        const text = ((a.calm_headline||'') + ' ' + (a.summary||'') + ' ' + (a.source||'')).toLowerCase();
+        return text.includes(term);
+      });
+    }
+    renderResults(filteredResults, false);
+  });
+}
+
+// ─── RUN SEARCH ───────────────────────────────────────────────────────────────
+async function runSearch(q, page) {
+  currentQuery = q;
+  currentPage  = page;
+  activeDateCat = 'all';
+
+  document.getElementById('initialState').style.display = 'none';
+  document.getElementById('resultsSection').style.display = 'block';
+  document.getElementById('loadingWrap').style.display = 'block';
+  document.getElementById('resultsGrid').innerHTML = '';
+  document.getElementById('paginationWrap').innerHTML = '';
+  document.getElementById('aiAnswerBox').style.display = 'none';
+  document.getElementById('topicOverview').style.display = 'none';
+  document.getElementById('dateTabsWrap').style.display = 'none';
+  document.getElementById('subSearchWrap').style.display = 'none';
+  document.getElementById('relatedSection').style.display = 'none';
+  document.getElementById('subSearch').value = '';
+
+  const sort   = document.getElementById('sortSelect').value;
+  const cat    = document.getElementById('catSelect').value;
+  const period = activePeriod;
+
+  let dateFrom = '', dateTo = '';
+  if (period === 'today') { const d = toLocalDate(new Date()); dateFrom = dateTo = d; }
+  else if (period === 'week') { dateFrom = toLocalDate(new Date(Date.now()-7*86400000)); dateTo = toLocalDate(new Date()); }
+  else if (period === 'month') { dateFrom = toLocalDate(new Date(Date.now()-30*86400000)); dateTo = toLocalDate(new Date()); }
+
+  const params = new URLSearchParams({ q, page, sort, category: cat });
+  if (dateFrom) params.set('date_from', dateFrom);
+  if (dateTo)   params.set('date_to', dateTo);
+
+  try {
+    const resp = await fetch('/api/search?' + params.toString());
+    const data = await resp.json();
+    document.getElementById('loadingWrap').style.display = 'none';
+
+    currentType   = data.type;
+    totalResults  = data.total;
+    currentDateObj = data.parsedDate;
+    allResults    = data.articles || [];
+    filteredResults = [...allResults];
+
+    renderInfoBar(data);
+    if (data.aiAnswer) showAIAnswer(data.aiAnswer, allResults.slice(0,3));
+    if (data.type === 'date' && data.parsedDate) renderDateTabs(data.parsedDate, allResults);
+    if (data.type === 'keyword' && data.total >= 5) renderTopicOverview(q, data.total, allResults);
+    if (allResults.length > 0) {
+      document.getElementById('subSearchWrap').style.display = 'block';
+    }
+    renderResults(filteredResults, true);
+    renderPagination(data.page, data.pageSize, data.total);
+    renderRelated(q, data.type);
+  } catch (err) {
+    document.getElementById('loadingWrap').style.display = 'none';
+    document.getElementById('resultsGrid').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Search failed</div><div class="empty-text">Please try again.</div></div>`;
+  }
+}
+
+function toLocalDate(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+// ─── INFO BAR ─────────────────────────────────────────────────────────────────
+function renderInfoBar(data) {
+  const { type, total, parsedDate, query } = data;
+  let html = '';
+  if (type === 'date' && parsedDate) {
+    html = `<div class="info-count">📅 ${parsedDate.label} <span>· ${total} article${total!==1?'s':''} found</span></div>`;
+  } else {
+    html = `<div class="info-count">🔍 "${escHtml(query)}" <span>· ${total} result${total!==1?'s':''} across all time</span></div>`;
+  }
+  document.getElementById('infoBar').innerHTML = html;
+}
+
+// ─── AI ANSWER ────────────────────────────────────────────────────────────────
+function showAIAnswer(text, sources) {
+  const box = document.getElementById('aiAnswerBox');
+  document.getElementById('aiAnswerText').textContent = text;
+  box.style.display = 'block';
+}
+
+// ─── DATE TABS ────────────────────────────────────────────────────────────────
+function renderDateTabs(parsedDate, articles) {
+  const wrap = document.getElementById('dateTabsWrap');
+  document.getElementById('dateNavTitle').textContent = parsedDate.label;
+  wrap.style.display = 'block';
+
+  // Build category counts
+  const catCounts = {};
+  for (const a of articles) {
+    const c = a.category || 'Other';
+    catCounts[c] = (catCounts[c] || 0) + 1;
+  }
+
+  const tabsEl = document.getElementById('dateTabs');
+  let html = `<button class="date-tab active" data-cat="all" onclick="filterDateCat('all',this)">All <span class="date-tab-count">${articles.length}</span></button>`;
+  for (const [cat, cnt] of Object.entries(catCounts).sort((a,b)=>b[1]-a[1])) {
+    html += `<button class="date-tab" data-cat="${escHtml(cat)}" onclick="filterDateCat('${escHtml(cat)}',this)">${catEmoji(cat)} ${cat.replace(' News','')} <span class="date-tab-count">${cnt}</span></button>`;
+  }
+  tabsEl.innerHTML = html;
+
+  // Day nav
+  if (parsedDate.single !== false) {
+    document.getElementById('datePrevBtn').onclick = () => navigateDay(parsedDate.start, -1);
+    document.getElementById('dateNextBtn').onclick = () => navigateDay(parsedDate.start, +1);
+  } else {
+    document.getElementById('datePrevBtn').style.display = 'none';
+    document.getElementById('dateNextBtn').style.display = 'none';
+  }
+}
+
+function filterDateCat(cat, btn) {
+  activeDateCat = cat;
+  document.querySelectorAll('.date-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (cat === 'all') { filteredResults = [...allResults]; }
+  else { filteredResults = allResults.filter(a => a.category === cat); }
+  // Also apply sub-search
+  const sub = document.getElementById('subSearch').value.toLowerCase().trim();
+  if (sub) filteredResults = filteredResults.filter(a => ((a.calm_headline||'')+(a.summary||'')).toLowerCase().includes(sub));
+  renderResults(filteredResults, false);
+}
+
+function navigateDay(isoStr, delta) {
+  const d = new Date(isoStr);
+  d.setDate(d.getDate() + delta);
+  const q = d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('mainSearch').value = q;
+  saveHistory(q);
+  history.replaceState(null,'','/search?q='+encodeURIComponent(q));
+  runSearch(q, 1);
+}
+
+// ─── TOPIC OVERVIEW ───────────────────────────────────────────────────────────
+function renderTopicOverview(q, total, articles) {
+  const box = document.getElementById('topicOverview');
+  const sorted = [...articles].sort((a,b)=> new Date(b.published_at)-new Date(a.published_at));
+  const latest = sorted[0]?.published_at ? new Date(sorted[0].published_at).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
+  document.getElementById('topicOverviewTitle').textContent = `Topic Overview: "${q}"`;
+  document.getElementById('topicOverviewText').textContent = `TheDubaiBrief has ${total} article${total!==1?'s':''} covering this topic.${latest ? ' Most recent: ' + latest + '.' : ''}`;
+  box.style.display = 'flex';
+}
+
+// ─── RESULTS GRID ─────────────────────────────────────────────────────────────
+function renderResults(articles, withKeywords) {
+  const grid = document.getElementById('resultsGrid');
+  const q = currentQuery;
+
+  if (articles.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1;">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No results for "${escHtml(q)}"</div>
+        <div class="empty-text">
+          Try different keywords or browse by category.
+          <ul class="empty-tips">
+            <li>Check spelling</li>
+            <li>Use broader keywords</li>
+            <li>Try a date: "february 16" or "last week"</li>
+            <li>Browse <a href="/archive" style="color:var(--red);">all articles</a></li>
+          </ul>
+        </div>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = articles.map(a => {
+    const headline = withKeywords ? highlight(a.calm_headline || a.original_title || '', q) : escHtml(a.calm_headline || a.original_title || '');
+    const summary  = withKeywords ? highlight((a.summary || '').slice(0, 160), q) : escHtml((a.summary||'').slice(0,160));
+    const date     = a.published_at ? new Date(a.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+    const saved    = isSaved(a.id);
+    return `
+      <a class="arc-card" href="${escHtml(a.url||'#')}" target="_blank" rel="noopener" data-id="${escHtml(a.id||'')}">
+        ${a.image_url ? `<img class="arc-card-img" src="${escHtml(a.image_url)}" alt="" loading="lazy" onerror="this.style.display='none'">` : `<div class="arc-card-img-ph">📰</div>`}
+        <div class="arc-card-body">
+          ${a.category ? `<span class="arc-card-cat">${escHtml(a.category)}</span>` : ''}
+          <h3 class="arc-card-title">${headline}</h3>
+          ${summary ? `<p class="arc-card-summary">${summary}${(a.summary||'').length > 160 ? '…' : ''}</p>` : ''}
+          <div class="arc-card-footer">
+            <div class="arc-card-meta"><strong>${escHtml(a.source||'')}</strong>${date ? ' · ' + date : ''}</div>
+            <button class="arc-save-btn" title="${saved?'Unsave':'Save'}" onclick="toggleSave(event,'${escHtml(a.id||'')}','${escHtml((a.calm_headline||'').replace(/'/g,"\\'"))}','${escHtml((a.source||'').replace(/'/g,"\\'"))}','${escHtml((a.url||'').replace(/'/g,"\\'"))}','${escHtml((a.category||'').replace(/'/g,"\\'"))}','${escHtml((a.image_url||'').replace(/'/g,"\\'"  ))}')">
+              ${saved ? '🔖' : '🔖'}
+            </button>
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+// ─── KEYWORD HIGHLIGHT ────────────────────────────────────────────────────────
+function highlight(text, q) {
+  if (!q || !text) return escHtml(text || '');
+  const words = q.trim().split(/\s+/).filter(w => w.length > 2);
+  let result = escHtml(text);
+  for (const word of words) {
+    const re = new RegExp('(' + word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    result = result.replace(re, '<mark>$1</mark>');
+  }
+  return result;
+}
+
+// ─── PAGINATION ───────────────────────────────────────────────────────────────
+function renderPagination(page, pageSize, total) {
+  const totalPages = Math.ceil(total / pageSize);
+  const wrap = document.getElementById('paginationWrap');
+  if (totalPages <= 1) { wrap.innerHTML = ''; return; }
+
+  const isMobile = window.innerWidth < 640;
+  if (isMobile) {
+    wrap.innerHTML = allResults.length < total
+      ? `<button class="load-more-btn" onclick="loadMore()">Load ${Math.min(pageSize, total-allResults.length)} more results</button>`
+      : '';
+    return;
+  }
+
+  let html = `<div class="pagination">`;
+  html += `<button class="page-btn" onclick="goPage(${page-1})" ${page<=1?'disabled':''}>← Prev</button>`;
+  const start = Math.max(1, page-2), end = Math.min(totalPages, page+2);
+  if (start > 1) html += `<button class="page-btn" onclick="goPage(1)">1</button>${start>2?'<span style="padding:0 4px">…</span>':''}`;
+  for (let i = start; i <= end; i++) html += `<button class="page-btn ${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  if (end < totalPages) html += `${end<totalPages-1?'<span style="padding:0 4px">…</span>':''}<button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>`;
+  html += `<button class="page-btn" onclick="goPage(${page+1})" ${page>=totalPages?'disabled':''}>Next →</button>`;
+  html += `</div>`;
+  wrap.innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  window.scrollTo(0,0);
+  runSearch(currentQuery, p);
+}
+
+function loadMore() {
+  runSearch(currentQuery, currentPage + 1);
+}
+
+// ─── RELATED SEARCHES ─────────────────────────────────────────────────────────
+function renderRelated(q, type) {
+  if (!q) return;
+  const related = generateRelated(q, type);
+  if (!related.length) return;
+  document.getElementById('relatedChips').innerHTML = related.map(r =>
+    `<a class="related-chip" href="/search?q=${encodeURIComponent(r)}">${escHtml(r)}</a>`
+  ).join('');
+  document.getElementById('relatedSection').style.display = 'block';
+}
+
+function generateRelated(q, type) {
+  const base = q.replace(/[?]/g,'').trim();
+  const categories = ['Dubai News','Abu Dhabi News','Economy & Business','Technology','Sports','Politics'];
+  const suggestions = [];
+  // Add "this week" / "this month" variant
+  if (type !== 'date') {
+    suggestions.push(base + ' this week');
+    suggestions.push(base + ' 2026');
+  }
+  // Add random related categories
+  const cats = categories.filter(c => !c.toLowerCase().includes(base.toLowerCase()));
+  if (cats[0]) suggestions.push(cats[0]);
+  return suggestions.slice(0, 4);
+}
+
+// ─── SUGGESTIONS ─────────────────────────────────────────────────────────────
+function initSuggestions() {}
+
+function onSuggestInput(v) {
+  clearTimeout(suggest_debounce);
+  suggest_idx = -1;
+  if (!v) { showHistory(); return; }
+  suggest_debounce = setTimeout(() => fetchSuggestions(v), 300);
+}
+
+async function fetchSuggestions(q) {
+  try {
+    const r = await fetch('/api/search/suggest?q=' + encodeURIComponent(q));
+    const d = await r.json();
+    renderSuggestions(d.suggestions || []);
+  } catch { closeSuggestions(); }
+}
+
+function renderSuggestions(items) {
+  const box = document.getElementById('suggestionsBox');
+  const list = document.getElementById('suggestionsList');
+  document.getElementById('historySection').innerHTML = '';
+  if (!items.length) { closeSuggestions(); return; }
+
+  const icons = { date:'📅', article:'📰', category:'📁' };
+  list.innerHTML = items.map((s,i) => `
+    <div class="suggestion-item" data-q="${escHtml(s.q||s.label)}" data-idx="${i}" onclick="selectSuggestion('${escHtml((s.q||s.label).replace(/'/g,"\\'"))}')">
+      <span class="suggestion-icon">${icons[s.type]||'🔍'}</span>
+      <span class="suggestion-label">${escHtml(s.label)}</span>
+      ${s.count!=null ? `<span class="suggestion-meta">${s.count} articles</span>` : ''}
+      ${s.source ? `<span class="suggestion-meta">${escHtml(s.source)}</span>` : ''}
+    </div>`).join('');
+  box.classList.add('visible');
+}
+
+function showHistory() {
+  const hist = getHistory();
+  const box = document.getElementById('suggestionsBox');
+  const hs  = document.getElementById('historySection');
+  document.getElementById('suggestionsList').innerHTML = '';
+  if (!hist.length) { closeSuggestions(); return; }
+  hs.innerHTML = `
+    <div class="history-section">
+      <div class="history-title">🕐 Recent searches <button class="history-clear" onclick="clearHistory()">Clear</button></div>
+      ${hist.map(h => `<div class="history-item" onclick="selectSuggestion('${escHtml(h.replace(/'/g,"\\'"))}')"><span style="color:#aaa">🕐</span><span class="history-label">${escHtml(h)}</span></div>`).join('')}
+    </div>`;
+  box.classList.add('visible');
+}
+
+function selectSuggestion(q) {
+  document.getElementById('mainSearch').value = q;
+  document.getElementById('searchClear').style.display = 'block';
+  closeSuggestions();
+  saveHistory(q);
+  history.replaceState(null,'','/search?q='+encodeURIComponent(q));
+  runSearch(q, 1);
+}
+
+function moveSuggestion(dir) {
+  const items = document.querySelectorAll('.suggestion-item, .history-item');
+  if (!items.length) return;
+  items.forEach(i => i.classList.remove('active'));
+  suggest_idx = Math.max(-1, Math.min(items.length-1, suggest_idx + dir));
+  if (suggest_idx >= 0) {
+    items[suggest_idx].classList.add('active');
+    const q = items[suggest_idx].dataset.q || items[suggest_idx].querySelector('.history-label')?.textContent || '';
+    document.getElementById('mainSearch').value = q;
+  }
+}
+
+function closeSuggestions() {
+  document.getElementById('suggestionsBox').classList.remove('visible');
+}
+
+// ─── SEARCH HISTORY ───────────────────────────────────────────────────────────
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
+}
+function saveHistory(q) {
+  const h = getHistory().filter(x => x !== q);
+  h.unshift(q);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(0,5)));
+}
+function clearHistory() {
+  localStorage.removeItem(HISTORY_KEY);
+  closeSuggestions();
+}
+
+// ─── SAVE / BOOKMARK ─────────────────────────────────────────────────────────
+function getSaved() { try { return JSON.parse(localStorage.getItem(SAVED_KEY)) || []; } catch { return []; } }
+function isSaved(id) { return getSaved().some(a => a.id === id); }
+function toggleSave(e, id, headline, source, url, category, imageUrl) {
+  e.preventDefault(); e.stopPropagation();
+  const saved = getSaved();
+  const idx = saved.findIndex(a => a.id === id);
+  if (idx >= 0) { saved.splice(idx,1); }
+  else { saved.unshift({ id, headline, source, url, category, imageUrl, savedAt: Date.now() }); }
+  localStorage.setItem(SAVED_KEY, JSON.stringify(saved));
+  // update icon
+  const btn = e.currentTarget;
+  btn.title = isSaved(id) ? 'Unsave' : 'Save';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function catEmoji(cat) {
+  const m = {'Breaking News':'🔴','UAE Government':'🏛️','Dubai News':'🏙️','Abu Dhabi News':'🌴','Economy & Business':'💰','Technology':'💻','Sports':'⚽','Politics':'🌍','Health & Living':'❤️'};
+  return m[cat] || '📰';
+}
+</script>
+</body>
+</html>

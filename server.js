@@ -553,14 +553,30 @@ app.get("/api/palette-search", async (req, res) => {
     let articles = [...liveMatches];
     try {
       const safeQ = q.replace(/[%_]/g, '\\$&');
-      const { data } = await _supabase
-        .from("articles")
-        .select("id, calm_headline, original_title, summary, source, published_at, category, image_url")
-        .or(`calm_headline.ilike.%${safeQ}%,original_title.ilike.%${safeQ}%,summary.ilike.%${safeQ}%`)
-        .order("published_at", { ascending: false })
-        .limit(12);
-      // Merge Supabase results, skip any already covered by live cache
       const liveTitles = new Set(liveMatches.map(a => (a.calm_headline || '').toLowerCase()));
+
+      // Try full-text search first (fast GIN index)
+      let data = null;
+      try {
+        const ftQuery = q.trim().split(/\s+/).filter(Boolean).join(' & ');
+        const { data: ftData, error: ftErr } = await _supabase.rpc('search_articles_fts', { query_text: ftQuery, result_limit: 12 });
+        if (!ftErr && ftData && ftData.length > 0) {
+          data = ftData;
+        }
+      } catch (_e) { /* FTS not available, fall through */ }
+
+      // Fallback: ILIKE search
+      if (!data || data.length === 0) {
+        const { data: ilikeData } = await _supabase
+          .from("articles")
+          .select("id, calm_headline, original_title, summary, source, published_at, category, image_url")
+          .or(`calm_headline.ilike.%${safeQ}%,original_title.ilike.%${safeQ}%,summary.ilike.%${safeQ}%`)
+          .order("published_at", { ascending: false })
+          .limit(12);
+        data = ilikeData;
+      }
+
+      // Merge, skip duplicates from live cache
       for (const a of (data || [])) {
         if (!liveTitles.has((a.calm_headline || '').toLowerCase())) {
           articles.push(a);
@@ -638,6 +654,176 @@ app.get("/api/palette-search", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// ── Search page route ─────────────────────────────────────────────────────────
+app.get('/search', (req, res) => res.sendFile(path.join(__dirname, 'search.html')));
+
+// ── Natural date parser helper ─────────────────────────────────────────────────
+function parseNaturalDate(q) {
+  const ql = q.toLowerCase().trim();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const shortM = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+
+  function dayRange(d) {
+    const s = new Date(d); s.setHours(0,0,0,0);
+    const e = new Date(d); e.setHours(23,59,59,999);
+    const label = new Date(d).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    return { start: s.toISOString(), end: e.toISOString(), label, single: true };
+  }
+  function rangeFromTo(s, e, label) {
+    const ss = new Date(s); ss.setHours(0,0,0,0);
+    const ee = new Date(e); ee.setHours(23,59,59,999);
+    return { start: ss.toISOString(), end: ee.toISOString(), label: label || `${ss.toLocaleDateString('en-US',{month:'short',day:'numeric'})} – ${ee.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}`, single: false };
+  }
+
+  if (ql === 'today') return dayRange(today);
+  if (ql === 'yesterday') { const d = new Date(today); d.setDate(d.getDate()-1); return dayRange(d); }
+  if (/^(last week|this week)$/.test(ql)) { const s = new Date(today); s.setDate(s.getDate()-7); return rangeFromTo(s, today); }
+  if (/^(last month|this month)$/.test(ql)) { const s = new Date(today); s.setDate(s.getDate()-30); return rangeFromTo(s, today); }
+
+  let m = ql.match(/^(\d+)\s*(day|days)\s*ago$/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate()-parseInt(m[1])); return dayRange(d); }
+  m = ql.match(/^(\d+)\s*(week|weeks)\s*ago$/);
+  if (m) { const s = new Date(today); s.setDate(s.getDate()-parseInt(m[1])*7); return rangeFromTo(s, today); }
+
+  // "in january" / "in march 2026" / bare "march 2026"
+  m = ql.match(/^(?:in\s+)?(january|february|march|april|may|june|july|august|september|october|november|december)(?:\s+(\d{4}))?$/);
+  if (m) {
+    const mo = months.indexOf(m[1]), yr = m[2] ? parseInt(m[2]) : now.getFullYear();
+    const s = new Date(yr, mo, 1), e = new Date(yr, mo+1, 0);
+    return rangeFromTo(s, e, `${m[1].charAt(0).toUpperCase()+m[1].slice(1)} ${yr}`);
+  }
+
+  // "early/mid/late march"
+  m = ql.match(/^(early|mid|late)\s+(january|february|march|april|may|june|july|august|september|october|november|december)(?:\s+(\d{4}))?$/);
+  if (m) {
+    const mo = months.indexOf(m[2]), yr = m[3] ? parseInt(m[3]) : now.getFullYear();
+    let [ds, de] = m[1]==='early' ? [1,10] : m[1]==='mid' ? [11,20] : [21, new Date(yr, mo+1, 0).getDate()];
+    return rangeFromTo(new Date(yr, mo, ds), new Date(yr, mo, de));
+  }
+
+  // "february 16" / "feb 16" / "16 february" / "16/2" / "2026-02-16"
+  m = ql.match(/^(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\.?\s+(\d{1,2})(?:[,\s]+(\d{4}))?$/i);
+  if (m) {
+    const mn = m[1].slice(0,3).toLowerCase(), mo = shortM[mn] ?? months.indexOf(m[1].toLowerCase());
+    if (mo >= 0) return dayRange(new Date(m[3] ? parseInt(m[3]) : now.getFullYear(), mo, parseInt(m[2])));
+  }
+  m = ql.match(/^(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)(?:[,\s]+(\d{4}))?$/i);
+  if (m) {
+    const mn = m[2].slice(0,3).toLowerCase(), mo = shortM[mn] ?? months.indexOf(m[2].toLowerCase());
+    if (mo >= 0) return dayRange(new Date(m[3] ? parseInt(m[3]) : now.getFullYear(), mo, parseInt(m[1])));
+  }
+  m = ql.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) return dayRange(new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3])));
+  m = ql.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
+  if (m) { const mo = parseInt(m[2])-1; if (mo>=0&&mo<12) return dayRange(new Date(m[3]?parseInt(m[3]):now.getFullYear(), mo, parseInt(m[1]))); }
+
+  return null;
+}
+
+// ── Smart Search API ──────────────────────────────────────────────────────────
+// GET /api/search?q=&page=1&category=all&sort=latest&source=
+app.get("/api/search", async (req, res) => {
+  const q        = String(req.query.q || "").trim().slice(0, 300);
+  const page     = Math.max(1, parseInt(req.query.page) || 1);
+  const category = req.query.category || 'all';
+  const sort     = req.query.sort || 'latest';
+  const sourceF  = req.query.source || '';
+  const dateFrom = req.query.date_from || '';
+  const dateTo   = req.query.date_to || '';
+  const PAGE_SIZE = 20;
+  const offset   = (page - 1) * PAGE_SIZE;
+
+  if (!q) return res.json({ articles: [], total: 0, type: 'empty', aiAnswer: null, parsedDate: null, query: '' });
+
+  try {
+    const parsedDate = parseNaturalDate(q);
+    const questionRx = /^(is|are|what|how|why|when|who|does|can|will|should|was|were|did|do)\b/i;
+    const isQuestion = questionRx.test(q.trim()) || q.trim().endsWith('?');
+    const type = parsedDate ? 'date' : isQuestion ? 'question' : 'keyword';
+
+    let query = _supabase
+      .from("articles")
+      .select("id, url, original_title, calm_headline, summary, category, source, image_url, published_at, created_at", { count: "exact" });
+
+    if (parsedDate) {
+      query = query.gte("published_at", parsedDate.start).lte("published_at", parsedDate.end);
+    } else {
+      const safe = q.replace(/[%_]/g, '\\$&');
+      query = query.or(`calm_headline.ilike.%${safe}%,original_title.ilike.%${safe}%,summary.ilike.%${safe}%`);
+    }
+
+    if (category && category !== 'all') query = query.eq("category", category);
+    if (sourceF) query = query.ilike("source", `%${sourceF}%`);
+    if (dateFrom && /^\d{4}-\d{2}-\d{2}$/.test(dateFrom)) query = query.gte("published_at", dateFrom + "T00:00:00Z");
+    if (dateTo && /^\d{4}-\d{2}-\d{2}$/.test(dateTo)) query = query.lte("published_at", dateTo + "T23:59:59Z");
+
+    query = query.order("published_at", { ascending: sort === 'oldest', nullsFirst: false }).range(offset, offset + PAGE_SIZE - 1);
+
+    const { data, count, error } = await query;
+    if (error) throw error;
+    const articles = data || [];
+    const total = count || 0;
+
+    // AI answer — only for questions, only if results found, saves API credits
+    let aiAnswer = null;
+    if (isQuestion && articles.length > 0 && process.env.CLAUDE_API_KEY) {
+      try {
+        const tops = articles.slice(0, 5).map((a, i) =>
+          `${i+1}. ${a.calm_headline || a.original_title} (${a.source}, ${(a.published_at||'').slice(0,10)}): ${(a.summary||'').slice(0,200)}`
+        ).join('\n');
+        const r = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-api-key": process.env.CLAUDE_API_KEY, "anthropic-version": "2023-06-01" },
+          body: JSON.stringify({
+            model: "claude-haiku-4-5-20251001",
+            max_tokens: 280,
+            system: "You are a helpful news assistant for TheDubaiBrief — Dubai's calm news platform. Answer the question based ONLY on the news articles provided. Be concise, factual and calm. Max 3 sentences. If you cannot find the answer in the articles say exactly: 'I could not find specific coverage of this.' Never make up information. End your answer by naming the source article you used, e.g. '(Source: Gulf News)'.",
+            messages: [{ role: "user", content: `Question: ${q}\n\nArticles:\n${tops}` }]
+          }),
+        });
+        if (r.ok) { const d = await r.json(); aiAnswer = d.content?.[0]?.text?.trim() || null; }
+      } catch {}
+    }
+
+    res.json({ articles, total, page, pageSize: PAGE_SIZE, type, aiAnswer, parsedDate, query: q });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Search suggestions API ─────────────────────────────────────────────────────
+app.get("/api/search/suggest", async (req, res) => {
+  const q = String(req.query.q || "").trim().slice(0, 100);
+  if (q.length < 2) return res.json({ suggestions: [] });
+  try {
+    const suggestions = [];
+    const parsedDate = parseNaturalDate(q);
+    if (parsedDate) {
+      const { count } = await _supabase.from("articles")
+        .select("id", { count: "exact", head: true })
+        .gte("published_at", parsedDate.start).lte("published_at", parsedDate.end);
+      suggestions.push({ type: 'date', label: parsedDate.label, count: count || 0, q });
+    }
+    const safe = q.replace(/[%_]/g, '\\$&');
+    const { data: hm } = await _supabase.from("articles")
+      .select("calm_headline, category, source")
+      .or(`calm_headline.ilike.%${safe}%,original_title.ilike.%${safe}%`)
+      .order("published_at", { ascending: false }).limit(4);
+    for (const a of (hm || [])) {
+      if (a.calm_headline) suggestions.push({ type: 'article', label: a.calm_headline, category: a.category, source: a.source, q: a.calm_headline });
+    }
+    const cats = ['Breaking News','Dubai News','Abu Dhabi News','Economy & Business','Technology','Sports','Politics','Health & Living','UAE Government'];
+    for (const cat of cats) {
+      if (cat.toLowerCase().includes(q.toLowerCase()) && suggestions.length < 6) {
+        suggestions.push({ type: 'category', label: cat, q: cat });
+      }
+    }
+    res.json({ suggestions: suggestions.slice(0, 6) });
+  } catch { res.json({ suggestions: [] }); }
 });
 
 // ── Live visitor tracking ─────────────────────────────────────────────────────

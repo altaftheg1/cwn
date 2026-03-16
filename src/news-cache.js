@@ -721,7 +721,7 @@ async function performBuild() {
   }
 
   // ── Persist all processed articles to Supabase (archive) ─────────────────
-  persistArticles(deduped.slice(0, 40)).catch(() => {});
+  persistArticles(deduped.slice(0, 100)).catch(() => {});
 
   // ── Filter to last 7 days for homepage feed ───────────────────────────────
   const cutoffMs = Date.now() - 7 * 24 * 60 * 60 * 1000;
