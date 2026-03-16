@@ -13,6 +13,7 @@ import communityRouter from "./src/community.js";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Anthropic from "@anthropic-ai/sdk";
 import cron from "node-cron";
+import Stripe from "stripe";
 
 if (!process.env.SUPABASE_URL) console.warn('WARNING: SUPABASE_URL not set — database features disabled');
 if (!process.env.SUPABASE_KEY) console.warn('WARNING: SUPABASE_KEY not set — database features disabled');
@@ -226,7 +227,7 @@ function unsubLink(email) {
 }
 
 // ── Daily brief email builders ────────────────────────────────────────────────
-function buildDailyBriefHtml({ story, recipientEmail, dateStr, sendType = "morning" }) {
+function buildDailyBriefHtml({ story, recipientEmail, dateStr, sendType = "morning", emailSponsor = null }) {
   const unsub    = unsubLink(recipientEmail);
   const title    = escapeHtml(story.calmTitle || story.title || "Today's Top Story");
   const summary  = escapeHtml(story.calmSummary || story.description || "");
@@ -253,6 +254,17 @@ function buildDailyBriefHtml({ story, recipientEmail, dateStr, sendType = "morni
     <div style="color:white;font-size:24px;font-weight:900;letter-spacing:2px;font-family:Georgia,serif;margin-bottom:4px;">TheDubaiBrief</div>
     <div style="color:rgba(255,255,255,0.8);font-size:12px;letter-spacing:1px;font-weight:600;">${escapeHtml(timeLabel)} &nbsp;·&nbsp; ${escapeHtml(dateStr)}</div>
   </td></tr>
+
+  <!-- Sponsor line (if applicable) -->
+  ${emailSponsor ? `
+  <tr><td style="background:#FAFAF9;border-bottom:1px solid #E8E4DF;padding:12px 28px;text-align:center;">
+    <div style="font-size:11px;color:#AAA;letter-spacing:0.5px;margin-bottom:6px;">TODAY'S BRIEFING BROUGHT TO YOU BY</div>
+    ${emailSponsor.logo_url ? `<img src="${escapeHtml(emailSponsor.logo_url)}" style="height:32px;margin-bottom:6px;display:inline-block;" alt="${escapeHtml(emailSponsor.company_name||'')}">` : ''}
+    <div style="font-size:14px;font-weight:700;color:#1A1208;">${escapeHtml(emailSponsor.company_name||'')}</div>
+    <div style="font-size:13px;color:#555;margin:4px 0;">${escapeHtml(emailSponsor.headline||'')}</div>
+    <a href="${escapeHtml(emailSponsor.destination_url||'#')}" style="display:inline-block;background:#C8102E;color:white;padding:6px 16px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;margin-top:6px;">${escapeHtml(emailSponsor.cta_text||'Learn More')} →</a>
+  </td></tr>
+  ` : ''}
 
   <!-- Hero image (if available) -->
   ${image ? `<tr><td style="padding:0;"><img src="${escapeHtml(image)}" alt="" width="600" style="display:block;width:100%;max-width:600px;height:280px;object-fit:cover;" /></td></tr>` : ""}
@@ -326,6 +338,18 @@ async function sendDailyBrief(sendType = "morning") {
     timeZone: "Asia/Dubai", weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
 
+  // Get email sponsor if any
+  let emailSponsor = null;
+  if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
+    try {
+      const todayStr = formatDubaiDateKey(getDubaiParts());
+      const { data: sponsorAds } = await _supabase.from('ads').select('*').eq('start_date', todayStr).eq('status', 'approved').eq('include_email_addon', true).limit(1);
+      if (sponsorAds?.length) emailSponsor = sponsorAds[0];
+    } catch (err) {
+      console.error('[DailyBrief] Error fetching email sponsor:', err.message);
+    }
+  }
+
   // Subject: breaking stories get urgent tone, otherwise calm
   const isBreaking = story.topic === "safety" || story.topic === "politics";
   const subject = sendType === "evening"
@@ -335,7 +359,7 @@ async function sendDailyBrief(sendType = "morning") {
   let sent = 0, failed = 0;
 
   for (const sub of active) {
-    const html = buildDailyBriefHtml({ story, recipientEmail: sub.email, dateStr, sendType });
+    const html = buildDailyBriefHtml({ story, recipientEmail: sub.email, dateStr, sendType, emailSponsor });
     const text = buildDailyBriefText({ story, recipientEmail: sub.email, dateStr, sendType });
     try {
       await sendResendEmail({ to: sub.email, subject, html, text });
@@ -386,6 +410,31 @@ cron.schedule("0 16 * * *", async () => {
 app.get('/healthz', (req, res) => res.status(200).send('ok'));
 
 app.use(cors());
+
+// ── Stripe webhook MUST be registered before express.json() middleware ─────────
+// It needs the raw body buffer, not parsed JSON
+app.post('/api/ads/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+    event = stripeInstance.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET || '');
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const pi = event.data.object;
+    const adId = pi.metadata?.adId;
+    if (adId && process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
+      await _supabase.from('ads').update({ status: 'pending', stripe_payment_id: pi.id }).eq('id', parseInt(adId));
+      const { data: ad } = await _supabase.from('ads').select('*').eq('id', parseInt(adId)).single();
+      if (ad) await sendAdReceivedEmail(ad);
+    }
+  }
+  res.json({ received: true });
+});
+
 app.use(express.json({ limit: "30mb" })); // 30mb needed for base64-encoded video uploads
 
 // Root → main page
@@ -913,6 +962,285 @@ app.get('/article/:id', (req, res) => res.sendFile(path.join(__dirname, 'article
 app.use('/article', articleRouter);
 app.get('/archive', (req, res) => res.sendFile(path.join(__dirname, 'archive.html')));
 app.get('/support', (req, res) => res.sendFile(path.join(__dirname, 'support.html')));
+app.get('/advertise', (req, res) => res.sendFile(path.join(__dirname, 'advertise.html')));
+app.get('/admin-dub-2026', (req, res) => res.sendFile(path.join(__dirname, 'admin-dub-2026.html')));
+
+// ── Advertising System ────────────────────────────────────────────────────────
+
+const _stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+
+const AD_PACKAGES = {
+  morning:   { name: 'Morning Spotlight ☀️',   price: 49, slot: '06:00-12:00' },
+  afternoon: { name: 'Afternoon Spotlight 🌤️', price: 39, slot: '12:00-18:00' },
+  evening:   { name: 'Evening Spotlight 🌆',   price: 44, slot: '18:00-00:00' },
+  fullday:   { name: 'Full Day Bundle 🌟',      price: 99, slot: '06:00-00:00' },
+};
+
+function dbReady() {
+  return !!(process.env.SUPABASE_URL && process.env.SUPABASE_KEY);
+}
+
+// Check slot availability
+async function checkSlotAvailability(startDate, packages) {
+  if (!dbReady()) return { available: true };
+  const { data } = await _supabase
+    .from('ads')
+    .select('packages, start_date')
+    .eq('start_date', startDate)
+    .in('status', ['pending', 'approved']);
+  if (!data) return { available: true };
+
+  const takenSlots = new Set(data.flatMap(a => a.packages || []));
+  const conflicts = packages.filter(p =>
+    takenSlots.has(p) ||
+    (takenSlots.has('fullday') && p !== 'fullday') ||
+    (p === 'fullday' && takenSlots.size > 0)
+  );
+  return conflicts.length ? { available: false, conflicts } : { available: true };
+}
+
+// Helper: upload base64 image to Supabase storage
+async function uploadAdImage(base64data, filename) {
+  if (!dbReady() || !base64data) return null;
+  try {
+    const base64 = base64data.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64, 'base64');
+    const { data, error } = await _supabase.storage.from('ad-images').upload(`${Date.now()}-${filename}`, buffer, { contentType: 'image/jpeg', upsert: true });
+    if (error) throw error;
+    const { data: urlData } = _supabase.storage.from('ad-images').getPublicUrl(data.path);
+    return urlData.publicUrl;
+  } catch (err) {
+    console.error('[ads] image upload failed:', err.message);
+    return null;
+  }
+}
+
+// POST /api/ads/create-payment
+app.post('/api/ads/create-payment', async (req, res) => {
+  try {
+    const { companyName, contactName, email, phone, websiteUrl, packages, includeEmailAddon, headline, description, ctaText, destinationUrl, startDate, adImage, adLogo } = req.body;
+
+    if (!companyName || !email || !packages?.length || !headline || !startDate) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Check availability
+    const avail = await checkSlotAvailability(startDate, packages);
+    if (!avail.available) return res.status(409).json({ error: `Time slot(s) already taken: ${avail.conflicts.join(', ')}. Please choose another date.` });
+
+    // Calculate total
+    let total = packages.reduce((s, p) => s + (AD_PACKAGES[p]?.price || 0), 0);
+    if (includeEmailAddon) total += 29;
+
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return res.status(500).json({ error: 'Payment system not configured' });
+    }
+
+    // Upload images
+    const imageUrl = adImage ? await uploadAdImage(adImage, 'ad.jpg') : null;
+    const logoUrl = adLogo ? await uploadAdImage(adLogo, 'logo.jpg') : null;
+
+    // Store submission in Supabase
+    const adRecord = {
+      company_name: companyName, contact_name: contactName, email, phone: phone||null,
+      website_url: websiteUrl||null, packages, include_email_addon: includeEmailAddon||false,
+      headline, description, image_url: imageUrl, logo_url: logoUrl,
+      cta_text: ctaText||'Learn More', destination_url: destinationUrl,
+      start_date: startDate, status: 'pending_payment', amount_paid: total,
+    };
+
+    let adId = null;
+    if (dbReady()) {
+      const { data, error } = await _supabase.from('ads').insert(adRecord).select('id').single();
+      if (error) console.error('[ads] insert error:', error.message);
+      else adId = data.id;
+    }
+
+    // Create Stripe payment intent
+    const paymentIntent = await _stripe.paymentIntents.create({
+      amount: total * 100,
+      currency: 'usd',
+      metadata: { adId: String(adId || ''), companyName, email, packages: packages.join(','), startDate },
+      receipt_email: email,
+    });
+
+    // Update ad with payment intent ID
+    if (adId && dbReady()) {
+      await _supabase.from('ads').update({ stripe_payment_id: paymentIntent.id }).eq('id', adId);
+    }
+
+    return res.json({
+      clientSecret: paymentIntent.client_secret,
+      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
+      adId,
+    });
+  } catch (err) {
+    console.error('[ads] create-payment error:', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/ads/available — check availability for a date
+app.get('/api/ads/available', async (req, res) => {
+  const date = req.query.date;
+  if (!date) return res.status(400).json({ error: 'Missing date' });
+  if (!dbReady()) return res.json({ slots: { morning: true, afternoon: true, evening: true, fullday: true } });
+  const { data } = await _supabase.from('ads').select('packages').eq('start_date', date).in('status', ['pending', 'approved']);
+  const taken = new Set((data || []).flatMap(a => a.packages || []));
+  return res.json({ slots: {
+    morning:   !taken.has('morning')   && !taken.has('fullday'),
+    afternoon: !taken.has('afternoon') && !taken.has('fullday'),
+    evening:   !taken.has('evening')   && !taken.has('fullday'),
+    fullday:   taken.size === 0,
+  }});
+});
+
+// GET /api/ads/active — get currently active ad for homepage display
+app.get('/api/ads/active', async (req, res) => {
+  if (!dbReady()) return res.json({ ad: null });
+  const today = new Date().toISOString().split('T')[0];
+  const hour = parseInt(new Intl.DateTimeFormat('en', { timeZone: 'Asia/Dubai', hour: 'numeric', hour12: false }).format(new Date()));
+
+  let slot;
+  if (hour >= 6 && hour < 12) slot = 'morning';
+  else if (hour >= 12 && hour < 18) slot = 'afternoon';
+  else slot = 'evening';
+
+  const { data } = await _supabase.from('ads').select('*').eq('start_date', today).eq('status', 'approved').limit(20);
+  if (!data?.length) return res.json({ ad: null });
+
+  const active = data.find(a => a.packages?.includes(slot) || a.packages?.includes('fullday'));
+  return res.json({ ad: active || null });
+});
+
+// Admin auth check
+function checkAdminAuth(req) {
+  const ts = parseInt(req.headers['x-admin-auth'] || '0', 10);
+  return Date.now() - ts < 2 * 60 * 60 * 1000;
+}
+
+// POST /api/admin/auth
+app.post('/api/admin/auth', (req, res) => {
+  const { passcode } = req.body;
+  const correct = process.env.ADMIN_PASSCODE || 'dub-admin-2026';
+  if (passcode === correct) return res.json({ ok: true });
+  return res.status(401).json({ ok: false });
+});
+
+// GET /api/admin/ads
+app.get('/api/admin/ads', async (req, res) => {
+  if (!checkAdminAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
+  if (!dbReady()) return res.json({ ads: [] });
+  const { data } = await _supabase.from('ads').select('*').order('created_at', { ascending: false }).limit(100);
+  return res.json({ ads: data || [] });
+});
+
+// POST /api/admin/ads/:id/approve
+app.post('/api/admin/ads/:id/approve', async (req, res) => {
+  if (!checkAdminAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
+  const id = parseInt(req.params.id);
+  const { adminNotes } = req.body;
+  if (!dbReady()) return res.status(500).json({ error: 'DB not configured' });
+  const { data: ad } = await _supabase.from('ads').select('*').eq('id', id).single();
+  if (!ad) return res.status(404).json({ error: 'Ad not found' });
+  await _supabase.from('ads').update({ status: 'approved', admin_notes: adminNotes || null, approved_at: new Date().toISOString() }).eq('id', id);
+  await sendAdApprovedEmail(ad);
+  return res.json({ ok: true });
+});
+
+// POST /api/admin/ads/:id/reject
+app.post('/api/admin/ads/:id/reject', async (req, res) => {
+  if (!checkAdminAuth(req)) return res.status(401).json({ error: 'Unauthorized' });
+  const id = parseInt(req.params.id);
+  const { reason } = req.body;
+  if (!dbReady()) return res.status(500).json({ error: 'DB not configured' });
+  const { data: ad } = await _supabase.from('ads').select('*').eq('id', id).single();
+  if (!ad) return res.status(404).json({ error: 'Ad not found' });
+
+  // Process Stripe refund
+  if (ad.stripe_payment_id && process.env.STRIPE_SECRET_KEY) {
+    try {
+      await _stripe.refunds.create({ payment_intent: ad.stripe_payment_id });
+      console.log('[ads] Refund processed for ad', id);
+    } catch (err) {
+      console.error('[ads] Refund failed:', err.message);
+    }
+  }
+
+  await _supabase.from('ads').update({ status: 'rejected', admin_notes: reason || null, rejected_at: new Date().toISOString() }).eq('id', id);
+  await sendAdRejectedEmail(ad, reason);
+  return res.json({ ok: true });
+});
+
+// ── Ad emails ──────────────────────────────────────────────────────────────────
+
+async function sendAdReceivedEmail(ad) {
+  if (!RESEND_API_KEY) return;
+  const pkgNames = (ad.packages || []).map(p => AD_PACKAGES[p]?.name || p).join(' + ');
+  const html = `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:32px 16px;">
+<div style="background:#C8102E;border-radius:12px 12px 0 0;padding:24px;text-align:center;">
+  <div style="color:white;font-size:22px;font-weight:900;font-family:Georgia,serif;">TheDubaiBrief</div>
+  <div style="color:rgba(255,255,255,0.8);font-size:13px;margin-top:4px;">Advertising</div>
+</div>
+<div style="background:white;padding:32px;border-radius:0 0 12px 12px;">
+  <h2 style="font-family:Georgia,serif;font-size:24px;color:#1A1208;margin:0 0 16px;">Ad request received! 🎉</h2>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 16px;">Hi ${escapeHtml(ad.contact_name || ad.company_name)},</p>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 24px;">We've received your ad request and payment. Here's what you booked:</p>
+  <div style="background:#F7F4EF;border-radius:10px;padding:20px;margin-bottom:24px;">
+    <div style="margin-bottom:8px;font-size:14px;"><strong>Package:</strong> ${escapeHtml(pkgNames)}</div>
+    <div style="margin-bottom:8px;font-size:14px;"><strong>Date:</strong> ${escapeHtml(ad.start_date || '')}</div>
+    <div style="font-size:14px;"><strong>Amount paid:</strong> $${ad.amount_paid}</div>
+  </div>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 16px;">Your ad is currently <strong>under review</strong>. We'll get back to you within 24 hours.</p>
+  <p style="color:#666;font-size:13px;margin:0;">If we cannot approve your ad, a full refund will be processed within 3-5 business days.</p>
+  <p style="color:#666;font-size:13px;margin-top:16px;">Questions? Reply to this email.</p>
+  <p style="color:#666;font-size:13px;margin-top:8px;">— TheDubaiBrief Team</p>
+</div>
+</body></html>`;
+  await sendResendEmail({ to: ad.email, subject: 'TheDubaiBrief — Ad received, pending review', html, text: `Hi ${ad.contact_name},\n\nWe've received your ad and payment for ${pkgNames} on ${ad.start_date}.\n\nYour ad is under review. We'll reply within 24 hours.\n\nTheDubaiBrief Team` });
+}
+
+async function sendAdApprovedEmail(ad) {
+  if (!RESEND_API_KEY) return;
+  const pkgNames = (ad.packages || []).map(p => AD_PACKAGES[p]?.name || p).join(' + ');
+  const html = `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:32px 16px;">
+<div style="background:#28a745;border-radius:12px 12px 0 0;padding:24px;text-align:center;">
+  <div style="color:white;font-size:22px;font-weight:900;font-family:Georgia,serif;">TheDubaiBrief</div>
+  <div style="color:rgba(255,255,255,0.8);font-size:13px;margin-top:4px;">Your ad has been approved! 🎉</div>
+</div>
+<div style="background:white;padding:32px;border-radius:0 0 12px 12px;">
+  <h2 style="font-family:Georgia,serif;font-size:24px;color:#1A1208;margin:0 0 16px;">Great news, ${escapeHtml(ad.contact_name || ad.company_name)}!</h2>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 24px;">Your TheDubaiBrief ad has been approved and will go live on your scheduled date.</p>
+  <div style="background:#F7F4EF;border-radius:10px;padding:20px;margin-bottom:24px;">
+    <div style="margin-bottom:8px;font-size:14px;"><strong>Package:</strong> ${escapeHtml(pkgNames)}</div>
+    <div style="margin-bottom:8px;font-size:14px;"><strong>Go-live date:</strong> ${escapeHtml(ad.start_date || '')}</div>
+    <div style="font-size:14px;"><strong>Headline:</strong> ${escapeHtml(ad.headline || '')}</div>
+  </div>
+  <p style="color:#666;font-size:13px;">Questions? Reply to this email.</p>
+  <p style="color:#666;font-size:13px;margin-top:8px;">— TheDubaiBrief Team</p>
+</div>
+</body></html>`;
+  await sendResendEmail({ to: ad.email, subject: 'Your TheDubaiBrief ad has been approved! 🎉', html, text: `Hi ${ad.contact_name},\n\nYour ad has been approved! It goes live on ${ad.start_date}.\n\nTheDubaiBrief Team` });
+}
+
+async function sendAdRejectedEmail(ad, reason) {
+  if (!RESEND_API_KEY) return;
+  const html = `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#F7F4EF;padding:32px 16px;">
+<div style="background:#C8102E;border-radius:12px 12px 0 0;padding:24px;text-align:center;">
+  <div style="color:white;font-size:22px;font-weight:900;font-family:Georgia,serif;">TheDubaiBrief</div>
+</div>
+<div style="background:white;padding:32px;border-radius:0 0 12px 12px;">
+  <h2 style="font-family:Georgia,serif;font-size:22px;color:#1A1208;margin:0 0 16px;">Update on your ad request</h2>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 16px;">Hi ${escapeHtml(ad.contact_name || ad.company_name)},</p>
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 16px;">Thank you for your interest in advertising with TheDubaiBrief. Unfortunately we cannot approve this ad at this time.</p>
+  ${reason ? `<div style="background:#FFF3CD;border-radius:8px;padding:16px;margin-bottom:16px;font-size:14px;"><strong>Reason:</strong> ${escapeHtml(reason)}</div>` : ''}
+  <p style="color:#3D3328;font-size:15px;line-height:1.7;margin:0 0 16px;">A <strong>full refund</strong> has been processed and will appear within 3-5 business days.</p>
+  <p style="color:#666;font-size:13px;">Questions? Reply to this email.</p>
+  <p style="color:#666;font-size:13px;margin-top:8px;">— TheDubaiBrief Team</p>
+</div>
+</body></html>`;
+  await sendResendEmail({ to: ad.email, subject: 'Update on your TheDubaiBrief ad request', html, text: `Hi ${ad.contact_name},\n\nWe cannot approve your ad at this time. Reason: ${reason||'N/A'}\n\nA full refund has been processed.\n\nTheDubaiBrief Team` });
+}
 
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`DUB server running on port ${PORT}`);

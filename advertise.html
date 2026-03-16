@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Advertise — TheDubaiBrief</title>
+  <meta name="description" content="Advertise with TheDubaiBrief — reach UAE residents who trust us for calm, clear news."/>
+  <script>
+    (function () {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,ml,hi,tl,en', autoDisplay: false }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    :root {
+      --red: #C8102E;
+      --red-dark: #9B0B22;
+      --red-light: #f5e5e8;
+      --cream: #F7F4EF;
+      --ink: #1A1208;
+      --ink-mid: #3D3328;
+      --ink-light: #7A6E62;
+      --border: #DDD8CF;
+      --gold: #B8860B;
+      --radius-lg: 10px;
+      --max-width: 1320px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    html.dark { background: #0A0A0A; color: #F0F0F0; --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCC; --ink-light: #999; --border: #2A2A2A; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    body.dark { background: #0A0A0A; color: #F0F0F0; }
+
+    /* Utility Bar */
+    .utility-bar { background: var(--red-dark); color: #fff; padding: 6px 24px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.15); }
+    .utility-left { display: flex; gap: 24px; align-items: center; }
+    .utility-left span { display: flex; align-items: center; gap: 8px; }
+    .utility-clock { font-family: 'Source Serif 4', serif; font-weight: 600; }
+    .utility-right { display: flex; gap: 20px; align-items: center; }
+    .utility-right a { color: #fff; text-decoration: none; transition: color .2s; }
+    .utility-right a:hover { color: var(--gold); }
+    .live-visitors { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.85); }
+    .live-visitors-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; animation: lv-pulse 2s ease-in-out infinite; }
+    @keyframes lv-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); } 50% { box-shadow: 0 0 0 4px rgba(74,222,128,0); } }
+
+    /* Header */
+    header {
+      background: var(--red);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+      color: #fff;
+    }
+    .header-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-boxes { display: flex; gap: 8px; }
+    .logo-box { width: 42px; height: 42px; border-radius: 6px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 0 2px #000; }
+    .logo-text { display: flex; flex-direction: column; gap: 2px; }
+    .logo-text-main { font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
+    .logo-text-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; opacity: .9; color: #fff; line-height: 1; }
+    .navbar-left { display: flex; align-items: center; flex: 1; }
+    .navbar-right { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; }
+    .search-box { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 10px; color: #FFFFFF; font-size: 13px; flex: 0 0 150px; }
+    .search-box::placeholder { color: rgba(255,255,255,0.6); }
+    .search-box:focus { outline: none; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+    .notify-btn { background: #FFFFFF; color: #C8102E; border: none; border-radius: 3px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .notify-btn:hover { background: rgba(255,255,255,0.9); }
+    .dark-toggle { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .dark-toggle:hover { border-color: rgba(255,255,255,0.9); }
+    .lang-switcher { position: relative; }
+    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 12px; padding: 3px 8px; border-radius: 3px; cursor: pointer; }
+    .lang-dropdown { display: none; position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #ddd; border-radius: 4px; min-width: 120px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .lang-dropdown.open { display: block; }
+    .lang-option { padding: 8px 12px; font-size: 13px; color: #1A1208; cursor: pointer; }
+    .lang-option:hover { background: #f5e5e8; color: #C8102E; }
+    .hamburger-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #FFFFFF; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 16px; display: none; align-items: center; justify-content: center; }
+    .mobile-search-bar { display: none; background: #9B0B22; padding: 8px 16px; }
+    .mobile-search-wrap { position: relative; }
+    .mobile-search-input { width: 100%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 12px; color: #fff; font-size: 14px; }
+    .mobile-search-input::placeholder { color: rgba(255,255,255,0.6); }
+    .mobile-nav { display: none; flex-direction: column; background: #9B0B22; border-bottom: 3px solid #000; z-index: 99; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { padding: 14px 24px; color: #fff; text-decoration: none; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .mobile-nav a:hover { background: rgba(255,255,255,0.1); }
+    .subnav-bar { background: #C8102E; border-bottom: 3px solid #9B0B22; }
+    .subnav-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+    .subnav-inner::-webkit-scrollbar { display: none; }
+    .subnav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 500; padding: 12px 14px; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; flex-shrink: 0; }
+    .subnav-link:hover { color: #FFFFFF; border-bottom-color: rgba(255,255,255,0.6); }
+    .ticker-bar { background: #000; border-bottom: 3px solid var(--red); padding: 10px 24px; display: flex; align-items: center; gap: 16px; overflow: hidden; }
+    .ticker-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--red); text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+    .ticker-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.3; } }
+    .ticker-content { flex: 1; overflow: hidden; min-width: 0; }
+    .ticker-scroll { display: flex; flex-wrap: nowrap; gap: 24px; white-space: nowrap; width: max-content; animation: scrollTicker 60s linear infinite; }
+    .ticker-scroll:hover { animation-play-state: paused; }
+    @keyframes scrollTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-item { display: flex; align-items: center; flex-wrap: nowrap; gap: 12px; white-space: nowrap; flex-shrink: 0; }
+    .ticker-text { color: #fff; font-size: 12px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+    .ticker-sep { color: #C8102E; }
+
+    html.dark .utility-bar { background: #0A0A0A; border-color: #1a1a1a; }
+    html.dark .ticker-bar { background: #000; }
+    html.dark .subnav-bar { background: #9B0B22; border-color: #000; }
+
+    @media(max-width:768px) {
+      .utility-bar { display: none; }
+      .hamburger-btn { display: flex; }
+      .mobile-search-bar { display: block; }
+      .search-box { display: none; }
+      .notify-btn { display: none; }
+      .subnav-bar { display: none; }
+      .header-inner { height: 56px; padding: 0 16px; }
+      .logo-box { width: 36px; height: 36px; font-size: 15px; }
+      .logo-text-main { font-size: 12px; }
+    }
+
+    /* ── Advertise page styles ── */
+    .adv-hero { background: var(--red); color: white; padding: 60px 24px; text-align: center; }
+    .adv-hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 42px; margin: 0 0 12px; }
+    .adv-hero p { font-size: 18px; opacity: 0.9; margin: 0 auto; max-width: 560px; }
+
+    .adv-stats { display: flex; justify-content: center; gap: 32px; padding: 40px 24px; flex-wrap: wrap; }
+    .adv-stat { text-align: center; background: white; border-radius: 12px; padding: 24px 32px; min-width: 160px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .adv-stat-num { font-size: 36px; font-weight: 900; color: var(--red); font-family: 'Playfair Display', serif; }
+    .adv-stat-label { font-size: 13px; color: #666; margin-top: 4px; }
+
+    .adv-section { max-width: 1100px; margin: 0 auto; padding: 0 24px 48px; }
+    .adv-section-title { font-family: 'Playfair Display', serif; font-size: 28px; margin: 40px 0 8px; color: var(--ink); }
+    .adv-section-sub { color: #666; font-size: 15px; margin: 0 0 28px; }
+
+    .pkg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .pkg-card { background: white; border: 2px solid #E8E4DF; border-radius: 14px; padding: 24px; cursor: pointer; transition: all 0.2s; position: relative; }
+    .pkg-card:hover { border-color: var(--red); box-shadow: 0 4px 20px rgba(200,16,46,0.12); }
+    .pkg-card.selected { border-color: var(--red); background: #fff5f6; }
+    .pkg-card.selected::after { content: '✓'; position: absolute; top: 12px; right: 14px; background: var(--red); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+    .pkg-icon { font-size: 28px; margin-bottom: 8px; }
+    .pkg-name { font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+    .pkg-price { font-size: 26px; font-weight: 900; color: var(--red); margin-bottom: 12px; }
+    .pkg-price span { font-size: 14px; font-weight: 400; color: #888; }
+    .pkg-features { list-style: none; padding: 0; margin: 0 0 20px; }
+    .pkg-features li { font-size: 13px; color: #444; padding: 4px 0; display: flex; gap: 8px; }
+    .pkg-features li::before { content: '✓'; color: var(--red); font-weight: 700; flex-shrink: 0; }
+    .pkg-btn { width: 100%; padding: 12px; border: 2px solid var(--red); border-radius: 8px; background: white; color: var(--red); font-weight: 700; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .pkg-btn:hover, .pkg-card.selected .pkg-btn { background: var(--red); color: white; }
+    .pkg-badge { position: absolute; top: -10px; left: 20px; background: #B8860B; color: white; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; letter-spacing: 0.5px; }
+
+    .addon-card { background: white; border: 2px solid #E8E4DF; border-radius: 14px; padding: 24px; display: flex; align-items: center; gap: 24px; cursor: pointer; transition: all 0.2s; }
+    .addon-card:hover { border-color: var(--red); }
+    .addon-card.selected { border-color: var(--red); background: #fff5f6; }
+    .addon-info { flex: 1; }
+    .addon-name { font-weight: 700; font-size: 16px; color: var(--ink); }
+    .addon-price { font-size: 20px; font-weight: 900; color: var(--red); margin: 4px 0; }
+    .addon-desc { font-size: 13px; color: #666; }
+    .addon-toggle { width: 52px; height: 28px; background: #DDD; border-radius: 14px; position: relative; transition: background 0.2s; flex-shrink: 0; cursor: pointer; }
+    .addon-toggle.on { background: var(--red); }
+    .addon-toggle::after { content: ''; width: 22px; height: 22px; background: white; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .addon-toggle.on::after { left: 27px; }
+
+    .adv-total { background: var(--ink); color: white; border-radius: 12px; padding: 20px 24px; margin: 24px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .adv-total-left { font-size: 14px; opacity: 0.8; }
+    .adv-total-left strong { display: block; font-size: 16px; opacity: 1; color: white; }
+    .adv-total-price { font-size: 32px; font-weight: 900; color: white; }
+    .adv-total-price span { font-size: 14px; font-weight: 400; opacity: 0.7; }
+
+    .adv-form { background: white; border-radius: 16px; padding: 36px; margin-top: 40px; border: 1px solid #E8E4DF; display: none; }
+    .adv-form.visible { display: block; }
+    .adv-form h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin: 0 0 24px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-grid.single { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: #444; }
+    .form-group input, .form-group textarea, .form-group select { border: 1.5px solid #DDD8CF; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; background: white; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--red); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .char-count { font-size: 11px; color: #AAA; text-align: right; }
+
+    .upload-zone { border: 2px dashed #DDD8CF; border-radius: 10px; padding: 28px; text-align: center; cursor: pointer; transition: all 0.2s; background: #FAFAF8; }
+    .upload-zone:hover { border-color: var(--red); background: #fff5f6; }
+    .upload-zone input { display: none; }
+    .upload-zone-icon { font-size: 32px; margin-bottom: 8px; }
+    .upload-zone-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .upload-zone-hint { font-size: 12px; color: #999; margin-top: 4px; }
+    .upload-preview { display: none; margin-top: 12px; }
+    .upload-preview img { max-width: 100%; border-radius: 8px; max-height: 200px; object-fit: cover; }
+
+    .date-section { margin-top: 28px; }
+    .date-section h3 { font-size: 16px; font-weight: 700; margin: 0 0 12px; }
+    .date-input { border: 1.5px solid #DDD8CF; border-radius: 8px; padding: 10px 14px; font-size: 14px; font-family: inherit; outline: none; cursor: pointer; }
+    .date-input:focus { border-color: var(--red); }
+    .date-note { font-size: 12px; color: #888; margin-top: 6px; }
+
+    .order-summary { background: #F7F4EF; border-radius: 12px; padding: 20px; margin: 24px 0; }
+    .order-summary h3 { font-size: 15px; font-weight: 700; margin: 0 0 12px; }
+    .order-row { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid #E8E4DF; }
+    .order-row:last-child { border-bottom: none; font-weight: 700; font-size: 16px; padding-top: 10px; }
+    .order-row.total-row { color: var(--red); }
+
+    #stripe-element-container { margin: 20px 0; display: none; }
+    #payment-element { border: 1.5px solid #DDD8CF; border-radius: 8px; padding: 16px; }
+
+    .adv-submit { width: 100%; padding: 16px; background: var(--red); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: opacity 0.2s; }
+    .adv-submit:hover { opacity: 0.9; }
+    .adv-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .adv-success { text-align: center; padding: 48px 24px; display: none; }
+    .adv-success.visible { display: block; }
+    .adv-success-icon { font-size: 64px; margin-bottom: 16px; }
+    .adv-success h2 { font-family: 'Playfair Display', serif; font-size: 30px; margin: 0 0 12px; }
+    .adv-success p { color: #666; font-size: 16px; max-width: 480px; margin: 0 auto 24px; line-height: 1.6; }
+
+    .adv-divider { border: none; border-top: 1px solid #E8E4DF; margin: 40px 0; }
+
+    /* Page footer */
+    .page-footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--ink-light); }
+    body.dark .page-footer { border-color: #2A2A2A; color: #555; }
+    .page-footer a { color: var(--ink-light); text-decoration: none; }
+    body.dark .page-footer a { color: #555; }
+    .page-footer a:hover { color: var(--ink); }
+
+    @media (max-width: 768px) {
+      .adv-hero h1 { font-size: 28px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; }
+      .adv-total { flex-direction: column; }
+      .addon-card { flex-direction: column; align-items: flex-start; }
+    }
+
+    body.dark .adv-stat { background: #1A1A1A; }
+    body.dark .pkg-card, body.dark .addon-card, body.dark .adv-form, body.dark .order-summary { background: #1A1A1A; border-color: #2A2A2A; }
+    body.dark .form-group input, body.dark .form-group textarea, body.dark .form-group select { background: #111; border-color: #333; color: #eee; }
+    body.dark .upload-zone { background: #111; border-color: #333; }
+    body.dark .adv-section-title { color: #F0F0F0; }
+    body.dark .pkg-name { color: #F0F0F0; }
+    body.dark .adv-section-sub { color: #999; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== CONSISTENT SITE HEADER ===== -->
+  <div class="utility-bar">
+    <div class="utility-left">
+      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
+      <span id="dateDisplay">Loading...</span>
+      <span>Dubai, UAE</span>
+      <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
+        <span class="live-visitors-dot"></span>
+        <span id="liveVisitorCount">–</span> online
+      </span>
+    </div>
+    <div class="utility-right">
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn">English ▾</button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option" data-lang="en">English</div>
+          <div class="lang-option" data-lang="ml">മലയാളം</div>
+          <div class="lang-option" data-lang="ar">العربية</div>
+          <div class="lang-option" data-lang="hi">हिन्दी</div>
+          <div class="lang-option" data-lang="tl">Filipino</div>
+        </div>
+      </div>
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+  <header>
+    <div class="header-inner">
+      <div class="navbar-left">
+        <a class="brand" href="/uae-calm-uae-news.html">
+          <div class="logo-boxes"><div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div></div>
+          <div class="logo-text">
+            <div class="logo-text-main">TheDubaiBrief</div>
+            <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+          </div>
+        </a>
+      </div>
+      <div class="navbar-right">
+        <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
+        <button id="notifyBtn" class="notify-btn">Notify me</button>
+        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-search-bar" id="mobileSearchBar">
+    <div class="mobile-search-wrap">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="/uae-calm-uae-news.html">All News</a>
+    <a href="/uae-calm-uae-news.html" style="color:#C8102E;font-weight:700;">Breaking</a>
+    <a href="/uae-calm-uae-news.html?cat=Business">Business</a>
+    <a href="/uae-calm-uae-news.html?cat=Culture">Culture</a>
+    <a href="/uae-calm-uae-news.html?cat=Sport">Sport</a>
+    <a href="/uae-calm-uae-news.html?cat=Weather">Weather</a>
+    <a href="/uae-calm-uae-news.html?cat=Travel">Travel</a>
+    <a href="/about.html">About</a>
+  </div>
+  <nav class="subnav-bar">
+    <div class="subnav-inner">
+      <a href="/uae-calm-uae-news.html" class="subnav-link">All</a>
+      <a href="/uae-calm-uae-news.html?cat=Breaking" class="subnav-link">Breaking</a>
+      <a href="/uae-calm-uae-news.html?cat=Business" class="subnav-link">Business</a>
+      <a href="/uae-calm-uae-news.html?cat=Culture" class="subnav-link">Culture</a>
+      <a href="/uae-calm-uae-news.html?cat=Sport" class="subnav-link">Sport</a>
+      <a href="/uae-calm-uae-news.html?cat=Weather" class="subnav-link">Weather</a>
+      <a href="/uae-calm-uae-news.html?cat=Travel" class="subnav-link">Travel</a>
+      <a href="/uae-calm-uae-news.html?cat=Health" class="subnav-link">Health</a>
+      <a href="/uae-calm-uae-news.html?cat=Tech" class="subnav-link">Tech</a>
+      <a href="/archive" class="subnav-link">Archive</a>
+    </div>
+  </nav>
+  <div class="ticker-bar">
+    <div class="ticker-label"><div class="ticker-dot"></div><span>LIVE FEED</span></div>
+    <div class="ticker-content"><div class="ticker-scroll" id="tickerScroll">Loading…</div></div>
+  </div>
+
+  <!-- Hero -->
+  <div class="adv-hero">
+    <h1>Advertise with TheDubaiBrief</h1>
+    <p>Reach UAE residents who trust us for calm, clear news. A focused, engaged audience.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="adv-stats">
+    <div class="adv-stat"><div class="adv-stat-num">10,000+</div><div class="adv-stat-label">Monthly Readers</div></div>
+    <div class="adv-stat"><div class="adv-stat-num">2×</div><div class="adv-stat-label">Daily Emails</div></div>
+    <div class="adv-stat"><div class="adv-stat-num">UAE</div><div class="adv-stat-label">Focused Audience</div></div>
+    <div class="adv-stat"><div class="adv-stat-num">1</div><div class="adv-stat-label">Ad Per Slot</div></div>
+  </div>
+
+  <div class="adv-section">
+    <h2 class="adv-section-title">Choose Your Package</h2>
+    <p class="adv-section-sub">One advertiser per time slot. Your brand gets full exclusive visibility.</p>
+
+    <!-- Package grid -->
+    <div class="pkg-grid" id="pkgGrid">
+      <div class="pkg-card" data-pkg="morning" data-price="49">
+        <div class="pkg-icon">☀️</div>
+        <div class="pkg-name">Morning Spotlight</div>
+        <div class="pkg-price">$49<span>/day</span></div>
+        <ul class="pkg-features">
+          <li>Featured in morning email (7AM)</li>
+          <li>Homepage banner 6AM–12PM</li>
+          <li>Runs for 1 full day</li>
+          <li>One advertiser at a time</li>
+        </ul>
+        <button class="pkg-btn" onclick="togglePackage(this.closest('.pkg-card'))">Select Package</button>
+      </div>
+      <div class="pkg-card" data-pkg="afternoon" data-price="39">
+        <div class="pkg-icon">🌤️</div>
+        <div class="pkg-name">Afternoon Spotlight</div>
+        <div class="pkg-price">$39<span>/day</span></div>
+        <ul class="pkg-features">
+          <li>Homepage banner 12PM–6PM</li>
+          <li>Runs for 1 full day</li>
+          <li>One advertiser at a time</li>
+        </ul>
+        <button class="pkg-btn" onclick="togglePackage(this.closest('.pkg-card'))">Select Package</button>
+      </div>
+      <div class="pkg-card" data-pkg="evening" data-price="44">
+        <div class="pkg-icon">🌆</div>
+        <div class="pkg-name">Evening Spotlight</div>
+        <div class="pkg-price">$44<span>/day</span></div>
+        <ul class="pkg-features">
+          <li>Featured in evening email (8PM)</li>
+          <li>Homepage banner 6PM–12AM</li>
+          <li>Runs for 1 full day</li>
+          <li>One advertiser at a time</li>
+        </ul>
+        <button class="pkg-btn" onclick="togglePackage(this.closest('.pkg-card'))">Select Package</button>
+      </div>
+      <div class="pkg-card" data-pkg="fullday" data-price="99" style="position:relative;">
+        <div class="pkg-badge">BEST VALUE</div>
+        <div class="pkg-icon">🌟</div>
+        <div class="pkg-name">Full Day Bundle</div>
+        <div class="pkg-price">$99<span>/day · save $33</span></div>
+        <ul class="pkg-features">
+          <li>ALL three time slots</li>
+          <li>Morning + Evening emails</li>
+          <li>Homepage all day long</li>
+          <li>Best visibility</li>
+          <li>One advertiser at a time</li>
+        </ul>
+        <button class="pkg-btn" onclick="togglePackage(this.closest('.pkg-card'))">Select Package</button>
+      </div>
+    </div>
+
+    <!-- Email add-on -->
+    <div class="addon-card" id="addonCard" onclick="toggleAddon()">
+      <div class="addon-info">
+        <div class="addon-name">📧 Email Digest Add-on</div>
+        <div class="addon-price">+$29<span style="font-size:13px;font-weight:400;color:#888;">/day</span></div>
+        <div class="addon-desc">"Today's briefing brought to you by [Your Brand]" — reaches all subscribers</div>
+      </div>
+      <div class="addon-toggle" id="addonToggle"></div>
+    </div>
+
+    <!-- Running total -->
+    <div class="adv-total" id="advTotal" style="display:none;">
+      <div class="adv-total-left">
+        <strong id="totalSelectedLabel">Nothing selected</strong>
+        <span id="totalBreakdown"></span>
+      </div>
+      <div class="adv-total-price">$<span id="totalPrice">0</span><span>/day</span></div>
+    </div>
+
+    <!-- Proceed button -->
+    <button class="adv-submit" id="proceedBtn" style="display:none;max-width:400px;" onclick="showForm()">
+      Continue to Ad Details →
+    </button>
+
+    <hr class="adv-divider">
+
+    <!-- FORM (hidden until package selected) -->
+    <div class="adv-form" id="advForm">
+      <h2>Your Ad Details</h2>
+
+      <h3 style="font-size:15px;margin:0 0 16px;">Company Information</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Company Name *</label>
+          <input type="text" id="companyName" placeholder="Emirates Coffee Co." required>
+        </div>
+        <div class="form-group">
+          <label>Contact Name *</label>
+          <input type="text" id="contactName" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="contactEmail" placeholder="you@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone (optional)</label>
+          <input type="tel" id="contactPhone" placeholder="+971 50 000 0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Company Website *</label>
+        <input type="url" id="websiteUrl" placeholder="https://yourwebsite.com" required>
+      </div>
+
+      <hr class="adv-divider">
+      <h3 style="font-size:15px;margin:0 0 16px;">Ad Creative</h3>
+
+      <div class="form-group">
+        <label>Ad Headline * <span style="font-size:11px;color:#AAA;">(max 60 characters)</span></label>
+        <input type="text" id="adHeadline" placeholder="Your attention-grabbing headline" maxlength="60" oninput="document.getElementById('headlineCount').textContent=this.value.length+'/60'">
+        <div class="char-count" id="headlineCount">0/60</div>
+      </div>
+      <div class="form-group">
+        <label>Ad Description * <span style="font-size:11px;color:#AAA;">(max 120 characters)</span></label>
+        <textarea id="adDescription" placeholder="Brief description of your product or service" maxlength="120" oninput="document.getElementById('descCount').textContent=this.value.length+'/120'"></textarea>
+        <div class="char-count" id="descCount">0/120</div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Ad Image * <span style="font-size:11px;color:#AAA;">(min 600×200px, max 2MB)</span></label>
+          <div class="upload-zone" onclick="document.getElementById('adImageInput').click()">
+            <input type="file" id="adImageInput" accept="image/jpeg,image/png" onchange="previewImage(this,'adImagePreview')">
+            <div class="upload-zone-icon">🖼️</div>
+            <div class="upload-zone-label">Click to upload ad image</div>
+            <div class="upload-zone-hint">JPG or PNG · Min 600×200px · Max 2MB</div>
+          </div>
+          <div class="upload-preview" id="adImagePreview"><img></div>
+        </div>
+        <div class="form-group">
+          <label>Company Logo (optional)</label>
+          <div class="upload-zone" onclick="document.getElementById('adLogoInput').click()">
+            <input type="file" id="adLogoInput" accept="image/jpeg,image/png" onchange="previewImage(this,'adLogoPreview')">
+            <div class="upload-zone-icon">🏷️</div>
+            <div class="upload-zone-label">Click to upload logo</div>
+            <div class="upload-zone-hint">JPG or PNG · Max 200×200px</div>
+          </div>
+          <div class="upload-preview" id="adLogoPreview"><img></div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Call to Action Button *</label>
+          <select id="ctaText">
+            <option>Learn More</option>
+            <option>Shop Now</option>
+            <option>Visit Us</option>
+            <option>Book Now</option>
+            <option>Get Offer</option>
+            <option>Contact Us</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Destination URL *</label>
+          <input type="url" id="destinationUrl" placeholder="https://yourwebsite.com/offer">
+        </div>
+      </div>
+
+      <div class="date-section">
+        <h3>Preferred Start Date</h3>
+        <input type="date" class="date-input" id="startDate">
+        <div class="date-note">Minimum 1 day, maximum 30 days advance booking. Dates are subject to availability.</div>
+      </div>
+
+      <hr class="adv-divider">
+
+      <!-- Order summary -->
+      <div class="order-summary" id="orderSummary">
+        <h3>Order Summary</h3>
+        <div id="orderRows"></div>
+      </div>
+
+      <!-- Payment element -->
+      <div id="stripe-element-container">
+        <h3 style="font-size:15px;margin:0 0 12px;">Payment Details</h3>
+        <div id="payment-element"></div>
+        <div id="payment-message" style="color:var(--red);font-size:13px;margin-top:8px;"></div>
+      </div>
+
+      <button class="adv-submit" id="submitAdBtn" onclick="handleAdSubmit()">
+        Proceed to Payment →
+      </button>
+    </div>
+
+    <!-- Success state -->
+    <div class="adv-success" id="advSuccess">
+      <div class="adv-success-icon">🎉</div>
+      <h2>Ad Request Received!</h2>
+      <p>We've received your ad request and payment. Your ad is under review — we'll get back to you within 24 hours. If approved, your ad goes live on your selected date.</p>
+      <a href="/" style="display:inline-block;background:var(--red);color:white;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;">Back to TheDubaiBrief →</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <p>
+      <a href="/">TheDubaiBrief</a> &nbsp;·&nbsp;
+      <a href="/privacy.html">Privacy</a> &nbsp;·&nbsp;
+      <a href="/about.html">About</a> &nbsp;·&nbsp;
+      <a href="mailto:hello@thedubaiBrief.com">hello@thedubaiBrief.com</a>
+    </p>
+  </div>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    // ===== SHARED HEADER JS =====
+    (function() {
+      'use strict';
+      function updateClock() { var now = new Date(); var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false, month: 'short', day: 'numeric', year: 'numeric' }).formatToParts(now); function get(type) { var p = parts.find(function(x){return x.type===type;}); return p ? p.value : ''; } var clk = document.getElementById('clockDisplay'); var dt = document.getElementById('dateDisplay'); if (clk) clk.textContent = get('hour').padStart(2,'0') + ':' + get('minute').padStart(2,'0') + ' GST'; if (dt) dt.textContent = get('month') + ' ' + get('day') + ', ' + get('year'); }
+      setInterval(updateClock, 1000); updateClock();
+      var toggle = document.getElementById('darkToggle');
+      if (toggle) { function applyDark(dark) { document.documentElement.classList.toggle('dark', dark); document.body.classList.toggle('dark', dark); toggle.textContent = dark ? '☀' : '☾'; } applyDark(localStorage.getItem('theme') === 'dark'); toggle.addEventListener('click', function() { var dark = !document.body.classList.contains('dark'); localStorage.setItem('theme', dark ? 'dark' : 'light'); applyDark(dark); }); }
+      var sid = sessionStorage.getItem('cwn-sid'); if (!sid) { sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); sessionStorage.setItem('cwn-sid', sid); }
+      var countEl = document.getElementById('liveVisitorCount');
+      function ping() { fetch('/api/ping', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({sid: sid}) }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ if (d && typeof d.visitors === 'number' && countEl) countEl.textContent = d.visitors.toLocaleString(); }).catch(function(){}); }
+      ping(); setInterval(ping, 20000);
+      var hBtn = document.getElementById('hamburgerBtn'); var mNav = document.getElementById('mobileNav');
+      if (hBtn && mNav) { hBtn.addEventListener('click', function() { var open = mNav.classList.toggle('open'); hBtn.setAttribute('aria-expanded', open); mNav.setAttribute('aria-hidden', !open); hBtn.innerHTML = open ? '&#10005;' : '&#9776;'; }); document.addEventListener('click', function(e) { if (!hBtn.contains(e.target) && !mNav.contains(e.target)) { mNav.classList.remove('open'); mNav.setAttribute('aria-hidden', 'true'); hBtn.setAttribute('aria-expanded', 'false'); hBtn.innerHTML = '&#9776;'; } }); }
+      var search = document.getElementById('headerSearch'); var mSearch = document.getElementById('mobileSearch');
+      function doSearch(q) { if (q.trim()) window.location.href = '/uae-calm-uae-news.html?q=' + encodeURIComponent(q.trim()); }
+      if (search) { search.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(search.value); }); }
+      if (mSearch) { mSearch.addEventListener('keydown', function(e){ if (e.key==='Enter') doSearch(mSearch.value); }); }
+      var notifyBtn = document.getElementById('notifyBtn'); if (notifyBtn) notifyBtn.addEventListener('click', function() { window.location.href = '/uae-calm-uae-news.html#subscribe'; });
+      var langBtn = document.getElementById('langBtn'); var langDropdown = document.getElementById('langDropdown');
+      if (langBtn && langDropdown) { langBtn.addEventListener('click', function(e) { e.stopPropagation(); langDropdown.classList.toggle('open'); }); document.addEventListener('click', function() { langDropdown.classList.remove('open'); }); langDropdown.querySelectorAll('.lang-option').forEach(function(opt) { opt.addEventListener('click', function() { var lang = opt.dataset.lang; langBtn.textContent = opt.textContent + ' ▾'; langDropdown.classList.remove('open'); if (lang !== 'en') { var gf = document.querySelector('.goog-te-gadget select'); if (gf) { gf.value = lang; gf.dispatchEvent(new Event('change')); } } }); }); }
+      var tickerEl = document.getElementById('tickerScroll'); if (tickerEl) { fetch('/api/news?limit=20').then(function(r){ return r.ok ? r.json() : null; }).then(function(data) { var items = (data && (data.articles || data.items || data)) || []; if (!Array.isArray(items) || !items.length) return; var html = items.slice(0,15).map(function(a) { var title = a.calmTitle || a.title || ''; return '<span class="ticker-item"><span class="ticker-text">' + title.replace(/</g,'&lt;') + '</span><span class="ticker-sep">◆</span></span>'; }).join(''); tickerEl.innerHTML = html + html; }).catch(function(){}); }
+    }());
+
+    // ===== ADVERTISE PAGE JS =====
+    const PACKAGES = {
+      morning:   { name: 'Morning Spotlight ☀️',   price: 49 },
+      afternoon: { name: 'Afternoon Spotlight 🌤️', price: 39 },
+      evening:   { name: 'Evening Spotlight 🌆',   price: 44 },
+      fullday:   { name: 'Full Day Bundle 🌟',      price: 99 },
+    };
+    let selectedPkgs = new Set();
+    let addonActive = false;
+    let stripe = null;
+    let elements = null;
+    let paymentElement = null;
+    let clientSecret = null;
+
+    // Set min date to tomorrow
+    const startDateInput = document.getElementById('startDate');
+    if (startDateInput) {
+      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+      startDateInput.min = tomorrow.toISOString().split('T')[0];
+      const maxDate = new Date(); maxDate.setDate(maxDate.getDate() + 30);
+      startDateInput.max = maxDate.toISOString().split('T')[0];
+      startDateInput.value = tomorrow.toISOString().split('T')[0];
+    }
+
+    function togglePackage(card) {
+      const pkg = card.dataset.pkg;
+      if (pkg === 'fullday') {
+        if (selectedPkgs.has('fullday')) {
+          selectedPkgs.delete('fullday');
+          card.classList.remove('selected');
+        } else {
+          selectedPkgs.clear();
+          document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+          selectedPkgs.add('fullday');
+          card.classList.add('selected');
+        }
+      } else {
+        if (selectedPkgs.has('fullday')) {
+          selectedPkgs.delete('fullday');
+          document.querySelector('[data-pkg="fullday"]').classList.remove('selected');
+        }
+        if (selectedPkgs.has(pkg)) {
+          selectedPkgs.delete(pkg);
+          card.classList.remove('selected');
+        } else if (selectedPkgs.size < 3) {
+          selectedPkgs.add(pkg);
+          card.classList.add('selected');
+        }
+      }
+      updateTotal();
+    }
+
+    function toggleAddon() {
+      addonActive = !addonActive;
+      document.getElementById('addonToggle').classList.toggle('on', addonActive);
+      document.getElementById('addonCard').classList.toggle('selected', addonActive);
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const totalEl = document.getElementById('advTotal');
+      const proceedBtn = document.getElementById('proceedBtn');
+
+      if (!selectedPkgs.size) {
+        totalEl.style.display = 'none';
+        proceedBtn.style.display = 'none';
+        return;
+      }
+
+      let base = 0;
+      const names = [];
+      for (const p of selectedPkgs) {
+        base += PACKAGES[p].price;
+        names.push(PACKAGES[p].name);
+      }
+      const addon = addonActive ? 29 : 0;
+      const total = base + addon;
+
+      document.getElementById('totalSelectedLabel').textContent = names.join(' + ');
+      const breakdown = addonActive ? `$${base} + $29 email add-on` : `$${base}`;
+      document.getElementById('totalBreakdown').textContent = breakdown;
+      document.getElementById('totalPrice').textContent = total;
+      totalEl.style.display = 'flex';
+      proceedBtn.style.display = 'block';
+
+      updateOrderSummary();
+    }
+
+    function updateOrderSummary() {
+      const rows = document.getElementById('orderRows');
+      if (!rows) return;
+      let html = '';
+      let total = 0;
+      for (const p of selectedPkgs) {
+        html += `<div class="order-row"><span>${PACKAGES[p].name}</span><span>$${PACKAGES[p].price}/day</span></div>`;
+        total += PACKAGES[p].price;
+      }
+      if (addonActive) {
+        html += `<div class="order-row"><span>Email Digest Add-on 📧</span><span>$29/day</span></div>`;
+        total += 29;
+      }
+      const date = document.getElementById('startDate')?.value || 'TBD';
+      html += `<div class="order-row"><span>Date</span><span>${date}</span></div>`;
+      html += `<div class="order-row total-row"><span>Total per day</span><span>$${total}</span></div>`;
+      rows.innerHTML = html;
+    }
+
+    document.getElementById('startDate')?.addEventListener('change', updateOrderSummary);
+
+    function showForm() {
+      if (!selectedPkgs.size) return;
+      document.getElementById('advForm').classList.add('visible');
+      document.getElementById('advForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function previewImage(input, previewId) {
+      const preview = document.getElementById(previewId);
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.style.display = 'block';
+          preview.querySelector('img').src = e.target.result;
+          preview.closest('.form-group').querySelector('.upload-zone-label').textContent = input.files[0].name;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    async function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleAdSubmit() {
+      const btn = document.getElementById('submitAdBtn');
+
+      const companyName = document.getElementById('companyName').value.trim();
+      const contactName = document.getElementById('contactName').value.trim();
+      const contactEmail = document.getElementById('contactEmail').value.trim();
+      const adHeadline = document.getElementById('adHeadline').value.trim();
+      const adDescription = document.getElementById('adDescription').value.trim();
+      const destinationUrl = document.getElementById('destinationUrl').value.trim();
+      const startDate = document.getElementById('startDate').value;
+
+      if (!companyName || !contactName || !contactEmail || !adHeadline || !adDescription || !destinationUrl || !startDate) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      if (!selectedPkgs.size) { alert('Please select at least one package.'); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Creating payment...';
+
+      try {
+        const adImageFile = document.getElementById('adImageInput').files[0];
+        const adLogoFile = document.getElementById('adLogoInput').files[0];
+
+        const payload = {
+          companyName,
+          contactName,
+          email: contactEmail,
+          phone: document.getElementById('contactPhone').value.trim(),
+          websiteUrl: document.getElementById('websiteUrl').value.trim(),
+          packages: Array.from(selectedPkgs),
+          includeEmailAddon: addonActive,
+          headline: adHeadline,
+          description: adDescription,
+          ctaText: document.getElementById('ctaText').value,
+          destinationUrl,
+          startDate,
+          adImage: adImageFile ? await fileToBase64(adImageFile) : null,
+          adLogo: adLogoFile ? await fileToBase64(adLogoFile) : null,
+        };
+
+        const res = await fetch('/api/ads/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!data.clientSecret) throw new Error(data.error || 'Payment setup failed');
+
+        clientSecret = data.clientSecret;
+
+        const stripeKey = data.stripePublishableKey;
+        stripe = Stripe(stripeKey);
+        elements = stripe.elements({ clientSecret });
+        paymentElement = elements.create('payment');
+
+        const container = document.getElementById('stripe-element-container');
+        container.style.display = 'block';
+        paymentElement.mount('#payment-element');
+
+        btn.textContent = 'Pay Now →';
+        btn.disabled = false;
+        btn.onclick = confirmPayment;
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Proceed to Payment →';
+        btn.onclick = handleAdSubmit;
+        document.getElementById('payment-message').textContent = err.message;
+      }
+    }
+
+    async function confirmPayment() {
+      const btn = document.getElementById('submitAdBtn');
+      btn.disabled = true;
+      btn.textContent = 'Processing payment...';
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: window.location.origin + '/advertise?success=1' },
+        redirect: 'if_required',
+      });
+
+      if (error) {
+        document.getElementById('payment-message').textContent = error.message;
+        btn.disabled = false;
+        btn.textContent = 'Pay Now →';
+      } else {
+        document.getElementById('advForm').style.display = 'none';
+        document.getElementById('advSuccess').classList.add('visible');
+        document.getElementById('advSuccess').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Handle success redirect from Stripe
+    if (new URLSearchParams(location.search).get('success') === '1') {
+      document.getElementById('advForm').style.display = 'none';
+      document.getElementById('advSuccess').classList.add('visible');
+    }
+
+    // Dark mode sync
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  </script>
+</body>
+</html>

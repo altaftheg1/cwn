@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Admin — TheDubaiBrief</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    :root { --red:#C8102E; --ink:#1A1208; --cream:#F7F4EF; }
+    body { font-family: 'DM Sans', Arial, sans-serif; background: var(--cream); color: var(--ink); margin: 0; }
+
+    /* Auth screen */
+    .auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .auth-card { background: white; border-radius: 16px; padding: 48px; text-align: center; width: 320px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+    .auth-icon { font-size: 48px; margin-bottom: 16px; }
+    .auth-title { font-size: 22px; font-weight: 700; margin: 0 0 24px; }
+    .auth-input { width: 100%; border: 1.5px solid #DDD; border-radius: 8px; padding: 12px 14px; font-size: 15px; text-align: center; letter-spacing: 2px; outline: none; box-sizing: border-box; }
+    .auth-input:focus { border-color: var(--red); }
+    .auth-btn { width: 100%; margin-top: 12px; padding: 12px; background: var(--red); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .auth-btn:hover { opacity: 0.9; }
+    .auth-error { color: var(--red); font-size: 13px; margin-top: 8px; min-height: 20px; }
+
+    /* Dashboard */
+    #dashboard { display: none; }
+    .dash-header { background: var(--ink); color: white; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .dash-header h1 { font-size: 20px; font-weight: 700; margin: 0; }
+    .dash-header-right { font-size: 13px; opacity: 0.6; }
+
+    /* Stats bar */
+    .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px 32px; background: white; border-bottom: 1px solid #E8E4DF; }
+    .dash-stat { text-align: center; }
+    .dash-stat-num { font-size: 32px; font-weight: 900; color: var(--red); }
+    .dash-stat-label { font-size: 12px; color: #666; }
+
+    /* Content */
+    .dash-content { max-width: 1200px; margin: 0 auto; padding: 32px; }
+    .dash-section-title { font-size: 20px; font-weight: 700; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+
+    /* Ad card */
+    .ad-review-card { background: white; border-radius: 12px; border: 1px solid #E8E4DF; padding: 24px; margin-bottom: 20px; }
+    .ad-review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .ad-status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    .badge-pending { background: #FFF3CD; color: #856404; }
+    .badge-approved { background: #D4EDDA; color: #155724; }
+    .badge-rejected { background: #F8D7DA; color: #721C24; }
+    .badge-live { background: #CCE5FF; color: #004085; }
+    .ad-company { font-size: 18px; font-weight: 700; }
+    .ad-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; font-size: 13px; color: #666; }
+    .ad-meta-item strong { display: block; color: var(--ink); font-size: 14px; }
+
+    /* Ad preview */
+    .ad-preview-box { background: #F7F4EF; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+    .ad-preview-box img { max-width: 100%; border-radius: 8px; max-height: 160px; object-fit: cover; display: block; margin-bottom: 10px; }
+    .ad-preview-headline { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+    .ad-preview-desc { font-size: 13px; color: #555; margin-bottom: 8px; }
+    .ad-preview-cta { display: inline-block; background: var(--red); color: white; padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; text-decoration: none; }
+
+    .ad-notes { width: 100%; border: 1.5px solid #DDD; border-radius: 8px; padding: 10px 14px; font-family: inherit; font-size: 13px; margin-bottom: 12px; resize: vertical; min-height: 60px; box-sizing: border-box; }
+
+    .ad-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-approve { background: #28a745; color: white; border: none; border-radius: 8px; padding: 10px 24px; font-weight: 700; cursor: pointer; font-size: 14px; }
+    .btn-reject { background: white; color: #dc3545; border: 2px solid #dc3545; border-radius: 8px; padding: 10px 24px; font-weight: 700; cursor: pointer; font-size: 14px; }
+    .btn-reject:hover { background: #dc3545; color: white; }
+    .btn-approve:hover { background: #218838; }
+
+    /* Rejection dialog */
+    .reject-dialog { background: #FFF3CD; border: 1px solid #ffc107; border-radius: 10px; padding: 16px; margin-top: 12px; display: none; }
+    .reject-dialog.visible { display: block; }
+    .reject-dialog textarea { width: 100%; border: 1.5px solid #DDD; border-radius: 6px; padding: 8px 12px; font-family: inherit; font-size: 13px; margin: 8px 0; resize: vertical; min-height: 60px; box-sizing: border-box; }
+    .btn-confirm-reject { background: #dc3545; color: white; border: none; border-radius: 6px; padding: 8px 20px; font-weight: 700; cursor: pointer; }
+
+    /* Calendar */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 16px; }
+    .cal-day { background: white; border-radius: 8px; padding: 10px 6px; text-align: center; font-size: 12px; border: 1px solid #E8E4DF; }
+    .cal-day.booked { background: #FFEBEE; border-color: #FFCDD2; }
+    .cal-day.pending { background: #FFF8E1; border-color: #FFE082; }
+    .cal-day.available { background: #E8F5E9; border-color: #A5D6A7; }
+    .cal-day-num { font-weight: 700; font-size: 14px; }
+    .cal-day-slot { font-size: 10px; color: #555; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Loading */
+    .loading { color: #AAA; padding: 32px; text-align: center; }
+
+    @media (max-width: 768px) {
+      .dash-stats { grid-template-columns: repeat(2, 1fr); }
+      .dash-content { padding: 16px; }
+      .dash-header { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Auth screen -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-icon">🔐</div>
+    <div class="auth-title">Admin Access</div>
+    <input type="password" class="auth-input" id="passcodeInput" placeholder="Enter passcode"
+           onkeydown="if(event.key==='Enter')checkPasscode()">
+    <button class="auth-btn" onclick="checkPasscode()">Enter →</button>
+    <div class="auth-error" id="authError"></div>
+  </div>
+</div>
+
+<!-- Dashboard (hidden until authenticated) -->
+<div id="dashboard">
+  <div class="dash-header">
+    <h1>🗞️ TheDubaiBrief Admin</h1>
+    <div class="dash-header-right" id="dashTime">—</div>
+  </div>
+
+  <div class="dash-stats" id="dashStats">
+    <div class="dash-stat"><div class="dash-stat-num" id="statPending">—</div><div class="dash-stat-label">⏳ Pending Review</div></div>
+    <div class="dash-stat"><div class="dash-stat-num" id="statApproved">—</div><div class="dash-stat-label">✅ Approved Ads</div></div>
+    <div class="dash-stat"><div class="dash-stat-num" id="statTodayRev">—</div><div class="dash-stat-label">💰 Today's Revenue</div></div>
+    <div class="dash-stat"><div class="dash-stat-num" id="statMonthRev">—</div><div class="dash-stat-label">📈 Month Revenue</div></div>
+  </div>
+
+  <div class="dash-content">
+    <!-- Pending -->
+    <div class="dash-section-title">⏳ Pending Review</div>
+    <div id="pendingList"><div class="loading">Loading...</div></div>
+
+    <!-- Approved -->
+    <div class="dash-section-title" style="margin-top:40px;">✅ Approved Ads</div>
+    <div id="approvedList"><div class="loading">Loading...</div></div>
+
+    <!-- Calendar -->
+    <div class="dash-section-title" style="margin-top:40px;">📅 Booking Calendar (Next 14 days)</div>
+    <div class="cal-grid" id="calGrid"><div class="loading" style="grid-column:span 7;">Loading...</div></div>
+
+    <!-- Revenue -->
+    <div class="dash-section-title" style="margin-top:40px;">💰 Revenue</div>
+    <div id="revenueList"><div class="loading">Loading...</div></div>
+  </div>
+</div>
+
+<script>
+  const AUTH_KEY = 'cwn_admin_auth';
+
+  function checkPasscode() {
+    const input = document.getElementById('passcodeInput').value;
+    fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passcode: input }),
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        try { sessionStorage.setItem(AUTH_KEY, String(Date.now())); } catch {}
+        showDashboard();
+      } else {
+        document.getElementById('authError').textContent = 'Incorrect passcode.';
+        document.getElementById('passcodeInput').value = '';
+      }
+    })
+    .catch(() => { document.getElementById('authError').textContent = 'Server error.'; });
+  }
+
+  function isAuthed() {
+    try {
+      const ts = parseInt(sessionStorage.getItem(AUTH_KEY) || '0', 10);
+      return Date.now() - ts < 2 * 60 * 60 * 1000;
+    } catch { return false; }
+  }
+
+  function showDashboard() {
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+    setInterval(updateTime, 1000); updateTime();
+  }
+
+  function updateTime() {
+    const t = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
+    document.getElementById('dashTime').textContent = 'Dubai: ' + t;
+  }
+
+  async function loadDashboard() {
+    const res = await fetch('/api/admin/ads', { headers: { 'x-admin-auth': sessionStorage.getItem(AUTH_KEY) || '' } });
+    const data = await res.json();
+    if (!res.ok) { alert('Auth expired. Please reload.'); return; }
+
+    const ads = data.ads || [];
+    const pending = ads.filter(a => a.status === 'pending');
+    const approved = ads.filter(a => a.status === 'approved');
+
+    document.getElementById('statPending').textContent = pending.length;
+    document.getElementById('statApproved').textContent = approved.length;
+
+    const today = new Date().toISOString().split('T')[0];
+    const todayRev = ads.filter(a => a.status !== 'rejected' && a.created_at?.startsWith(today)).reduce((s, a) => s + (a.amount_paid || 0), 0);
+    const monthStart = new Date(); monthStart.setDate(1);
+    const monthRev = ads.filter(a => a.status !== 'rejected' && new Date(a.created_at) >= monthStart).reduce((s, a) => s + (a.amount_paid || 0), 0);
+    document.getElementById('statTodayRev').textContent = '$' + todayRev;
+    document.getElementById('statMonthRev').textContent = '$' + monthRev;
+
+    document.getElementById('pendingList').innerHTML = pending.length ? pending.map(a => adReviewCard(a)).join('') : '<div style="color:#AAA;padding:16px;">No pending ads.</div>';
+    document.getElementById('approvedList').innerHTML = approved.length ? approved.map(a => adReviewCard(a, true)).join('') : '<div style="color:#AAA;padding:16px;">No approved ads.</div>';
+
+    renderCalendar(ads);
+
+    const allPaid = ads.filter(a => a.amount_paid);
+    document.getElementById('revenueList').innerHTML = allPaid.length
+      ? `<table style="width:100%;background:white;border-radius:12px;border:1px solid #E8E4DF;border-collapse:collapse;overflow:hidden;">
+          <tr style="background:#F7F4EF;font-size:12px;font-weight:700;">
+            <th style="padding:10px 16px;text-align:left;">Company</th>
+            <th style="padding:10px 16px;text-align:left;">Package</th>
+            <th style="padding:10px 16px;text-align:left;">Date</th>
+            <th style="padding:10px 16px;text-align:right;">Amount</th>
+            <th style="padding:10px 16px;text-align:left;">Status</th>
+          </tr>
+          ${allPaid.map(a => `<tr style="border-top:1px solid #F0EDE8;font-size:13px;">
+            <td style="padding:10px 16px;">${a.company_name||''}</td>
+            <td style="padding:10px 16px;">${(a.packages||[]).join(', ')}</td>
+            <td style="padding:10px 16px;">${a.start_date||''}</td>
+            <td style="padding:10px 16px;text-align:right;font-weight:700;color:var(--red);">$${a.amount_paid}</td>
+            <td style="padding:10px 16px;"><span class="ad-status-badge badge-${a.status}">${a.status}</span></td>
+          </tr>`).join('')}
+        </table>`
+      : '<div style="color:#AAA;padding:16px;">No revenue yet.</div>';
+  }
+
+  function adReviewCard(ad, readOnly) {
+    const statusClass = { pending: 'badge-pending', approved: 'badge-approved', rejected: 'badge-rejected', live: 'badge-live' }[ad.status] || 'badge-pending';
+    const submittedAt = ad.created_at ? new Date(ad.created_at).toLocaleString('en-GB', { timeZone: 'Asia/Dubai', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—';
+    return `
+    <div class="ad-review-card" id="adcard-${ad.id}">
+      <div class="ad-review-header">
+        <span class="ad-status-badge ${statusClass}">${ad.status.toUpperCase()}</span>
+        <span class="ad-company">${ad.company_name||''}</span>
+      </div>
+      <div class="ad-meta">
+        <div class="ad-meta-item"><strong>${(ad.packages||[]).join(' + ')}</strong>Package</div>
+        <div class="ad-meta-item"><strong>${ad.start_date||'—'}</strong>Start Date</div>
+        <div class="ad-meta-item"><strong>$${ad.amount_paid||0}</strong>Amount Paid</div>
+        <div class="ad-meta-item"><strong>${submittedAt}</strong>Submitted</div>
+        <div class="ad-meta-item"><strong>${ad.email||'—'}</strong>Email</div>
+        <div class="ad-meta-item"><strong>${ad.contact_name||'—'}</strong>Contact</div>
+      </div>
+      <div class="ad-preview-box">
+        ${ad.image_url ? `<img src="${ad.image_url}" alt="Ad image">` : ''}
+        <div class="ad-preview-headline">${ad.headline||''}</div>
+        <div class="ad-preview-desc">${ad.description||''}</div>
+        <a class="ad-preview-cta" href="${ad.destination_url||'#'}" target="_blank">${ad.cta_text||'Learn More'} →</a>
+      </div>
+      ${!readOnly ? `
+      <textarea class="ad-notes" placeholder="Admin notes (optional)..." id="notes-${ad.id}">${ad.admin_notes||''}</textarea>
+      <div class="ad-actions">
+        <button class="btn-approve" onclick="approveAd(${ad.id})">✅ Approve</button>
+        <button class="btn-reject" onclick="showRejectDialog(${ad.id})">❌ Reject + Refund</button>
+      </div>
+      <div class="reject-dialog" id="rejectdialog-${ad.id}">
+        <strong>Reason for rejection:</strong>
+        <textarea placeholder="Ad content not suitable..." id="rejectreason-${ad.id}"></textarea>
+        <button class="btn-confirm-reject" onclick="rejectAd(${ad.id})">Confirm Rejection</button>
+      </div>
+      ` : `<div style="color:#666;font-size:13px;">${ad.admin_notes||''}</div>`}
+    </div>`;
+  }
+
+  function showRejectDialog(id) {
+    document.getElementById('rejectdialog-'+id).classList.add('visible');
+  }
+
+  async function approveAd(id) {
+    const notes = document.getElementById('notes-'+id)?.value || '';
+    if (!confirm('Approve this ad? It will go live on the scheduled date.')) return;
+    const res = await fetch('/api/admin/ads/'+id+'/approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-auth': sessionStorage.getItem(AUTH_KEY)||'' },
+      body: JSON.stringify({ adminNotes: notes }),
+    });
+    if (res.ok) { alert('Ad approved! Confirmation email sent.'); loadDashboard(); }
+    else { const d = await res.json(); alert('Error: ' + (d.error||'Unknown')); }
+  }
+
+  async function rejectAd(id) {
+    const reason = document.getElementById('rejectreason-'+id)?.value || '';
+    if (!reason) { alert('Please enter a rejection reason.'); return; }
+    if (!confirm('Reject this ad and issue a full refund?')) return;
+    const res = await fetch('/api/admin/ads/'+id+'/reject', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-auth': sessionStorage.getItem(AUTH_KEY)||'' },
+      body: JSON.stringify({ reason }),
+    });
+    if (res.ok) { alert('Ad rejected and refund issued.'); loadDashboard(); }
+    else { const d = await res.json(); alert('Error: ' + (d.error||'Unknown')); }
+  }
+
+  function renderCalendar(ads) {
+    const cal = document.getElementById('calGrid');
+    const days = [];
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const key = d.toISOString().split('T')[0];
+      const dayAds = ads.filter(a => a.start_date === key);
+      const hasBooked = dayAds.some(a => a.status === 'approved');
+      const hasPending = dayAds.some(a => a.status === 'pending');
+      const cls = hasBooked ? 'booked' : hasPending ? 'pending' : 'available';
+      const label = hasBooked ? dayAds.filter(a=>a.status==='approved').map(a=>a.company_name).join(', ')
+                   : hasPending ? 'Pending...' : 'Available';
+      days.push(`<div class="cal-day ${cls}"><div class="cal-day-num">${d.getDate()}</div><div style="font-size:10px;color:#888;">${d.toLocaleDateString('en',{month:'short'})}</div><div class="cal-day-slot">${label}</div></div>`);
+    }
+    cal.innerHTML = days.join('');
+  }
+
+  if (isAuthed()) showDashboard();
+</script>
+</body>
+</html>
