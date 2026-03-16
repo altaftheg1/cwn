@@ -216,11 +216,6 @@ const ALL_SOURCES = [
 
   // TIER 3 — ADDITIONAL BROADCAST & REGIONAL
   {
-    key: "skynewsarabia", name: "Sky News Arabia", tier: 3, category: "General News",
-    rssUrl: gnRss("skynewsarabia.com", "UAE"),
-    scrapeUrl: "https://www.skynewsarabia.com/",
-  },
-  {
     key: "dubaichronicle", name: "Dubai Chronicle", tier: 3, category: "General News",
     rssUrl: gnRss("dubaichronicle.com"),
     scrapeUrl: "https://dubaichronicle.com/",
