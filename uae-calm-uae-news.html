@@ -3998,6 +3998,360 @@
     }
     .gov-widget-loading { padding: 16px; color: #AAA; font-size: 13px; text-align: center; }
   </style>
+<style>
+/* ===== TOP 10 SECTION ===== */
+.top10-section {
+  max-width: var(--max-width);
+  margin: 0 auto 40px;
+  padding: 0 24px;
+}
+.top10-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.top10-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.top10-divider { flex: 1; height: 1px; background: var(--border); }
+.top10-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.top10-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.top10-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.top10-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--border);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 30px;
+}
+.top10-thumb {
+  width: 70px;
+  height: 54px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--border);
+}
+.top10-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.top10-body { flex: 1; min-width: 0; }
+.top10-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.top10-meta { font-size: 10.5px; color: var(--ink-light); }
+@media (max-width: 768px) {
+  .top10-grid { grid-template-columns: 1fr; }
+  .top10-num { font-size: 16px; width: 24px; }
+  .top10-thumb { width: 60px; height: 46px; }
+}
+
+/* ===== OTG HORIZONTAL SCROLL ===== */
+.otg-scroll-section {
+  max-width: var(--max-width);
+  margin: 0 auto 40px;
+  padding: 0 24px;
+}
+.otg-scroll-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+.otg-scroll-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.otg-scroll-sub { font-size: 12px; color: var(--ink-light); }
+.otg-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.otg-add-btn:hover { background: var(--red-dark); }
+.otg-scroll-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.otg-scroll-row::-webkit-scrollbar { height: 3px; }
+.otg-scroll-row::-webkit-scrollbar-track { background: var(--border); border-radius: 2px; }
+.otg-scroll-row::-webkit-scrollbar-thumb { background: var(--ink-light); border-radius: 2px; }
+.otg-scroll-card {
+  flex-shrink: 0;
+  width: 230px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.otg-scroll-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+.otg-scroll-card-loc {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.otg-scroll-card-text {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.45;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.otg-scroll-card-meta {
+  font-size: 11px;
+  color: var(--ink-light);
+}
+.otg-scroll-empty {
+  color: var(--ink-light);
+  font-size: 13px;
+  padding: 20px 0;
+  font-style: italic;
+}
+
+/* ===== OTG SUBMIT MODAL ===== */
+.otg-submit-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  align-items: center;
+  justify-content: center;
+}
+.otg-submit-modal.open { display: flex; }
+.otg-submit-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+.otg-submit-modal-card {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: min(520px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.otg-submit-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+.otg-submit-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--ink-light);
+  line-height: 1;
+}
+body.dark .otg-submit-modal-card { background: #1A1A1A; color: #E8E0D4; }
+body.dark .otg-submit-modal-title { color: #E8E0D4; }
+
+/* ===== QUICK NAV PILL ===== */
+.quick-nav-pill {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 800;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 10px 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+.quick-nav-pill-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background 0.15s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.quick-nav-pill-item:hover { background: var(--red-light); }
+.quick-nav-pill-item.active { background: var(--red); }
+.qnp-tooltip {
+  position: absolute;
+  right: calc(100% + 10px);
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  padding: 4px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.quick-nav-pill-item:hover .qnp-tooltip { opacity: 1; }
+@media (max-width: 1100px) { .quick-nav-pill { display: none; } }
+body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
+
+/* ===== GOV FEED SECTION ===== */
+.gov-feed-section {
+  max-width: var(--max-width);
+  margin: 0 auto 40px;
+  padding: 0 24px;
+}
+.gov-feed-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #b8860b;
+}
+.gov-feed-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.gov-feed-divider { flex: 1; height: 1px; background: #b8860b; opacity: 0.3; }
+.gov-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.gov-feed-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid #b8860b;
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.gov-feed-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.gov-feed-card-source {
+  font-size: 10px;
+  font-weight: 700;
+  color: #b8860b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.gov-feed-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.gov-feed-card-meta { font-size: 10.5px; color: var(--ink-light); }
+.gov-feed-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #b8860b;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+.gov-feed-more:hover { text-decoration: underline; }
+@media (max-width: 768px) { .gov-feed-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .gov-feed-grid { grid-template-columns: repeat(2, 1fr); } }
+body.dark .top10-card,
+body.dark .otg-scroll-card,
+body.dark .gov-feed-card { background: #1A1A1A; border-color: #2A2A2A; }
+body.dark .top10-headline,
+body.dark .otg-scroll-card-text,
+body.dark .gov-feed-card-title { color: #E8E0D4; }
+body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
+</style>
 </head>
 
 <body>
@@ -4197,10 +4551,10 @@
       </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content — Hero -->
     <div class="main-content" id="news-feed">
       <div class="section-header">
-        <div class="section-label" id="sectionLabelTop">TOP STORIES</div>
+        <div class="section-label" id="sectionLabelTop">TOP STORY</div>
         <div class="section-divider"></div>
         <div class="section-meta">
           <span id="lastUpdated">Last updated: --:--</span>
@@ -4209,12 +4563,37 @@
           </div>
         </div>
       </div>
-
       <div class="hero-grid" id="heroGrid"></div>
-      <div class="story-grid" id="storyGrid"></div>
+      <div class="story-grid" id="storyGrid" style="display:none;"></div>
       <aside class="sidebar" id="sidebar"></aside>
+    </div>
 
-      <div class="more-stories">
+    <!-- Today's Top Stories -->
+    <div class="top10-section" id="top10Section" style="display:none;">
+      <div class="top10-header">
+        <div class="top10-label">Today's Top Stories</div>
+        <div class="top10-divider"></div>
+      </div>
+      <div class="top10-grid" id="top10Grid"></div>
+    </div>
+
+    <!-- On The Ground — Horizontal Scroll -->
+    <div class="otg-scroll-section" id="otgScrollSection">
+      <div class="otg-scroll-header">
+        <div>
+          <div class="otg-scroll-title">On The Ground 🇦🇪</div>
+          <div class="otg-scroll-sub">Real observations from UAE residents</div>
+        </div>
+        <button class="otg-add-btn" id="otgOpenModalBtn">+ Share what you see</button>
+      </div>
+      <div class="otg-scroll-row" id="otgScrollRow">
+        <div class="otg-scroll-empty">Loading community posts...</div>
+      </div>
+    </div>
+
+    <!-- Category Sections + Filtered view -->
+    <div class="main-content" id="categorySectionsWrap" style="padding-top:0;">
+      <div class="more-stories" id="filteredStoriesWrap" style="display:none;">
         <div class="section-header">
           <div class="section-label" id="sectionLabelMore">MORE STORIES</div>
           <div class="section-divider"></div>
@@ -4224,43 +4603,25 @@
           <button class="load-more-btn" id="newsLoadMoreBtn">Load More Stories</button>
         </div>
       </div>
-
-      <!-- Category sections (homepage only) -->
       <div id="categorySections"></div>
+    </div>
 
-      <!-- ===== ON THE GROUND — Community Section ===== -->
-      <section class="otg-section" id="onTheGround" aria-label="On The Ground community reports">
+    <!-- Government Feed -->
+    <div class="gov-feed-section" id="govFeedSection"></div>
 
-        <div class="section-header">
-          <div class="section-label" id="otgSectionLabel"
-            style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;letter-spacing:0.01em;">On The
-            Ground &#127462;&#127466;</div>
-          <div class="section-divider"></div>
-          <div class="section-meta">
-            <span id="otgSubText" style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink-light);">Real
-              observations from UAE residents</span>
-          </div>
-        </div>
-
-        <!-- Search bar -->
-        <div class="otg-search-wrap">
-          <input type="text" id="otgSearchInput" class="otg-search-input" placeholder=" Search community reports..."
-            autocomplete="off" aria-label="Search community reports">
-          <button id="otgSearchClear" class="otg-search-clear" aria-label="Clear search"
-            style="display:none;">✕</button>
-        </div>
-        <button id="otgBackBtn" class="otg-back-btn" style="display:none;">&#8592; Back to community</button>
-        <div id="otgSearchLabel" class="otg-search-label" style="display:none;"></div>
-
-        <!-- Submission form -->
+    <!-- OTG Submission Modal -->
+    <div class="otg-submit-modal" id="otgSubmitModal" aria-hidden="true">
+      <div class="otg-submit-modal-overlay" id="otgSubmitModalOverlay"></div>
+      <div class="otg-submit-modal-card">
+        <button class="otg-submit-modal-close" id="otgSubmitModalClose">×</button>
+        <div class="otg-submit-modal-title">Share what you see 🇦🇪</div>
+        <!-- OTG Form (IDs must remain the same for JS) -->
         <div class="otg-form-card" id="otgFormCard">
           <textarea id="otgContent" class="otg-textarea" placeholder="What are you seeing right now?" maxlength="280"
             rows="3" aria-label="Your observation"></textarea>
           <div class="otg-form-meta">
             <span class="otg-char-counter" id="otgCharCounter">280 characters remaining</span>
           </div>
-
-          <!-- Media upload buttons -->
           <div class="otg-upload-row">
             <label class="otg-upload-btn" for="otgPhotoInput">
               &#128247; Add Photo
@@ -4273,7 +4634,6 @@
           </div>
           <div id="otgMediaPreview" class="otg-media-preview" style="display:none;"></div>
           <div id="otgMediaError" class="otg-status otg-status--error" style="display:none; margin-bottom:8px;"></div>
-
           <div class="otg-form-row">
             <select id="otgLocation" class="otg-select" aria-label="Location">
               <option value="">Select location&hellip;</option>
@@ -4286,43 +4646,55 @@
               <option value="Um Al Quwain">Um Al Quwain</option>
               <option value="Other">Other</option>
             </select>
-
-            <div class="otg-identity-toggles" role="group" aria-label="Identity options">
-              <button type="button" class="otg-toggle otg-toggle--active" id="otgAnonBtn" aria-pressed="true">
-                Stay Anonymous
-              </button>
-              <button type="button" class="otg-toggle" id="otgNameBtn" aria-pressed="false">
-                Add my name
-              </button>
-            </div>
           </div>
-
-          <!-- Name / contact fields — hidden by default -->
+          <div class="otg-anon-row">
+            <button type="button" class="otg-toggle otg-toggle--active" id="otgAnonBtn" aria-pressed="true">
+              Anonymous
+            </button>
+            <button type="button" class="otg-toggle" id="otgNameBtn" aria-pressed="false">
+              Use Name
+            </button>
+          </div>
           <div class="otg-name-fields" id="otgNameFields" aria-hidden="true">
             <input type="text" id="otgDisplayName" class="otg-input" placeholder="Your name or nickname (optional)"
-              maxlength="80" />
+              maxlength="60" autocomplete="off">
             <input type="text" id="otgContact" class="otg-input"
-              placeholder="Email or phone (private, never shown publicly)" maxlength="120" />
-            <p class="otg-privacy-note">
-              Your contact info is never shown publicly. TheDubaiBrief stores it privately for verification only.
-            </p>
+              placeholder="WhatsApp or email (optional, not published)" maxlength="120" autocomplete="off">
           </div>
-
-          <div class="otg-form-footer">
+          <div class="otg-submit-row">
             <button type="button" id="otgSubmitBtn" class="otg-submit-btn" disabled>
-              Submit Report
+              Submit report
             </button>
             <div class="otg-status" id="otgStatus" role="status" aria-live="polite"></div>
           </div>
         </div>
+        <!-- Hidden OTG elements kept for JS compatibility -->
+        <input type="text" id="otgSearchInput" style="display:none;" aria-hidden="true">
+        <button id="otgSearchClear" style="display:none;" aria-hidden="true"></button>
+        <div id="otgSearchLabel" style="display:none;" aria-hidden="true"></div>
+        <button id="otgBackBtn" style="display:none;" aria-hidden="true"></button>
+        <div id="otgPostsFeed" style="display:none;" aria-hidden="true"></div>
+        <button id="otgLoadMoreBtn" style="display:none;" aria-hidden="true"></button>
+      </div>
+    </div>
 
-        <!-- Approved posts feed -->
-        <div class="otg-posts" id="otgPostsFeed"></div>
-        <button id="otgLoadMoreBtn" class="otg-load-more-btn" style="display:none;">Load older posts</button>
-
-      </section>
-      <!-- ===== END ON THE GROUND ===== -->
-
+    <!-- Quick Nav Pill (desktop only) -->
+    <div class="quick-nav-pill" id="quickNavPill">
+      <button class="quick-nav-pill-item" onclick="scrollToSection('news-feed')" title="Top Story">
+        <span class="qnp-tooltip">Top Story</span>🔝
+      </button>
+      <button class="quick-nav-pill-item" onclick="scrollToSection('top10Section')" title="Top 10">
+        <span class="qnp-tooltip">Top 10</span>🔟
+      </button>
+      <button class="quick-nav-pill-item" onclick="scrollToSection('otgScrollSection')" title="On The Ground">
+        <span class="qnp-tooltip">On The Ground</span>📍
+      </button>
+      <button class="quick-nav-pill-item" onclick="scrollToSection('categorySectionsWrap')" title="Categories">
+        <span class="qnp-tooltip">Categories</span>📰
+      </button>
+      <button class="quick-nav-pill-item" onclick="scrollToSection('govFeedSection')" title="Government">
+        <span class="qnp-tooltip">Government</span>🏛️
+      </button>
     </div>
 
     <footer>
@@ -4727,13 +5099,12 @@
       }).slice(0, 200); // keep up to 200 in memory
       items = prioritizePinnedStory(items);
 
-      const catSecEl = document.getElementById('categorySections');
-
       if (!items.length) {
         document.getElementById('heroGrid').innerHTML = '<div class="hero-main" style="padding:24px;"><p style="color:var(--ink-light);font-family:\'DM Sans\',sans-serif;">No stories match your filter. Check back soon.</p></div>';
         document.getElementById('storyGrid').innerHTML = '';
         document.getElementById('moreStoriesList').innerHTML = '';
-        if (catSecEl) catSecEl.innerHTML = '';
+        const _catSecEmpty = document.getElementById('categorySections');
+        if (_catSecEmpty) _catSecEmpty.innerHTML = '';
         return;
       }
 
@@ -4805,42 +5176,138 @@
         }, 2000);
       }
 
-      // ── Top 3 story cards below hero: items[3-5] ───────────────────────────
-      const cardHTML = items.slice(3, 6).map(item => `
-        <article class="story-card" onclick="openStoryInFeed('${item.id}')">
-          ${imageHtml(item)}
-          <div class="story-content">
-            <div class="story-category">${(item.category || item.topic || '').toUpperCase()}</div>
-            <h3 class="story-title">${item.calmTitle || item.title}</h3>
-            <p class="story-deck">${(item.calmSummary || '').substring(0, 80)}...</p>
-            ${item.residentImpact ? `<div style="border-left:3px solid #C8102E;background:#ffe5e5;padding:4px 8px;margin-top:6px;font-size:12px;font-style:italic;"> ${item.residentImpact}</div>` : ''}
-            ${buildDataBar(item)}
-            ${item.alsoReportedBy && item.alsoReportedBy.length ? `<div style="font-size:11px;color:#999;margin-top:3px;">+${item.alsoReportedBy.length} more source${item.alsoReportedBy.length > 1 ? 's' : ''}</div>` : ''}
-            <div class="story-footer">
-              <span class="story-time" title="${uaeExactTime(item.publishedAt)} UAE time"> ${relativeTime(item.publishedAt)}</span>
-              <span class="story-source ${sourceClass(item.sourceName)}">${(item.sourceName || '').toUpperCase()}</span>
-            </div>
-          </div>
-        </article>`).join('');
-      document.getElementById('storyGrid').innerHTML = cardHTML;
+      // storyGrid kept empty (hidden)
+      document.getElementById('storyGrid').innerHTML = '';
+
+      // ── Top 10 Stories ───────────────────────────────────────────────────
+      const top10El = document.getElementById('top10Section');
+      const top10GridEl = document.getElementById('top10Grid');
+      if (top10El && top10GridEl) {
+        const top10Items = items.slice(1, 11);
+        if (top10Items.length) {
+          top10El.style.display = '';
+          top10GridEl.innerHTML = top10Items.map((item, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            const catColor = categoryBorderColor(item.category || item.topic);
+            const thumb = item.imageUrl
+              ? `<div class="top10-thumb"><img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" loading="lazy" onerror="this.onerror=null;this.style.display='none';this.parentNode.style.background='${gradientForTopic(item.category || item.topic)}';" /></div>`
+              : `<div class="top10-thumb" style="background:${gradientForTopic(item.category || item.topic)};"></div>`;
+            return `<div class="top10-card" style="border-left-color:${catColor};" onclick="openStoryInFeed('${item.id}')">
+              <div class="top10-num">${num}</div>
+              ${thumb}
+              <div class="top10-body">
+                <div class="top10-headline">${item.calmTitle || item.title || ''}</div>
+                <div class="top10-meta">${item.sourceName || ''} · ${relativeTime(item.publishedAt)}</div>
+              </div>
+            </div>`;
+          }).join('');
+        } else {
+          top10El.style.display = 'none';
+        }
+      }
 
       // ── Homepage: category sections | Filtered: flat more-stories list ──────
+      const catSecEl = document.getElementById('categorySections');
+      const filteredWrap = document.getElementById('filteredStoriesWrap');
       const loadMoreWrap = document.getElementById('loadMoreWrap');
       if (catSecEl) {
         if (currentCategory === 'all' && !currentSearch) {
-          catSecEl.innerHTML = renderCategorySectionsHTML(items.slice(6));
-          document.getElementById('moreStoriesList').innerHTML = '';
+          catSecEl.innerHTML = renderCategorySectionsHTML(items.slice(11));
+          if (filteredWrap) filteredWrap.style.display = 'none';
           if (loadMoreWrap) loadMoreWrap.style.display = 'none';
         } else {
           catSecEl.innerHTML = '';
-          // Store filtered items globally for Load More
-          window._filteredMoreItems = items.slice(6);
+          if (filteredWrap) filteredWrap.style.display = '';
+          window._filteredMoreItems = items.slice(11);
           const firstBatch = window._filteredMoreItems.slice(0, NEWS_PAGE_SIZE);
           document.getElementById('moreStoriesList').innerHTML = buildMoreStoriesHTML(firstBatch);
           if (loadMoreWrap) {
             loadMoreWrap.style.display = window._filteredMoreItems.length > NEWS_PAGE_SIZE ? 'flex' : 'none';
           }
         }
+      }
+
+      // ── Gov Feed Section ──────────────────────────────────────────────────
+      renderGovFeed(items);
+    }
+
+    function categoryBorderColor(cat) {
+      switch ((cat || '').toLowerCase()) {
+        case 'breaking news':      return '#c0392b';
+        case 'sports':             return '#27ae60';
+        case 'politics':           return '#8e44ad';
+        case 'dubai news':         return '#c8102e';
+        case 'abu dhabi news':     return '#1565c0';
+        case 'economy & business': return '#4286f4';
+        case 'technology':         return '#2c5364';
+        case 'uae government':     return '#b8860b';
+        default:                   return '#7A6E62';
+      }
+    }
+
+    function renderGovFeed(allItems) {
+      const govEl = document.getElementById('govFeedSection');
+      if (!govEl) return;
+      const govItems = allItems.filter(item =>
+        (item.category || '').toLowerCase() === 'uae government' ||
+        (item.isGovSource === true)
+      ).slice(0, 6);
+      if (!govItems.length) { govEl.innerHTML = ''; return; }
+      const cards = govItems.map(item => `
+        <div class="gov-feed-card" onclick="openStoryInFeed('${item.id}')">
+          <div class="gov-feed-card-source">🏛️ ${item.sourceName || 'UAE Government'}</div>
+          <div class="gov-feed-card-title">${item.calmTitle || item.title || ''}</div>
+          <div class="gov-feed-card-meta">${relativeTime(item.publishedAt)}</div>
+        </div>`).join('');
+      govEl.innerHTML = `
+        <div class="gov-feed-header">
+          <div class="gov-feed-label">🏛️ Government Announcements</div>
+          <div class="gov-feed-divider"></div>
+        </div>
+        <div class="gov-feed-grid">${cards}</div>
+        <a href="/government" class="gov-feed-more">View all government news →</a>`;
+    }
+
+    function openOtgModal() {
+      const modal = document.getElementById('otgSubmitModal');
+      if (modal) { modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); }
+    }
+
+    function closeOtgModal() {
+      const modal = document.getElementById('otgSubmitModal');
+      if (modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function loadOtgScrollPosts() {
+      const row = document.getElementById('otgScrollRow');
+      if (!row) return;
+      try {
+        const r = await fetch('/api/community/posts?offset=0', { cache: 'no-store' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        const posts = Array.isArray(data.posts) ? data.posts.slice(0, 10) : [];
+        if (!posts.length) {
+          row.innerHTML = '<div class="otg-scroll-empty">No community posts yet. Be the first!</div>';
+          return;
+        }
+        row.innerHTML = posts.map(post => {
+          const content = String(post.content || '');
+          const safe = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+          const loc = String(post.location || 'UAE').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+          const timeStr = (typeof relativeTime === 'function') ? relativeTime(post.created_at) : '';
+          return `<div class="otg-scroll-card">
+            <div class="otg-scroll-card-loc">📍 ${loc}</div>
+            <div class="otg-scroll-card-text">${safe}</div>
+            <div class="otg-scroll-card-meta">${timeStr}</div>
+          </div>`;
+        }).join('');
+      } catch {
+        row.innerHTML = '<div class="otg-scroll-empty">Could not load community posts.</div>';
       }
     }
 
@@ -4864,23 +5331,18 @@
 
     // ── Category icons & order ────────────────────────────────────────────────
     const CAT_ICONS = {
-      'Safety': '',
-      'Government': '',
-      'Business': '',
-      'Transport': '',
-      'Health': '',
-      'Education': '',
-      'Sport': '',
-      'Weather': '',
-      'Lifestyle': '',
-      'Technology': '',
-      'World': '',
-      'Community': '',
-      'General': '',
+      'Breaking News': '🚨',
+      'Sports': '⚽',
+      'Politics': '🏛',
+      'Dubai News': '🏙️',
+      'Abu Dhabi News': '🕌',
+      'Economy & Business': '📈',
+      'Technology': '💡',
+      'UAE Government': '🏛️',
     };
     const CAT_ORDER = [
-      'Sport', 'World', 'Safety', 'Government', 'Transport', 'Health',
-      'Education', 'Weather', 'Business', 'Community', 'Lifestyle', 'Technology', 'General',
+      'Dubai News', 'Abu Dhabi News', 'Economy & Business', 'Technology',
+      'Sports', 'Politics', 'Breaking News', 'UAE Government',
     ];
 
     function filterByTopic(topic) {
@@ -4933,7 +5395,8 @@
           const imgPart = item.imageUrl
             ? `<div class="cat-section-card-img"><img src="${API_BASE}/api/image?url=${encodeURIComponent(item.imageUrl)}" alt="" loading="lazy" onerror="this.onerror=null;this.parentNode.style.background='${grad}';this.style.display='none';"></div>`
             : `<div class="cat-section-card-img" style="background:${grad};"></div>`;
-          return `<div class="cat-section-card" onclick="openStoryInFeed('${item.id}')">
+          const borderCol = categoryBorderColor(cat);
+          return `<div class="cat-section-card" style="border-left:4px solid ${borderCol};" onclick="openStoryInFeed('${item.id}')">
             ${imgPart}
             <div class="cat-section-card-body">
               <div class="cat-section-card-title">${item.calmTitle || item.title || ''}</div>
@@ -5116,6 +5579,18 @@
         }
       });
     })();
+
+    // OTG Modal button
+    const _otgOpenBtn = document.getElementById('otgOpenModalBtn');
+    if (_otgOpenBtn) _otgOpenBtn.addEventListener('click', openOtgModal);
+    const _otgModalClose = document.getElementById('otgSubmitModalClose');
+    if (_otgModalClose) _otgModalClose.addEventListener('click', closeOtgModal);
+    const _otgModalOverlay = document.getElementById('otgSubmitModalOverlay');
+    if (_otgModalOverlay) _otgModalOverlay.addEventListener('click', closeOtgModal);
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeOtgModal(); });
+
+    // Load OTG horizontal scroll posts
+    loadOtgScrollPosts();
 
     // Initial load + refresh every 30s
     loadNews();
