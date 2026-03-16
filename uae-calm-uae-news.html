@@ -4353,6 +4353,11 @@ body.dark .gov-feed-card-title { color: #E8E0D4; }
 body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
 
 /* ===== SAVE / BOOKMARK FEATURE ===== */
+@keyframes savePopAnim {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
 .save-btn {
   position: absolute;
   top: 8px;
@@ -4368,14 +4373,51 @@ body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
   cursor: pointer;
   font-size: 15px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-  transition: transform 0.15s, background 0.15s;
+  transition: background 0.15s, color 0.15s;
   z-index: 10;
   flex-shrink: 0;
+  opacity: 0.75;
 }
-.save-btn:hover { transform: scale(1.1); background: #fff; }
-.save-btn.saved { background: var(--red); color: #fff; }
+/* Always visible on mobile; hover-reveal on desktop */
+@media (hover: hover) {
+  .save-btn:not(.saved) { opacity: 0; }
+  *:hover > .save-btn:not(.saved),
+  .top10-card:hover .save-btn,
+  .cat-section-card:hover .save-btn,
+  .more-story:hover .save-btn,
+  .hero-card:hover .save-btn { opacity: 1; }
+}
+.save-btn:hover { background: #fff; }
+.save-btn.saved { background: var(--red) !important; color: #fff !important; opacity: 1 !important; }
+.save-btn.pop { animation: savePopAnim 0.22s ease; }
 body.dark .save-btn { background: rgba(30,30,30,0.92); color: #E8E0D4; }
 body.dark .save-btn.saved { background: var(--red); color: #fff; }
+
+/* Save toast */
+#saveToast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #1A1208;
+  color: #fff;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 9999;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#saveToast.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+#saveToastLink { color: var(--gold); text-decoration: none; font-weight: 700; font-size: 13px; }
+#saveToastLink:hover { text-decoration: underline; }
 
 /* Cards that have a save btn need position:relative */
 .top10-card { position: relative; }
@@ -4692,6 +4734,12 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         <div id="otgPostsFeed" style="display:none;" aria-hidden="true"></div>
         <button id="otgLoadMoreBtn" style="display:none;" aria-hidden="true"></button>
       </div>
+    </div>
+
+    <!-- Save toast -->
+    <div id="saveToast">
+      <span id="saveToastMsg">🔖 Article saved</span>
+      <a href="/saved" id="saveToastLink">View saved →</a>
     </div>
 
     <!-- Quick Nav Pill (desktop only) -->
@@ -5270,14 +5318,33 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       return getSavedArticles().some(a => a.id === id);
     }
 
+    let _toastTimer = null;
+    function showSaveToast(didSave) {
+      const toast = document.getElementById('saveToast');
+      const msg = document.getElementById('saveToastMsg');
+      const link = document.getElementById('saveToastLink');
+      if (!toast || !msg) return;
+      if (_toastTimer) clearTimeout(_toastTimer);
+      if (didSave) {
+        msg.textContent = '🔖 Article saved';
+        if (link) link.style.display = 'inline';
+      } else {
+        msg.textContent = 'Removed from saved';
+        if (link) link.style.display = 'none';
+      }
+      toast.classList.add('show');
+      _toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
     function toggleSave(id, e) {
       if (e) { e.stopPropagation(); }
       const saved = getSavedArticles();
       const idx = saved.findIndex(a => a.id === id);
+      let didSave = false;
       if (idx >= 0) {
         saved.splice(idx, 1);
+        didSave = false;
       } else {
-        // Find article in allNews
         const item = allNews.find(a => a.id === id);
         if (item) {
           saved.unshift({
@@ -5290,13 +5357,25 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
             imageUrl: item.imageUrl || '',
             category: item.category || item.topic || '',
             url: item.url || '',
+            residentImpact: item.residentImpact || '',
+            funFact: item.funFact || '',
             savedAt: new Date().toISOString(),
           });
+          didSave = true;
         }
       }
       try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved.slice(0, 200))); } catch {}
+      // Pop animation on the clicked button
+      if (e && e.currentTarget) {
+        const btn = e.currentTarget;
+        btn.classList.remove('pop');
+        void btn.offsetWidth; // reflow
+        btn.classList.add('pop');
+        btn.addEventListener('animationend', () => btn.classList.remove('pop'), { once: true });
+      }
       updateAllSaveBtns();
       updateSavedNavCount();
+      showSaveToast(didSave);
     }
 
     function updateAllSaveBtns() {
@@ -5305,8 +5384,6 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         const saved = isSaved(id);
         btn.classList.toggle('saved', saved);
         btn.title = saved ? 'Remove from saved' : 'Save article';
-        btn.textContent = saved ? '🔖' : '🔖';
-        btn.style.opacity = saved ? '1' : '0.7';
       });
     }
 

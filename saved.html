@@ -23,66 +23,147 @@
     /* Navbar */
     .nav { background: var(--ink); color: #fff; padding: 0 24px; display: flex; align-items: center; gap: 16px; height: 52px; position: sticky; top: 0; z-index: 100; }
     .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: 0.5px; }
-    .nav-back { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; margin-left: auto; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+    .nav-back { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; }
     .nav-back:hover { color: #fff; }
 
     /* Page header */
-    .page-header { max-width: var(--max-width); margin: 32px auto 24px; padding: 0 24px; }
+    .page-header { max-width: var(--max-width); margin: 36px auto 20px; padding: 0 24px; }
     .page-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
     body.dark .page-title { color: #E8E0D4; }
     .page-subtitle { font-size: 13px; color: var(--ink-light); }
 
     /* Search */
-    .search-wrap { max-width: var(--max-width); margin: 0 auto 24px; padding: 0 24px; }
+    .search-wrap { max-width: var(--max-width); margin: 0 auto 16px; padding: 0 24px; }
     .search-input {
-      width: 100%; padding: 11px 16px; border: 1px solid var(--border); border-radius: 8px;
+      width: 100%; padding: 11px 16px; border: 1.5px solid var(--border); border-radius: 8px;
       font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: #fff;
       outline: none; transition: border-color 0.2s;
     }
     .search-input:focus { border-color: var(--red); }
     body.dark .search-input { background: #1A1A1A; border-color: #2A2A2A; color: #E8E0D4; }
 
-    /* Toolbar */
-    .toolbar { max-width: var(--max-width); margin: 0 auto 16px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-    .toolbar-count { font-size: 13px; color: var(--ink-light); }
-    .clear-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--ink-light); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+    /* Sort + Toolbar */
+    .toolbar { max-width: var(--max-width); margin: 0 auto 12px; padding: 0 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+    .toolbar-count { font-size: 13px; color: var(--ink-light); flex-shrink: 0; }
+    .sort-group { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sort-btn {
+      background: none; border: 1.5px solid var(--border); border-radius: 20px; padding: 4px 12px;
+      font-size: 12px; font-weight: 600; color: var(--ink-light); cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap;
+    }
+    .sort-btn:hover, .sort-btn.active { border-color: var(--red); color: var(--red); background: var(--red-light); }
+    body.dark .sort-btn { border-color: #333; color: #888; }
+    body.dark .sort-btn:hover, body.dark .sort-btn.active { border-color: var(--red); color: #fff; background: rgba(200,16,46,0.2); }
+    .clear-btn {
+      background: none; border: 1.5px solid var(--border); border-radius: 6px; padding: 4px 12px;
+      font-size: 12px; font-weight: 600; color: var(--ink-light); cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap;
+    }
     .clear-btn:hover { border-color: var(--red); color: var(--red); }
 
+    /* Category pills */
+    .cat-pills { max-width: var(--max-width); margin: 0 auto 20px; padding: 0 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .cat-pill {
+      border: 1.5px solid var(--border); border-radius: 20px; padding: 5px 14px;
+      font-size: 12px; font-weight: 600; color: var(--ink-mid); cursor: pointer;
+      background: #fff; transition: all 0.15s; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .cat-pill:hover, .cat-pill.active { border-color: var(--red); color: var(--red); background: var(--red-light); }
+    body.dark .cat-pill { background: #1A1A1A; border-color: #2A2A2A; color: #999; }
+    body.dark .cat-pill:hover, body.dark .cat-pill.active { border-color: var(--red); color: #fff; background: rgba(200,16,46,0.2); }
+
     /* Articles list */
-    .articles { max-width: var(--max-width); margin: 0 auto; padding: 0 24px 48px; display: flex; flex-direction: column; gap: 12px; }
+    .articles { max-width: var(--max-width); margin: 0 auto; padding: 0 24px 60px; display: flex; flex-direction: column; gap: 12px; }
 
     .saved-card {
-      background: #fff; border: 1px solid var(--border); border-radius: 8px;
-      display: flex; gap: 14px; align-items: flex-start; padding: 14px;
+      background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+      display: flex; gap: 14px; align-items: flex-start; padding: 14px 14px 12px;
       cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; position: relative;
     }
-    .saved-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .saved-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.09); transform: translateY(-1px); }
     body.dark .saved-card { background: #1A1A1A; border-color: #2A2A2A; }
 
-    .saved-card-thumb { width: 88px; height: 68px; border-radius: 6px; overflow: hidden; flex-shrink: 0; background: var(--border); }
+    .saved-card-thumb {
+      width: 92px; height: 72px; border-radius: 7px; overflow: hidden; flex-shrink: 0;
+      background: linear-gradient(135deg,#2c3e50,#C8102E);
+    }
     .saved-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .saved-card-body { flex: 1; min-width: 0; }
+    .saved-card-body { flex: 1; min-width: 0; padding-right: 32px; }
     .saved-card-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--red); margin-bottom: 4px; }
-    .saved-card-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .saved-card-title {
+      font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700;
+      color: var(--ink); line-height: 1.35; margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
     body.dark .saved-card-title { color: #E8E0D4; }
     .saved-card-meta { font-size: 11px; color: var(--ink-light); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .saved-card-source { font-weight: 600; }
+    .saved-date-badge { background: var(--red-light); color: var(--red); border-radius: 4px; padding: 1px 6px; font-weight: 700; }
+    body.dark .saved-date-badge { background: rgba(200,16,46,0.2); }
 
-    .saved-card-remove { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--ink-light); line-height: 1; padding: 4px; border-radius: 4px; transition: color 0.15s; }
+    /* Card actions row */
+    .saved-card-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+    .card-action-btn {
+      background: none; border: 1px solid var(--border); border-radius: 6px;
+      padding: 3px 10px; font-size: 11px; font-weight: 600; color: var(--ink-light);
+      cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+    }
+    .card-action-btn:hover { border-color: var(--red); color: var(--red); }
+    body.dark .card-action-btn { border-color: #333; color: #777; }
+    body.dark .card-action-btn:hover { border-color: var(--red); color: #fff; }
+
+    .saved-card-remove {
+      position: absolute; top: 10px; right: 10px; background: none; border: none;
+      font-size: 16px; cursor: pointer; color: var(--ink-light); line-height: 1;
+      padding: 4px; border-radius: 4px; transition: color 0.15s;
+    }
     .saved-card-remove:hover { color: var(--red); }
 
-    .empty-state { text-align: center; padding: 60px 24px; color: var(--ink-light); }
-    .empty-icon { font-size: 48px; margin-bottom: 16px; }
-    .empty-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 8px; }
+    /* Share dropdown */
+    .share-dropdown { position: relative; display: inline-block; }
+    .share-menu {
+      position: absolute; bottom: 28px; left: 0; background: #fff; border: 1px solid var(--border);
+      border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); z-index: 100;
+      min-width: 170px; overflow: hidden; display: none;
+    }
+    .share-menu.open { display: block; }
+    body.dark .share-menu { background: #222; border-color: #333; }
+    .share-menu-item {
+      display: flex; align-items: center; gap: 8px; padding: 9px 14px;
+      font-size: 13px; color: var(--ink); cursor: pointer; transition: background 0.12s;
+      border: none; background: none; width: 100%; text-align: left; font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+    }
+    .share-menu-item:hover { background: var(--red-light); color: var(--red); }
+    body.dark .share-menu-item { color: #E8E0D4; }
+    body.dark .share-menu-item:hover { background: rgba(200,16,46,0.15); color: #fff; }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 60px 24px; color: var(--ink-light); max-width: 400px; margin: 0 auto; }
+    .empty-icon { font-size: 52px; margin-bottom: 16px; }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
     body.dark .empty-title { color: #E8E0D4; }
-    .empty-sub { font-size: 14px; line-height: 1.6; }
-    .empty-cta { display: inline-block; margin-top: 20px; background: var(--red); color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .empty-sub { font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .empty-cta { display: inline-block; background: var(--red); color: #fff; padding: 11px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .empty-cta:hover { background: var(--red-dark); }
+
+    /* Toast */
+    #copyToast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px);
+      background: #1A1208; color: #fff; border-radius: 8px; padding: 10px 20px;
+      font-size: 13px; font-weight: 500; z-index: 9999; opacity: 0;
+      transition: transform 0.25s, opacity 0.25s; pointer-events: none;
+    }
+    #copyToast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
     @media (max-width: 600px) {
-      .saved-card-thumb { width: 70px; height: 56px; }
+      .saved-card-thumb { width: 72px; height: 60px; }
       .saved-card-title { font-size: 13.5px; }
       .page-title { font-size: 1.5rem; }
+      .toolbar { gap: 8px; }
     }
   </style>
 </head>
@@ -90,28 +171,46 @@
 
   <nav class="nav">
     <a href="/" class="nav-logo">TheDubaiBrief</a>
-    <a href="/" class="nav-back">← Back to news</a>
+    <div class="nav-right">
+      <a href="/" class="nav-back">← Back to news</a>
+    </div>
   </nav>
 
   <div class="page-header">
     <div class="page-title">🔖 Saved Articles</div>
-    <div class="page-subtitle" id="pageSubtitle">Your bookmarked stories, all in one place</div>
+    <div class="page-subtitle" id="pageSubtitle">Your personal reading list</div>
   </div>
 
   <div class="search-wrap">
-    <input type="text" class="search-input" id="savedSearch" placeholder="Search your saved articles..." autocomplete="off" aria-label="Search saved articles">
+    <input type="text" class="search-input" id="savedSearch"
+      placeholder="Search your saved articles..." autocomplete="off" aria-label="Search saved articles">
   </div>
 
   <div class="toolbar">
     <div class="toolbar-count" id="savedCount"></div>
-    <button class="clear-btn" id="clearAllBtn">Clear all</button>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <div class="sort-group" id="sortGroup">
+        <button class="sort-btn active" data-sort="newest">Recently saved</button>
+        <button class="sort-btn" data-sort="oldest">Oldest first</button>
+        <button class="sort-btn" data-sort="category">By category</button>
+        <button class="sort-btn" data-sort="source">By source</button>
+      </div>
+      <button class="clear-btn" id="clearAllBtn">Clear all</button>
+    </div>
   </div>
 
+  <div class="cat-pills" id="catPills"></div>
+
   <div class="articles" id="savedList"></div>
+
+  <div id="copyToast">✅ Link copied!</div>
 
   <script>
     const SAVED_KEY = 'cwn_saved_articles';
     let searchQuery = '';
+    let activeSort = 'newest';
+    let activeCat = 'all';
+    let openShareId = null;
 
     function getSaved() {
       try { return JSON.parse(localStorage.getItem(SAVED_KEY) || '[]'); } catch { return []; }
@@ -138,56 +237,181 @@
       if (m < 60) return m + 'm ago';
       const h = Math.floor(m / 60);
       if (h < 24) return h + 'h ago';
-      return Math.floor(h / 24) + 'd ago';
+      const days = Math.floor(h / 24);
+      if (days === 1) return '1 day ago';
+      if (days < 30) return days + ' days ago';
+      return Math.floor(days / 30) + ' months ago';
     }
 
-    function escHtml(s) {
+    function esc(s) {
       return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    function render() {
+    function sortArticles(arr) {
+      const s = [...arr];
+      if (activeSort === 'newest') return s; // already newest first (unshift order)
+      if (activeSort === 'oldest') return s.reverse();
+      if (activeSort === 'category') return s.sort((a,b) => (a.category||'').localeCompare(b.category||''));
+      if (activeSort === 'source') return s.sort((a,b) => (a.sourceName||'').localeCompare(b.sourceName||''));
+      return s;
+    }
+
+    function buildCatPills(saved) {
+      const cats = ['All', ...new Set(saved.map(a => a.category).filter(Boolean).sort())];
+      const wrap = document.getElementById('catPills');
+      if (!wrap) return;
+      if (cats.length <= 2) { wrap.innerHTML = ''; return; }
+      wrap.innerHTML = cats.map(cat => {
+        const val = cat === 'All' ? 'all' : cat;
+        const isActive = val === activeCat;
+        return `<button class="cat-pill${isActive ? ' active' : ''}" data-cat="${esc(val)}" onclick="setCat('${esc(val)}')">${esc(cat)}</button>`;
+      }).join('');
+    }
+
+    function setCat(cat) {
+      activeCat = cat;
+      render();
+    }
+
+    function setSort(sort) {
+      activeSort = sort;
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b.dataset.sort === sort));
+      render();
+    }
+
+    function shareArticle(id) {
       const saved = getSaved();
+      const a = saved.find(x => x.id === id);
+      if (!a) return;
+      if (openShareId === id) {
+        closeShare();
+        return;
+      }
+      closeShare();
+      openShareId = id;
+      const menu = document.getElementById('share-menu-' + id);
+      if (menu) menu.classList.add('open');
+    }
+
+    function closeShare() {
+      if (openShareId) {
+        const prev = document.getElementById('share-menu-' + openShareId);
+        if (prev) prev.classList.remove('open');
+        openShareId = null;
+      }
+    }
+
+    function copyLink(url) {
+      closeShare();
+      navigator.clipboard.writeText(url || window.location.origin).then(() => {
+        const t = document.getElementById('copyToast');
+        if (!t) return;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+      });
+    }
+
+    function shareWA(headline, url) {
+      closeShare();
+      const text = encodeURIComponent('Check this article on TheDubaiBrief:\n' + headline + '\n' + url);
+      window.open('https://wa.me/?text=' + text, '_blank');
+    }
+
+    function shareTwitter(headline, url) {
+      closeShare();
+      const text = encodeURIComponent(headline + ' via @TheDubaiBrief');
+      window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(url), '_blank');
+    }
+
+    function shareEmail(headline, url) {
+      closeShare();
+      window.location.href = 'mailto:?subject=' + encodeURIComponent(headline) + '&body=' + encodeURIComponent('I thought you might find this interesting:\n\n' + headline + '\n\n' + url + '\n\nFrom TheDubaiBrief — calm, clear UAE news.');
+    }
+
+    function render() {
+      let saved = getSaved();
       const list = document.getElementById('savedList');
       const countEl = document.getElementById('savedCount');
+      const subtitle = document.getElementById('pageSubtitle');
+
+      buildCatPills(saved);
+
+      // Filter by category
+      if (activeCat !== 'all') {
+        saved = saved.filter(a => (a.category || '') === activeCat);
+      }
 
       // Filter by search
       const q = searchQuery.toLowerCase();
-      const filtered = q
-        ? saved.filter(a => (a.calmTitle + ' ' + a.title + ' ' + a.sourceName + ' ' + a.category).toLowerCase().includes(q))
-        : saved;
+      if (q) {
+        saved = saved.filter(a =>
+          (a.calmTitle + ' ' + a.title + ' ' + a.sourceName + ' ' + a.category + ' ' + a.calmSummary).toLowerCase().includes(q)
+        );
+      }
 
-      countEl.textContent = filtered.length + ' saved article' + (filtered.length !== 1 ? 's' : '') + (q ? ' matching "' + q + '"' : '');
+      // Sort
+      saved = sortArticles(saved);
 
-      if (!filtered.length) {
+      const total = getSaved().length;
+      if (subtitle) subtitle.textContent = total === 0 ? 'Your personal reading list' : total + ' article' + (total !== 1 ? 's' : '') + ' saved';
+      if (countEl) {
+        let label = saved.length + ' article' + (saved.length !== 1 ? 's' : '');
+        if (q) label += ' matching "' + q + '"';
+        else if (activeCat !== 'all') label += ' in ' + activeCat;
+        countEl.textContent = label;
+      }
+
+      if (!saved.length) {
+        const isEmpty = getSaved().length === 0;
         list.innerHTML = `<div class="empty-state">
-          <div class="empty-icon">${q ? '🔍' : '🔖'}</div>
-          <div class="empty-title">${q ? 'No matches found' : 'No saved articles yet'}</div>
-          <div class="empty-sub">${q ? 'Try a different search term.' : 'Tap the 🔖 bookmark on any story to save it here.'}</div>
-          ${!q ? '<a href="/" class="empty-cta">Browse news →</a>' : ''}
+          <div class="empty-icon">${isEmpty ? '🔖' : (q ? '🔍' : '📂')}</div>
+          <div class="empty-title">${isEmpty ? 'No saved articles yet' : (q ? 'No matches found' : 'Nothing in this category')}</div>
+          <div class="empty-sub">${isEmpty
+            ? 'Tap the 🔖 bookmark on any article to save it here for later. They\'ll stay forever — no account needed.'
+            : (q ? 'Try a different search term.' : 'Try a different filter or category.')}</div>
+          ${isEmpty ? '<a href="/" class="empty-cta">Browse latest news →</a>' : ''}
         </div>`;
         return;
       }
 
-      list.innerHTML = filtered.map(a => {
-        const API_BASE = '';
+      list.innerHTML = saved.map(a => {
         const thumb = a.imageUrl
-          ? `<div class="saved-card-thumb"><img src="${API_BASE}/api/image?url=${encodeURIComponent(a.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none'"></div>`
-          : `<div class="saved-card-thumb" style="background:linear-gradient(135deg,#2c3e50,#C8102E);"></div>`;
-        return `<div class="saved-card" onclick="window.location.href='/article?id=${escHtml(a.id)}'">
+          ? `<div class="saved-card-thumb"><img src="${esc(a.imageUrl)}" alt="" loading="lazy" onerror="this.parentNode.style.background='linear-gradient(135deg,#2c3e50,#C8102E)'"></div>`
+          : `<div class="saved-card-thumb"></div>`;
+        const articleUrl = a.url || ('https://thedubaibriefing.com/article?id=' + a.id);
+        return `<div class="saved-card" onclick="window.location.href='/article?id=${esc(a.id)}'">
           ${thumb}
           <div class="saved-card-body">
-            <div class="saved-card-cat">${escHtml(a.category || 'UAE News')}</div>
-            <div class="saved-card-title">${escHtml(a.calmTitle || a.title || 'Untitled')}</div>
+            <div class="saved-card-cat">${esc(a.category || 'UAE News')}</div>
+            <div class="saved-card-title">${esc(a.calmTitle || a.title || 'Untitled')}</div>
             <div class="saved-card-meta">
-              <span class="saved-card-source">${escHtml(a.sourceName || '')}</span>
+              <span class="saved-card-source">${esc(a.sourceName || '')}</span>
               ${a.publishedAt ? '<span>' + relativeTime(a.publishedAt) + '</span>' : ''}
-              ${a.savedAt ? '<span>Saved ' + relativeTime(a.savedAt) + '</span>' : ''}
+              ${a.savedAt ? '<span class="saved-date-badge">Saved ' + relativeTime(a.savedAt) + '</span>' : ''}
+            </div>
+            <div class="saved-card-actions" onclick="event.stopPropagation()">
+              <div class="share-dropdown">
+                <button class="card-action-btn" onclick="shareArticle('${esc(a.id)}')">📤 Share</button>
+                <div class="share-menu" id="share-menu-${esc(a.id)}">
+                  <button class="share-menu-item" onclick="copyLink('${esc(articleUrl)}')">🔗 Copy link</button>
+                  <button class="share-menu-item" onclick="shareWA('${esc(a.calmTitle || a.title || '')}','${esc(articleUrl)}')">💬 WhatsApp</button>
+                  <button class="share-menu-item" onclick="shareTwitter('${esc(a.calmTitle || a.title || '')}','${esc(articleUrl)}')">🐦 Twitter / X</button>
+                  <button class="share-menu-item" onclick="shareEmail('${esc(a.calmTitle || a.title || '')}','${esc(articleUrl)}')">✉️ Email</button>
+                </div>
+              </div>
+              <button class="card-action-btn" onclick="removeSaved('${esc(a.id)}')">✕ Remove</button>
             </div>
           </div>
-          <button class="saved-card-remove" onclick="event.stopPropagation();removeSaved('${escHtml(a.id)}')" title="Remove" aria-label="Remove from saved">✕</button>
+          <button class="saved-card-remove" onclick="event.stopPropagation();removeSaved('${esc(a.id)}')" title="Remove" aria-label="Remove from saved">✕</button>
         </div>`;
       }).join('');
     }
+
+    // Sort buttons
+    document.getElementById('sortGroup').addEventListener('click', e => {
+      const btn = e.target.closest('.sort-btn');
+      if (btn) setSort(btn.dataset.sort);
+    });
 
     document.getElementById('savedSearch').addEventListener('input', e => {
       searchQuery = e.target.value;
@@ -195,6 +419,11 @@
     });
 
     document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+    // Close share menu when clicking outside
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.share-dropdown')) closeShare();
+    });
 
     render();
   </script>
