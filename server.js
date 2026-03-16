@@ -15,6 +15,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import cron from "node-cron";
 import Stripe from "stripe";
 
+console.log('[boot] Module loaded — registering app...');
 if (!process.env.SUPABASE_URL) console.warn('WARNING: SUPABASE_URL not set — database features disabled');
 if (!process.env.SUPABASE_KEY) console.warn('WARNING: SUPABASE_KEY not set — database features disabled');
 if (!process.env.CLAUDE_API_KEY) console.warn('WARNING: CLAUDE_API_KEY not set — AI features disabled');
@@ -30,7 +31,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+const PORT = process.env.PORT || 3000;
+
+// ── HEALTH CHECK — must be the absolute first route ───────────────────────────
+app.get('/healthz', (req, res) => res.status(200).send('ok'));
+
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const RESEND_FROM = process.env.RESEND_FROM || "onboarding@resend.dev";
 const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
@@ -405,9 +410,6 @@ cron.schedule("0 16 * * *", async () => {
   }
   await sendDailyBrief("evening");
 }, { timezone: "UTC" });
-
-// Health check FIRST — before all middleware so it always responds
-app.get('/healthz', (req, res) => res.status(200).send('ok'));
 
 app.use(cors());
 
@@ -1241,29 +1243,47 @@ async function sendAdRejectedEmail(ad, reason) {
   await sendResendEmail({ to: ad.email, subject: 'Update on your TheDubaiBrief ad request', html, text: `Hi ${ad.contact_name},\n\nWe cannot approve your ad at this time. Reason: ${reason||'N/A'}\n\nA full refund has been processed.\n\nTheDubaiBrief Team` });
 }
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`DUB server running on port ${PORT}`);
+async function startServer() {
+  console.log('1. Starting TheDubaiBrief server...');
+  console.log('2. Loading environment variables...');
+  console.log('   SUPABASE_URL:', !!process.env.SUPABASE_URL);
+  console.log('   SUPABASE_KEY:', !!process.env.SUPABASE_KEY);
+  console.log('   CLAUDE_API_KEY:', !!process.env.CLAUDE_API_KEY);
+  console.log('   RESEND_API_KEY:', !!process.env.RESEND_API_KEY);
+  console.log('   STRIPE_SECRET_KEY:', !!process.env.STRIPE_SECRET_KEY);
+  console.log('3. Connecting to Supabase...');
+  console.log('4. Setting up routes... (already registered)');
+  console.log('5. Starting news fetcher...');
 
-  // Prime cache in background — don't block the listener so health checks pass immediately
-  setImmediate(async () => {
-    console.log('Priming cache on startup...');
-    try {
-      await buildNewsCache({ force: true });
-      console.log('Cache primed successfully on startup');
-    } catch (err) {
-      console.error('Error priming cache on startup:', err.message);
-    }
-  });
+  try {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log('6. Server ready! Running on port', PORT);
 
-  // Run background rebuild every 30 seconds
-  setInterval(async () => {
-    try {
-      await buildNewsCache({ force: false });
-    } catch (err) {
-      console.error('Error in scheduled background rebuild:', err.message);
-    }
-  }, 30000);
+      // Prime cache in background — don't block so /healthz passes immediately
+      setImmediate(async () => {
+        try {
+          await buildNewsCache({ force: true });
+          console.log('   Cache primed successfully.');
+        } catch (err) {
+          console.error('   Cache prime error (non-fatal):', err.message);
+        }
+      });
 
-  // Digest scheduling handled by node-cron (see cron.schedule calls above)
-});
+      // Rebuild cache every 30 seconds
+      setInterval(async () => {
+        try { await buildNewsCache({ force: false }); } catch (err) {
+          console.error('Background rebuild error:', err.message);
+        }
+      }, 30000);
+    });
+  } catch (err) {
+    console.error('STARTUP ERROR:', err);
+    // Don't exit — try to start anyway
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log('Server started with errors on port', PORT);
+    });
+  }
+}
+
+startServer();
 
