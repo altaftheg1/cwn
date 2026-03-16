@@ -4904,28 +4904,11 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       if (s.includes('khaleej')) return 'khaleej';
       return 'emirates';
     }
-    // Splash + Greeting logic
+    // Splash + Greeting logic — runs on every page load
     (function () {
       var splash   = document.getElementById('splash');
       var greeting = document.getElementById('greetingScreen');
       var skipBtn  = document.getElementById('greetingSkip');
-
-      // Timestamp-based: skip if shown within the last 90 seconds (handles refresh)
-      var ANIM_KEY = 'cwn_anim_ts';
-      var now = Date.now();
-      var lastShown = 0;
-      try { lastShown = parseInt(localStorage.getItem(ANIM_KEY) || '0', 10); } catch {}
-      var recentlyShown = (now - lastShown) < 90000;
-
-      // If shown recently, just remove overlays and exit
-      if (recentlyShown) {
-        if (splash) splash.remove();
-        if (greeting) greeting.remove();
-        return;
-      }
-
-      // Record show time
-      try { localStorage.setItem(ANIM_KEY, String(now)); } catch {}
 
       // ── Fade out greeting ────────────────────────────────────────────────────
       function endGreeting() {
@@ -4955,10 +4938,10 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         document.addEventListener('keydown', skip, { once: true });
         if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
 
-        // Make greeting visible
+        // Make greeting visible immediately
         greeting.style.opacity = '0';
         greeting.style.display = 'flex';
-        greeting.style.transition = 'opacity 0.4s ease';
+        greeting.style.transition = 'opacity 0.3s ease';
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
             greeting.style.opacity = '1';
@@ -4967,18 +4950,18 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
 
         setTimeout(function () {
           if (done) return;
-          if (wave) { wave.classList.add('show'); setTimeout(function () { wave.classList.add('wave'); }, 200); }
-        }, 300);
-        setTimeout(function () { if (!done && hii) hii.classList.add('show'); }, 700);
-        setTimeout(function () { if (!done && sub) sub.classList.add('show'); }, 1200);
+          if (wave) { wave.classList.add('show'); setTimeout(function () { wave.classList.add('wave'); }, 150); }
+        }, 100);
+        setTimeout(function () { if (!done && hii) hii.classList.add('show'); }, 450);
+        setTimeout(function () { if (!done && sub) sub.classList.add('show'); }, 850);
         setTimeout(function () {
           if (done) return;
           if (smile) smile.classList.add('show');
           if (path) path.classList.add('draw');
-        }, 2000);
-        setTimeout(function () { if (!done && tagline) tagline.classList.add('show'); }, 2900);
-        // Auto-exit after 5.5s
-        setTimeout(function () { if (!done) skip(); }, 5500);
+        }, 1500);
+        setTimeout(function () { if (!done && tagline) tagline.classList.add('show'); }, 2200);
+        // Auto-exit after 4s
+        setTimeout(function () { if (!done) skip(); }, 4000);
       }
 
       // ── Splash exit then greeting ────────────────────────────────────────────
@@ -4988,11 +4971,12 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
         setTimeout(function () {
           if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
           runGreeting();
-        }, 600);
+        }, 400);
       }
 
+      // Splash shows for 1.5s (was 2.2s), click to skip early
       if (splash) splash.addEventListener('click', afterSplash, { once: true });
-      setTimeout(afterSplash, 2200);
+      setTimeout(afterSplash, 1500);
     })();
 
     // Load and render news
