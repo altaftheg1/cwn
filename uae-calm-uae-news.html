@@ -1918,175 +1918,6 @@
       animation: splashCenterFadeIn .8s ease-out .7s both;
     }
 
-    /* ===== GREETING SCREEN ===== */
-    .greeting-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: #FFFDF9;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      opacity: 0;
-    }
-
-    .greeting-screen.exit {
-      opacity: 0 !important;
-      pointer-events: none;
-      transition: opacity 0.5s ease !important;
-    }
-
-    /* Floating confetti dots */
-    .g-dot {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.15;
-      animation: gFloat linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes gFloat {
-      0%   { transform: translateY(0px) rotate(0deg); }
-      50%  { transform: translateY(-14px) rotate(180deg); }
-      100% { transform: translateY(0px) rotate(360deg); }
-    }
-
-    .greeting-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      padding: 0 24px;
-    }
-
-    /* Waving hand */
-    .wave-emoji {
-      display: inline-block;
-      font-size: 48px;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      transform-origin: bottom right;
-      line-height: 1;
-    }
-
-    .wave-emoji.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .wave-emoji.wave {
-      animation: waveHand 0.4s ease 3;
-    }
-
-    @keyframes waveHand {
-      0%   { transform: translateY(0) rotate(0deg); }
-      25%  { transform: translateY(0) rotate(-20deg); }
-      75%  { transform: translateY(0) rotate(20deg); }
-      100% { transform: translateY(0) rotate(0deg); }
-    }
-
-    .greeting-hii {
-      font-family: 'Pacifico', cursive;
-      font-size: 80px;
-      font-weight: 400;
-      color: #C8102E;
-      letter-spacing: 2px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      line-height: 1.1;
-      margin: 0;
-    }
-
-    .greeting-hii.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .greeting-sub {
-      font-family: 'Nunito', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: #1A1208;
-      letter-spacing: 0.5px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      line-height: 1.3;
-      margin: 0;
-    }
-
-    .greeting-sub.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .greeting-smile {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      margin-top: 4px;
-    }
-
-    .greeting-smile.show { opacity: 1; }
-
-    .smile-path {
-      stroke-dasharray: 145;
-      stroke-dashoffset: 145;
-    }
-
-    .smile-path.draw {
-      animation: drawSmile 0.8s ease forwards;
-    }
-
-    @keyframes drawSmile {
-      to { stroke-dashoffset: 0; }
-    }
-
-    .greeting-tagline {
-      font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(26, 18, 8, 0.4);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      margin: 0;
-    }
-
-    .greeting-tagline.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .greeting-skip {
-      position: absolute;
-      bottom: 32px;
-      right: 32px;
-      background: none;
-      border: none;
-      color: #999;
-      font-family: 'Nunito', sans-serif;
-      font-size: 13px;
-      cursor: pointer;
-      padding: 8px 12px;
-      transition: color 0.2s;
-      z-index: 3;
-    }
-
-    .greeting-skip:hover { color: #555; }
-
-    @media (max-width: 768px) {
-      .greeting-hii { font-size: 52px; }
-      .greeting-sub { font-size: 18px; }
-      .wave-emoji  { font-size: 38px; }
-      .greeting-skip { bottom: 24px; right: 20px; }
-    }
-
     /* Media queries */
     @media (max-width:1400px) {
       .story-grid {
@@ -4593,38 +4424,6 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
     <div class="splash-name">TheDubaiBrief</div>
   </div>
 
-  <!-- Greeting screen -->
-  <div class="greeting-screen" id="greetingScreen">
-    <!-- Confetti dots -->
-    <div class="g-dot" style="width:8px;height:8px;background:#C8102E;top:12%;left:8%;animation-duration:4.1s;animation-delay:0s;"></div>
-    <div class="g-dot" style="width:6px;height:6px;background:#FFD700;top:20%;right:12%;animation-duration:5.3s;animation-delay:0.6s;"></div>
-    <div class="g-dot" style="width:7px;height:7px;background:#4CAF50;bottom:18%;left:14%;animation-duration:4.7s;animation-delay:0.3s;"></div>
-    <div class="g-dot" style="width:6px;height:6px;background:#C8102E;bottom:25%;right:9%;animation-duration:5.8s;animation-delay:1.1s;"></div>
-    <div class="g-dot" style="width:5px;height:5px;background:#FFD700;top:35%;left:5%;animation-duration:6.2s;animation-delay:0.8s;"></div>
-    <div class="g-dot" style="width:7px;height:7px;background:#4CAF50;top:15%;right:6%;animation-duration:4.9s;animation-delay:0.2s;"></div>
-
-    <div class="greeting-inner">
-      <span class="wave-emoji" id="greetingWave">👋</span>
-      <h1 class="greeting-hii" id="greetingHii">Hii</h1>
-      <p class="greeting-sub" id="greetingSub">How are you today?</p>
-      <div class="greeting-smile" id="greetingSmile">
-        <svg width="140" height="70" viewBox="0 0 140 70" aria-hidden="true">
-          <path
-            d="M 10 12 Q 70 65 130 12"
-            stroke="#C8102E"
-            stroke-width="5"
-            stroke-linecap="round"
-            fill="none"
-            class="smile-path"
-            id="smilePath"
-          />
-        </svg>
-      </div>
-      <p class="greeting-tagline" id="greetingTagline">Dubai's news, served calm 🇦🇪</p>
-    </div>
-    <button class="greeting-skip" id="greetingSkip">skip →</button>
-  </div>
-
   <div class="app-shell" id="appShell">
     <!-- Utility Bar -->
     <div class="utility-bar">
@@ -5149,77 +4948,16 @@ body.dark .save-btn.saved { background: var(--red); color: #fff; }
       if (s.includes('khaleej')) return 'khaleej';
       return 'emirates';
     }
-    // Splash + Greeting logic — runs on every page load
+    // Splash logic — remove after 1.5s
     (function () {
-      var splash   = document.getElementById('splash');
-      var greeting = document.getElementById('greetingScreen');
-      var skipBtn  = document.getElementById('greetingSkip');
-
-      // ── Fade out greeting ────────────────────────────────────────────────────
-      function endGreeting() {
-        if (!greeting) return;
-        greeting.classList.add('exit');
-        setTimeout(function () { if (greeting && greeting.parentNode) greeting.parentNode.removeChild(greeting); }, 500);
-      }
-
-      // ── Full greeting sequence ───────────────────────────────────────────────
-      function runGreeting() {
-        if (!greeting) return;
-
-        var wave    = document.getElementById('greetingWave');
-        var hii     = document.getElementById('greetingHii');
-        var sub     = document.getElementById('greetingSub');
-        var smile   = document.getElementById('greetingSmile');
-        var path    = document.getElementById('smilePath');
-        var tagline = document.getElementById('greetingTagline');
-
-        var done = false;
-        function skip() {
-          if (done) return; done = true;
-          endGreeting();
-        }
-
-        greeting.addEventListener('click', skip, { once: true });
-        document.addEventListener('keydown', skip, { once: true });
-        if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
-
-        // Make greeting visible immediately
-        greeting.style.opacity = '0';
-        greeting.style.display = 'flex';
-        greeting.style.transition = 'opacity 0.3s ease';
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            greeting.style.opacity = '1';
-          });
-        });
-
-        setTimeout(function () {
-          if (done) return;
-          if (wave) { wave.classList.add('show'); setTimeout(function () { wave.classList.add('wave'); }, 150); }
-        }, 100);
-        setTimeout(function () { if (!done && hii) hii.classList.add('show'); }, 450);
-        setTimeout(function () { if (!done && sub) sub.classList.add('show'); }, 850);
-        setTimeout(function () {
-          if (done) return;
-          if (smile) smile.classList.add('show');
-          if (path) path.classList.add('draw');
-        }, 1500);
-        setTimeout(function () { if (!done && tagline) tagline.classList.add('show'); }, 2200);
-        // Auto-exit after 4s
-        setTimeout(function () { if (!done) skip(); }, 4000);
-      }
-
-      // ── Splash exit then greeting ────────────────────────────────────────────
+      var splash = document.getElementById('splash');
       function afterSplash() {
-        if (!splash) { runGreeting(); return; }
+        if (!splash) return;
         splash.classList.add('exit');
         setTimeout(function () {
           if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
-          runGreeting();
         }, 400);
       }
-
-      // Splash shows for 1.5s (was 2.2s), click to skip early
       if (splash) splash.addEventListener('click', afterSplash, { once: true });
       setTimeout(afterSplash, 1500);
     })();
