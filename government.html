@@ -1,445 +1,363 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Government Announcements – TheDubaiBrief</title>
-  <meta name="description" content="Official UAE government announcements and press releases from WAM, Dubai Media Office, UAE Cabinet, and more." />
+  <title>Gov Announcements – TheDubaiBrief</title>
+  <meta name="description" content="Official UAE government announcements from WAM, U.AE, Dubai Media Office, and Ministry of Foreign Affairs — updated automatically." />
   <script>
     (function () {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
+      if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
     })();
   </script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'ar,ml,hi,tl,en', autoDisplay: false }, 'google_translate_element');
-    }
-  </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <style>
     :root {
-      --red: #C8102E;
-      --red-dark: #9B0B22;
-      --red-light: #f5e5e8;
-      --cream: #F7F4EF;
-      --ink: #1A1208;
-      --ink-mid: #3D3328;
-      --ink-light: #7A6E62;
-      --border: #DDD8CF;
-      --gold: #B8860B;
-      --radius-lg: 8px;
-      --radius-md: 6px;
-      --shadow-soft: 0 2px 8px rgba(0,0,0,0.08);
-      --max-width: 1320px;
+      --red: #C8102E; --red-dark: #9B0B22; --cream: #F7F4EF;
+      --ink: #1A1208; --ink-mid: #3D3328; --ink-light: #7A6E62;
+      --border: #DDD8CF; --gold: #B8860B; --max-width: 900px;
     }
-    html.dark { background: #0A0A0A; color: #F0F0F0; --cream: #0A0A0A; --ink: #F0F0F0; --ink-mid: #CCC; --ink-light: #999; --border: #2A2A2A; }
-    *, *::before, *::after { box-sizing: border-box; }
-    html { overflow-x: hidden; }
-    body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; background: var(--cream); color: var(--ink); }
+    html.dark { background:#0A0A0A; color:#F0F0F0; --cream:#0A0A0A; --ink:#F0F0F0; --ink-mid:#CCC; --ink-light:#999; --border:#2A2A2A; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; -webkit-font-smoothing: antialiased; background: var(--cream); color: var(--ink); padding-bottom: 90px; }
 
-    .utility-bar { background: var(--red-dark); color: #fff; padding: 6px 24px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.15); }
-    .utility-left { display: flex; gap: 24px; align-items: center; }
-    .utility-left span { display: flex; align-items: center; gap: 8px; }
-    .utility-clock { font-family: 'Source Serif 4', serif; font-weight: 600; }
-    .utility-right { display: flex; gap: 20px; align-items: center; }
-    .utility-right a { color: #fff; text-decoration: none; transition: color .2s; }
-    .utility-right a:hover { color: var(--gold); }
-    .live-visitors { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.85); }
-    .live-visitors-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; flex-shrink: 0; animation: lv-pulse 2s ease-in-out infinite; }
-    @keyframes lv-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); } 50% { box-shadow: 0 0 0 4px rgba(74,222,128,0); } }
-
-    header { position: sticky; top: 0; z-index: 100; background: var(--red); border-bottom: 1px solid rgba(0,0,0,0.15); color: #fff; }
-    .header-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    /* ── Header ── */
+    header { position: sticky; top: 0; z-index: 100; background: var(--red); border-bottom: 1px solid rgba(0,0,0,0.15); }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo-boxes { display: flex; gap: 8px; }
-    .logo-box { width: 42px; height: 42px; border-radius: 6px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 0 2px #000; }
-    .logo-text { display: flex; flex-direction: column; gap: 2px; }
+    .logo-boxes { display: flex; gap: 6px; }
+    .logo-box { width: 38px; height: 38px; border-radius: 6px; background: var(--red); border: 2px solid #fff; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 900; color: #fff; }
     .logo-text-main { font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
-    .logo-text-sub { font-family: 'DM Sans', sans-serif; font-size: 10px; opacity: .9; color: #fff; line-height: 1; }
-    .navbar-left { display: flex; align-items: center; flex: 1; }
-    .navbar-right { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; }
-    .search-box { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 10px; color: #FFFFFF; font-size: 13px; flex: 0 0 150px; }
-    .search-box::placeholder { color: rgba(255,255,255,0.6); }
-    .search-box:focus { outline: none; background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
-    .notify-btn { background: #FFFFFF; color: #C8102E; border: none; border-radius: 3px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; }
-    .notify-btn:hover { background: rgba(255,255,255,0.9); }
+    .logo-text-sub { font-size: 10px; color: rgba(255,255,255,0.8); line-height: 1; margin-top: 2px; }
+    .header-back { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+    .header-back:hover { color: #fff; }
     .dark-toggle { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
-    .dark-toggle:hover { border-color: rgba(255,255,255,0.9); }
-    .lang-switcher { position: relative; }
-    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 12px; padding: 3px 8px; border-radius: 3px; cursor: pointer; }
-    .lang-dropdown { display: none; position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #ddd; border-radius: 4px; min-width: 120px; z-index: 200; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .lang-dropdown.open { display: block; }
-    .lang-option { padding: 8px 12px; font-size: 13px; color: #1A1208; cursor: pointer; }
-    .lang-option:hover { background: #f5e5e8; color: #C8102E; }
-    .hamburger-btn { background: none; border: 1px solid rgba(255,255,255,0.4); color: #FFFFFF; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-size: 16px; display: none; align-items: center; justify-content: center; }
-    .mobile-search-bar { display: none; background: #9B0B22; padding: 8px 16px; }
-    .mobile-search-wrap { position: relative; }
-    .mobile-search-input { width: 100%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; padding: 8px 12px; color: #fff; font-size: 14px; }
-    .mobile-search-input::placeholder { color: rgba(255,255,255,0.6); }
-    .mobile-nav { display: none; flex-direction: column; background: #9B0B22; border-bottom: 3px solid #000; z-index: 99; }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a { padding: 14px 24px; color: #fff; text-decoration: none; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .mobile-nav a:hover { background: rgba(255,255,255,0.1); }
-    .subnav-bar { background: #C8102E; border-bottom: 3px solid #9B0B22; }
-    .subnav-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
-    .subnav-inner::-webkit-scrollbar { display: none; }
-    .subnav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; font-weight: 500; padding: 12px 14px; border-bottom: 3px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; flex-shrink: 0; }
-    .subnav-link:hover, .subnav-link.active { color: #FFFFFF; border-bottom-color: rgba(255,255,255,0.6); }
 
-    html.dark .utility-bar { background: #0A0A0A; border-color: #1a1a1a; }
-
-    @media(max-width:768px) {
-      .utility-bar { display: none; }
-      .hamburger-btn { display: flex; }
-      .mobile-search-bar { display: block; }
-      .search-box { display: none; }
-      .notify-btn { display: none; }
-      .subnav-bar { display: none; }
-      .header-inner { padding: 0 16px; height: 56px; }
-      .logo-box { width: 36px; height: 36px; font-size: 15px; }
-      .logo-text-main { font-size: 12px; }
-    }
-
-    /* ===== PAGE CONTENT ===== */
-    .page-wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
-
+    /* ── Page hero ── */
     .page-hero {
-      background: #1A1208;
-      color: white;
-      border-radius: 12px;
-      padding: 32px;
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      background: linear-gradient(135deg, #1A1208 0%, #2c1f0e 100%);
+      color: white; padding: 40px 24px 36px; text-align: center;
     }
-    .page-hero-icon { font-size: 48px; flex-shrink: 0; }
-    .page-hero-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin: 0 0 8px; }
-    .page-hero-sub { font-size: 14px; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.6; }
-
-    .gov-feed { display: flex; flex-direction: column; gap: 0; }
-    .gov-feed-item {
-      display: flex;
-      gap: 16px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
+    .page-hero-icon { font-size: 44px; line-height: 1; margin-bottom: 14px; }
+    .page-hero-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; margin-bottom: 10px; }
+    .page-hero-sub { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; max-width: 560px; margin: 0 auto 20px; }
+    .source-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .source-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 12px; color: rgba(255,255,255,0.85); text-decoration: none;
       transition: background 0.15s;
     }
-    .gov-feed-item:hover { background: rgba(200,16,46,0.03); }
-    .gov-feed-item:first-child { padding-top: 0; }
-    .gov-feed-item:last-child { border-bottom: none; }
-    .gov-feed-left { flex: 1; min-width: 0; }
-    .gov-feed-source-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      margin-bottom: 8px;
-      color: white;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .gov-feed-title {
-      font-family: 'Source Serif 4', serif;
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.4;
-      margin: 0 0 6px;
-    }
-    .gov-feed-summary {
-      font-size: 14px;
-      color: var(--ink-mid);
-      line-height: 1.6;
-      margin: 0 0 8px;
-    }
-    .gov-feed-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 12px;
-      color: var(--ink-light);
-    }
-    .gov-feed-img {
-      width: 90px;
-      height: 70px;
-      border-radius: 6px;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: #E8E4DF;
-    }
+    .source-pill:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .source-pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-    .loading-state, .empty-state {
-      text-align: center;
-      padding: 64px 24px;
-      color: var(--ink-light);
-      font-size: 15px;
+    /* ── Filter tabs ── */
+    .filter-bar {
+      background: #fff; border-bottom: 1px solid var(--border);
+      position: sticky; top: 64px; z-index: 90; overflow-x: auto; scrollbar-width: none;
     }
-    .loading-spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid var(--border);
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+    html.dark .filter-bar { background: #111; border-color: #222; }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-tabs { display: flex; max-width: var(--max-width); margin: 0 auto; padding: 0 20px; gap: 0; white-space: nowrap; }
+    .filter-tab {
+      padding: 13px 16px; font-size: 13px; font-weight: 500; color: var(--ink-light);
+      border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none;
+      border-left: none; border-right: none; transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap; font-family: 'DM Sans', sans-serif; flex-shrink: 0;
     }
+    .filter-tab:hover { color: var(--ink); }
+    .filter-tab.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+    html.dark .filter-tab { color: #888; }
+    html.dark .filter-tab:hover { color: #ccc; }
+    html.dark .filter-tab.active { color: #ff6b6b; border-bottom-color: #ff6b6b; }
+
+    /* ── Feed ── */
+    .feed-wrap { max-width: var(--max-width); margin: 0 auto; padding: 24px 20px; }
+    .feed-meta { font-size: 12px; color: var(--ink-light); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .feed-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: ldot 2s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes ldot { 0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,.7); } 50% { box-shadow: 0 0 0 4px rgba(74,222,128,0); } }
+
+    .feed-list { display: flex; flex-direction: column; gap: 0; }
+    .feed-item {
+      display: flex; gap: 16px; padding: 20px 0;
+      border-bottom: 1px solid var(--border); cursor: pointer;
+      transition: background 0.12s; border-radius: 4px;
+    }
+    .feed-item:hover { background: rgba(200,16,46,0.025); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-left { flex: 1; min-width: 0; }
+    .feed-badge {
+      display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 4px; margin-bottom: 8px; color: white; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .feed-title {
+      font-family: 'Source Serif 4', serif; font-size: 17px; font-weight: 600;
+      color: var(--ink); line-height: 1.45; margin-bottom: 6px;
+    }
+    .feed-summary { font-size: 14px; color: var(--ink-mid); line-height: 1.6; margin-bottom: 8px; }
+    .feed-meta-row { font-size: 12px; color: var(--ink-light); display: flex; align-items: center; gap: 10px; }
+    .feed-img {
+      width: 96px; height: 72px; border-radius: 6px; object-fit: cover;
+      flex-shrink: 0; background: #E8E4DF; align-self: flex-start;
+    }
+    html.dark .feed-item:hover { background: rgba(255,255,255,0.03); }
+    html.dark .feed-title { color: #F0F0F0; }
+    html.dark .feed-summary { color: #AAA; }
+    html.dark .feed-img { background: #1a1a1a; }
+
+    .loading-state { text-align: center; padding: 64px 24px; color: var(--ink-light); }
+    .loading-spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 64px 24px; color: var(--ink-light); font-size: 15px; }
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--ink-light);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    /* ── Bottom nav (same as main page) ── */
+    .bottom-nav {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 9999; display: flex; align-items: center; gap: 2px;
+      background: rgba(18, 12, 8, 0.92); backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%); border-radius: 24px; padding: 6px 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
+    .bn-item {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 8px 14px; border-radius: 18px; cursor: pointer; background: none;
+      border: none; color: rgba(255,255,255,0.55); font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px; font-weight: 500; letter-spacing: .02em; transition: background .18s, color .18s, transform .15s;
+      white-space: nowrap; text-decoration: none; line-height: 1; -webkit-tap-highlight-color: transparent;
     }
-
-    html.dark .gov-feed-item:hover { background: rgba(255,255,255,0.03); }
-    html.dark .gov-feed-img { background: #1a1a1a; }
-
-    @media(max-width:600px) {
-      .page-hero { flex-direction: column; text-align: center; padding: 24px 20px; }
+    .bn-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .bn-item:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.07); }
+    .bn-item:active { transform: scale(.93); }
+    .bn-item.active { color: #fff; background: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.45); }
+    @media (max-width: 480px) {
+      .bottom-nav { bottom: 10px; padding: 5px 6px; }
+      .bn-item { padding: 7px 10px; font-size: 9.5px; }
+      .bn-item svg { width: 18px; height: 18px; }
       .page-hero-title { font-size: 22px; }
-      .gov-feed-img { display: none; }
+      .feed-img { display: none; }
     }
   </style>
 </head>
-
 <body>
-  <!-- ===== SITE HEADER ===== -->
-  <div class="utility-bar">
-    <div class="utility-left">
-      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
-      <span id="dateDisplay">Loading...</span>
-      <span>Dubai, UAE</span>
-      <span class="live-visitors" id="liveVisitors">
-        <span class="live-visitors-dot"></span>
-        <span id="liveVisitorCount">–</span> online
-      </span>
-    </div>
-    <div class="utility-right">
-      <div class="lang-switcher" id="langSwitcher">
-        <button class="lang-btn" id="langBtn">English ▾</button>
-        <div class="lang-dropdown" id="langDropdown">
-          <div class="lang-option" data-lang="en">English</div>
-          <div class="lang-option" data-lang="ml">മലയാളം</div>
-          <div class="lang-option" data-lang="ar">العربية</div>
-          <div class="lang-option" data-lang="hi">हिन्दी</div>
-          <div class="lang-option" data-lang="tl">Filipino</div>
-        </div>
-      </div>
-      <a href="/about.html">About</a>
-      <a href="/sources.html">Sources</a>
-      <a href="/contact.html">Contact</a>
-    </div>
-  </div>
+
   <header>
     <div class="header-inner">
-      <div class="navbar-left">
-        <a class="brand" href="/">
-          <div class="logo-boxes"><div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div></div>
-          <div class="logo-text">
-            <div class="logo-text-main">TheDubaiBrief</div>
-            <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
-          </div>
-        </a>
-      </div>
-      <div class="navbar-right">
-        <input type="text" class="search-box" id="headerSearch" placeholder="Search news...">
-        <button id="notifyBtn" class="notify-btn">Notify me</button>
-        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾</button>
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
-      </div>
+      <a class="brand" href="/">
+        <div class="logo-boxes"><div class="logo-box">D</div><div class="logo-box">U</div><div class="logo-box">B</div></div>
+        <div>
+          <div class="logo-text-main">TheDubaiBrief</div>
+          <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+        </div>
+      </a>
+      <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾</button>
     </div>
   </header>
-  <div class="mobile-search-bar" id="mobileSearchBar">
-    <div class="mobile-search-wrap">
-      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="page-hero-icon">🏛️</div>
+    <h1 class="page-hero-title">Gov Announcements</h1>
+    <p class="page-hero-sub">Official statements and press releases from UAE federal and emirate authorities — pulled directly from primary sources, updated every 5 minutes.</p>
+    <div class="source-pills">
+      <a class="source-pill" href="https://www.wam.ae" target="_blank" rel="noopener">
+        <span class="source-pill-dot" style="background:#C8A84B"></span>Emirates News Agency (WAM)
+      </a>
+      <a class="source-pill" href="https://u.ae/en/media/news" target="_blank" rel="noopener">
+        <span class="source-pill-dot" style="background:#2E5C2E"></span>UAE Government (U.AE)
+      </a>
+      <a class="source-pill" href="https://www.mediaoffice.ae" target="_blank" rel="noopener">
+        <span class="source-pill-dot" style="background:#003F8A"></span>Dubai Media Office
+      </a>
+      <a class="source-pill" href="https://www.mofa.gov.ae/en/mediahub/news" target="_blank" rel="noopener">
+        <span class="source-pill-dot" style="background:#8D1A1A"></span>Ministry of Foreign Affairs
+      </a>
     </div>
   </div>
-  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <a href="/">All News</a>
-    <a href="/government" style="color:#FFD700;font-weight:700;">🏛️ Gov Announcements</a>
-    <a href="/archive">Archive</a>
-    <a href="/about.html">About</a>
+
+  <!-- Filter tabs -->
+  <div class="filter-bar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-source="all">All Sources</button>
+      <button class="filter-tab" data-source="wam">WAM</button>
+      <button class="filter-tab" data-source="uaegov">UAE Gov (U.AE)</button>
+      <button class="filter-tab" data-source="dmo">Dubai Media Office</button>
+      <button class="filter-tab" data-source="mofa">Foreign Affairs</button>
+    </div>
   </div>
-  <nav class="subnav-bar">
-    <div class="subnav-inner">
-      <a href="/" class="subnav-link">All News</a>
-      <a href="/government" class="subnav-link active">🏛️ Government</a>
-      <a href="/archive" class="subnav-link">Archive</a>
-      <a href="/sources.html" class="subnav-link">Sources</a>
-    </div>
-  </nav>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <div class="page-wrap">
-    <div class="page-hero">
-      <div class="page-hero-icon">🏛️</div>
-      <div>
-        <h1 class="page-hero-title">Government Announcements</h1>
-        <p class="page-hero-sub">Official news from UAE federal authorities, Dubai Media Office, WAM, and the UAE Cabinet — updated every 10 minutes.</p>
-      </div>
+  <!-- Feed -->
+  <div class="feed-wrap">
+    <div class="feed-meta">
+      <span class="feed-live-dot"></span>
+      <span id="feedMetaText">Auto-updates every 5 minutes</span>
     </div>
-
-    <div class="section-label" id="feedLabel">Latest Announcements</div>
     <div id="govFeed">
       <div class="loading-state">
         <div class="loading-spinner"></div>
-        Loading official announcements...
+        Loading official announcements…
       </div>
     </div>
   </div>
+
+  <!-- Bottom nav (mirrors main page) -->
+  <nav class="bottom-nav" aria-label="Site navigation">
+    <a class="bn-item" href="/">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="bn-item active" href="/government">
+      <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
+      Gov
+    </a>
+    <a class="bn-item" href="/?cat=RTA">
+      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      RTA
+    </a>
+    <a class="bn-item" href="/?cat=Technology">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      Tech
+    </a>
+    <a class="bn-item" href="/?cat=Sports">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+      Sports
+    </a>
+    <a class="bn-item" href="/?cat=Economy">
+      <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Econ
+    </a>
+  </nav>
 
   <script>
     (function () {
       'use strict';
 
-      const SOURCE_COLORS = {
-        'wam': '#C8A84B',
-        'emirates news': '#C8A84B',
-        'media office': '#003F8A',
-        'dubai media': '#003F8A',
-        'uae cabinet': '#8D1A1A',
-        'uae government': '#2E5C2E',
-        'sharjah': '#6A4A00',
-        'abu dhabi': '#1565C0',
-        'dubai police': '#003F8A',
-        'rta': '#00873C',
-        'dha': '#00897B',
-        'khda': '#7B1FA2',
+      // Source key → display name + color
+      const SOURCES = {
+        wam:    { name: 'Emirates News Agency (WAM)', color: '#C8A84B' },
+        uaegov: { name: 'UAE Government Portal',      color: '#2E5C2E' },
+        dmo:    { name: 'Dubai Media Office',         color: '#003F8A' },
+        mofa:   { name: 'UAE Ministry of Foreign Affairs', color: '#8D1A1A' },
       };
 
-      function getColor(source) {
-        const s = (source || '').toLowerCase();
-        for (const [k, v] of Object.entries(SOURCE_COLORS)) {
-          if (s.includes(k)) return v;
-        }
+      // Which source keys to show on the gov page
+      const GOV_KEYS = Object.keys(SOURCES);
+
+      function getColor(sourceName, sourceKey) {
+        if (sourceKey && SOURCES[sourceKey]) return SOURCES[sourceKey].color;
+        const s = (sourceName || '').toLowerCase();
+        if (s.includes('wam') || s.includes('emirates news')) return '#C8A84B';
+        if (s.includes('media office') || s.includes('dubai media')) return '#003F8A';
+        if (s.includes('foreign affairs') || s.includes('mofa')) return '#8D1A1A';
+        if (s.includes('uae gov') || s.includes('u.ae') || s.includes('uae portal')) return '#2E5C2E';
         return '#555';
       }
 
       function timeAgo(ms) {
         if (!ms) return '';
-        const diff = Date.now() - ms;
-        if (diff < 60000) return 'just now';
-        if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
-        if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
-        return Math.floor(diff / 86400000) + 'd ago';
+        const d = Date.now() - ms;
+        if (d < 60000) return 'just now';
+        if (d < 3600000) return Math.floor(d / 60000) + 'm ago';
+        if (d < 86400000) return Math.floor(d / 3600000) + 'h ago';
+        return Math.floor(d / 86400000) + 'd ago';
       }
 
-      function escHtml(str) {
-        return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
+      function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
       }
 
-      function buildFeedItem(item) {
-        const color = getColor(item.sourceName);
-        const title = escHtml(item.calmTitle || item.title || 'Announcement');
-        const summary = escHtml(item.calmSummary || item.description || '');
-        const source = escHtml(item.sourceName || 'Official');
+      function buildItem(item) {
+        const color = getColor(item.sourceName, item.sourceKey);
+        const title = esc(item.calmTitle || item.title || 'Announcement');
+        const summary = esc(item.calmSummary || item.description || '');
+        const badge = esc(item.sourceName || 'Official');
         const age = timeAgo(item.publishedAtMs || 0);
+        const url = esc(item.url || '#');
         const img = item.imageUrl && !item.imageUrl.startsWith('data:')
-          ? `<img class="gov-feed-img" src="${escHtml(item.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+          ? `<img class="feed-img" src="${esc(item.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none'">`
           : '';
-        const url = escHtml(item.url || '#');
-
         return `
-          <div class="gov-feed-item" onclick="window.open('${url}', '_blank')">
-            <div class="gov-feed-left">
-              <span class="gov-feed-source-badge" style="background:${color}">${source}</span>
-              <h3 class="gov-feed-title">${title}</h3>
-              ${summary ? `<p class="gov-feed-summary">${summary}</p>` : ''}
-              <div class="gov-feed-meta">
-                <span>${age}</span>
-              </div>
+          <div class="feed-item" onclick="window.open('${url}','_blank')">
+            <div class="feed-left">
+              <span class="feed-badge" style="background:${color}">${badge}</span>
+              <h3 class="feed-title">${title}</h3>
+              ${summary ? `<p class="feed-summary">${summary}</p>` : ''}
+              <div class="feed-meta-row"><span>${age}</span></div>
             </div>
             ${img}
           </div>`;
       }
 
-      async function loadFeed() {
+      let allItems = [];
+      let activeSource = 'all';
+
+      function renderFeed() {
         const feedEl = document.getElementById('govFeed');
-        const labelEl = document.getElementById('feedLabel');
+        const metaEl = document.getElementById('feedMetaText');
+        if (!feedEl) return;
+
+        const filtered = activeSource === 'all'
+          ? allItems
+          : allItems.filter(i => (i.sourceKey || '').toLowerCase() === activeSource);
+
+        if (!filtered.length) {
+          feedEl.innerHTML = '<div class="empty-state">No announcements available right now. Check back soon.</div>';
+          return;
+        }
+
+        if (metaEl) metaEl.textContent = `${filtered.length} announcements · auto-updates every 5 minutes`;
+        feedEl.innerHTML = '<div class="feed-list">' + filtered.map(buildItem).join('') + '</div>';
+      }
+
+      async function loadFeed() {
         try {
           const data = await fetch('/api/government').then(r => r.json());
-          const items = data.items || [];
-
-          if (!items.length) {
-            feedEl.innerHTML = '<div class="empty-state">No government announcements available right now. Check back soon.</div>';
-            return;
+          // Filter to only the 4 official sources
+          const items = (data.items || []).filter(i =>
+            GOV_KEYS.includes((i.sourceKey || '').toLowerCase())
+          );
+          // Sort newest first
+          items.sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0));
+          allItems = items;
+          renderFeed();
+        } catch {
+          const feedEl = document.getElementById('govFeed');
+          if (feedEl && !allItems.length) {
+            feedEl.innerHTML = '<div class="empty-state">Could not load announcements. Please try again shortly.</div>';
           }
-
-          if (labelEl) labelEl.textContent = `${items.length} Latest Announcements`;
-          feedEl.innerHTML = '<div class="gov-feed">' + items.map(buildFeedItem).join('') + '</div>';
-        } catch (e) {
-          feedEl.innerHTML = '<div class="empty-state">Could not load announcements. Please try again shortly.</div>';
         }
       }
 
       loadFeed();
-      setInterval(loadFeed, 10 * 60 * 1000);
+      setInterval(loadFeed, 5 * 60 * 1000);
 
-      // ===== SHARED HEADER JS =====
-      function updateClock() {
-        var now = new Date();
-        var parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', hour12: false, month: 'short', day: 'numeric', year: 'numeric' }).formatToParts(now);
-        function get(type) { var p = parts.find(function (x) { return x.type === type; }); return p ? p.value : ''; }
-        var clk = document.getElementById('clockDisplay');
-        var dt = document.getElementById('dateDisplay');
-        if (clk) clk.textContent = get('hour').padStart(2, '0') + ':' + get('minute').padStart(2, '0') + ' GST';
-        if (dt) dt.textContent = get('month') + ' ' + get('day') + ', ' + get('year');
-      }
-      setInterval(updateClock, 1000); updateClock();
+      // Filter tabs
+      document.querySelectorAll('.filter-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          activeSource = tab.dataset.source;
+          renderFeed();
+        });
+      });
 
+      // Dark toggle
       var toggle = document.getElementById('darkToggle');
       if (toggle) {
-        function applyDark(dark) { document.documentElement.classList.toggle('dark', dark); document.body.classList.toggle('dark', dark); toggle.textContent = dark ? '☀' : '☾'; }
+        function applyDark(dark) {
+          document.documentElement.classList.toggle('dark', dark);
+          toggle.textContent = dark ? '☀' : '☾';
+        }
         applyDark(localStorage.getItem('theme') === 'dark');
-        toggle.addEventListener('click', function () { var dark = !document.body.classList.contains('dark'); localStorage.setItem('theme', dark ? 'dark' : 'light'); applyDark(dark); });
+        toggle.addEventListener('click', function () {
+          var dark = !document.documentElement.classList.contains('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          applyDark(dark);
+        });
       }
-
-      var sid = sessionStorage.getItem('cwn-sid');
-      if (!sid) { sid = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); sessionStorage.setItem('cwn-sid', sid); }
-      var countEl = document.getElementById('liveVisitorCount');
-      function ping() { fetch('/api/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sid: sid }) }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (d && typeof d.visitors === 'number' && countEl) countEl.textContent = d.visitors.toLocaleString(); }).catch(function () {}); }
-      ping(); setInterval(ping, 20000);
-
-      var hBtn = document.getElementById('hamburgerBtn'); var mNav = document.getElementById('mobileNav');
-      if (hBtn && mNav) { hBtn.addEventListener('click', function () { var open = mNav.classList.toggle('open'); hBtn.setAttribute('aria-expanded', open); mNav.setAttribute('aria-hidden', !open); hBtn.innerHTML = open ? '&#10005;' : '&#9776;'; }); document.addEventListener('click', function (e) { if (!hBtn.contains(e.target) && !mNav.contains(e.target)) { mNav.classList.remove('open'); mNav.setAttribute('aria-hidden', 'true'); hBtn.setAttribute('aria-expanded', 'false'); hBtn.innerHTML = '&#9776;'; } }); }
-
-      var search = document.getElementById('headerSearch'); var mSearch = document.getElementById('mobileSearch');
-      function doSearch(q) { if (q.trim()) window.location.href = '/?q=' + encodeURIComponent(q.trim()); }
-      if (search) { search.addEventListener('keydown', function (e) { if (e.key === 'Enter') doSearch(search.value); }); }
-      if (mSearch) { mSearch.addEventListener('keydown', function (e) { if (e.key === 'Enter') doSearch(mSearch.value); }); }
-
-      var notifyBtn = document.getElementById('notifyBtn');
-      if (notifyBtn) notifyBtn.addEventListener('click', function () { window.location.href = '/#subscribe'; });
-
-      var langBtn = document.getElementById('langBtn'); var langDropdown = document.getElementById('langDropdown');
-      if (langBtn && langDropdown) { langBtn.addEventListener('click', function (e) { e.stopPropagation(); langDropdown.classList.toggle('open'); }); document.addEventListener('click', function () { langDropdown.classList.remove('open'); }); langDropdown.querySelectorAll('.lang-option').forEach(function (opt) { opt.addEventListener('click', function () { var lang = opt.dataset.lang; langBtn.textContent = opt.textContent + ' ▾'; langDropdown.classList.remove('open'); }); }); }
     }());
   </script>
 </body>
-
 </html>

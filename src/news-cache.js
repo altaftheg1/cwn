@@ -50,6 +50,11 @@ const ALL_SOURCES = [
     scrapeUrl: "https://uaecabinet.ae/en/news",
   },
   {
+    key: "mofa", name: "UAE Ministry of Foreign Affairs", tier: 1, category: "Government", isGovSource: true,
+    rssUrl: gnRss("mofa.gov.ae", "UAE government"),
+    scrapeUrl: "https://www.mofa.gov.ae/en/mediahub/news",
+  },
+  {
     key: "adgov", name: "Abu Dhabi Government", tier: 1, category: "Government", isGovSource: true,
     rssUrl: gnRss("abudhabi.ae"),
     scrapeUrl: "https://www.abudhabi.ae/en/news",
