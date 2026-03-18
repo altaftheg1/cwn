@@ -5420,17 +5420,20 @@ body.dark .bottom-nav {
     }
 
     // Search
-    document.getElementById('headerSearch').addEventListener('input', (e) => {
-      currentSearch = e.target.value;
-      renderContent();
-    });
+    const headerSearchEl = document.getElementById('headerSearch');
+    if (headerSearchEl) {
+      headerSearchEl.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        renderContent();
+      });
+    }
 
     // Mobile search bar — syncs with desktop search
     const mobileSearchEl = document.getElementById('mobileSearch');
     if (mobileSearchEl) {
       mobileSearchEl.addEventListener('input', (e) => {
         currentSearch = e.target.value;
-        document.getElementById('headerSearch').value = e.target.value;
+        if (headerSearchEl) headerSearchEl.value = e.target.value;
         renderContent();
       });
     }
