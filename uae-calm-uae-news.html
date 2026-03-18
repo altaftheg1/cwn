@@ -4126,57 +4126,6 @@
 body.dark .otg-submit-modal-card { background: #1A1A1A; color: #E8E0D4; }
 body.dark .otg-submit-modal-title { color: #E8E0D4; }
 
-/* ===== QUICK NAV PILL ===== */
-.quick-nav-pill {
-  position: fixed;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  z-index: 800;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 10px 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-}
-.quick-nav-pill-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  text-decoration: none;
-  font-size: 15px;
-  transition: background 0.15s;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-.quick-nav-pill-item:hover { background: var(--red-light); }
-.quick-nav-pill-item.active { background: var(--red); }
-.qnp-tooltip {
-  position: absolute;
-  right: calc(100% + 10px);
-  background: var(--ink);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
-  padding: 4px 9px;
-  border-radius: 5px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-.quick-nav-pill-item:hover .qnp-tooltip { opacity: 1; }
-@media (max-width: 1100px) { .quick-nav-pill { display: none; } }
-body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
 
 /* ===== GOV FEED SECTION ===== */
 .gov-feed-section {
@@ -4257,7 +4206,6 @@ body.dark .gov-feed-card { background: #1A1A1A; border-color: #2A2A2A; }
 body.dark .top10-headline,
 body.dark .otg-scroll-card-text,
 body.dark .gov-feed-card-title { color: #E8E0D4; }
-body.dark .quick-nav-pill { background: #1A1A1A; border-color: #2A2A2A; }
 
 /* ===== SAVE / BOOKMARK FEATURE ===== */
 @keyframes savePopAnim {
@@ -4614,16 +4562,6 @@ body.dark .bottom-nav {
             <div id="homeSuggestionsList"></div>
           </div>
         </div>
-        <div class="home-chips-row">
-          <a class="home-chip" href="/search?q=Breaking+News">🔴 Breaking</a>
-          <a class="home-chip" href="/search?q=Dubai+News">🏙️ Dubai</a>
-          <a class="home-chip" href="/search?q=Abu+Dhabi+News">🌴 Abu Dhabi</a>
-          <a class="home-chip" href="/search?q=Economy+%26+Business">💰 Business</a>
-          <a class="home-chip" href="/search?q=Sports">⚽ Sports</a>
-          <a class="home-chip" href="/search?q=Politics">🌍 Politics</a>
-          <a class="home-chip" href="/search?q=today">📅 Today</a>
-          <a class="home-chip" href="/search?q=this+week">📅 This Week</a>
-        </div>
       </div>
     </div>
 
@@ -4758,25 +4696,6 @@ body.dark .bottom-nav {
     <div id="saveToast">
       <span id="saveToastMsg">🔖 Article saved</span>
       <a href="/saved" id="saveToastLink">View saved →</a>
-    </div>
-
-    <!-- Quick Nav Pill (desktop only) -->
-    <div class="quick-nav-pill" id="quickNavPill">
-      <button class="quick-nav-pill-item" onclick="scrollToSection('news-feed')" title="Top Story">
-        <span class="qnp-tooltip">Top Story</span>🔝
-      </button>
-      <button class="quick-nav-pill-item" onclick="scrollToSection('top10Section')" title="Top 10">
-        <span class="qnp-tooltip">Top 10</span>🔟
-      </button>
-      <button class="quick-nav-pill-item" onclick="scrollToSection('otgScrollSection')" title="On The Ground">
-        <span class="qnp-tooltip">On The Ground</span>📍
-      </button>
-      <button class="quick-nav-pill-item" onclick="scrollToSection('categorySectionsWrap')" title="Categories">
-        <span class="qnp-tooltip">Categories</span>📰
-      </button>
-      <button class="quick-nav-pill-item" onclick="scrollToSection('govFeedSection')" title="Government">
-        <span class="qnp-tooltip">Government</span>🏛️
-      </button>
     </div>
 
     <footer>
