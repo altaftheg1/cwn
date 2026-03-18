@@ -655,69 +655,6 @@
       font-size: 10px;
     }
 
-    /* ===== SUBNAV BAR (below ticker) ===== */
-    .subnav-bar {
-      background: var(--red);
-      border-bottom: 3px solid var(--red-dark);
-      position: sticky;
-      top: 67px;
-      /* height of main header */
-      z-index: 90;
-    }
-
-    .subnav-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .subnav-inner::-webkit-scrollbar {
-      display: none;
-    }
-
-    .subnav-link {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 12px 14px;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-      transition: color 0.2s, border-color 0.2s;
-      flex-shrink: 0;
-    }
-
-    .subnav-link:hover {
-      color: #FFFFFF;
-      border-bottom-color: rgba(255, 255, 255, 0.6);
-    }
-
-    .subnav-link.active {
-      color: #FFFFFF;
-      font-weight: 600;
-      border-bottom-color: #FFFFFF;
-    }
-
-    body.dark .subnav-bar {
-      background: var(--red-dark);
-      border-color: #000;
-    }
-
-    body.dark .subnav-link {
-      color: rgba(255, 255, 255, 0.75);
-    }
-
-    body.dark .subnav-link:hover,
-    body.dark .subnav-link.active {
-      color: #FFFFFF;
-      border-bottom-color: #FFFFFF;
-    }
-
     /* ===== TOPIC FILTER PILLS ===== */
     .topic-filters {
       background: #FFFFFF;
@@ -2168,20 +2105,6 @@
       .hamburger-btn {
         display: flex;
         flex-shrink: 0;
-      }
-
-      /* Subnav — horizontal scroll on mobile */
-      .subnav-bar {
-        top: 52px;
-      }
-
-      .subnav-inner {
-        padding: 0 12px;
-      }
-
-      .subnav-link {
-        font-size: 12px;
-        padding: 10px 10px;
       }
 
       /* Ticker — speed up on mobile to match desktop feel */
@@ -4638,35 +4561,6 @@ body.dark .bottom-nav {
         <button class="mobile-lang-opt" data-lang="tl">Filipino</button>
       </div>
     </div>
-
-    <!-- Category Navigation Bar -->
-    <nav class="subnav-bar" id="subnavBar">
-      <div class="subnav-inner">
-        <a href="#" class="subnav-link active" data-cat="all" onclick="filterByCategory('all',null);return false;">
-          All</a>
-        <a href="#" class="subnav-link subnav-breaking" data-cat="Breaking News"
-          onclick="filterByCategory('Breaking News',null);return false;"><span class="subnav-breaking-dot"
-            id="breakingNavDot" style="display:none;"></span> Breaking</a>
-        <a href="#" class="subnav-link" data-cat="UAE Government"
-          onclick="filterByCategory('UAE Government',null);return false;"> UAE Gov</a>
-        <a href="#" class="subnav-link" data-cat="Dubai News"
-          onclick="filterByCategory('Dubai News',null);return false;"> Dubai</a>
-        <a href="#" class="subnav-link" data-cat="Abu Dhabi News"
-          onclick="filterByCategory('Abu Dhabi News',null);return false;"> Abu Dhabi</a>
-        <a href="#" class="subnav-link" data-cat="Economy & Business"
-          onclick="filterByCategory('Economy &amp; Business',null);return false;"> Economy</a>
-        <a href="#" class="subnav-link" data-cat="Technology"
-          onclick="filterByCategory('Technology',null);return false;"> Tech</a>
-        <a href="#" class="subnav-link" data-cat="Sports" onclick="filterByCategory('Sports',null);return false;">
-          Sports</a>
-        <a href="#" class="subnav-link" data-cat="Politics" onclick="filterByCategory('Politics',null);return false;">
-          Politics</a>
-        <a href="/government.html" class="subnav-link subnav-govlive"><span class="subnav-govlive-dot"
-            id="govLiveNavDot"></span> Gov Live</a>
-        <a href="/archive" class="subnav-link"> Archive</a>
-        <a href="/saved" class="subnav-link" id="savedNavLink"> Saved <span id="savedNavCount" style="display:none;background:var(--red);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;margin-left:2px;font-weight:700;"></span></a>
-      </div>
-    </nav>
 
     <!-- Live Ticker -->
     <div class="ticker-bar">
