@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>UAE Transport Authorities – TheDubaiBrief</title>
-  <meta name="description" content="Official UAE transport authority websites for Dubai, Sharjah, and Ajman." />
+  <title>RTA News – TheDubaiBrief</title>
+  <meta name="description" content="Latest UAE transport and roads news from Dubai RTA, Sharjah SRRTA, and Ajman ATA." />
   <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}());</script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & tokens ─────────────────────────────────────────── */
     :root {
       --red: #C8102E;
       --cream: #F7F4EF;
       --ink: #1A1208;
       --ink-mid: #4A4035;
       --ink-light: #8A7E72;
-      --border: #ECEAE5;
+      --border: #E2DDD6;
       --card-bg: #FFFFFF;
       --page-bg: #F4F1EC;
-      --max: 1100px;
-      --radius-card: 14px;
+      --max: 1200px;
     }
     html.dark {
       --cream: #0D0D0D;
@@ -41,7 +39,7 @@
       padding-bottom: 100px;
     }
 
-    /* ── Sticky site header ─────────────────────────────────────── */
+    /* ── Header ─────────────────────────────────────────────────── */
     .site-header {
       position: sticky; top: 0; z-index: 200;
       background: var(--red);
@@ -68,7 +66,7 @@
       display: flex; align-items: center; gap: 6px;
       color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500;
       text-decoration: none; padding: 6px 10px; border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s;
     }
     .back-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
     .back-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -80,124 +78,205 @@
     }
     .dark-toggle:hover { border-color: rgba(255,255,255,0.8); }
 
-    /* ── Page hero banner ───────────────────────────────────────── */
-    .page-banner {
-      background: linear-gradient(160deg, #C8102E 0%, #9B0B22 55%, #6E0618 100%);
-      padding: 52px 24px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-banner::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .banner-icon {
-      width: 56px; height: 56px; margin: 0 auto 16px;
-      background: rgba(255,255,255,0.12); border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .banner-icon svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .banner-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px; font-weight: 700; color: #fff;
-      margin-bottom: 10px; line-height: 1.2;
-    }
-    .banner-sub {
-      font-size: 16px; color: rgba(255,255,255,0.8);
-      line-height: 1.6;
-    }
-
-    /* ── Authority cards ─────────────────────────────────────────── */
-    .content-wrap { max-width: var(--max); margin: 0 auto; padding: 40px 24px 48px; }
-
-    .section-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--ink-light); margin-bottom: 20px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    .authority-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .authority-card {
+    /* ── Authority quick-links strip ─────────────────────────────── */
+    .authority-strip {
       background: var(--card-bg);
-      border-radius: var(--radius-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      overflow: hidden;
-      text-decoration: none;
-      display: flex; flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-    }
-    .authority-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    }
-
-    .card-header {
-      padding: 28px 24px 20px;
       border-bottom: 1px solid var(--border);
-      display: flex; flex-direction: column; gap: 14px;
     }
-    .card-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+    .authority-strip-inner {
+      max-width: var(--max); margin: 0 auto;
+      padding: 10px 24px;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
     }
-    .card-icon svg { width: 26px; height: 26px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-    .card-emirate {
+    .strip-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 3px 8px; border-radius: 4px; width: fit-content;
+      color: var(--ink-light); flex-shrink: 0; margin-right: 4px;
     }
-    .card-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.25;
+    .strip-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+      color: var(--ink-mid); transition: all 0.15s;
     }
-    .card-abbr {
-      font-size: 13px; font-weight: 600; color: var(--ink-light);
+    .strip-link:hover { border-color: var(--red); color: var(--red); }
+    .strip-link svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .strip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── Section header bar ──────────────────────────────────────── */
+    .section-bar {
+      max-width: var(--max); margin: 28px auto 16px;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.13em;
+      text-transform: uppercase; color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; width: 120px; height: 1px; background: var(--border); }
+    .section-meta {
+      font-size: 12px; color: var(--ink-light);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0;
+      animation: ldot 2s ease-in-out infinite; }
+    @keyframes ldot { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.7)} 50%{box-shadow:0 0 0 3px rgba(34,197,94,0)} }
+    .live-label { color: #22c55e; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+
+    /* ── Main grid ───────────────────────────────────────────────── */
+    .content-wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 48px; }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+      margin-bottom: 32px;
     }
 
-    .card-body {
-      padding: 20px 24px 24px;
-      display: flex; flex-direction: column; gap: 16px; flex: 1;
+    /* ── Hero card ───────────────────────────────────────────────── */
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
     }
-    .card-desc {
-      font-size: 14px; color: var(--ink-mid); line-height: 1.65;
-      flex: 1;
+    .hero-card:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.1); }
+    .hero-img-wrap { height: 320px; overflow: hidden; background: #DDD8CF; position: relative; }
+    html.dark .hero-img-wrap { background: #2a2a2a; }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .hero-card:hover .hero-img { transform: scale(1.02); }
+    .hero-ph {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1c1008, #3a2510);
     }
-    .card-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 13px; font-weight: 700; text-decoration: none;
-      padding: 10px 18px; border-radius: 8px;
-      transition: opacity 0.15s, transform 0.15s;
+    .hero-ph svg { width: 48px; height: 48px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .hero-body { padding: 20px 24px 22px; }
+    .hero-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .cat-badge {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px; background: #FF6B2B; color: #fff;
+    }
+    .source-name { font-size: 13px; color: var(--ink-light); font-weight: 500; }
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .hero-summary { font-size: 14px; color: var(--ink-mid); line-height: 1.65; margin-bottom: 16px; }
+    .hero-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 14px; }
+    .story-time { font-size: 12px; color: var(--ink-light); }
+    .read-link { font-size: 13px; font-weight: 700; color: var(--red); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .read-link:hover { text-decoration: underline; }
+
+    /* ── Side cards ──────────────────────────────────────────────── */
+    .side-col { display: flex; flex-direction: column; gap: 16px; }
+    .side-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; gap: 14px;
+      padding: 14px;
+      cursor: pointer;
+      transition: box-shadow 0.18s;
+      text-decoration: none;
+    }
+    .side-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); }
+    .side-thumb-wrap { position: relative; flex-shrink: 0; }
+    .side-thumb {
+      width: 96px; height: 80px; border-radius: 7px;
+      object-fit: cover; display: block; background: #DDD8CF;
+    }
+    html.dark .side-thumb { background: #2a2a2a; }
+    .side-thumb-ph {
+      width: 96px; height: 80px; border-radius: 7px;
+      background: linear-gradient(135deg, #1c1008, #3a2510);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .side-thumb-ph svg { width: 24px; height: 24px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .side-num {
+      position: absolute; bottom: 4px; right: 4px;
+      background: rgba(0,0,0,0.65); color: #fff;
+      font-size: 11px; font-weight: 800;
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .side-body { flex: 1; min-width: 0; }
+    .side-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+    .side-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35;
+      margin-bottom: 5px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .side-summary {
+      font-size: 12px; color: var(--ink-mid); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .side-time { font-size: 11px; color: var(--ink-light); }
+
+    /* ── Timeline ────────────────────────────────────────────────── */
+    .timeline-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .timeline-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-light); white-space: nowrap;
+    }
+    .timeline-rule { flex: 1; height: 1px; background: var(--border); }
+    .timeline-list { display: flex; flex-direction: column; }
+    .tl-item {
+      display: flex; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      transition: background 0.1s; border-radius: 6px;
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-item:hover { background: rgba(200,16,46,0.03); }
+    html.dark .tl-item:hover { background: rgba(255,255,255,0.03); }
+    .tl-thumb {
+      width: 76px; height: 72px; border-radius: 7px;
+      object-fit: cover; flex-shrink: 0; background: #DDD8CF;
       align-self: flex-start;
     }
-    .card-link:hover { opacity: 0.88; transform: translateX(2px); }
-    .card-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    html.dark .tl-thumb { background: #2a2a2a; }
+    .tl-thumb-ph {
+      width: 76px; height: 72px; border-radius: 7px;
+      background: linear-gradient(135deg, #1c1008, #3a2510);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .tl-thumb-ph svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .tl-body { flex: 1; min-width: 0; }
+    .tl-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; flex-wrap: wrap; }
+    .tl-headline {
+      font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .tl-summary {
+      font-size: 12px; color: var(--ink-mid); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .tl-time { font-size: 11px; color: var(--ink-light); margin-top: 5px; }
+    .tl-arrow {
+      flex-shrink: 0; align-self: center; margin-left: 8px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(200,16,46,0.07); display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .tl-item:hover .tl-arrow { background: rgba(200,16,46,0.15); }
+    .tl-arrow svg { width: 13px; height: 13px; stroke: var(--red); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* Dubai = deep red, Sharjah = forest green, Ajman = navy */
-    .dubai  .card-icon    { background: #B81028; }
-    .dubai  .card-emirate { background: #FEE8EC; color: #B81028; }
-    .dubai  .card-link    { background: #B81028; color: #fff; }
-
-    .sharjah .card-icon    { background: #1A6B38; }
-    .sharjah .card-emirate { background: #E7F4EC; color: #1A6B38; }
-    .sharjah .card-link    { background: #1A6B38; color: #fff; }
-
-    .ajman  .card-icon    { background: #1A3A6B; }
-    .ajman  .card-emirate { background: #E7EDF4; color: #1A3A6B; }
-    .ajman  .card-link    { background: #1A3A6B; color: #fff; }
-
-    html.dark .card-emirate { background: rgba(255,255,255,0.1) !important; }
+    /* ── States ──────────────────────────────────────────────────── */
+    .state-box {
+      text-align: center; padding: 72px 24px;
+      background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);
+    }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-text { font-size: 14px; color: var(--ink-light); }
 
     /* ── Bottom nav ─────────────────────────────────────────────── */
     .bottom-nav {
@@ -224,18 +303,25 @@
     .bn-item.active { color: #fff; background: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.45); }
 
     /* ── Responsive ─────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .banner-title { font-size: 26px; }
-      .banner-sub { font-size: 14px; }
-      .page-banner { padding: 36px 20px 32px; }
-      .authority-grid { grid-template-columns: 1fr; }
-      .content-wrap { padding: 28px 16px 48px; }
+    @media (max-width: 900px) {
+      .top-grid { grid-template-columns: 1fr; }
+      .side-col { flex-direction: row; overflow-x: auto; scrollbar-width: none; gap: 12px; }
+      .side-col::-webkit-scrollbar { display: none; }
+      .side-card { flex-shrink: 0; width: 260px; flex-direction: column; gap: 0; padding: 0; overflow: hidden; }
+      .side-thumb-wrap { width: 100%; }
+      .side-thumb, .side-thumb-ph { width: 100%; height: 140px; border-radius: 0; }
+      .side-body { padding: 12px; }
+      .side-num { bottom: 8px; right: 8px; }
+    }
+    @media (max-width: 600px) {
+      .hero-img-wrap { height: 220px; }
+      .hero-headline { font-size: 20px; }
+      .content-wrap { padding: 0 16px 48px; }
+      .authority-strip-inner { padding: 8px 16px; }
+      .section-bar { padding: 0 16px; }
       .bn-item { padding: 7px 10px; font-size: 9.5px; }
       .bn-item svg { width: 18px; height: 18px; }
       .bottom-nav { bottom: 10px; padding: 5px 6px; }
-    }
-    @media (max-width: 480px) {
-      .card-name { font-size: 18px; }
     }
   </style>
 </head>
@@ -265,84 +351,44 @@
     </div>
   </header>
 
-  <!-- Page banner -->
-  <div class="page-banner">
-    <div class="banner-icon">
-      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+  <!-- Authority quick-links -->
+  <div class="authority-strip">
+    <div class="authority-strip-inner">
+      <span class="strip-label">Official Sites</span>
+      <a class="strip-link" href="https://www.rta.ae" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#B81028"></span>
+        Dubai RTA
+        <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+      <a class="strip-link" href="https://www.srta.gov.ae" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#1A6B38"></span>
+        Sharjah SRRTA
+        <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+      <a class="strip-link" href="https://ta.gov.ae" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#1A3A6B"></span>
+        Ajman ATA
+        <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
     </div>
-    <h1 class="banner-title">UAE Transport Authorities</h1>
-    <p class="banner-sub">Official transport and roads authority websites across the Emirates</p>
   </div>
 
-  <!-- Authority cards -->
+  <!-- Section header -->
+  <div class="section-bar">
+    <span class="section-label">Transport News</span>
+    <span class="section-meta">
+      <span class="live-label"><span class="live-dot"></span>Live</span>
+      <span id="lastUpdated">Loading…</span>
+    </span>
+  </div>
+
+  <!-- Main content -->
   <div class="content-wrap">
-    <div class="section-label">Official Portals</div>
-
-    <div class="authority-grid">
-
-      <!-- Dubai RTA -->
-      <a class="authority-card dubai" href="https://www.rta.ae" target="_blank" rel="noopener noreferrer">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <div>
-            <span class="card-emirate">Dubai</span>
-            <div class="card-name">Roads and Transport Authority</div>
-            <div class="card-abbr">RTA</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Dubai's official authority for roads, transport, and traffic. Manage Salik, Nol cards, vehicle registration, driving licences, metro, buses, and water transport.</p>
-          <span class="card-link">
-            Visit rta.ae
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <!-- Sharjah SRRTA -->
-      <a class="authority-card sharjah" href="https://www.srta.gov.ae" target="_blank" rel="noopener noreferrer">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <div>
-            <span class="card-emirate">Sharjah</span>
-            <div class="card-name">Roads and Transport Authority</div>
-            <div class="card-abbr">SRRTA</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Sharjah's official body overseeing roads, public transport, and traffic infrastructure across the emirate and its enclaves.</p>
-          <span class="card-link">
-            Visit srta.gov.ae
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
-        </div>
-      </a>
-
-      <!-- Ajman ATA -->
-      <a class="authority-card ajman" href="https://ta.gov.ae" target="_blank" rel="noopener noreferrer">
-        <div class="card-header">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <div>
-            <span class="card-emirate">Ajman</span>
-            <div class="card-name">Transport Authority</div>
-            <div class="card-abbr">ATA</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <p class="card-desc">Ajman's official transport authority responsible for regulating transport services, licensing, and road infrastructure within the emirate.</p>
-          <span class="card-link">
-            Visit ta.gov.ae
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
-        </div>
-      </a>
-
+    <div id="mainContent">
+      <div class="state-box">
+        <div class="spinner"></div>
+        <p class="state-text">Loading transport news…</p>
+      </div>
     </div>
   </div>
 
@@ -375,21 +421,187 @@
   </nav>
 
   <script>
-    (function () {
-      var toggle = document.getElementById('darkToggle');
-      function applyDark(dark) {
-        document.documentElement.classList.toggle('dark', dark);
-        if (toggle) toggle.textContent = dark ? '☀' : '☾';
+  (function () {
+    'use strict';
+
+    /* ── Dark mode ───────────────────────────────────────────────── */
+    var toggle = document.getElementById('darkToggle');
+    function applyDark(dark) {
+      document.documentElement.classList.toggle('dark', dark);
+      if (toggle) toggle.textContent = dark ? '☀' : '☾';
+    }
+    applyDark(localStorage.getItem('theme') === 'dark');
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        var dark = !document.documentElement.classList.contains('dark');
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        applyDark(dark);
+      });
+    }
+
+    /* ── Helpers ─────────────────────────────────────────────────── */
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function timeAgo(ms) {
+      if (!ms) return '';
+      var d = Date.now() - ms;
+      if (d < 60000)    return 'just now';
+      if (d < 3600000)  return Math.floor(d / 60000) + 'm ago';
+      if (d < 86400000) return Math.floor(d / 3600000) + 'h ago';
+      return Math.floor(d / 86400000) + 'd ago';
+    }
+
+    function thumbHtml(item, wClass, phClass) {
+      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
+        return '<img class="' + wClass + '" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+               '<div class="' + phClass + '" style="display:none">' + svgPh + '</div>';
       }
-      applyDark(localStorage.getItem('theme') === 'dark');
-      if (toggle) {
-        toggle.addEventListener('click', function () {
-          var dark = !document.documentElement.classList.contains('dark');
-          localStorage.setItem('theme', dark ? 'dark' : 'light');
-          applyDark(dark);
-        });
+      return '<div class="' + phClass + '">' + svgPh + '</div>';
+    }
+
+    function catBadge(item) {
+      var cat = esc(item.category || item.topic || 'Transport').toUpperCase();
+      return '<span class="cat-badge">' + cat + '</span>';
+    }
+
+    /* ── Build sections ──────────────────────────────────────────── */
+    function buildHero(item, num) {
+      var title = esc(item.calmTitle || item.title || 'News');
+      var sum   = esc(item.calmSummary || item.description || '');
+      var age   = timeAgo(item.publishedAtMs);
+      var url   = esc(item.url || '#');
+      var src   = esc(item.sourceName || 'RTA Dubai');
+      var imgs  = '';
+      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
+        imgs = '<img class="hero-img" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+               '<div class="hero-ph" style="display:none">' + svgPh + '</div>';
+      } else {
+        imgs = '<div class="hero-ph">' + svgPh + '</div>';
       }
-    }());
+      return '<div class="hero-card" onclick="window.open(\'' + url + '\',\'_blank\')">' +
+               '<div class="hero-img-wrap">' + imgs + '</div>' +
+               '<div class="hero-body">' +
+                 '<div class="hero-meta">' + catBadge(item) + '<span class="source-name">' + src + '</span></div>' +
+                 '<h2 class="hero-headline">' + title + '</h2>' +
+                 (sum ? '<p class="hero-summary">' + sum + '</p>' : '') +
+                 '<div class="hero-footer">' +
+                   '<span class="story-time">' + age + '</span>' +
+                   '<a class="read-link" href="' + url + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Read full →</a>' +
+                 '</div>' +
+               '</div>' +
+             '</div>';
+    }
+
+    function buildSideCard(item, num) {
+      var title = esc(item.calmTitle || item.title || 'News');
+      var sum   = esc(item.calmSummary || item.description || '');
+      var age   = timeAgo(item.publishedAtMs);
+      var url   = esc(item.url || '#');
+      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+      var imgHtml = '';
+      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
+        imgHtml = '<img class="side-thumb" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+                  '<div class="side-thumb-ph" style="display:none">' + svgPh + '</div>';
+      } else {
+        imgHtml = '<div class="side-thumb-ph">' + svgPh + '</div>';
+      }
+      var numStr = num < 10 ? '0' + num : '' + num;
+      return '<a class="side-card" href="' + url + '" target="_blank" rel="noopener">' +
+               '<div class="side-thumb-wrap">' + imgHtml + '<span class="side-num">' + numStr + '</span></div>' +
+               '<div class="side-body">' +
+                 '<div class="side-meta">' + catBadge(item) + '</div>' +
+                 '<div class="side-headline">' + title + '</div>' +
+                 (sum ? '<div class="side-summary">' + sum + '</div>' : '') +
+                 '<div class="side-time">' + age + '</div>' +
+               '</div>' +
+             '</a>';
+    }
+
+    function buildTlItem(item) {
+      var title = esc(item.calmTitle || item.title || 'News');
+      var sum   = esc(item.calmSummary || item.description || '');
+      var age   = timeAgo(item.publishedAtMs);
+      var url   = esc(item.url || '#');
+      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+      var imgHtml = '';
+      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
+        imgHtml = '<img class="tl-thumb" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+                  '<div class="tl-thumb-ph" style="display:none">' + svgPh + '</div>';
+      } else {
+        imgHtml = '<div class="tl-thumb-ph">' + svgPh + '</div>';
+      }
+      return '<a class="tl-item" href="' + url + '" target="_blank" rel="noopener">' +
+               imgHtml +
+               '<div class="tl-body">' +
+                 '<div class="tl-meta">' + catBadge(item) + '<span class="side-time">' + esc(item.sourceName || '') + '</span></div>' +
+                 '<div class="tl-headline">' + title + '</div>' +
+                 (sum ? '<div class="tl-summary">' + sum + '</div>' : '') +
+                 '<div class="tl-time">' + age + '</div>' +
+               '</div>' +
+               '<div class="tl-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>' +
+             '</a>';
+    }
+
+    /* ── Render ──────────────────────────────────────────────────── */
+    function render(items) {
+      var wrap = document.getElementById('mainContent');
+      var upd  = document.getElementById('lastUpdated');
+      if (!wrap) return;
+
+      var now = new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Dubai' });
+      if (upd) upd.textContent = 'Updated ' + now;
+
+      if (!items || !items.length) {
+        wrap.innerHTML = '<div class="state-box"><p class="state-text">No RTA transport news available right now. Check back soon.</p></div>';
+        return;
+      }
+
+      var hero   = items[0];
+      var sides  = items.slice(1, 3);
+      var rest   = items.slice(3);
+
+      var html = '<div class="top-grid">' +
+                   buildHero(hero, 1) +
+                   '<div class="side-col">' + sides.map(function(it, i){ return buildSideCard(it, i + 2); }).join('') + '</div>' +
+                 '</div>';
+
+      if (rest.length) {
+        html += '<div class="timeline-header"><span class="timeline-label">More Transport News</span><span class="timeline-rule"></span></div>' +
+                '<div class="timeline-list">' + rest.map(buildTlItem).join('') + '</div>';
+      }
+
+      wrap.innerHTML = html;
+    }
+
+    /* ── Fetch ───────────────────────────────────────────────────── */
+    function load() {
+      fetch('/api/news')
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d) {
+          if (!d) { render([]); return; }
+          var all = Array.isArray(d.items) ? d.items : [];
+          var rta = all.filter(function(it) {
+            var key = (it.sourceKey || '').toLowerCase();
+            var cat = (it.category || '').toLowerCase();
+            var src = (it.sourceName || '').toLowerCase();
+            return key === 'rta' || cat === 'rta' || src.includes('rta') || src.includes('transport authority') || src.includes('roads and transport');
+          });
+          rta.sort(function(a,b){ return (b.publishedAtMs||0) - (a.publishedAtMs||0); });
+          render(rta);
+        })
+        .catch(function(){ render([]); });
+    }
+
+    load();
+    setInterval(load, 5 * 60 * 1000);
+
+  }());
   </script>
 </body>
 </html>
