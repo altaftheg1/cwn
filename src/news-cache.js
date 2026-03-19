@@ -165,6 +165,23 @@ const ALL_SOURCES = [
     scrapeUrl: "https://u.ae/en/about-the-uae/culture/sports-and-recreation",
   },
 
+  // TIER 5.6 — UAE ECONOMY & INVESTMENT
+  {
+    key: "moet", name: "UAE Ministry of Economy", tier: 5, category: "Economy", isEconSource: true,
+    rssUrl: gnRss("moec.gov.ae", "UAE economy"),
+    scrapeUrl: "https://www.moec.gov.ae/en/news",
+  },
+  {
+    key: "uaeeconomy", name: "UAE Gov – Economy", tier: 5, category: "Economy", isEconSource: true,
+    rssUrl: gnRss("u.ae", "UAE economy business"),
+    scrapeUrl: "https://u.ae/en/about-the-uae/economy",
+  },
+  {
+    key: "investdubai", name: "Invest in Dubai", tier: 5, category: "Economy", isEconSource: true,
+    rssUrl: gnRss("investindubai.gov.ae", "Dubai investment"),
+    scrapeUrl: "https://www.investindubai.gov.ae/en/news",
+  },
+
   // TIER 5.5 — UAE TECHNOLOGY & DIGITAL GOVERNMENT
   {
     key: "moiat", name: "Ministry of Industry & Advanced Technology", tier: 5, category: "Technology", isTechSource: true,

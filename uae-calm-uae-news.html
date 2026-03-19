@@ -4871,7 +4871,7 @@ body.dark .bottom-nav {
         const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
         // Tech & Sports have dedicated pages — exclude from main feed unless explicitly filtered
         const cat = item.category || '';
-        const notDedicated = currentCategory !== 'all' || (cat !== 'Technology' && cat !== 'Sports');
+        const notDedicated = currentCategory !== 'all' || (cat !== 'Technology' && cat !== 'Sports' && cat !== 'Economy' && cat !== 'Economy & Business' && cat !== 'Business');
         return catMatch && search && notDedicated;
       }).slice(0, 200); // keep up to 200 in memory
       items = prioritizePinnedStory(items);
@@ -6527,12 +6527,12 @@ body.dark .bottom-nav {
     </a>
 
     <!-- Econ -->
-    <button class="bn-item" data-cat="Economy & Business" onclick="bnFilter('Economy &amp; Business',this)">
+    <a class="bn-item" href="/econ">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
       </svg>
       Econ
-    </button>
+    </a>
 
   </nav>
 

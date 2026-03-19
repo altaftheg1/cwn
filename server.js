@@ -502,9 +502,19 @@ app.get('/api/sports', (req, res) => {
   res.json({ items: sportsItems });
 });
 
+app.get('/api/econ', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const econItems = items
+    .filter(item => item.isEconSource === true || item.category === 'Economy' || item.category === 'Economy & Business' || item.category === 'Business')
+    .sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0))
+    .slice(0, 30);
+  res.json({ items: econItems });
+});
+
 app.get('/tech', (req, res) => res.sendFile(path.join(__dirname, 'tech.html')));
 app.get('/sports', (req, res) => res.sendFile(path.join(__dirname, 'sports.html')));
 app.get('/rta', (req, res) => res.sendFile(path.join(__dirname, 'rta.html')));
+app.get('/econ', (req, res) => res.sendFile(path.join(__dirname, 'econ.html')));
 app.get('/saved', (req, res) => res.sendFile(path.join(__dirname, 'saved.html')));
 
 // ── Archive: query all historical articles from Supabase ──────────────────────

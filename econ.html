@@ -3,21 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RTA News – TheDubaiBrief</title>
-  <meta name="description" content="Latest UAE transport and roads news from Dubai RTA, Sharjah SRRTA, and Ajman ATA." />
+  <title>Economy News – TheDubaiBrief</title>
+  <meta name="description" content="UAE economy, business, and investment news from the Ministry of Economy, Invest in Dubai, and official UAE economic sources." />
   <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}());</script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --red: #C8102E;
-      --cream: #F7F4EF;
+      --accent: #B45309;
+      --cream: #FFFBF2;
       --ink: #1A1208;
       --ink-mid: #4A4035;
       --ink-light: #8A7E72;
-      --border: #E2DDD6;
+      --border: #EDD9A3;
       --card-bg: #FFFFFF;
-      --page-bg: #F4F1EC;
+      --page-bg: #FFFBF2;
       --max: 1200px;
     }
     html.dark {
@@ -27,7 +28,7 @@
       --ink-light: #706860;
       --border: rgba(255,255,255,0.08);
       --card-bg: #1A1A1A;
-      --page-bg: #111111;
+      --page-bg: #110E08;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { overflow-x: hidden; scroll-behavior: smooth; }
@@ -78,14 +79,10 @@
     }
     .dark-toggle:hover { border-color: rgba(255,255,255,0.8); }
 
-    /* ── Authority quick-links strip ─────────────────────────────── */
-    .authority-strip {
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-    }
-    .authority-strip-inner {
-      max-width: var(--max); margin: 0 auto;
-      padding: 10px 24px;
+    /* ── Source strip ────────────────────────────────────────────── */
+    .source-strip { background: var(--card-bg); border-bottom: 1px solid var(--border); }
+    .source-strip-inner {
+      max-width: var(--max); margin: 0 auto; padding: 10px 24px;
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
     }
     .strip-label {
@@ -96,16 +93,15 @@
       display: inline-flex; align-items: center; gap: 5px;
       font-size: 12px; font-weight: 600; text-decoration: none;
       padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
-      color: var(--ink-mid); transition: all 0.15s;
+      color: var(--ink-mid); transition: all 0.15s; white-space: nowrap;
     }
-    .strip-link:hover { border-color: var(--red); color: var(--red); }
+    .strip-link:hover { border-color: var(--accent); color: var(--accent); }
     .strip-link svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
     .strip-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ── Section header bar ──────────────────────────────────────── */
+    /* ── Section bar ─────────────────────────────────────────────── */
     .section-bar {
-      max-width: var(--max); margin: 28px auto 16px;
-      padding: 0 24px;
+      max-width: var(--max); margin: 28px auto 16px; padding: 0 24px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .section-label {
@@ -114,113 +110,84 @@
       display: flex; align-items: center; gap: 10px;
     }
     .section-label::after { content: ''; width: 120px; height: 1px; background: var(--border); }
-    .section-meta {
-      font-size: 12px; color: var(--ink-light);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0;
-      animation: ldot 2s ease-in-out infinite; }
+    .section-meta { font-size: 12px; color: var(--ink-light); display: flex; align-items: center; gap: 10px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; animation: ldot 2s ease-in-out infinite; }
     @keyframes ldot { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.7)} 50%{box-shadow:0 0 0 3px rgba(34,197,94,0)} }
     .live-label { color: #22c55e; font-weight: 600; display: flex; align-items: center; gap: 5px; }
 
     /* ── Main grid ───────────────────────────────────────────────── */
     .content-wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 48px; }
+    .top-grid { display: grid; grid-template-columns: 1fr 380px; gap: 20px; margin-bottom: 32px; }
 
-    .top-grid {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-
-    /* ── Hero card ───────────────────────────────────────────────── */
+    /* ── Hero ────────────────────────────────────────────────────── */
     .hero-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      cursor: pointer;
-      transition: box-shadow 0.2s;
+      background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);
+      overflow: hidden; cursor: pointer; transition: box-shadow 0.2s;
     }
-    .hero-card:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.1); }
-    .hero-img-wrap { height: 320px; overflow: hidden; background: #DDD8CF; position: relative; }
-    html.dark .hero-img-wrap { background: #2a2a2a; }
+    .hero-card:hover { box-shadow: 0 6px 28px rgba(180,83,9,0.14); }
+    .hero-img-wrap { height: 320px; overflow: hidden; background: #FEF3C7; position: relative; }
+    html.dark .hero-img-wrap { background: #1C1208; }
     .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
     .hero-card:hover .hero-img { transform: scale(1.02); }
     .hero-ph {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #1c1008, #3a2510);
+      background: linear-gradient(135deg, #78350F, #B45309);
     }
-    .hero-ph svg { width: 48px; height: 48px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .hero-ph svg { width: 56px; height: 56px; stroke: rgba(255,255,255,0.25); fill: none; stroke-width: 1.5; }
     .hero-body { padding: 20px 24px 22px; }
     .hero-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
     .cat-badge {
       font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
-      padding: 3px 8px; border-radius: 4px; background: #FF6B2B; color: #fff;
+      padding: 3px 8px; border-radius: 4px; background: var(--accent); color: #fff;
     }
     .source-name { font-size: 13px; color: var(--ink-light); font-weight: 500; }
     .hero-headline {
       font-family: 'Playfair Display', serif;
-      font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.3;
-      margin-bottom: 10px;
+      font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 10px;
     }
     .hero-summary { font-size: 14px; color: var(--ink-mid); line-height: 1.65; margin-bottom: 16px; }
     .hero-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 14px; }
     .story-time { font-size: 12px; color: var(--ink-light); }
-    .read-link { font-size: 13px; font-weight: 700; color: var(--red); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .read-link { font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 4px; }
     .read-link:hover { text-decoration: underline; }
 
     /* ── Side cards ──────────────────────────────────────────────── */
     .side-col { display: flex; flex-direction: column; gap: 16px; }
     .side-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      display: flex; gap: 14px;
-      padding: 14px;
-      cursor: pointer;
-      transition: box-shadow 0.18s;
-      text-decoration: none;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+      display: flex; gap: 14px; padding: 14px; cursor: pointer;
+      transition: box-shadow 0.18s; text-decoration: none;
     }
-    .side-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.09); }
+    .side-card:hover { box-shadow: 0 4px 18px rgba(180,83,9,0.12); }
     .side-thumb-wrap { position: relative; flex-shrink: 0; }
-    .side-thumb {
-      width: 96px; height: 80px; border-radius: 7px;
-      object-fit: cover; display: block; background: #DDD8CF;
-    }
-    html.dark .side-thumb { background: #2a2a2a; }
+    .side-thumb { width: 96px; height: 80px; border-radius: 7px; object-fit: cover; display: block; background: #FEF3C7; }
+    html.dark .side-thumb { background: #1C1208; }
     .side-thumb-ph {
       width: 96px; height: 80px; border-radius: 7px;
-      background: linear-gradient(135deg, #1c1008, #3a2510);
+      background: linear-gradient(135deg, #78350F, #B45309);
       display: flex; align-items: center; justify-content: center;
     }
-    .side-thumb-ph svg { width: 24px; height: 24px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .side-thumb-ph svg { width: 24px; height: 24px; stroke: rgba(255,255,255,0.25); fill: none; stroke-width: 1.5; }
     .side-num {
       position: absolute; bottom: 4px; right: 4px;
-      background: rgba(0,0,0,0.65); color: #fff;
-      font-size: 11px; font-weight: 800;
-      width: 22px; height: 22px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.65); color: #fff; font-size: 11px; font-weight: 800;
+      width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     }
     .side-body { flex: 1; min-width: 0; }
     .side-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
     .side-headline {
       font-family: 'Playfair Display', serif;
-      font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35;
-      margin-bottom: 5px;
+      font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 5px;
       display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
     .side-summary {
       font-size: 12px; color: var(--ink-mid); line-height: 1.5;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      margin-bottom: 6px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px;
     }
     .side-time { font-size: 11px; color: var(--ink-light); }
 
     /* ── Timeline ────────────────────────────────────────────────── */
-    .timeline-header {
-      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
-    }
+    .timeline-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
     .timeline-label {
       font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--ink-light); white-space: nowrap;
@@ -228,32 +195,25 @@
     .timeline-rule { flex: 1; height: 1px; background: var(--border); }
     .timeline-list { display: flex; flex-direction: column; }
     .tl-item {
-      display: flex; gap: 14px; padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer; text-decoration: none;
-      transition: background 0.1s; border-radius: 6px;
+      display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border);
+      cursor: pointer; text-decoration: none; transition: background 0.1s; border-radius: 6px;
     }
     .tl-item:last-child { border-bottom: none; }
-    .tl-item:hover { background: rgba(200,16,46,0.03); }
+    .tl-item:hover { background: rgba(180,83,9,0.04); }
     html.dark .tl-item:hover { background: rgba(255,255,255,0.03); }
-    .tl-thumb {
-      width: 76px; height: 72px; border-radius: 7px;
-      object-fit: cover; flex-shrink: 0; background: #DDD8CF;
-      align-self: flex-start;
-    }
-    html.dark .tl-thumb { background: #2a2a2a; }
+    .tl-thumb { width: 76px; height: 72px; border-radius: 7px; object-fit: cover; flex-shrink: 0; background: #FEF3C7; align-self: flex-start; }
+    html.dark .tl-thumb { background: #1C1208; }
     .tl-thumb-ph {
       width: 76px; height: 72px; border-radius: 7px;
-      background: linear-gradient(135deg, #1c1008, #3a2510);
+      background: linear-gradient(135deg, #78350F, #B45309);
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .tl-thumb-ph svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.2); fill: none; stroke-width: 1.5; }
+    .tl-thumb-ph svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.25); fill: none; stroke-width: 1.5; }
     .tl-body { flex: 1; min-width: 0; }
     .tl-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; flex-wrap: wrap; }
     .tl-headline {
       font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      margin-bottom: 4px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 4px;
     }
     .tl-summary {
       font-size: 12px; color: var(--ink-mid); line-height: 1.5;
@@ -263,18 +223,14 @@
     .tl-arrow {
       flex-shrink: 0; align-self: center; margin-left: 8px;
       width: 26px; height: 26px; border-radius: 50%;
-      background: rgba(200,16,46,0.07); display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
+      background: rgba(180,83,9,0.08); display: flex; align-items: center; justify-content: center; transition: background 0.15s;
     }
-    .tl-item:hover .tl-arrow { background: rgba(200,16,46,0.15); }
-    .tl-arrow svg { width: 13px; height: 13px; stroke: var(--red); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .tl-item:hover .tl-arrow { background: rgba(180,83,9,0.18); }
+    .tl-arrow svg { width: 13px; height: 13px; stroke: var(--accent); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── States ──────────────────────────────────────────────────── */
-    .state-box {
-      text-align: center; padding: 72px 24px;
-      background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);
-    }
-    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    .state-box { text-align: center; padding: 72px 24px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .state-text { font-size: 14px; color: var(--ink-light); }
 
@@ -317,7 +273,7 @@
       .hero-img-wrap { height: 220px; }
       .hero-headline { font-size: 20px; }
       .content-wrap { padding: 0 16px 48px; }
-      .authority-strip-inner { padding: 8px 16px; }
+      .source-strip-inner { padding: 8px 16px; }
       .section-bar { padding: 0 16px; }
       .bn-item { padding: 7px 10px; font-size: 9.5px; }
       .bn-item svg { width: 18px; height: 18px; }
@@ -351,23 +307,28 @@
     </div>
   </header>
 
-  <!-- Authority quick-links -->
-  <div class="authority-strip">
-    <div class="authority-strip-inner">
-      <span class="strip-label">Official Sites</span>
-      <a class="strip-link" href="https://www.rta.ae" target="_blank" rel="noopener">
-        <span class="strip-dot" style="background:#B81028"></span>
-        Dubai RTA
+  <!-- Source quick-links -->
+  <div class="source-strip">
+    <div class="source-strip-inner">
+      <span class="strip-label">Official Sources</span>
+      <a class="strip-link" href="https://www.moec.gov.ae/en" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#B45309"></span>
+        UAE Ministry of Economy
         <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </a>
-      <a class="strip-link" href="https://www.srta.gov.ae" target="_blank" rel="noopener">
-        <span class="strip-dot" style="background:#1A6B38"></span>
-        Sharjah SRRTA
+      <a class="strip-link" href="https://u.ae/en/about-the-uae/economy" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#CA8A04"></span>
+        UAE Gov – Economy
         <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </a>
-      <a class="strip-link" href="https://ta.gov.ae" target="_blank" rel="noopener">
-        <span class="strip-dot" style="background:#1A3A6B"></span>
-        Ajman ATA
+      <a class="strip-link" href="https://u.ae/en/information-and-services/business" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#D97706"></span>
+        UAE Gov – Business
+        <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+      <a class="strip-link" href="https://www.investindubai.gov.ae/en" target="_blank" rel="noopener">
+        <span class="strip-dot" style="background:#059669"></span>
+        Invest in Dubai
         <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </a>
     </div>
@@ -375,7 +336,7 @@
 
   <!-- Section header -->
   <div class="section-bar">
-    <span class="section-label">Transport News</span>
+    <span class="section-label">Economy &amp; Business News</span>
     <span class="section-meta">
       <span class="live-label"><span class="live-dot"></span>Live</span>
       <span id="lastUpdated">Loading…</span>
@@ -387,7 +348,7 @@
     <div id="mainContent">
       <div class="state-box">
         <div class="spinner"></div>
-        <p class="state-text">Loading transport news…</p>
+        <p class="state-text">Loading economy news…</p>
       </div>
     </div>
   </div>
@@ -402,7 +363,7 @@
       <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
       Gov
     </a>
-    <a class="bn-item active" href="/rta">
+    <a class="bn-item" href="/rta">
       <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       RTA
     </a>
@@ -414,7 +375,7 @@
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
       Sports
     </a>
-    <a class="bn-item" href="/econ">
+    <a class="bn-item active" href="/econ">
       <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       Econ
     </a>
@@ -441,11 +402,8 @@
 
     /* ── Helpers ─────────────────────────────────────────────────── */
     function esc(s) {
-      return String(s || '')
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
-
     function timeAgo(ms) {
       if (!ms) return '';
       var d = Date.now() - ms;
@@ -455,39 +413,32 @@
       return Math.floor(d / 86400000) + 'd ago';
     }
 
-    function thumbHtml(item, wClass, phClass) {
-      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+    var PH_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+
+    function imgOrPh(item, imgCls, phCls) {
       if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
-        return '<img class="' + wClass + '" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-               '<div class="' + phClass + '" style="display:none">' + svgPh + '</div>';
+        return '<img class="' + imgCls + '" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+               '<div class="' + phCls + '" style="display:none">' + PH_SVG + '</div>';
       }
-      return '<div class="' + phClass + '">' + svgPh + '</div>';
+      return '<div class="' + phCls + '">' + PH_SVG + '</div>';
     }
 
     function catBadge(item) {
-      var cat = esc(item.category || item.topic || 'Transport').toUpperCase();
-      return '<span class="cat-badge">' + cat + '</span>';
+      return '<span class="cat-badge">' + esc((item.category || 'Economy').toUpperCase()) + '</span>';
     }
 
-    /* ── Build sections ──────────────────────────────────────────── */
-    function buildHero(item, num) {
+    /* ── Build HTML ──────────────────────────────────────────────── */
+    function buildHero(item) {
       var title = esc(item.calmTitle || item.title || 'News');
       var sum   = esc(item.calmSummary || item.description || '');
       var age   = timeAgo(item.publishedAtMs);
       var url   = esc(item.url || '#');
-      var src   = esc(item.sourceName || 'RTA Dubai');
-      var imgs  = '';
-      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
-      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
-        imgs = '<img class="hero-img" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-               '<div class="hero-ph" style="display:none">' + svgPh + '</div>';
-      } else {
-        imgs = '<div class="hero-ph">' + svgPh + '</div>';
-      }
+      var src   = esc(item.sourceName || '');
+      var imgs  = imgOrPh(item, 'hero-img', 'hero-ph');
       return '<div class="hero-card" onclick="window.open(\'' + url + '\',\'_blank\')">' +
                '<div class="hero-img-wrap">' + imgs + '</div>' +
                '<div class="hero-body">' +
-                 '<div class="hero-meta">' + catBadge(item) + '<span class="source-name">' + src + '</span></div>' +
+                 '<div class="hero-meta">' + catBadge(item) + (src ? '<span class="source-name">' + src + '</span>' : '') + '</div>' +
                  '<h2 class="hero-headline">' + title + '</h2>' +
                  (sum ? '<p class="hero-summary">' + sum + '</p>' : '') +
                  '<div class="hero-footer">' +
@@ -498,20 +449,13 @@
              '</div>';
     }
 
-    function buildSideCard(item, num) {
-      var title = esc(item.calmTitle || item.title || 'News');
-      var sum   = esc(item.calmSummary || item.description || '');
-      var age   = timeAgo(item.publishedAtMs);
-      var url   = esc(item.url || '#');
-      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
-      var imgHtml = '';
-      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
-        imgHtml = '<img class="side-thumb" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-                  '<div class="side-thumb-ph" style="display:none">' + svgPh + '</div>';
-      } else {
-        imgHtml = '<div class="side-thumb-ph">' + svgPh + '</div>';
-      }
+    function buildSide(item, num) {
+      var title  = esc(item.calmTitle || item.title || 'News');
+      var sum    = esc(item.calmSummary || item.description || '');
+      var age    = timeAgo(item.publishedAtMs);
+      var url    = esc(item.url || '#');
       var numStr = num < 10 ? '0' + num : '' + num;
+      var imgHtml = imgOrPh(item, 'side-thumb', 'side-thumb-ph');
       return '<a class="side-card" href="' + url + '" target="_blank" rel="noopener">' +
                '<div class="side-thumb-wrap">' + imgHtml + '<span class="side-num">' + numStr + '</span></div>' +
                '<div class="side-body">' +
@@ -523,23 +467,17 @@
              '</a>';
     }
 
-    function buildTlItem(item) {
+    function buildTl(item) {
       var title = esc(item.calmTitle || item.title || 'News');
       var sum   = esc(item.calmSummary || item.description || '');
       var age   = timeAgo(item.publishedAtMs);
       var url   = esc(item.url || '#');
-      var svgPh = '<svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
-      var imgHtml = '';
-      if (item.imageUrl && !item.imageUrl.startsWith('data:')) {
-        imgHtml = '<img class="tl-thumb" src="' + esc(item.imageUrl) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-                  '<div class="tl-thumb-ph" style="display:none">' + svgPh + '</div>';
-      } else {
-        imgHtml = '<div class="tl-thumb-ph">' + svgPh + '</div>';
-      }
+      var src   = esc(item.sourceName || '');
+      var imgHtml = imgOrPh(item, 'tl-thumb', 'tl-thumb-ph');
       return '<a class="tl-item" href="' + url + '" target="_blank" rel="noopener">' +
                imgHtml +
                '<div class="tl-body">' +
-                 '<div class="tl-meta">' + catBadge(item) + '<span class="side-time">' + esc(item.sourceName || '') + '</span></div>' +
+                 '<div class="tl-meta">' + catBadge(item) + (src ? '<span class="side-time">' + src + '</span>' : '') + '</div>' +
                  '<div class="tl-headline">' + title + '</div>' +
                  (sum ? '<div class="tl-summary">' + sum + '</div>' : '') +
                  '<div class="tl-time">' + age + '</div>' +
@@ -558,22 +496,22 @@
       if (upd) upd.textContent = 'Updated ' + now;
 
       if (!items || !items.length) {
-        wrap.innerHTML = '<div class="state-box"><p class="state-text">No RTA transport news available right now. Check back soon.</p></div>';
+        wrap.innerHTML = '<div class="state-box"><p class="state-text">No economy news available right now. Check back soon.</p></div>';
         return;
       }
 
-      var hero   = items[0];
-      var sides  = items.slice(1, 3);
-      var rest   = items.slice(3);
+      var hero  = items[0];
+      var sides = items.slice(1, 3);
+      var rest  = items.slice(3);
 
       var html = '<div class="top-grid">' +
-                   buildHero(hero, 1) +
-                   '<div class="side-col">' + sides.map(function(it, i){ return buildSideCard(it, i + 2); }).join('') + '</div>' +
+                   buildHero(hero) +
+                   '<div class="side-col">' + sides.map(function(it, i){ return buildSide(it, i + 2); }).join('') + '</div>' +
                  '</div>';
 
       if (rest.length) {
-        html += '<div class="timeline-header"><span class="timeline-label">More Transport News</span><span class="timeline-rule"></span></div>' +
-                '<div class="timeline-list">' + rest.map(buildTlItem).join('') + '</div>';
+        html += '<div class="timeline-header"><span class="timeline-label">More Economy News</span><span class="timeline-rule"></span></div>' +
+                '<div class="timeline-list">' + rest.map(buildTl).join('') + '</div>';
       }
 
       wrap.innerHTML = html;
@@ -581,19 +519,10 @@
 
     /* ── Fetch ───────────────────────────────────────────────────── */
     function load() {
-      fetch('/api/news')
+      fetch('/api/econ')
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(d) {
-          if (!d) { render([]); return; }
-          var all = Array.isArray(d.items) ? d.items : [];
-          var rta = all.filter(function(it) {
-            var key = (it.sourceKey || '').toLowerCase();
-            var cat = (it.category || '').toLowerCase();
-            var src = (it.sourceName || '').toLowerCase();
-            return key === 'rta' || cat === 'rta' || src.includes('rta') || src.includes('transport authority') || src.includes('roads and transport');
-          });
-          rta.sort(function(a,b){ return (b.publishedAtMs||0) - (a.publishedAtMs||0); });
-          render(rta);
+          render(d && Array.isArray(d.items) ? d.items : []);
         })
         .catch(function(){ render([]); });
     }
