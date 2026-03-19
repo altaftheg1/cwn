@@ -8,6 +8,7 @@
     if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css" />
   <style>
     :root {
       --red: #C8102E; --red-dark: #9B0B22; --red-light: #f5e5e8;
@@ -168,13 +169,7 @@
   </style>
 </head>
 <body>
-
-  <nav class="nav">
-    <a href="/" class="nav-logo">TheDubaiBrief</a>
-    <div class="nav-right">
-      <a href="/" class="nav-back">← Back to news</a>
-    </div>
-  </nav>
+  <script src="/js/shared-header.js"></script>
 
   <div class="page-header">
     <div class="page-title">🔖 Saved Articles</div>

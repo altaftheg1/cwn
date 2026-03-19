@@ -9,6 +9,7 @@
     (function(){ if(localStorage.getItem('theme')==='dark') document.documentElement.classList.add('dark'); })();
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css" />
   <script>
     function googleTranslateElementInit(){
       new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'ar,ml,hi,tl,en',autoDisplay:false},'google_translate_element');
@@ -390,33 +391,7 @@
   </style>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<header>
-  <div class="header-inner">
-    <a class="brand" href="/uae-calm-uae-news.html">
-      <div class="logo-boxes">
-        <div class="logo-box">D</div>
-        <div class="logo-box">U</div>
-        <div class="logo-box">B</div>
-      </div>
-      <div>
-        <div class="logo-text-main">TheDubaiBrief</div>
-        <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
-      </div>
-    </a>
-    <nav class="nav-links">
-      <a href="/uae-calm-uae-news.html">Home</a>
-      <a href="/government.html">Gov Live</a>
-      <a href="/archive">Archive</a>
-      <a href="/saved">Saved</a>
-      <a href="/about.html">About</a>
-    </nav>
-    <div class="nav-right">
-      <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
-    </div>
-  </div>
-</header>
+<script src="/js/shared-header.js"></script>
 
 <!-- SEARCH HERO (sticky on scroll) -->
 <div class="search-hero" id="searchHero">
@@ -609,6 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── DARK MODE ────────────────────────────────────────────────────────────────
 function initDarkMode() {
   const btn = document.getElementById('darkToggle');
+  if (btn && btn.dataset.shDark) return;
   const isDark = () => document.documentElement.classList.contains('dark');
   btn.textContent = isDark() ? '☀️' : '🌙';
   btn.addEventListener('click', () => {

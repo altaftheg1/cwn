@@ -8,6 +8,7 @@
   <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}());</script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/header.css" />
   <style>
     :root {
       --red: #C8102E;
@@ -39,45 +40,6 @@
       color: var(--ink);
       padding-bottom: 100px;
     }
-
-    /* ── Header ─────────────────────────────────────────────────── */
-    .site-header {
-      position: sticky; top: 0; z-index: 200;
-      background: var(--red);
-      border-bottom: 1px solid rgba(0,0,0,0.18);
-      height: 60px; display: flex; align-items: center;
-    }
-    .site-header-inner {
-      max-width: var(--max); width: 100%; margin: 0 auto;
-      padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-boxes { display: flex; gap: 5px; }
-    .logo-box {
-      width: 34px; height: 34px; border-radius: 5px;
-      background: var(--red); border: 2px solid #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900; color: #fff;
-    }
-    .brand-text { display: flex; flex-direction: column; gap: 1px; }
-    .brand-name { font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
-    .brand-sub  { font-size: 10px; color: rgba(255,255,255,0.75); line-height: 1; }
-    .header-actions { display: flex; align-items: center; gap: 10px; }
-    .back-btn {
-      display: flex; align-items: center; gap: 6px;
-      color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500;
-      text-decoration: none; padding: 6px 10px; border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-    .back-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .dark-toggle {
-      background: none; border: 1px solid rgba(255,255,255,0.35);
-      color: #fff; width: 32px; height: 32px; border-radius: 50%;
-      cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.15s;
-    }
-    .dark-toggle:hover { border-color: rgba(255,255,255,0.8); }
 
     /* ── Source strip ────────────────────────────────────────────── */
     .source-strip { background: var(--card-bg); border-bottom: 1px solid var(--border); }
@@ -234,30 +196,6 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .state-text { font-size: 14px; color: var(--ink-light); }
 
-    /* ── Bottom nav ─────────────────────────────────────────────── */
-    .bottom-nav {
-      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-      z-index: 9999; display: flex; align-items: center; gap: 2px;
-      background: rgba(18,12,8,0.92); backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-radius: 24px; padding: 6px 8px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .bn-item {
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      padding: 8px 14px; border-radius: 18px; cursor: pointer;
-      background: none; border: none; color: rgba(255,255,255,0.55);
-      font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500;
-      letter-spacing: .02em; white-space: nowrap; text-decoration: none; line-height: 1;
-      transition: background .18s, color .18s, transform .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .bn-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-    .bn-item:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.07); }
-    .bn-item:active { transform: scale(.93); }
-    .bn-item.active { color: #fff; background: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.45); }
-
     /* ── Responsive ─────────────────────────────────────────────── */
     @media (max-width: 900px) {
       .top-grid { grid-template-columns: 1fr; }
@@ -275,37 +213,11 @@
       .content-wrap { padding: 0 16px 48px; }
       .source-strip-inner { padding: 8px 16px; }
       .section-bar { padding: 0 16px; }
-      .bn-item { padding: 7px 10px; font-size: 9.5px; }
-      .bn-item svg { width: 18px; height: 18px; }
-      .bottom-nav { bottom: 10px; padding: 5px 6px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Site header -->
-  <header class="site-header">
-    <div class="site-header-inner">
-      <a class="brand" href="/">
-        <div class="logo-boxes">
-          <div class="logo-box">D</div>
-          <div class="logo-box">U</div>
-          <div class="logo-box">B</div>
-        </div>
-        <div class="brand-text">
-          <div class="brand-name">TheDubaiBrief</div>
-          <div class="brand-sub">Dubai's News. Clear &amp; Calm.</div>
-        </div>
-      </a>
-      <div class="header-actions">
-        <a class="back-btn" href="/">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-          Back
-        </a>
-        <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾</button>
-      </div>
-    </div>
-  </header>
+<script src="/js/shared-header.js"></script>
 
   <!-- Source quick-links -->
   <div class="source-strip">
@@ -348,52 +260,9 @@
     </div>
   </div>
 
-  <!-- Bottom nav -->
-  <nav class="bottom-nav" aria-label="Site navigation">
-    <a class="bn-item" href="/">
-      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Breaking
-    </a>
-    <a class="bn-item" href="/government">
-      <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
-      Gov
-    </a>
-    <a class="bn-item" href="/rta">
-      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-      RTA
-    </a>
-    <a class="bn-item" href="/tech">
-      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      Tech
-    </a>
-    <a class="bn-item active" href="/sports">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
-      Sports
-    </a>
-    <a class="bn-item" href="/econ">
-      <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      Econ
-    </a>
-  </nav>
-
   <script>
   (function () {
     'use strict';
-
-    /* ── Dark mode ───────────────────────────────────────────────── */
-    var toggle = document.getElementById('darkToggle');
-    function applyDark(dark) {
-      document.documentElement.classList.toggle('dark', dark);
-      if (toggle) toggle.textContent = dark ? '☀' : '☾';
-    }
-    applyDark(localStorage.getItem('theme') === 'dark');
-    if (toggle) {
-      toggle.addEventListener('click', function () {
-        var dark = !document.documentElement.classList.contains('dark');
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-        applyDark(dark);
-      });
-    }
 
     /* ── Helpers ─────────────────────────────────────────────────── */
     function esc(s) {

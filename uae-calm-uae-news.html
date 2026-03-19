@@ -18,6 +18,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&ital@0;1&family=DM+Sans:wght@400;500;600&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="/css/header.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;800&display=swap"
     rel="stylesheet">
@@ -4276,101 +4277,7 @@ body.dark .bottom-nav {
   </div>
 
   <div class="app-shell" id="appShell">
-    <!-- Utility Bar -->
-    <div class="utility-bar">
-      <div class="utility-left">
-        <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
-        <span id="dateDisplay">Mar 2, 2026</span>
-        <span id="utilCity">Dubai, UAE</span>
-        <span class="live-visitors" id="liveVisitors" title="People viewing TheDubaiBrief right now">
-          <span class="live-visitors-dot"></span>
-          <span id="liveVisitorCount">–</span> online
-        </span>
-      </div>
-      <div class="utility-right">
-        <div class="lang-switcher" id="langSwitcher">
-          <button class="lang-btn" id="langBtn"> English ▾</button>
-          <div class="lang-dropdown" id="langDropdown">
-            <div class="lang-option" data-lang="en"> English</div>
-            <div class="lang-option" data-lang="ml"> മലയാളം</div>
-            <div class="lang-option" data-lang="ar"> العربية</div>
-            <div class="lang-option" data-lang="hi"> हिन्दी</div>
-            <div class="lang-option" data-lang="tl"> Filipino</div>
-          </div>
-        </div>
-        <a href="/about.html" id="utilAbout">About</a>
-        <a href="/sources.html" id="utilSources">Sources</a>
-        <a href="/contact.html" id="utilContact">Contact</a>
-      </div>
-    </div>
-
-    <!-- Sticky Navbar -->
-    <header>
-      <div class="header-inner">
-        <div class="navbar-left">
-          <a class="brand" href="/uae-calm-uae-news.html">
-            <div class="logo-boxes">
-              <div class="logo-box">D</div>
-              <div class="logo-box">U</div>
-              <div class="logo-box">B</div>
-            </div>
-            <div class="logo-text">
-              <div class="logo-text-main">TheDubaiBrief</div>
-              <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
-            </div>
-          </a>
-        </div>
-        <div class="navbar-right">
-          <button id="notifyBtn" class="notify-btn"> Notify me</button>
-          <button class="dark-toggle" id="darkToggle" title="Toggle dark mode"></button>
-          <button class="nav-lang-btn" id="navLangBtn" title="Change language" aria-label="Change language">🌐</button>
-          <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
-        </div>
-      </div>
-    </header>
-    <!-- Mobile search bar (always visible on mobile, hidden on desktop) -->
-    <div class="mobile-search-bar" id="mobileSearchBar">
-      <div class="mobile-search-wrap">
-        <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
-      </div>
-    </div>
-    <!-- Mobile nav dropdown (toggled by hamburger) -->
-    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-      <a href="#" onclick="filterByCategory('all',null);closeMobileNav();return false;"> All News</a>
-      <a href="#" onclick="filterByCategory('Breaking News',null);closeMobileNav();return false;"
-        style="color:#C8102E;font-weight:700;"><span id="mobileBreakingDot"
-          style="display:none;width:8px;height:8px;background:#C8102E;border-radius:50%;display:inline-block;margin-right:4px;animation:navPulse 1.5s infinite;"></span>
-        Breaking</a>
-      <a href="#" onclick="filterByCategory('UAE Government',null);closeMobileNav();return false;"> UAE Gov</a>
-      <a href="#" onclick="filterByCategory('Dubai News',null);closeMobileNav();return false;"> Dubai</a>
-      <a href="#" onclick="filterByCategory('Abu Dhabi News',null);closeMobileNav();return false;"> Abu Dhabi</a>
-      <a href="#" onclick="filterByCategory('Economy & Business',null);closeMobileNav();return false;"> Economy</a>
-      <a href="#" onclick="filterByCategory('Technology',null);closeMobileNav();return false;"> Tech</a>
-      <a href="#" onclick="filterByCategory('Sports',null);closeMobileNav();return false;"> Sports</a>
-      <a href="#" onclick="filterByCategory('Politics',null);closeMobileNav();return false;"> Politics</a>
-      <a href="/government.html"> Gov Live</a>
-      <a href="/archive"> Archive</a>
-      <a href="/about.html">About</a>
-      <div class="mobile-lang-row">
-        <span class="mobile-lang-label">🌐 Language:</span>
-        <button class="mobile-lang-opt" data-lang="en">English</button>
-        <button class="mobile-lang-opt" data-lang="ar">العربية</button>
-        <button class="mobile-lang-opt" data-lang="ml">മലയാളം</button>
-        <button class="mobile-lang-opt" data-lang="hi">हिन्दी</button>
-        <button class="mobile-lang-opt" data-lang="tl">Filipino</button>
-      </div>
-    </div>
-
-    <!-- Live Ticker -->
-    <div class="ticker-bar">
-      <div class="ticker-label">
-        <div class="ticker-dot"></div>
-        <span id="tickerLiveText">LIVE FEED</span>
-      </div>
-      <div class="ticker-content">
-        <div class="ticker-scroll" id="tickerScroll"><!-- Populated by JS --></div>
-      </div>
-    </div>
+    <script src="/js/shared-header.js"></script>
 
 
     <!-- Ad Banner -->
@@ -5367,7 +5274,7 @@ body.dark .bottom-nav {
     // ── Dark mode ─────────────────────────────────────────────────────────────
     (function () {
       const toggle = document.getElementById('darkToggle');
-      if (!toggle) return;
+      if (!toggle || toggle.dataset.shDark) return; // shared-header.js handles it
       function applyDark(dark) {
         document.documentElement.classList.toggle('dark', dark);
         document.body.classList.toggle('dark', dark);
@@ -6476,65 +6383,7 @@ body.dark .bottom-nav {
     }());
   </script>
 
-  <!-- ===== BOTTOM NAV BAR ===== -->
-  <nav class="bottom-nav" id="bottomNav" aria-label="Category navigation">
-
-    <!-- Breaking -->
-    <button class="bn-item bn-breaking" data-cat="Breaking News" onclick="bnFilter('Breaking News',this)">
-      <span class="bn-breaking-dot" id="bnBreakingDot"></span>
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-      </svg>
-      Breaking
-    </button>
-
-    <!-- Gov -->
-    <a class="bn-item" href="/government">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/>
-      </svg>
-      Gov
-    </a>
-
-    <!-- RTA -->
-    <a class="bn-item" href="/rta">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="1" y="3" width="15" height="13" rx="2"/>
-        <path d="M16 8h5l2 3v4h-7V8z"/>
-        <circle cx="5.5" cy="18.5" r="2.5"/>
-        <circle cx="18.5" cy="18.5" r="2.5"/>
-      </svg>
-      RTA
-    </a>
-
-    <!-- Tech -->
-    <a class="bn-item" href="/tech">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-      </svg>
-      Tech
-    </a>
-
-    <!-- Sports -->
-    <a class="bn-item" href="/sports">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-        <path d="M2 12h20"/>
-      </svg>
-      Sports
-    </a>
-
-    <!-- Econ -->
-    <a class="bn-item" href="/econ">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-      </svg>
-      Econ
-    </a>
-
-  </nav>
+  <!-- Bottom nav injected by shared-header.js -->
 
   <script>
     // Bottom nav filter + active state
