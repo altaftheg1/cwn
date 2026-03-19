@@ -483,7 +483,18 @@ app.get('/api/government', (req, res) => {
   res.json({ items: govItems });
 });
 
+app.get('/api/tech', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const techItems = items
+    .filter(item => item.isTechSource === true || item.category === 'Technology')
+    .sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0))
+    .slice(0, 30);
+  res.json({ items: techItems });
+});
+
 app.get('/government', (req, res) => res.sendFile(path.join(__dirname, 'government.html')));
+app.get('/tech', (req, res) => res.sendFile(path.join(__dirname, 'tech.html')));
+app.get('/rta', (req, res) => res.sendFile(path.join(__dirname, 'rta.html')));
 app.get('/saved', (req, res) => res.sendFile(path.join(__dirname, 'saved.html')));
 
 // ── Archive: query all historical articles from Supabase ──────────────────────

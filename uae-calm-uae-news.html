@@ -4869,7 +4869,9 @@ body.dark .bottom-nav {
       let items = allNews.filter(item => {
         const catMatch = currentCategory === 'all' || (item.category || '') === currentCategory;
         const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
-        return catMatch && search;
+        // Tech news has its own dedicated page — exclude from main feed unless explicitly filtered
+        const notTech = currentCategory !== 'all' || (item.category || '') !== 'Technology';
+        return catMatch && search && notTech;
       }).slice(0, 200); // keep up to 200 in memory
       items = prioritizePinnedStory(items);
 
@@ -6505,13 +6507,13 @@ body.dark .bottom-nav {
     </a>
 
     <!-- Tech -->
-    <button class="bn-item" data-cat="Technology" onclick="bnFilter('Technology',this)">
+    <a class="bn-item" href="/tech">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <rect x="2" y="3" width="20" height="14" rx="2"/>
         <path d="M8 21h8M12 17v4"/>
       </svg>
       Tech
-    </button>
+    </a>
 
     <!-- Sports -->
     <button class="bn-item" data-cat="Sports" onclick="bnFilter('Sports',this)">

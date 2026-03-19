@@ -153,6 +153,28 @@ const ALL_SOURCES = [
     scrapeUrl: "https://www.dcda.gov.ae/en/news",
   },
 
+  // TIER 5.5 — UAE TECHNOLOGY & DIGITAL GOVERNMENT
+  {
+    key: "moiat", name: "Ministry of Industry & Advanced Technology", tier: 5, category: "Technology", isTechSource: true,
+    rssUrl: gnRss("moiat.gov.ae", "UAE technology"),
+    scrapeUrl: "https://moiat.gov.ae/en/media-center/news",
+  },
+  {
+    key: "gdf", name: "UAE Government Development & Future Office", tier: 5, category: "Technology", isTechSource: true,
+    rssUrl: gnRss("gdf.gov.ae", "UAE future technology"),
+    scrapeUrl: "https://gdf.gov.ae/en/news",
+  },
+  {
+    key: "digitaldubai", name: "Digital Dubai", tier: 5, category: "Technology", isTechSource: true,
+    rssUrl: gnRss("digitaldubai.ae", "digital technology Dubai"),
+    scrapeUrl: "https://www.digitaldubai.ae/newsroom",
+  },
+  {
+    key: "added", name: "Abu Dhabi Advanced Technology", tier: 5, category: "Technology", isTechSource: true,
+    rssUrl: gnRss("added.gov.ae", "Abu Dhabi advanced technology"),
+    scrapeUrl: "https://www.added.gov.ae/en/media/news",
+  },
+
   // TIER 6 — BUSINESS & FINANCE
   {
     key: "dubaichamber", name: "Dubai Chamber", tier: 6, category: "Business",
