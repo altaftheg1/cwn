@@ -4737,7 +4737,7 @@ body.dark .bottom-nav {
       if (s.includes('khaleej')) return 'khaleej';
       return 'emirates';
     }
-    // Splash logic — remove after 1.5s
+    // Splash logic — skip if navigating from within the site
     (function () {
       var splash = document.getElementById('splash');
       function afterSplash() {
@@ -4747,8 +4747,17 @@ body.dark .bottom-nav {
           if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
         }, 400);
       }
-      if (splash) splash.addEventListener('click', afterSplash, { once: true });
-      setTimeout(afterSplash, 1500);
+      if (!splash) return;
+      var ref = document.referrer;
+      var fromSameSite = ref && (function(){ try { return new URL(ref).hostname === location.hostname; } catch(e){ return false; } })();
+      if (fromSameSite) {
+        // Came from another page on this site — skip animation instantly
+        splash.style.display = 'none';
+      } else {
+        // Fresh visit or hard refresh — play animation
+        splash.addEventListener('click', afterSplash, { once: true });
+        setTimeout(afterSplash, 1500);
+      }
     })();
 
     // Load and render news
