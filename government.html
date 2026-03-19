@@ -7,16 +7,11 @@
   <meta name="description" content="Official UAE government announcements from WAM, U.AE, Dubai Media Office, and Ministry of Foreign Affairs." />
   <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}());</script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/public/css/shared.css" />
   <style>
-    /* ── Reset & tokens ─────────────────────────────────────────── */
+    /* ── Page-specific tokens ────────────────────────────────────── */
     :root {
-      --red: #C8102E;
-      --cream: #F7F4EF;
-      --ink: #1A1208;
-      --ink-mid: #4A4035;
-      --ink-light: #8A7E72;
-      --border: #ECEAE5;
       --card-bg: #FFFFFF;
       --page-bg: #F4F1EC;
       --c-uaegov: #006400;
@@ -28,11 +23,6 @@
       --radius-card: 12px;
     }
     html.dark {
-      --cream: #0D0D0D;
-      --ink: #F0EDE8;
-      --ink-mid: #B0A89E;
-      --ink-light: #706860;
-      --border: rgba(255,255,255,0.08);
       --card-bg: #1A1A1A;
       --page-bg: #111111;
     }
@@ -46,83 +36,7 @@
       padding-bottom: 100px;
     }
 
-    /* ── Sticky site header ─────────────────────────────────────── */
-    .site-header {
-      position: sticky; top: 0; z-index: 200;
-      background: var(--red);
-      border-bottom: 1px solid rgba(0,0,0,0.18);
-      height: 60px; display: flex; align-items: center;
-    }
-    .site-header-inner {
-      max-width: var(--max); width: 100%; margin: 0 auto;
-      padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-boxes { display: flex; gap: 5px; }
-    .logo-box {
-      width: 34px; height: 34px; border-radius: 5px;
-      background: var(--red); border: 2px solid #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900; color: #fff;
-    }
-    .brand-text { display: flex; flex-direction: column; gap: 1px; }
-    .brand-name { font-size: 13px; font-weight: 600; color: #fff; line-height: 1; }
-    .brand-sub  { font-size: 10px; color: rgba(255,255,255,0.75); line-height: 1; }
-    .header-actions { display: flex; align-items: center; gap: 10px; }
-    .back-btn {
-      display: flex; align-items: center; gap: 6px;
-      color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 500;
-      text-decoration: none; padding: 6px 10px; border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-    .back-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-    .dark-toggle {
-      background: none; border: 1px solid rgba(255,255,255,0.35);
-      color: #fff; width: 32px; height: 32px; border-radius: 50%;
-      cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.15s;
-    }
-    .dark-toggle:hover { border-color: rgba(255,255,255,0.8); }
 
-    /* ── Page hero banner ───────────────────────────────────────── */
-    .page-banner {
-      background: linear-gradient(160deg, #C8102E 0%, #9B0B22 55%, #6E0618 100%);
-      padding: 52px 24px 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-banner::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .banner-icon {
-      width: 56px; height: 56px; margin: 0 auto 16px;
-      background: rgba(255,255,255,0.12); border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .banner-icon svg { width: 28px; height: 28px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .banner-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px; font-weight: 700; color: #fff;
-      margin-bottom: 10px; line-height: 1.2;
-    }
-    .banner-sub {
-      font-size: 16px; color: rgba(255,255,255,0.8);
-      margin-bottom: 28px; line-height: 1.6;
-    }
-    .banner-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-    .banner-badge {
-      display: flex; align-items: center; gap: 7px;
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 20px; padding: 6px 16px;
-      font-size: 12px; font-weight: 700; color: #fff;
-      letter-spacing: 0.01em;
-    }
-    .bb-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
     /* ── Refresh bar ────────────────────────────────────────────── */
     .refresh-bar {
@@ -150,7 +64,7 @@
     .filter-bar {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
-      position: sticky; top: 60px; z-index: 100;
+      position: sticky; top: 136px; z-index: 100;
       overflow-x: auto; scrollbar-width: none;
     }
     .filter-bar::-webkit-scrollbar { display: none; }
@@ -335,35 +249,9 @@
     .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Bottom nav ─────────────────────────────────────────────── */
-    .bottom-nav {
-      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-      z-index: 9999; display: flex; align-items: center; gap: 2px;
-      background: rgba(18,12,8,0.92); backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-radius: 24px; padding: 6px 8px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .bn-item {
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      padding: 8px 14px; border-radius: 18px; cursor: pointer;
-      background: none; border: none; color: rgba(255,255,255,0.55);
-      font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500;
-      letter-spacing: .02em; white-space: nowrap; text-decoration: none; line-height: 1;
-      transition: background .18s, color .18s, transform .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .bn-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-    .bn-item:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.07); }
-    .bn-item:active { transform: scale(.93); }
-    .bn-item.active { color: #fff; background: var(--red); box-shadow: 0 2px 12px rgba(200,16,46,.45); }
 
     /* ── Responsive ─────────────────────────────────────────────── */
     @media (max-width: 768px) {
-      .banner-title { font-size: 26px; }
-      .banner-sub { font-size: 14px; }
-      .page-banner { padding: 36px 20px 32px; }
       .hero-img-wrap { height: 240px; }
       .hero-body { padding: 20px; }
       .hero-headline { font-size: 22px; }
@@ -371,9 +259,7 @@
       .two-col { grid-template-columns: 1fr; }
       .content-wrap { padding: 24px 16px 48px; }
       .filter-pills { padding: 10px 16px; }
-      .bn-item { padding: 7px 10px; font-size: 9.5px; }
-      .bn-item svg { width: 18px; height: 18px; }
-      .bottom-nav { bottom: 10px; padding: 5px 6px; }
+      .filter-bar { top: 56px; }
     }
     @media (max-width: 480px) {
       .hero-img-wrap { height: 200px; }
@@ -385,42 +271,104 @@
 </head>
 <body>
 
-  <!-- Site header -->
+  <!-- Utility Bar -->
+  <div class="utility-bar">
+    <div class="utility-left">
+      <span><span class="utility-clock" id="clockDisplay">00:00 GST</span></span>
+      <span id="dateDisplay">Mar 2, 2026</span>
+      <span>Dubai, UAE</span>
+      <span class="live-visitors" title="People viewing TheDubaiBrief right now">
+        <span class="live-visitors-dot"></span>
+        <span class="live-visitor-count">–</span> online
+      </span>
+    </div>
+    <div class="utility-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn"> English ▾</button>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-option" data-lang="en"> English</div>
+          <div class="lang-option" data-lang="ml"> മലയാളം</div>
+          <div class="lang-option" data-lang="ar"> العربية</div>
+          <div class="lang-option" data-lang="hi"> हिन्दी</div>
+          <div class="lang-option" data-lang="tl"> Filipino</div>
+        </div>
+      </div>
+      <a href="/about.html">About</a>
+      <a href="/sources.html">Sources</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+
+  <!-- Sticky Navbar -->
   <header class="site-header">
-    <div class="site-header-inner">
-      <a class="brand" href="/">
-        <div class="logo-boxes">
-          <div class="logo-box">D</div>
-          <div class="logo-box">U</div>
-          <div class="logo-box">B</div>
-        </div>
-        <div class="brand-text">
-          <div class="brand-name">TheDubaiBrief</div>
-          <div class="brand-sub">Dubai's News. Clear &amp; Calm.</div>
-        </div>
-      </a>
-      <div class="header-actions">
-        <a class="back-btn" href="/">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-          Back
+    <div class="header-inner">
+      <div class="navbar-left">
+        <a class="brand" href="/">
+          <div class="logo-boxes">
+            <div class="logo-box">D</div>
+            <div class="logo-box">U</div>
+            <div class="logo-box">B</div>
+          </div>
+          <div class="logo-text">
+            <div class="logo-text-main">TheDubaiBrief</div>
+            <div class="logo-text-sub">Dubai's News. Clear &amp; Calm.</div>
+          </div>
         </a>
+      </div>
+      <div class="navbar-right">
+        <button id="notifyBtn" class="notify-btn"> Notify me</button>
         <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">☾</button>
+        <button class="nav-lang-btn" id="navLangBtn" title="Change language" aria-label="Change language">🌐</button>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">&#9776;</button>
       </div>
     </div>
   </header>
 
-  <!-- Page banner -->
-  <div class="page-banner">
-    <div class="banner-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
+  <!-- Mobile search bar -->
+  <div class="mobile-search-bar">
+    <div class="mobile-search-wrap">
+      <input type="text" class="mobile-search-input" placeholder="Search news…" autocomplete="off">
     </div>
-    <h1 class="banner-title">Government Announcements</h1>
-    <p class="banner-sub">Official news direct from UAE government sources</p>
-    <div class="banner-badges">
-      <span class="banner-badge"><span class="bb-dot" style="background:#4ade80"></span>UAE Gov</span>
-      <span class="banner-badge"><span class="bb-dot" style="background:#C8A84B"></span>WAM</span>
-      <span class="banner-badge"><span class="bb-dot" style="background:#60a5fa"></span>Dubai Media</span>
-      <span class="banner-badge"><span class="bb-dot" style="background:#f87171"></span>MoFA</span>
+  </div>
+
+  <!-- Mobile nav dropdown -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="/">All News</a>
+    <a href="/?cat=Breaking News" style="color:#C8102E;font-weight:700;">Breaking</a>
+    <a href="/?cat=Economy+%26+Business">Business</a>
+    <a href="/?cat=Sports">Sports</a>
+    <a href="/government" style="font-weight:700;">🏛️ Gov Announcements</a>
+    <a href="/archive">Archive</a>
+    <a href="/about.html">About</a>
+    <div class="mobile-lang-row">
+      <span class="mobile-lang-label">🌐 Language:</span>
+      <button class="mobile-lang-opt" data-lang="en">English</button>
+      <button class="mobile-lang-opt" data-lang="ar">العربية</button>
+      <button class="mobile-lang-opt" data-lang="ml">മലയാളം</button>
+      <button class="mobile-lang-opt" data-lang="hi">हिन्दी</button>
+      <button class="mobile-lang-opt" data-lang="tl">Filipino</button>
+    </div>
+  </div>
+
+  <!-- Live Ticker -->
+  <div class="ticker-bar">
+    <div class="ticker-label">
+      <div class="ticker-dot"></div>
+      <span>LIVE FEED</span>
+    </div>
+    <div class="ticker-content">
+      <div class="ticker-scroll" id="tickerScroll"><!-- Populated by JS --></div>
+    </div>
+  </div>
+
+  <!-- Page title bar -->
+  <div class="page-title-bar">
+    <div class="page-title-bar-inner">
+      <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="breadcrumb-sep"> › </span>
+        <span class="page-title-text">🏛️ Government Announcements</span>
+      </nav>
     </div>
   </div>
 
@@ -457,28 +405,28 @@
   <!-- Bottom nav -->
   <nav class="bottom-nav" aria-label="Site navigation">
     <a class="bn-item" href="/">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Home
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Breaking
     </a>
-    <a class="bn-item active" href="/government">
-      <svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
-      Gov
+    <a class="bn-item active" href="/">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      AE
     </a>
-    <a class="bn-item" href="/?cat=RTA">
-      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-      RTA
-    </a>
-    <a class="bn-item" href="/?cat=Technology">
-      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      Tech
+    <a class="bn-item" href="/?cat=Economy+%26+Business">
+      <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Business
     </a>
     <a class="bn-item" href="/?cat=Sports">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
       Sports
     </a>
-    <a class="bn-item" href="/?cat=Economy">
-      <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      Econ
+    <a class="bn-item" href="/">
+      <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      Trending
+    </a>
+    <a class="bn-item" href="/?search=1">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
     </a>
   </nav>
 
@@ -740,21 +688,8 @@
       });
     });
 
-    /* ── Dark mode ───────────────────────────────────────────────── */
-    var toggle = document.getElementById('darkToggle');
-    if (toggle) {
-      function applyDark(dark) {
-        document.documentElement.classList.toggle('dark', dark);
-        toggle.textContent = dark ? '☀' : '☾';
-      }
-      applyDark(localStorage.getItem('theme') === 'dark');
-      toggle.addEventListener('click', function () {
-        var dark = !document.documentElement.classList.contains('dark');
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-        applyDark(dark);
-      });
-    }
   }());
   </script>
+  <script src="/public/js/shared-header.js"></script>
 </body>
 </html>
