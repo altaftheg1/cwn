@@ -4869,9 +4869,10 @@ body.dark .bottom-nav {
       let items = allNews.filter(item => {
         const catMatch = currentCategory === 'all' || (item.category || '') === currentCategory;
         const search = !currentSearch || `${item.calmTitle} ${item.calmSummary} ${item.sourceName}`.toLowerCase().includes(currentSearch.toLowerCase());
-        // Tech news has its own dedicated page — exclude from main feed unless explicitly filtered
-        const notTech = currentCategory !== 'all' || (item.category || '') !== 'Technology';
-        return catMatch && search && notTech;
+        // Tech & Sports have dedicated pages — exclude from main feed unless explicitly filtered
+        const cat = item.category || '';
+        const notDedicated = currentCategory !== 'all' || (cat !== 'Technology' && cat !== 'Sports');
+        return catMatch && search && notDedicated;
       }).slice(0, 200); // keep up to 200 in memory
       items = prioritizePinnedStory(items);
 
@@ -6516,14 +6517,14 @@ body.dark .bottom-nav {
     </a>
 
     <!-- Sports -->
-    <button class="bn-item" data-cat="Sports" onclick="bnFilter('Sports',this)">
+    <a class="bn-item" href="/sports">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         <path d="M2 12h20"/>
       </svg>
       Sports
-    </button>
+    </a>
 
     <!-- Econ -->
     <button class="bn-item" data-cat="Economy & Business" onclick="bnFilter('Economy &amp; Business',this)">

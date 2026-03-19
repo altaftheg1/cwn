@@ -153,6 +153,18 @@ const ALL_SOURCES = [
     scrapeUrl: "https://www.dcda.gov.ae/en/news",
   },
 
+  // TIER 5.4 — UAE SPORTS
+  {
+    key: "uaesports", name: "UAE Ministry of Sports", tier: 5, category: "Sports", isSportsSource: true,
+    rssUrl: gnRss("sports.gov.ae", "UAE sports"),
+    scrapeUrl: "https://www.sports.gov.ae/en/news",
+  },
+  {
+    key: "uaesportsrec", name: "UAE Sports & Recreation", tier: 5, category: "Sports", isSportsSource: true,
+    rssUrl: gnRss("u.ae", "UAE sports recreation"),
+    scrapeUrl: "https://u.ae/en/about-the-uae/culture/sports-and-recreation",
+  },
+
   // TIER 5.5 — UAE TECHNOLOGY & DIGITAL GOVERNMENT
   {
     key: "moiat", name: "Ministry of Industry & Advanced Technology", tier: 5, category: "Technology", isTechSource: true,

@@ -493,7 +493,17 @@ app.get('/api/tech', (req, res) => {
 });
 
 app.get('/government', (req, res) => res.sendFile(path.join(__dirname, 'government.html')));
+app.get('/api/sports', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const sportsItems = items
+    .filter(item => item.isSportsSource === true || item.category === 'Sports')
+    .sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0))
+    .slice(0, 30);
+  res.json({ items: sportsItems });
+});
+
 app.get('/tech', (req, res) => res.sendFile(path.join(__dirname, 'tech.html')));
+app.get('/sports', (req, res) => res.sendFile(path.join(__dirname, 'sports.html')));
 app.get('/rta', (req, res) => res.sendFile(path.join(__dirname, 'rta.html')));
 app.get('/saved', (req, res) => res.sendFile(path.join(__dirname, 'saved.html')));
 
