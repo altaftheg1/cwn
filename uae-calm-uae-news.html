@@ -177,62 +177,6 @@
     .snap-ph-icon { font-size: 28px; }
     .snap-ph-text { font-size: 13px; color: var(--ink-light); }
 
-    /* ── ON THE GROUND ──────────────────────────────────────────────── */
-    .otg-section { max-width: var(--max); margin: 36px auto 0; padding: 0 24px; }
-    .otg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-    .otg-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); }
-    .otg-sub { font-size: 13px; color: var(--ink-light); margin-top: 3px; }
-    .otg-share-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--red); color: #fff; border: none; border-radius: 20px;
-      padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
-      white-space: nowrap; transition: background .15s;
-    }
-    .otg-share-btn:hover { background: var(--red-dark); }
-    .otg-scroll-row { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
-    .otg-scroll-row::-webkit-scrollbar { display: none; }
-    .otg-scroll-card {
-      background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
-      padding: 14px 16px; min-width: 240px; max-width: 280px; flex-shrink: 0;
-    }
-    .otg-scroll-card-loc { font-size: 11px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
-    .otg-scroll-card-text { font-size: 14px; color: var(--ink); line-height: 1.5; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-    .otg-scroll-card-meta { font-size: 11px; color: var(--ink-light); }
-    .otg-scroll-empty { font-size: 13px; color: var(--ink-light); padding: 20px 0; }
-
-    /* ── OTG SUBMIT MODAL ───────────────────────────────────────────── */
-    .otg-submit-modal { position: fixed; inset: 0; z-index: 12000; display: none; align-items: center; justify-content: center; padding: 20px; }
-    .otg-submit-modal.open { display: flex; }
-    .otg-submit-modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.6); }
-    .otg-submit-modal-card { position: relative; width: min(500px,96vw); max-height: 92vh; overflow: auto; background: var(--card-bg); border-radius: 14px; padding: 28px 24px 24px; box-shadow: 0 20px 60px rgba(0,0,0,.24); }
-    .otg-submit-modal-close { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border: none; border-radius: 50%; background: var(--page-bg); color: var(--ink); font-size: 16px; cursor: pointer; }
-    .otg-submit-modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 16px; }
-    .otg-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 12px; font-size: 14px; color: var(--ink); background: var(--page-bg); resize: vertical; font-family: inherit; }
-    .otg-char-counter { font-size: 11px; color: var(--ink-light); }
-    .otg-char-counter--warning { color: #e65100; }
-    .otg-form-meta { display: flex; justify-content: flex-end; margin-top: 4px; margin-bottom: 12px; }
-    .otg-upload-row { display: flex; gap: 8px; margin-bottom: 10px; }
-    .otg-upload-btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 6px; background: var(--page-bg); border: 1.5px solid var(--border); font-size: 13px; cursor: pointer; color: var(--ink); }
-    .otg-upload-btn:hover { border-color: var(--red); }
-    .otg-media-preview { margin-bottom: 10px; }
-    .otg-media-preview-img { max-width: 100%; border-radius: 8px; }
-    .otg-media-preview-video { max-width: 100%; border-radius: 8px; }
-    .otg-media-remove { margin-top: 6px; font-size: 12px; color: var(--red); background: none; border: none; cursor: pointer; padding: 0; }
-    .otg-form-row { margin-bottom: 12px; }
-    .otg-select { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--ink); background: var(--page-bg); font-family: inherit; }
-    .otg-anon-row { display: flex; gap: 8px; margin-bottom: 12px; }
-    .otg-toggle { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: transparent; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--ink-mid); font-family: inherit; }
-    .otg-toggle--active { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .otg-name-fields { display: none; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-    .otg-name-fields--visible { display: flex; }
-    .otg-input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: var(--ink); background: var(--page-bg); font-family: inherit; }
-    .otg-submit-row { display: flex; justify-content: flex-end; }
-    .otg-submit-btn { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 11px 24px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
-    .otg-submit-btn:disabled { opacity: .5; cursor: default; }
-    .otg-status { font-size: 13px; margin-top: 10px; padding: 8px 12px; border-radius: 6px; }
-    .otg-status--error { background: #fff0f2; color: var(--red); }
-    .otg-status--success { background: #f0fff4; color: #15803d; }
-
     /* ── SUBSCRIBE MODAL ────────────────────────────────────────────── */
     .cwn-modal { position: fixed; inset: 0; z-index: 12000; display: none; align-items: center; justify-content: center; padding: 20px; }
     .cwn-modal.open { display: flex; }
@@ -270,8 +214,7 @@
 
     /* ── DARK MODE ──────────────────────────────────────────────────── */
     body.dark .snap-ph { background: #1e1e1e; }
-    body.dark .otg-submit-modal-card { background: #1a1a1a; }
-    body.dark .hero-card, body.dark .snap-card, body.dark .otg-scroll-card { background: #1a1a1a; border-color: rgba(255,255,255,.08); }
+    body.dark .hero-card, body.dark .snap-card { background: #1a1a1a; border-color: rgba(255,255,255,.08); }
 
     /* ── RESPONSIVE ─────────────────────────────────────────────────── */
     @media (max-width: 900px) {
@@ -282,7 +225,7 @@
     }
     @media (max-width: 600px) {
       .snapshot-grid { grid-template-columns: 1fr; gap: 12px; }
-      .hero-wrap, .snapshot-header, .snapshot-grid, .otg-section { padding-left: 16px; padding-right: 16px; }
+      .hero-wrap, .snapshot-header, .snapshot-grid { padding-left: 16px; padding-right: 16px; }
       .hero-img-wrap { height: 200px; }
       .hero-headline { font-size: 20px; }
       .hero-body { padding: 16px 18px 20px; }
@@ -379,20 +322,6 @@
     <!-- filled by JS -->
   </div>
 
-  <!-- On The Ground -->
-  <div class="otg-section">
-    <div class="otg-header">
-      <div>
-        <div class="otg-title">📍 On The Ground</div>
-        <div class="otg-sub">What UAE residents are seeing right now</div>
-      </div>
-      <button class="otg-share-btn" id="otgOpenModalBtn">+ Share what you see</button>
-    </div>
-    <div class="otg-scroll-row" id="otgScrollRow">
-      <div class="otg-scroll-empty">Loading community posts…</div>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer>
     <div class="footer-inner">
@@ -441,52 +370,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- OTG Submit Modal -->
-  <div class="otg-submit-modal" id="otgSubmitModal" aria-hidden="true">
-    <div class="otg-submit-modal-overlay" id="otgSubmitModalOverlay"></div>
-    <div class="otg-submit-modal-card">
-      <button class="otg-submit-modal-close" id="otgSubmitModalClose">×</button>
-      <div class="otg-submit-modal-title">Share what you see 🇦🇪</div>
-      <div id="otgFormCard">
-        <textarea id="otgContent" class="otg-textarea" placeholder="What are you seeing right now?" maxlength="280" rows="3" aria-label="Your observation"></textarea>
-        <div class="otg-form-meta"><span class="otg-char-counter" id="otgCharCounter">280 characters remaining</span></div>
-        <div class="otg-upload-row">
-          <label class="otg-upload-btn" for="otgPhotoInput">📷 Add Photo<input type="file" id="otgPhotoInput" accept=".jpg,.jpeg,.png,.webp" style="display:none;"></label>
-          <label class="otg-upload-btn" for="otgVideoInput">🎥 Add Video<input type="file" id="otgVideoInput" accept=".mp4,.mov" style="display:none;"></label>
-        </div>
-        <div id="otgMediaPreview" class="otg-media-preview" style="display:none;"></div>
-        <div id="otgMediaError" class="otg-status otg-status--error" style="display:none;margin-bottom:8px;"></div>
-        <div class="otg-form-row">
-          <select id="otgLocation" class="otg-select">
-            <option value="">Select location…</option>
-            <option>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option>
-            <option>Ajman</option><option>RAK</option><option>Fujairah</option>
-            <option>Um Al Quwain</option><option>Other</option>
-          </select>
-        </div>
-        <div class="otg-anon-row">
-          <button type="button" class="otg-toggle otg-toggle--active" id="otgAnonBtn">Anonymous</button>
-          <button type="button" class="otg-toggle" id="otgNameBtn">Use Name</button>
-        </div>
-        <div class="otg-name-fields" id="otgNameFields">
-          <input type="text" id="otgDisplayName" class="otg-input" placeholder="Your name or nickname (optional)" maxlength="60" autocomplete="off">
-          <input type="text" id="otgContact" class="otg-input" placeholder="WhatsApp or email (optional, not published)" maxlength="120" autocomplete="off">
-        </div>
-        <div class="otg-submit-row">
-          <button type="button" id="otgSubmitBtn" class="otg-submit-btn" disabled>Submit Report</button>
-        </div>
-        <div id="otgStatus" class="otg-status" style="display:none;"></div>
-      </div>
-      <!-- hidden elements kept for JS compatibility -->
-      <div id="otgPostsFeed" style="display:none;" aria-hidden="true"></div>
-      <button id="otgLoadMoreBtn" style="display:none;" aria-hidden="true"></button>
-      <input id="otgSearchInput" style="display:none;" aria-hidden="true">
-      <button id="otgSearchClear" style="display:none;"></button>
-      <span id="otgSearchLabel" style="display:none;"></span>
-      <button id="otgBackBtn" style="display:none;"></button>
-    </div>
-  </div>
 
   <!-- Subscribe Modal -->
   <div class="cwn-modal" id="cwnSubscribeModal" aria-hidden="true">
@@ -688,57 +571,6 @@
     if (el && !el.textContent.includes('–')) el.textContent = 'Last updated: ' + currentDubaiTime();
   }, 30000);
 
-  // ── OTG Scroll ───────────────────────────────────────────────────────────────
-  function relativeTime(iso) {
-    if (!iso) return '';
-    const d = Date.now() - new Date(iso).getTime();
-    if (d < 60000) return 'just now';
-    if (d < 3600000) return Math.floor(d / 60000) + 'm ago';
-    if (d < 86400000) return Math.floor(d / 3600000) + 'h ago';
-    return Math.floor(d / 86400000) + 'd ago';
-  }
-
-  async function loadOtgScrollPosts() {
-    const row = document.getElementById('otgScrollRow');
-    if (!row) return;
-    try {
-      const r = await fetch('/api/community/posts?offset=0', { cache: 'no-store' });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const data = await r.json();
-      const posts = Array.isArray(data.posts) ? data.posts.slice(0, 10) : [];
-      if (!posts.length) {
-        row.innerHTML = '<div class="otg-scroll-empty">No community posts yet. Be the first!</div>';
-        return;
-      }
-      row.innerHTML = posts.map(post => {
-        const content = String(post.content || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        const loc = String(post.location || 'UAE').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        return `<div class="otg-scroll-card">
-          <div class="otg-scroll-card-loc">📍 ${loc}</div>
-          <div class="otg-scroll-card-text">${content}</div>
-          <div class="otg-scroll-card-meta">${relativeTime(post.created_at)}</div>
-        </div>`;
-      }).join('');
-    } catch {
-      row.innerHTML = '<div class="otg-scroll-empty">Could not load community posts.</div>';
-    }
-  }
-  loadOtgScrollPosts();
-
-  // ── OTG Modal open/close ──────────────────────────────────────────────────────
-  function openOtgModal() {
-    const m = document.getElementById('otgSubmitModal');
-    if (m) { m.classList.add('open'); m.setAttribute('aria-hidden','false'); }
-  }
-  function closeOtgModal() {
-    const m = document.getElementById('otgSubmitModal');
-    if (m) { m.classList.remove('open'); m.setAttribute('aria-hidden','true'); }
-  }
-  document.getElementById('otgOpenModalBtn')?.addEventListener('click', openOtgModal);
-  document.getElementById('otgSubmitModalClose')?.addEventListener('click', closeOtgModal);
-  document.getElementById('otgSubmitModalOverlay')?.addEventListener('click', closeOtgModal);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOtgModal(); });
-
   // ── Subscribe modal ──────────────────────────────────────────────────────────
   const subscribeState = { step: 'email', email: '', status: '', submitting: false };
   const subscribeModal = document.getElementById('cwnSubscribeModal');
@@ -851,150 +683,5 @@
   }());
   </script>
 
-  <!-- OTG Community Section JS -->
-  <script>
-  (function () {
-    'use strict';
-    var el = {};
-    var otgIsAnonymous = true;
-    var otgMediaFile = null;
-    var otgMediaType = null;
-
-    function init() {
-      el.textarea = document.getElementById('otgContent');
-      el.counter = document.getElementById('otgCharCounter');
-      el.location = document.getElementById('otgLocation');
-      el.anonBtn = document.getElementById('otgAnonBtn');
-      el.nameBtn = document.getElementById('otgNameBtn');
-      el.nameFields = document.getElementById('otgNameFields');
-      el.displayName = document.getElementById('otgDisplayName');
-      el.contact = document.getElementById('otgContact');
-      el.submitBtn = document.getElementById('otgSubmitBtn');
-      el.status = document.getElementById('otgStatus');
-      el.photoInput = document.getElementById('otgPhotoInput');
-      el.videoInput = document.getElementById('otgVideoInput');
-      el.mediaPreview = document.getElementById('otgMediaPreview');
-      el.mediaError = document.getElementById('otgMediaError');
-
-      if (!el.textarea) return;
-      el.textarea.addEventListener('input', onTextareaInput);
-      el.anonBtn.addEventListener('click', function () { setAnonymous(true); });
-      el.nameBtn.addEventListener('click', function () { setAnonymous(false); });
-      el.submitBtn.addEventListener('click', onSubmit);
-      el.photoInput.addEventListener('change', function () { onFileSelect(this, 'image'); });
-      el.videoInput.addEventListener('change', function () { onFileSelect(this, 'video'); });
-    }
-
-    function onTextareaInput() {
-      var rem = 280 - el.textarea.value.length;
-      el.counter.textContent = rem + ' character' + (rem !== 1 ? 's' : '') + ' remaining';
-      el.counter.classList.toggle('otg-char-counter--warning', rem < 20);
-      el.submitBtn.disabled = el.textarea.value.trim().length === 0;
-    }
-
-    function setAnonymous(anon) {
-      otgIsAnonymous = anon;
-      el.anonBtn.classList.toggle('otg-toggle--active', anon);
-      el.anonBtn.setAttribute('aria-pressed', String(anon));
-      el.nameBtn.classList.toggle('otg-toggle--active', !anon);
-      el.nameBtn.setAttribute('aria-pressed', String(!anon));
-      el.nameFields.classList.toggle('otg-name-fields--visible', !anon);
-    }
-
-    function setStatus(msg, type) {
-      el.status.textContent = msg;
-      el.status.className = 'otg-status' + (type ? ' otg-status--' + type : '');
-      el.status.style.display = msg ? 'block' : 'none';
-    }
-
-    function onFileSelect(input, type) {
-      var file = input.files[0];
-      if (!file) return;
-      var maxBytes = type === 'image' ? 5 * 1024 * 1024 : 20 * 1024 * 1024;
-      if (file.size > maxBytes) {
-        el.mediaError.textContent = (type === 'image' ? 'Photo' : 'Video') + ' must be under ' + (type === 'image' ? '5MB' : '20MB');
-        el.mediaError.style.display = 'block';
-        input.value = ''; el.mediaPreview.style.display = 'none'; el.mediaPreview.innerHTML = '';
-        otgMediaFile = null; otgMediaType = null; return;
-      }
-      el.mediaError.style.display = 'none';
-      otgMediaFile = file; otgMediaType = type;
-      if (type === 'image') el.videoInput.value = ''; else el.photoInput.value = '';
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var removeBtn = '<br><button type="button" class="otg-media-remove" id="otgMediaRemoveBtn">✕ Remove</button>';
-        el.mediaPreview.innerHTML = (type === 'image'
-          ? '<img src="' + e.target.result + '" class="otg-media-preview-img" alt="Preview">'
-          : '<video src="' + e.target.result + '" class="otg-media-preview-video" controls muted></video>') + removeBtn;
-        el.mediaPreview.style.display = 'block';
-        document.getElementById('otgMediaRemoveBtn').addEventListener('click', clearMedia);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function clearMedia() {
-      otgMediaFile = null; otgMediaType = null;
-      el.photoInput.value = ''; el.videoInput.value = '';
-      el.mediaPreview.innerHTML = ''; el.mediaPreview.style.display = 'none';
-      el.mediaError.style.display = 'none';
-    }
-
-    function uploadMedia() {
-      return new Promise(function (resolve, reject) {
-        if (!otgMediaFile) { resolve(null); return; }
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          var base64 = e.target.result.split(',')[1];
-          fetch('/api/community/upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ base64: base64, mimeType: otgMediaFile.type, extension: (otgMediaFile.name.split('.').pop() || 'bin').toLowerCase(), mediaType: otgMediaType }),
-          }).then(r => r.json()).then(d => d.url ? resolve({ url: d.url, mediaType: d.mediaType }) : reject(new Error(d.error || 'Upload failed.'))).catch(reject);
-        };
-        reader.readAsDataURL(otgMediaFile);
-      });
-    }
-
-    function onSubmit() {
-      var content = el.textarea.value.trim();
-      var location = el.location.value;
-      if (!content) { setStatus('Please enter your observation.', 'error'); return; }
-      if (!location) { setStatus('Please select your location.', 'error'); return; }
-      el.submitBtn.disabled = true;
-      setStatus(otgMediaFile ? 'Uploading media…' : 'Submitting…', '');
-      uploadMedia()
-        .then(function (mediaResult) {
-          return fetch('/api/community/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              content: content, location: location,
-              is_anonymous: otgIsAnonymous,
-              display_name: otgIsAnonymous ? '' : (el.displayName ? el.displayName.value.trim() : ''),
-              contact: otgIsAnonymous ? '' : (el.contact ? el.contact.value.trim() : ''),
-              media_url: mediaResult ? mediaResult.url : null,
-              media_type: mediaResult ? mediaResult.mediaType : null,
-            }),
-          });
-        })
-        .then(resp => resp.json().then(d => ({ status: resp.status, data: d })))
-        .then(function (result) {
-          var data = result.data;
-          if (result.status === 429) { setStatus(data.error || 'Please wait before submitting another report.', 'error'); el.submitBtn.disabled = false; return; }
-          if (result.status >= 400) { setStatus(data.error || 'Something went wrong. Please try again.', 'error'); el.submitBtn.disabled = false; return; }
-          if (!data.approved) { setStatus("Your post doesn't meet community guidelines. TheDubaiBrief accepts calm factual observations only.", 'error'); el.submitBtn.disabled = false; return; }
-          setStatus('Thank you! Your report is live.', 'success');
-          el.textarea.value = ''; clearMedia(); el.submitBtn.disabled = true; el.location.value = ''; setAnonymous(true);
-          setTimeout(() => { setStatus('', ''); }, 4000);
-        })
-        .catch(function (err) {
-          setStatus(err.message || 'Submission failed. Please try again.', 'error');
-          el.submitBtn.disabled = false;
-        });
-    }
-
-    init();
-  }());
-  </script>
 </body>
 </html>
