@@ -516,6 +516,82 @@ app.get('/sports', (req, res) => res.sendFile(path.join(__dirname, 'sports.html'
 app.get('/rta', (req, res) => res.sendFile(path.join(__dirname, 'rta.html')));
 app.get('/econ', (req, res) => res.sendFile(path.join(__dirname, 'econ.html')));
 app.get('/saved', (req, res) => res.sendFile(path.join(__dirname, 'saved.html')));
+app.get('/uae', (req, res) => res.sendFile(path.join(__dirname, 'uae.html')));
+app.get('/business', (req, res) => res.sendFile(path.join(__dirname, 'business.html')));
+app.get('/trending', (req, res) => res.sendFile(path.join(__dirname, 'trending.html')));
+
+// ── Breaking snapshot: 1 article from each of 6 categories ───────────────────
+app.get('/api/breaking', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const sorted = [...items].sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0));
+
+  const SLOTS = [
+    { name: 'Top Story',   color: '#C8102E', icon: '🔴', filter: null },
+    { name: 'Government',  color: '#006400', icon: '🏛️', filter: i => i.isGovSource === true },
+    { name: 'Business',    color: '#7B1FA2', icon: '💰', filter: i => i.isEconSource === true || i.category === 'Economy' || i.category === 'Economy & Business' || i.category === 'Business' },
+    { name: 'Transport',   color: '#0066CC', icon: '🚗', filter: i => i.isRtaSource === true || i.category === 'Transport' || i.category === 'Roads & Transport' },
+    { name: 'Technology',  color: '#00897B', icon: '💻', filter: i => i.isTechSource === true || i.category === 'Technology' },
+    { name: 'Sports',      color: '#E65100', icon: '⚽', filter: i => i.isSportsSource === true || i.category === 'Sports' },
+  ];
+
+  const snapshot = SLOTS.map(slot => {
+    const article = slot.filter ? sorted.find(slot.filter) : sorted[0];
+    if (!article) return { _empty: true, snapshotCategory: slot.name, snapshotColor: slot.color, snapshotIcon: slot.icon };
+    return { ...article, snapshotCategory: slot.name, snapshotColor: slot.color, snapshotIcon: slot.icon };
+  });
+
+  res.json({ items: snapshot, total: sorted.length });
+});
+
+// ── UAE local news ────────────────────────────────────────────────────────────
+app.get('/api/uae', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const uaeItems = items
+    .filter(i => i.isGovSource === true || ['UAE Government', 'Dubai News', 'Abu Dhabi News', 'Safety', 'Politics', 'Government'].includes(i.category))
+    .sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0))
+    .slice(0, 30);
+  res.json({ items: uaeItems });
+});
+
+// ── Business news ─────────────────────────────────────────────────────────────
+app.get('/api/business', (req, res) => {
+  const items = getCachedNews()?.items || [];
+  const bizItems = items
+    .filter(i => i.isEconSource === true || ['Economy & Business', 'Business', 'Economy', 'Finance'].includes(i.category))
+    .sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0))
+    .slice(0, 30);
+  res.json({ items: bizItems });
+});
+
+// ── Trending (most liked, last 7 days from Supabase) ─────────────────────────
+app.get('/api/trending', async (req, res) => {
+  try {
+    const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const { data } = await _supabase
+      .from('articles')
+      .select('id, url, calm_headline, original_title, summary, category, source, image_url, published_at, likes')
+      .gte('created_at', since)
+      .order('likes', { ascending: false })
+      .order('published_at', { ascending: false })
+      .limit(30);
+    // Map to standard shape
+    const items = (data || []).map(a => ({
+      id: a.id, url: a.url,
+      calmTitle: a.calm_headline || a.original_title,
+      title: a.original_title || a.calm_headline,
+      calmSummary: a.summary, description: a.summary,
+      category: a.category, sourceName: a.source,
+      imageUrl: a.image_url,
+      publishedAtMs: a.published_at ? new Date(a.published_at).getTime() : 0,
+      likes: a.likes || 0,
+    }));
+    res.json({ items });
+  } catch (err) {
+    // Fallback: return cached items sorted by recency
+    const items = getCachedNews()?.items || [];
+    res.json({ items: items.slice(0, 30) });
+  }
+});
 
 // ── Archive: query all historical articles from Supabase ──────────────────────
 app.get("/api/archive", async (req, res) => {

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trending Now – TheDubaiBrief</title>
+  <meta name="description" content="Most-read UAE news stories this week on TheDubaiBrief." />
+  <script>(function(){if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}());</script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/header.css" />
+  <style>
+    :root {
+      --red: #C8102E; --accent: #C8102E;
+      --ink: #1A1208; --ink-mid: #4A4035; --ink-light: #8A7E72;
+      --border: #E2DDD5; --card-bg: #FFFFFF; --page-bg: #FFF8F0;
+      --max: 1200px;
+    }
+    html.dark { --ink: #F0EDE8; --ink-mid: #B0A89E; --ink-light: #706860; --border: rgba(255,255,255,0.08); --card-bg: #1A1A1A; --page-bg: #1A1008; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--page-bg); color: var(--ink); -webkit-font-smoothing: antialiased; padding-bottom: 100px; }
+
+    .section-bar { max-width: var(--max); margin: 28px auto 16px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .section-label { font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+    .section-label::after { content: ''; width: 120px; height: 1px; background: var(--border); }
+    .section-meta { font-size: 12px; color: var(--ink-light); display: flex; align-items: center; gap: 10px; }
+    .period-note { font-size: 12px; color: var(--ink-light); }
+
+    .content-wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 48px; }
+    .trend-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+    .trend-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; cursor: pointer; transition: box-shadow .18s, transform .15s;
+      display: flex; flex-direction: column; position: relative;
+    }
+    .trend-card:hover { box-shadow: 0 6px 24px rgba(200,16,46,.12); transform: translateY(-2px); }
+    .trend-rank {
+      position: absolute; top: 10px; left: 10px; z-index: 2;
+      background: rgba(0,0,0,.7); color: #fff; font-size: 13px; font-weight: 900;
+      width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .trend-rank.top3 { background: var(--red); }
+    .fire-badge {
+      position: absolute; top: 10px; right: 10px; z-index: 2;
+      background: #FF6B00; color: #fff; font-size: 10px; font-weight: 800;
+      padding: 3px 8px; border-radius: 12px; letter-spacing: .04em;
+    }
+    .trend-img-wrap { height: 160px; overflow: hidden; background: #E8E4DF; flex-shrink: 0; }
+    html.dark .trend-img-wrap { background: #2a2a2a; }
+    .trend-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+    .trend-card:hover .trend-img { transform: scale(1.04); }
+    .trend-img-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#1a1208,#c8102e); font-size: 40px; }
+    .trend-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+    .trend-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; flex-wrap: wrap; }
+    .trend-badge { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 3px; color: #fff; background: var(--red); }
+    .trend-time { font-size: 11px; color: var(--ink-light); }
+    .trend-headline { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .trend-summary { font-size: 13px; color: var(--ink-mid); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
+    .trend-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .trend-likes { font-size: 12px; color: var(--ink-light); display: flex; align-items: center; gap: 4px; }
+    .trend-read { font-size: 12px; font-weight: 700; color: var(--red); text-decoration: none; }
+    .trend-read:hover { text-decoration: underline; }
+
+    .load-more-wrap { text-align: center; margin-top: 28px; }
+    .load-more-btn { background: var(--red); color: #fff; border: none; border-radius: 8px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .load-more-btn:hover { opacity: .88; }
+
+    .state-box { text-align: center; padding: 80px 24px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); }
+    .spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 18px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 900px) { .trend-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 600px) { .trend-grid { grid-template-columns: 1fr; } .content-wrap { padding: 0 16px 48px; } .section-bar { padding: 0 16px; } }
+  </style>
+</head>
+<body>
+<script src="/js/shared-header.js"></script>
+
+<div class="section-bar">
+  <span class="section-label">🔥 Trending Now</span>
+  <span class="section-meta"><span class="period-note">Last 7 days</span><span id="countLabel"></span></span>
+</div>
+
+<div class="content-wrap" id="mainContent">
+  <div class="state-box"><div class="spinner"></div><p style="color:var(--ink-light);font-size:15px;">Loading trending stories…</p></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  let allItems = [], rendered = 0;
+  const PAGE_SIZE = 12;
+
+  function timeAgo(ms) {
+    if (!ms) return '';
+    const d = Date.now() - ms;
+    if (d < 60000) return 'just now';
+    if (d < 3600000) return Math.floor(d/60000) + 'm ago';
+    if (d < 86400000) return Math.floor(d/3600000) + 'h ago';
+    return Math.floor(d/86400000) + 'd ago';
+  }
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function buildCard(item, rank) {
+    const title = esc(item.calmTitle||item.title||'');
+    const sum = esc(item.calmSummary||item.description||'');
+    const age = timeAgo(item.publishedAtMs||0);
+    const url = esc(item.url||'#');
+    const cat = esc(item.category||'News');
+    const likes = item.likes || 0;
+    const isTop3 = rank <= 3;
+    const imgHtml = (item.imageUrl && !item.imageUrl.startsWith('data:'))
+      ? `<img class="trend-img" src="${esc(item.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    const phStyle = imgHtml ? 'display:none' : '';
+    return `<div class="trend-card" onclick="window.open('${url}','_blank')">
+      <span class="trend-rank${isTop3?' top3':''}">${rank}</span>
+      ${isTop3 ? '<span class="fire-badge">🔥 Hot</span>' : ''}
+      <div class="trend-img-wrap">
+        ${imgHtml}
+        <div class="trend-img-ph" style="${phStyle}">🔥</div>
+      </div>
+      <div class="trend-body">
+        <div class="trend-meta">
+          <span class="trend-badge">${cat}</span>
+          <span class="trend-time">${age}</span>
+        </div>
+        <div class="trend-headline">${title}</div>
+        ${sum ? `<div class="trend-summary">${sum}</div>` : ''}
+        <div class="trend-footer">
+          <span class="trend-likes">${likes > 0 ? '❤️ ' + likes : ''}</span>
+          <a class="trend-read" href="${url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Read →</a>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderBatch(items, startRank, append) {
+    const html = items.map((it,i) => buildCard(it, startRank + i)).join('');
+    if (append) {
+      document.querySelector('.trend-grid')?.insertAdjacentHTML('beforeend', html);
+    } else {
+      document.getElementById('mainContent').innerHTML = `<div class="trend-grid">${html}</div>`;
+    }
+  }
+
+  function render() {
+    const countEl = document.getElementById('countLabel');
+    if (countEl) countEl.textContent = allItems.length ? allItems.length + ' stories' : '';
+    if (!allItems.length) {
+      document.getElementById('mainContent').innerHTML = `<div class="state-box"><div style="font-size:48px;margin-bottom:16px">🔥</div><p style="color:var(--ink-light)">No trending stories in the last 7 days.</p></div>`;
+      return;
+    }
+    const batch = allItems.slice(0, PAGE_SIZE);
+    rendered = batch.length;
+    renderBatch(batch, 1, false);
+    if (allItems.length > PAGE_SIZE) {
+      document.getElementById('mainContent').insertAdjacentHTML('beforeend',
+        `<div class="load-more-wrap"><button class="load-more-btn" id="loadMoreBtn">Load more</button></div>`);
+      document.getElementById('loadMoreBtn').addEventListener('click', () => {
+        const next = allItems.slice(rendered, rendered + PAGE_SIZE);
+        renderBatch(next, rendered + 1, true);
+        rendered += next.length;
+        if (rendered >= allItems.length) document.getElementById('loadMoreBtn')?.remove();
+      });
+    }
+  }
+
+  async function load() {
+    try {
+      const data = await fetch('/api/trending').then(r=>r.json());
+      allItems = (data.items||[]);
+      render();
+    } catch {
+      document.getElementById('mainContent').innerHTML = `<div class="state-box"><p style="color:var(--ink-light)">Could not load trending stories.</p></div>`;
+    }
+  }
+  load();
+}());
+</script>
+</body>
+</html>

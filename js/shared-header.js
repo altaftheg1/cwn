@@ -15,6 +15,9 @@
     '/tech':        'tech',
     '/sports':      'sports',
     '/econ':        'econ',
+    '/uae':         'uae',
+    '/business':    'business',
+    '/trending':    'trending',
     '/article':     'article',
     '/archive':     'archive',
     '/about':       'about',
@@ -106,6 +109,9 @@
     tech:       { icon: '\ud83d\udcbb', label: 'Technology' },
     sports:     { icon: '\u26bd',       label: 'Sports' },
     econ:       { icon: '\ud83d\udcc8', label: 'Economy & Business' },
+    uae:        { icon: '\ud83c\udde6\ud83c\uddea', label: 'UAE News' },
+    business:   { icon: '\ud83d\udcb0', label: 'Business & Economy' },
+    trending:   { icon: '\ud83d\udd25', label: 'Trending Now' },
     archive:    { icon: '\ud83d\udcc1', label: 'News Archive' },
     about:      { icon: '\u2139\ufe0f', label: 'About TheDubaiBrief' },
     privacy:    { icon: '\ud83d\udd12', label: 'Privacy Policy' },
@@ -130,12 +136,11 @@
 
   /* ── Bottom nav items ────────────────────────────────── */
   var NAV = [
-    { href: '/',           label: 'Breaking', page: 'home',       svg: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>' },
-    { href: '/government', label: 'Gov',      page: 'government', svg: '<path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/>' },
-    { href: '/rta',        label: 'RTA',      page: 'rta',        svg: '<rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l2 3v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>' },
-    { href: '/tech',       label: 'Tech',     page: 'tech',       svg: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>' },
-    { href: '/sports',     label: 'Sports',   page: 'sports',     svg: '<circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/>' },
-    { href: '/econ',       label: 'Econ',     page: 'econ',       svg: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+    { href: '/',          label: 'Breaking',  page: 'home',     svg: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>' },
+    { href: '/uae',       label: 'UAE',       page: 'uae',      svg: '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' },
+    { href: '/business',  label: 'Business',  page: 'business', svg: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+    { href: '/sports',    label: 'Sports',    page: 'sports',   svg: '<circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/>' },
+    { href: '/trending',  label: 'Trending',  page: 'trending', svg: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
   ];
 
   var bnHTML = '<nav class="bottom-nav" id="bottomNav" aria-label="Site navigation">';
