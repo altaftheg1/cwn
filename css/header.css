@@ -126,6 +126,41 @@
 .lang-option:last-child { border-bottom: none; }
 .lang-option:hover { background: #222; }
 
+/* ── LANGUAGE BAR ────────────────────────────────────────── */
+.lang-bar {
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  padding: 0;
+}
+.lang-bar-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.lang-bar-inner::-webkit-scrollbar { display: none; }
+.lb-btn {
+  background: none;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,.07);
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  padding: 9px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+.lb-btn:last-child { border-right: none; }
+.lb-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+.lb-btn.lb-active { color: #fff; background: rgba(200,16,46,.35); font-weight: 700; }
+body.dark .lang-bar { background: #111; }
+
 /* ── LIVE TICKER ─────────────────────────────────────────── */
 .ticker-bar {
   background: #000; border-bottom: 3px solid var(--red);
@@ -225,9 +260,11 @@ body.dark .lang-dropdown { background: #1a1a1a; border-color: #333; }
   .bottom-nav { bottom: 10px; padding: 5px 6px; }
 }
 @media (max-width: 480px) {
-  .utility-left { gap: 10px; }
+  .utility-bar { justify-content: center; }
+  .utility-left { gap: 10px; justify-content: center; flex-wrap: wrap; }
   .utility-right { display: none; }
   .notify-btn { display: none; }
   .logo-text-main { font-size: 11px; }
   .logo-text-sub { display: none; }
+  .lb-btn { font-size: 11px; padding: 8px 13px; }
 }

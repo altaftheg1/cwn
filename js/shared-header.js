@@ -87,8 +87,17 @@
         '<div class="navbar-right">' +
           '<button id="notifyBtn" class="notify-btn">Notify me</button>' +
           '<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">' + (isDark ? '\u2600' : '\u263e') + '</button>' +
-          '<button class="nav-lang-btn" id="navLangBtn" title="Change language">\ud83c\udf10</button>' +
         '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="lang-bar">' +
+      '<div class="lang-bar-inner">' +
+        '<button class="lb-btn lb-active" data-lang="en">🇬🇧 English</button>' +
+        '<button class="lb-btn" data-lang="ar">🇦🇪 عربي</button>' +
+        '<button class="lb-btn" data-lang="ml">🇮🇳 മലയാളം</button>' +
+        '<button class="lb-btn" data-lang="hi">🇮🇳 हिंदी</button>' +
+        '<button class="lb-btn" data-lang="tl">🇵🇭 Filipino</button>' +
       '</div>' +
     '</div>' +
 
@@ -140,7 +149,7 @@
     { href: '/uae',       label: 'UAE',       page: 'uae',      svg: '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' },
     { href: '/business',  label: 'Business',  page: 'business', svg: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
     { href: '/sports',    label: 'Sports',    page: 'sports',   svg: '<circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/>' },
-    { href: '/trending',  label: 'Trending',  page: 'trending', svg: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>' },
+    { href: '/tech',      label: 'Tech',      page: 'tech',     svg: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>' },
   ];
 
   var bnHTML = '<nav class="bottom-nav" id="bottomNav" aria-label="Site navigation">';
@@ -191,27 +200,35 @@
     });
   }());
 
-  /* ── Live ticker ─────────────────────────────────────── */
-  fetch('/api/news')
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) {
-      var items = (d && d.items) ? d.items.slice(0, 20) : [];
-      if (!items.length) return;
-      var scroll = document.getElementById('tickerScroll');
-      if (!scroll) return;
-      var parts = items.map(function (it) {
-        var cat = (it.category || it.sourceName || '').toUpperCase().substr(0, 6);
-        var title = it.calmTitle || it.title || '';
-        var url = it.url || '#';
-        return '<span class="ticker-item">' +
-               '<span class="ticker-badge">' + cat + '</span>' +
-               '<a class="ticker-a" href="' + url + '" target="_blank" rel="noopener">' + title + '</a>' +
-               '<span class="ticker-sep">\u25c6</span>' +
-               '</span>';
-      }).join('');
-      scroll.innerHTML = parts + parts; // doubled for seamless loop
-    })
-    .catch(function () {});
+  /* ── Live ticker (deferred so it never blocks page paint) ── */
+  function loadTicker() {
+    fetch('/api/news')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var items = (d && d.items) ? d.items.slice(0, 20) : [];
+        if (!items.length) return;
+        var scroll = document.getElementById('tickerScroll');
+        if (!scroll) return;
+        var parts = items.map(function (it) {
+          var cat = (it.category || it.sourceName || '').toUpperCase().substr(0, 6);
+          var title = it.calmTitle || it.title || '';
+          var url = it.url || '#';
+          return '<span class="ticker-item">' +
+                 '<span class="ticker-badge">' + cat + '</span>' +
+                 '<a class="ticker-a" href="' + url + '" target="_blank" rel="noopener">' + title + '</a>' +
+                 '<span class="ticker-sep">\u25c6</span>' +
+                 '</span>';
+        }).join('');
+        scroll.innerHTML = parts + parts; // doubled for seamless loop
+      })
+      .catch(function () {});
+  }
+  // Defer until after main content has painted
+  if (document.readyState === 'complete') {
+    setTimeout(loadTicker, 800);
+  } else {
+    window.addEventListener('load', function () { setTimeout(loadTicker, 800); });
+  }
 
   /* ── Visitor count (ping every 30s) ─────────────────── */
   (function () {
@@ -234,28 +251,35 @@
     setInterval(ping, 30000);
   }());
 
-  /* ── Language switcher ───────────────────────────────── */
+  /* ── Language bar ────────────────────────────────────── */
   (function () {
-    var btn      = document.getElementById('langBtn');
-    var navBtn   = document.getElementById('navLangBtn');
-    var dropdown = document.getElementById('langDropdown');
-    if (!dropdown) return;
-
-    function toggle(e) { e.stopPropagation(); dropdown.classList.toggle('open'); }
-    if (btn)    btn.addEventListener('click', toggle);
-    if (navBtn) navBtn.addEventListener('click', toggle);
-    document.addEventListener('click', function () { dropdown.classList.remove('open'); });
-
-    dropdown.querySelectorAll('.lang-option').forEach(function (opt) {
-      opt.addEventListener('click', function () {
-        var lang = opt.dataset.lang;
-        /* Try Google Translate combo */
-        var sel = document.querySelector('select.goog-te-combo');
-        if (sel) { sel.value = lang === 'en' ? '' : lang; sel.dispatchEvent(new Event('change')); }
-        dropdown.classList.remove('open');
-        if (btn) btn.textContent = opt.textContent.trim() + ' \u25be';
+    var btns = document.querySelectorAll('.lb-btn');
+    function applyLang(lang) {
+      var sel = document.querySelector('select.goog-te-combo');
+      if (sel) { sel.value = lang === 'en' ? '' : lang; sel.dispatchEvent(new Event('change')); }
+    }
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btns.forEach(function (b) { b.classList.remove('lb-active'); });
+        btn.classList.add('lb-active');
+        applyLang(btn.dataset.lang);
       });
     });
+
+    /* Legacy dropdown (utility-bar) still works if present */
+    var dropdown = document.getElementById('langDropdown');
+    var langBtn  = document.getElementById('langBtn');
+    if (dropdown && langBtn) {
+      langBtn.addEventListener('click', function (e) { e.stopPropagation(); dropdown.classList.toggle('open'); });
+      document.addEventListener('click', function () { dropdown.classList.remove('open'); });
+      dropdown.querySelectorAll('.lang-option').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          applyLang(opt.dataset.lang);
+          dropdown.classList.remove('open');
+          langBtn.textContent = opt.textContent.trim() + ' \u25be';
+        });
+      });
+    }
   }());
 
   /* ── Notify button — fire custom event ───────────────── */
