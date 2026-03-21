@@ -449,10 +449,9 @@ async function fetchOgImage(url) {
 }
 
 async function fetchAllImages(items) {
-  // Only fetch images for the first 20 items (those visible in the UI).
-  // Items beyond that already have gradient placeholders and the extra
-  // HTTP requests were the biggest cause of slow builds.
-  const candidates = items.slice(0, 20).filter(
+  // Fetch images for the first 40 items so snap cards (which may come from
+  // any position in the sorted list) are more likely to have images.
+  const candidates = items.slice(0, 40).filter(
     (item) => !item.imageUrl || item.imageUrl === item.url
   );
   await Promise.all(candidates.map(async (item) => {
@@ -557,36 +556,43 @@ function categorizeArticle(title, summary, source) {
   const sportsKws = ['f1', 'formula 1', 'formula one', 'grand prix', ' gp ', 'motogp', 'verstappen', 'hamilton', 'russell', 'leclerc', 'sainz', 'norris', 'alonso', 'perez', 'stroll', 'ferrari', 'mercedes f1', 'red bull racing', 'mclaren', 'football', 'soccer', 'premier league', 'la liga', 'serie a', 'bundesliga', 'champions league', 'europa league', 'uae pro league', 'arabian gulf league', 'al ain fc', 'al jazira', 'al wahda', 'shabab al ahli', 'dubai fc', 'al hilal', 'al nassr', 'al ittihad', 'fifa', 'uefa', 'world cup', 'cricket', 'ipl', 'test match', 'bcci', 'icc', 'tennis', 'atp', 'wta', 'wimbledon', 'us open', 'french open', 'australian open', 'dubai tennis', 'golf', 'pga tour', 'ryder cup', 'dp world tour', 'rugby', 'nba', 'basketball', 'swimming', 'athletics', 'olympics', 'horse racing', 'dubai world cup', 'meydan', 'nad al sheba', 'ufc', 'boxing', 'wrestling', 'mma', 'marathon', 'cycling', 'triathlon', 'athlete', 'transfer', 'squad', 'match result', 'final score', 'championship', 'tournament', 'hat trick', 'podium', 'race result', 'qualifying', 'pole position', 'medal', 'gold medal', 'defeated', 'won the match', 'playoffs', 'strade bianche', 'tour de france'];
   for (const kw of sportsKws) { if (text.includes(kw)) return 'Sports'; }
 
+  // TRANSPORT — check before geographic catch-alls so RTA/metro articles aren't swallowed by Dubai News
+  const transportKws = ['metro', 'dubai metro', 'dubai tram', 'rta ', 'rta.ae', 'roads and transport', 'road safety', 'traffic alert', 'traffic update', 'road closure', 'salik', 'nol card', 'bus route', 'tram route', 'abu dhabi bus', 'e-scooter', 'cycling track', 'pedestrian bridge', 'interchange', 'flyover', 'tollgate', 'parking fine', 'speed limit', 'driving license', 'vehicle registration', 'public transport', 'ferry service', 'water taxi', 'abra', 'airport taxi', 'limousine service'];
+  for (const kw of transportKws) { if (text.includes(kw)) return 'Transport'; }
+  // Also catch RTA as source
+  if (source && source.toLowerCase().includes('rta')) return 'Transport';
+
+  // ECONOMY & BUSINESS — before geographic to catch finance articles mentioning Dubai
+  const economyKws = ['economy', 'gdp', 'inflation', 'stock market', 'stock exchange', 'dfm', 'adx', 'difc', 'investment', 'real estate', 'property market', 'mortgage', 'rent increase', 'startup funding', 'series a', 'series b', 'venture capital', 'ipo', 'acquisition', 'merger', 'revenue', 'profit', 'quarterly results', 'annual report', 'oil price', 'crude oil', 'barrel', 'opec', 'gold price', 'dirham', 'exchange rate', 'retail sales', 'trade deal', 'export', 'import', 'tourism revenue', 'hotel occupancy', 'business license', 'entrepreneur', 'founder', 'unicorn', 'valuation', 'bank rate', 'interest rate', 'central bank', 'financial results', 'earnings'];
+  for (const kw of economyKws) { if (text.includes(kw)) return 'Economy & Business'; }
+
+  // TECHNOLOGY — before geographic to catch tech articles mentioning Dubai
+  const techKws = ['artificial intelligence', ' ai ', 'chatgpt', 'openai', 'gemini', 'machine learning', 'large language model', 'llm', 'robotics', 'automation', 'cybersecurity', 'data breach', 'hacking', 'cyber attack', '5g', 'blockchain', 'cryptocurrency', 'bitcoin', 'ethereum', 'nft', 'gitex', 'tech summit', 'cloud computing', 'fintech', 'smart city', 'iot', 'internet of things', 'electric vehicle', 'tesla', 'self driving', 'autonomous', 'metaverse', 'virtual reality', 'augmented reality', 'digital transformation', 'tech startup', 'data center', 'semiconductor', 'satellite'];
+  for (const kw of techKws) { if (text.includes(kw)) return 'Technology'; }
+
   // POLITICS — regional & international conflicts
   const politicsKws = ['iran', 'iranian', 'tehran', 'israel', 'israeli', 'tel aviv', 'palestine', 'palestinian', 'gaza', 'west bank', 'hamas', 'hezbollah', 'lebanon', 'beirut', 'saudi arabia', 'riyadh', 'qatar', 'doha', 'kuwait', 'bahrain', 'egypt', 'cairo', 'jordan', 'amman', 'syria', 'damascus', 'iraq', 'baghdad', 'yemen', 'sanaa', 'russia', 'ukraine', 'moscow', 'nato', 'pentagon', 'white house', 'us president', 'china', 'beijing', 'india', 'modi', 'pakistan', 'islamabad', 'united nations', 'un security', 'g20', 'g7', 'ceasefire', 'peace talks', 'sanctions', 'embargo', 'diplomatic crisis', 'foreign minister', 'political prisoner', 'election results', 'coup', 'military strike', 'airstrike', 'missile attack', 'drone attack', 'invasion', 'troops', 'nuclear deal', 'arms deal', 'geopolitical', 'regional conflict', 'gcc summit', 'arab league'];
   for (const kw of politicsKws) { if (text.includes(kw)) return 'Politics'; }
 
+  // UAE GOVERNMENT — federal level only
+  const govKws = ['sheikh', 'his highness', 'ruler of', 'crown prince of', 'uae president', 'uae vice president', 'prime minister of uae', 'federal authority', 'uae cabinet', 'uae ministry', 'uae minister', 'uae law', 'uae decree', 'uae policy', 'wam news', 'uae government', 'emirates news agency', 'uae vision', 'uae strategy', 'uae council', 'uae federal', 'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz', 'hamdan bin mohammed', 'khaled bin mohammed', 'maktoum', 'nahyan', 'issued a decree', 'approved by cabinet', 'official visit', 'state visit', 'received in audience'];
+  for (const kw of govKws) { if (text.includes(kw)) return 'UAE Government'; }
+
   // DUBAI NEWS
-  const dubaiKws = ['dubai', 'dxb', 'rta', 'dubai metro', 'dubai tram', 'dubai airport', 'burj khalifa', 'burj al arab', 'palm jumeirah', 'downtown dubai', 'dubai marina', 'jumeirah', 'deira', 'bur dubai', 'business bay', 'jlt', 'jvc', 'dubai hills', 'dubai creek', 'creek harbour', 'expo city', 'dubai south', 'silicon oasis', 'dubai chamber', 'salik', 'nol card', 'dubai mall', 'mall of emirates', 'dubai police', 'dubai municipality', 'dubai health authority', 'dha dubai', 'dubai court', 'dubai ruler', 'dubai government', 'emirate of dubai'];
+  const dubaiKws = ['dubai', 'dxb', 'dubai airport', 'burj khalifa', 'burj al arab', 'palm jumeirah', 'downtown dubai', 'dubai marina', 'jumeirah', 'deira', 'bur dubai', 'business bay', 'jlt', 'jvc', 'dubai hills', 'dubai creek', 'creek harbour', 'expo city', 'dubai south', 'silicon oasis', 'dubai chamber', 'dubai mall', 'mall of emirates', 'dubai police', 'dubai municipality', 'dubai health authority', 'dha dubai', 'dubai court', 'dubai ruler', 'dubai government', 'emirate of dubai'];
   for (const kw of dubaiKws) { if (text.includes(kw)) return 'Dubai News'; }
 
   // ABU DHABI NEWS
   const abuDhabiKws = ['abu dhabi', 'auh', 'adnoc', 'adgm', 'adek', 'mubadala', 'adq', 'aldar', 'abu dhabi airport', 'louvre abu dhabi', 'saadiyat island', 'yas island', 'yas mall', 'al reem island', 'masdar city', 'abu dhabi corniche', 'abu dhabi government', 'abu dhabi ruler', 'abu dhabi crown prince', 'abu dhabi chamber', 'abu dhabi tourism', 'abu dhabi court', 'abu dhabi municipality', 'zayed city'];
   for (const kw of abuDhabiKws) { if (text.includes(kw)) return 'Abu Dhabi News'; }
 
-  // ECONOMY & BUSINESS
-  const economyKws = ['economy', 'gdp', 'inflation', 'stock market', 'stock exchange', 'dfm', 'adx', 'difc', 'investment', 'real estate', 'property market', 'mortgage', 'rent increase', 'startup funding', 'series a', 'series b', 'venture capital', 'ipo', 'acquisition', 'merger', 'revenue', 'profit', 'quarterly results', 'annual report', 'oil price', 'crude oil', 'barrel', 'opec', 'gold price', 'dirham', 'exchange rate', 'retail sales', 'trade deal', 'export', 'import', 'tourism revenue', 'hotel occupancy', 'business license', 'entrepreneur', 'founder', 'unicorn', 'valuation', 'bank rate', 'interest rate', 'central bank', 'financial results', 'earnings'];
-  for (const kw of economyKws) { if (text.includes(kw)) return 'Economy & Business'; }
-
-  // TECHNOLOGY
-  const techKws = ['artificial intelligence', ' ai ', 'chatgpt', 'openai', 'gemini', 'machine learning', 'large language model', 'llm', 'robotics', 'automation', 'cybersecurity', 'data breach', 'hacking', 'cyber attack', '5g', 'blockchain', 'cryptocurrency', 'bitcoin', 'ethereum', 'nft', 'gitex', 'tech summit', 'cloud computing', 'fintech', 'smart city', 'iot', 'internet of things', 'electric vehicle', 'tesla', 'self driving', 'autonomous', 'metaverse', 'virtual reality', 'augmented reality', 'digital transformation', 'tech startup', 'data center', 'semiconductor', 'satellite'];
-  for (const kw of techKws) { if (text.includes(kw)) return 'Technology'; }
-
-  // UAE GOVERNMENT — federal level only
-  const govKws = ['sheikh', 'his highness', 'ruler of', 'crown prince of', 'uae president', 'uae vice president', 'prime minister of uae', 'federal authority', 'uae cabinet', 'uae ministry', 'uae minister', 'uae law', 'uae decree', 'uae policy', 'wam news', 'uae government', 'emirates news agency', 'uae vision', 'uae strategy', 'uae council', 'uae federal', 'mohammed bin rashid', 'mohammed bin zayed', 'mbr', 'mbz', 'hamdan bin mohammed', 'khaled bin mohammed', 'maktoum', 'nahyan', 'issued a decree', 'approved by cabinet', 'official visit', 'state visit', 'received in audience'];
-  for (const kw of govKws) { if (text.includes(kw)) return 'UAE Government'; }
-
   // Default based on source name
   if (source) {
     const src = source.toLowerCase();
     if (src.includes('wam') || src.includes('emirates news agency')) return 'UAE Government';
     if (src.includes('uae cabinet') || src.includes('uae government') || src.includes('federal')) return 'UAE Government';
-    if (src.includes('dubai media office') || src.includes('dubai police') || src.includes('rta') || src.includes('dha ')) return 'Dubai News';
+    if (src.includes('rta')) return 'Transport';
+    if (src.includes('dubai media office') || src.includes('dubai police') || src.includes('dha ')) return 'Dubai News';
     if (src.includes('dubai')) return 'Dubai News';
     if (src.includes('abu dhabi')) return 'Abu Dhabi News';
     if (src.includes('gulf business') || src.includes('arabian business') || src.includes('zawya') || src.includes('meed') || src.includes('bloomberg') || src.includes('construction week')) return 'Economy & Business';

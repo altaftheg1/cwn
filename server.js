@@ -521,21 +521,81 @@ app.get('/business', (req, res) => res.sendFile(path.join(__dirname, 'business.h
 app.get('/trending', (req, res) => res.sendFile(path.join(__dirname, 'trending.html')));
 
 // ── Breaking snapshot: 1 article from each of 6 categories ───────────────────
+// ── Keyword scoring for Transport and Technology ───────────────────────────────
+const TRANSPORT_KWS = ['transport','traffic','road','car','vehicle','metro','train','bus','airport','flight','aviation','rail','taxi','shipping'];
+const TECH_KWS      = ['technology','tech','ai','artificial intelligence','software','app','startup','device','gadget','robot','internet','cyber','programming'];
+
+function scoreArticle(item, keywords) {
+  const title = (item.calmTitle || item.title || '').toLowerCase();
+  const desc  = (item.calmSummary || item.description || '').toLowerCase();
+  let score = 0;
+  const matched = [];
+  for (const kw of keywords) {
+    const inTitle = title.includes(kw);
+    const inDesc  = desc.includes(kw);
+    if (inTitle) { score += 2; matched.push(`title:"${kw}"`); }
+    if (inDesc)  { score += 1; matched.push(`desc:"${kw}"`);  }
+  }
+  return { score, matched };
+}
+
+function pickByKeywords(sorted, keywords, slotName) {
+  const scored = [];
+  const rejected = [];
+  for (const item of sorted) {
+    const { score, matched } = scoreArticle(item, keywords);
+    if (score >= 2) {
+      scored.push({ item, score, matched });
+      console.log(`[breaking/${slotName}] MATCH score=${score} matched=[${matched.join(',')}] title="${(item.calmTitle||item.title||'').slice(0,60)}"`);
+    } else {
+      rejected.push({ score, title: (item.calmTitle||item.title||'').slice(0,40) });
+    }
+  }
+  if (rejected.length) {
+    console.log(`[breaking/${slotName}] rejected ${rejected.length} articles (score<2). Samples: ${rejected.slice(0,3).map(r=>`"${r.title}"(${r.score})`).join(', ')}`);
+  }
+  scored.sort((a, b) => b.score - a.score);
+  // Fallback: if fewer than 1 match, pull top headline and label as Related
+  if (!scored.length) {
+    console.log(`[breaking/${slotName}] no keyword matches — using general headline fallback`);
+    return sorted[0] ? { ...sorted[0], _fallback: true } : null;
+  }
+  return scored[0].item;
+}
+
 app.get('/api/breaking', (req, res) => {
   const items = getCachedNews()?.items || [];
   const sorted = [...items].sort((a, b) => (b.publishedAtMs || 0) - (a.publishedAtMs || 0));
 
   const SLOTS = [
-    { name: 'Top Story',   color: '#C8102E', icon: '🔴', filter: null },
-    { name: 'Government',  color: '#006400', icon: '🏛️', filter: i => i.isGovSource === true },
-    { name: 'Business',    color: '#7B1FA2', icon: '💰', filter: i => i.isEconSource === true || i.category === 'Economy' || i.category === 'Economy & Business' || i.category === 'Business' },
-    { name: 'Transport',   color: '#0066CC', icon: '🚗', filter: i => i.isRtaSource === true || i.category === 'Transport' || i.category === 'Roads & Transport' },
-    { name: 'Technology',  color: '#00897B', icon: '💻', filter: i => i.isTechSource === true || i.category === 'Technology' },
-    { name: 'Sports',      color: '#E65100', icon: '⚽', filter: i => i.isSportsSource === true || i.category === 'Sports' },
+    {
+      name: 'Top Story', color: '#C8102E', icon: '🔴',
+      pick: () => sorted[0] || null,
+    },
+    {
+      name: 'Government', color: '#006400', icon: '🏛️',
+      pick: () => sorted.find(i => i.isGovSource === true || i.category === 'UAE Government' || i.category === 'Government') || sorted[1] || null,
+    },
+    {
+      name: 'Business', color: '#7B1FA2', icon: '💰',
+      pick: () => sorted.find(i => ['Economy & Business','Economy','Business'].includes(i.category)) || sorted[2] || null,
+    },
+    {
+      name: 'Transport', color: '#0066CC', icon: '🚗',
+      pick: () => pickByKeywords(sorted, TRANSPORT_KWS, 'Transport'),
+    },
+    {
+      name: 'Technology', color: '#00897B', icon: '💻',
+      pick: () => pickByKeywords(sorted, TECH_KWS, 'Technology'),
+    },
+    {
+      name: 'Sports', color: '#E65100', icon: '⚽',
+      pick: () => sorted.find(i => i.category === 'Sports') || sorted[3] || null,
+    },
   ];
 
   const snapshot = SLOTS.map(slot => {
-    const article = slot.filter ? sorted.find(slot.filter) : sorted[0];
+    const article = slot.pick();
     if (!article) return { _empty: true, snapshotCategory: slot.name, snapshotColor: slot.color, snapshotIcon: slot.icon };
     return { ...article, snapshotCategory: slot.name, snapshotColor: slot.color, snapshotIcon: slot.icon };
   });

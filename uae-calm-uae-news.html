@@ -490,11 +490,14 @@
     const icon = item.snapshotIcon || SLOT_ICONS[cat] || '📰';
 
     if (item._empty) {
-      return `<div class="snap-card" style="border-top:3px solid #E0D9D0;">
-        <div class="snap-ph">
-          <div class="snap-ph-icon">${icon}</div>
-          <div class="snap-ph-text">Loading ${esc(cat)} news…</div>
-          <div style="font-size:12px;color:var(--ink-light);">Check back soon</div>
+      return `<div class="snap-card" style="border-top:3px solid ${color};">
+        <div class="snap-img-wrap" style="background:linear-gradient(135deg,${color}15,${color}30)">
+          <div class="snap-img-ph" style="display:flex"><span style="font-size:36px;opacity:.5">${icon}</span></div>
+        </div>
+        <div class="snap-body">
+          <span class="snap-badge" style="background:${color}">${esc(cat)}</span>
+          <div class="snap-headline" style="color:var(--ink-light)">Loading ${esc(cat)} news…</div>
+          <div style="font-size:12px;color:var(--ink-light);margin-top:6px;">Check back soon</div>
         </div>
       </div>`;
     }
@@ -504,16 +507,18 @@
     const src = esc(item.sourceName || '');
     const age = timeAgo(item.publishedAtMs);
     const url = esc(item.url || '#');
-    const imgHtml = (item.imageUrl && !item.imageUrl.startsWith('data:'))
-      ? `<img class="snap-img" src="${esc(item.imageUrl)}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    const hasImg = item.imageUrl && !item.imageUrl.startsWith('data:');
+    const imgHtml = hasImg
+      ? `<img class="snap-img" src="${esc(item.imageUrl)}" alt="" loading="lazy" onerror="this.parentElement.querySelector('.snap-img-ph').style.display='flex';this.remove()">`
       : '';
-    const phStyle = imgHtml ? 'display:none' : '';
+    const phStyle = hasImg ? 'display:none' : '';
+    const phBg = `background:linear-gradient(135deg,${color}22,${color}55)`;
 
     return `<div class="snap-card" style="border-top:3px solid ${color}" onclick="window.open('${url}','_blank')">
       <div class="snap-top-border" style="background:${color}; height:0"></div>
       <div class="snap-img-wrap">
         ${imgHtml}
-        <div class="snap-img-ph" style="${phStyle}">${icon}</div>
+        <div class="snap-img-ph" style="${phStyle};${phBg}"><span style="font-size:36px">${icon}</span></div>
       </div>
       <div class="snap-body">
         <span class="snap-badge" style="background:${color}">${esc(cat)}</span>
