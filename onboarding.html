@@ -7,19 +7,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── RESET ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-color:transparent;}
 
-/* ── SHELL ── */
 #app{
-  position:relative;
-  width:100%;max-width:430px;
-  height:100dvh;
-  margin:0 auto;
-  overflow:hidden;
-  background:#0A1628;
+  position:relative;width:100%;max-width:430px;
+  height:100vh;margin:0 auto;overflow:hidden;background:#0A1628;
 }
 
 /* ── SCENES ── */
@@ -27,101 +21,99 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
   position:absolute;inset:0;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  padding:30px 22px 24px;
+  padding:30px 22px 26px;
   opacity:0;pointer-events:none;
-  transition:opacity .42s ease, transform .42s ease;
-  transform:translateX(28px);
+  transition:opacity .4s ease,transform .4s ease;
+  transform:translateX(30px);
 }
 .scene.active{opacity:1;pointer-events:all;transform:translateX(0);}
-.scene.out{opacity:0;transform:translateX(-28px);}
-
+.scene.out{opacity:0;transform:translateX(-30px);}
 .bg-navy{background:#0A1628;}
 .bg-teal{background:#0D7377;}
 .bg-cream{background:#F5F0E8;}
-
-/* ── S1 INTRO ── */
-.s1-logo{
-  font-family:'Syne',sans-serif;font-size:48px;font-weight:800;
-  color:#C9A84C;letter-spacing:-1px;text-align:center;
-  opacity:0;transform:translateY(18px);
-  transition:opacity .9s ease, transform .9s ease;
+/* s7/s8/s10 need scroll */
+#sc7,#sc8,#sc10{
+  justify-content:flex-start;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;padding-top:22px;
 }
-.s1-logo.in{opacity:1;transform:translateY(0);}
-.s1-sub{
+#sc7::-webkit-scrollbar,#sc8::-webkit-scrollbar,#sc10::-webkit-scrollbar{display:none;}
+#sc10{padding-bottom:90px;}
+
+/* ── SCENE 1 ── */
+.intro-logo{
+  font-family:'Syne',sans-serif;font-size:48px;font-weight:800;
+  color:#C9A84C;text-align:center;letter-spacing:-1px;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.intro-logo.show{opacity:1;transform:translateY(0);}
+.intro-tag{
   font-size:17px;color:rgba(245,240,232,.72);
-  margin-top:14px;text-align:center;min-height:26px;
+  margin-top:16px;text-align:center;min-height:28px;
 }
 .caret{
   display:inline-block;width:2px;height:19px;
   background:#C9A84C;margin-left:2px;vertical-align:middle;
-  animation:blink .75s infinite;
+  animation:blink .75s step-end infinite;
 }
-@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ── MASCOT ── */
-.mascot-box{display:block;flex-shrink:0;}
-.mascot-box svg{width:100%;height:auto;display:block;overflow:visible;}
+.mascot-wrap{display:block;flex-shrink:0;}
+.mascot-wrap svg{width:100%;height:auto;display:block;overflow:visible;}
 
-.fly-in{animation:falconFly 1.1s cubic-bezier(.15,1.4,.4,1) both;}
 @keyframes falconFly{
-  0%{transform:translate(220px,-70px) rotate(-22deg);opacity:0;}
-  55%{transform:translate(-12px,9px) rotate(3deg);opacity:1;}
-  78%{transform:translate(7px,-4px) rotate(-1deg);opacity:1;}
-  100%{transform:translate(0,0) rotate(0);opacity:1;}
+  0%{transform:translate(240px,-80px) rotate(-25deg);opacity:0;}
+  55%{transform:translate(-14px,10px) rotate(4deg);opacity:1;}
+  78%{transform:translate(8px,-5px) rotate(-1deg);}
+  100%{transform:translate(0,0) rotate(0);}
 }
-.bounce-idle{animation:bounceIdle .95s ease-in-out infinite alternate;}
-@keyframes bounceIdle{from{transform:translateY(0)}to{transform:translateY(-11px)}}
-.wiggle{animation:wiggleDance .32s ease-in-out infinite alternate;}
-@keyframes wiggleDance{
-  0%{transform:rotate(-9deg) translateY(-5px);}
-  50%{transform:rotate(8deg) translateY(-10px);}
-  100%{transform:rotate(-6deg) translateY(-4px);}
+@keyframes floatIdle{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+@keyframes wiggle{
+  0%,100%{transform:rotate(-9deg)translateY(-5px);}
+  50%{transform:rotate(9deg)translateY(-12px);}
 }
-.do-nod{animation:nod .45s ease 3;}
-@keyframes nod{0%,100%{transform:rotate(0)}50%{transform:rotate(8deg)}}
-.do-jump{animation:mascJump .4s cubic-bezier(.15,1.4,.4,1) 3;}
-@keyframes mascJump{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
-.do-tilt{animation:mascTilt .5s ease forwards;}
-@keyframes mascTilt{to{transform:rotate(-15deg)}}
+@keyframes nod{0%,100%{transform:rotate(0)}33%{transform:rotate(10deg)}66%{transform:rotate(-5deg)}}
+@keyframes jump{0%,100%{transform:translateY(0)}40%{transform:translateY(-28px)}}
+@keyframes tilt{to{transform:rotate(-16deg)}}
 
-/* ── SPEECH BUBBLE ── */
+.anim-fly{animation:falconFly 1.1s cubic-bezier(.15,1.4,.4,1) both;}
+.anim-float{animation:floatIdle .95s ease-in-out infinite alternate;}
+.anim-wiggle{animation:wiggle .35s ease-in-out infinite alternate;}
+.anim-nod{animation:nod .55s ease 3;}
+.anim-jump{animation:jump .42s cubic-bezier(.15,1.4,.4,1) 3;}
+.anim-tilt{animation:tilt .5s ease forwards;}
+
+/* ── BUBBLE ── */
 .bubble{
   background:#fff;border-radius:20px 20px 20px 6px;
-  padding:14px 18px;font-size:15px;color:#0A1628;line-height:1.55;
-  box-shadow:0 4px 24px rgba(10,22,40,.1);
+  padding:14px 18px;font-size:15px;color:#0A1628;
+  line-height:1.55;box-shadow:0 4px 24px rgba(10,22,40,.1);
   border:1.5px solid rgba(13,115,119,.12);
   position:relative;max-width:100%;
 }
-.bubble::after{
+.bubble-top{border-radius:20px 20px 20px 6px;}
+.bubble-top::after{
   content:'';position:absolute;bottom:-13px;left:18px;
   border:8px solid transparent;border-top-color:#fff;
 }
-.bubble.above{border-radius:20px 20px 20px 20px;}
-.bubble.above::after{
-  bottom:auto;top:-13px;left:auto;right:22px;
-  border-top-color:transparent;border-bottom-color:#fff;
-}
-.bubble.from-mascot{border-radius:6px 20px 20px 20px;}
-.bubble.from-mascot::after{
-  left:auto;right:16px;
+.bubble-above{border-radius:20px 20px 6px 20px;}
+.bubble-above::after{
+  content:'';position:absolute;bottom:-13px;right:18px;left:auto;
+  border:8px solid transparent;border-top-color:#fff;
 }
 
-/* ── COL LAYOUT (mascot + bubble stacked) ── */
-.mc-col{
-  display:flex;flex-direction:column;
-  align-items:center;gap:12px;width:100%;
-}
-/* ── ROW LAYOUT (mascot left, bubble right) ── */
-.mc-row{
-  display:flex;align-items:flex-end;
-  gap:14px;width:100%;
-}
+/* ── LAYOUT ── */
+.col{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;}
+.sc-note{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(245,240,232,.38);text-align:center;width:100%;}
+.sc-note-dark{color:rgba(10,22,40,.3);}
 
-/* ── ANIMATIONS (fade-up) ── */
-.fade-up{opacity:0;transform:translateY(14px);transition:opacity .4s, transform .4s;}
-.fade-up.in{opacity:1;transform:translateY(0);}
-.pop-in{animation:popIn .38s cubic-bezier(.15,1.4,.4,1) both;}
+/* ── FADE-UP HELPER ── */
+.fu{opacity:0;transform:translateY(14px);transition:opacity .38s,transform .38s;}
+.fu.in{opacity:1;transform:translateY(0);}
 @keyframes popIn{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+.pop{animation:popIn .35s cubic-bezier(.15,1.4,.4,1) both;}
 
 /* ── BUTTONS ── */
 .btn{
@@ -129,30 +121,27 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
   border:none;cursor:pointer;
   font-family:'DM Sans',sans-serif;font-weight:600;font-size:16px;
   border-radius:14px;padding:15px 26px;
-  transition:transform .12s, box-shadow .12s;
-  -webkit-tap-highlight-color:transparent;
+  transition:transform .12s,box-shadow .12s;
   text-decoration:none;
 }
 .btn:active{transform:scale(.95);}
 .btn-teal{background:#0D7377;color:#fff;}
-.btn-teal:hover{background:#0b6367;}
 .btn-gold{background:#C9A84C;color:#0A1628;}
 .btn-full{width:100%;}
 .btn-lg{padding:18px 32px;font-size:17px;border-radius:16px;}
 
-/* ── MOOD BTNS ── */
+/* ── MOOD ── */
 .mood-row{display:flex;gap:11px;width:100%;}
 .mood-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:9px;
   background:#fff;border:2px solid rgba(13,115,119,.18);
   border-radius:18px;padding:18px 6px;cursor:pointer;
-  transition:border-color .15s, transform .1s, background .15s;
+  transition:border-color .15s,transform .1s,background .15s;
   font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;color:#0A1628;
 }
 .mood-btn .em{font-size:30px;line-height:1;}
 .mood-btn:hover{border-color:#0D7377;background:#edf8f8;}
-.mood-btn:active{transform:scale(.94);}
-.mood-btn.picked{border-color:#0D7377;background:#edf8f8;}
+.mood-btn:active{transform:scale(.93);}
 
 /* ── NAME INPUT ── */
 .name-input{
@@ -189,9 +178,8 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
 .topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;}
 .topic-card{
   background:#fff;border:2px solid #0D7377;
-  border-radius:16px;padding:16px 10px;
-  text-align:center;cursor:pointer;
-  transition:background .15s, transform .1s, border-color .15s;
+  border-radius:16px;padding:16px 10px;text-align:center;cursor:pointer;
+  transition:background .15s,transform .1s,border-color .15s;
   font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0A1628;
 }
 .topic-card .te{font-size:24px;display:block;margin-bottom:7px;}
@@ -203,34 +191,21 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
 .mode-card{
   background:#fff;border:2px solid rgba(13,115,119,.2);
   border-radius:18px;padding:20px 18px;cursor:pointer;
-  transition:border-color .15s, background .15s, transform .12s, box-shadow .15s;
+  transition:border-color .15s,background .15s,transform .12s,box-shadow .15s;
 }
-.mode-card:hover{border-color:#0D7377;transform:translateY(-3px);box-shadow:0 6px 24px rgba(13,115,119,.14);}
+.mode-card:hover{border-color:#0D7377;transform:translateY(-3px);box-shadow:0 6px 24px rgba(13,115,119,.15);}
 .mode-card.sel{background:#0D7377;border-color:#0D7377;}
 .mode-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#0A1628;margin-bottom:6px;}
 .mode-card.sel .mode-title{color:#fff;}
 .mode-desc{font-size:13.5px;color:rgba(10,22,40,.52);line-height:1.55;}
 .mode-card.sel .mode-desc{color:rgba(255,255,255,.8);}
 
-/* ── S7 / S8 need scroll on small screens ── */
-#s7,#s8{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:22px;}
-#s7::-webkit-scrollbar,#s8::-webkit-scrollbar{display:none;}
-
-/* ── SCENE 10 ── */
-#s10{
-  background:#F5F0E8;justify-content:flex-start;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding-top:22px;padding-bottom:100px;
-}
-#s10::-webkit-scrollbar{display:none;}
-.news-bar{
-  width:100%;display:flex;align-items:center;
-  justify-content:space-between;margin-bottom:18px;
-}
+/* ── NEWS SCENE ── */
+.news-bar{width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
 .news-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#0D7377;}
 .news-date{font-size:12px;color:rgba(10,22,40,.42);}
 .news-greeting{
-  font-family:'Syne',sans-serif;font-size:21px;font-weight:700;
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
   color:#0A1628;line-height:1.4;margin-bottom:20px;width:100%;
 }
 .news-card{
@@ -239,61 +214,30 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
   box-shadow:0 2px 14px rgba(10,22,40,.06);
   border-left:4px solid #0D7377;
   opacity:0;transform:translateY(12px);
-  transition:opacity .4s, transform .4s;
+  transition:opacity .4s,transform .4s;
 }
 .news-card.in{opacity:1;transform:translateY(0);}
 .news-badge{
   display:inline-block;background:#0D7377;color:#fff;
-  font-size:9px;font-weight:700;
-  padding:3px 9px;border-radius:20px;
+  font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;
   text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;
 }
 .news-hl{font-weight:600;font-size:14.5px;color:#0A1628;margin-bottom:5px;line-height:1.45;}
 .news-why{font-size:12.5px;color:rgba(10,22,40,.5);line-height:1.5;}
 .news-why b{color:#0D7377;font-weight:600;}
-
-.helper-btn{
+.helper-fab{
   position:fixed;bottom:26px;right:22px;
-  width:58px;height:58px;
-  background:#0D7377;border-radius:50%;
+  width:58px;height:58px;background:#0D7377;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:26px;cursor:pointer;
-  box-shadow:0 4px 22px rgba(13,115,119,.45);
-  z-index:100;
+  box-shadow:0 4px 22px rgba(13,115,119,.45);z-index:100;
   animation:popIn .4s .5s cubic-bezier(.15,1.4,.4,1) both;
 }
-
-/* ── SCENE LABEL ── */
-.sc-label{
-  font-size:11px;font-weight:600;
-  text-transform:uppercase;letter-spacing:.1em;
-  color:rgba(10,22,40,.35);text-align:center;width:100%;
-  margin-bottom:4px;
-}
-.sc-label-light{color:rgba(245,240,232,.4);}
-
-/* ── STEP DOTS ── */
-.dots{
-  position:absolute;bottom:22px;left:50%;
-  transform:translateX(-50%);
-  display:flex;gap:6px;align-items:center;
-  pointer-events:none;
-}
-.dot{
-  width:6px;height:6px;border-radius:3px;
-  background:rgba(255,255,255,.22);
-  transition:width .3s, background .3s;
-}
-.dot.on{width:20px;background:#C9A84C;}
-.dot-dark{background:rgba(10,22,40,.18);}
-.dot-dark.on{background:#0D7377;}
-
-/* ── S2 GLOW ── */
-.glow-ring{
+.glow{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
   width:220px;height:220px;border-radius:50%;
-  background:radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+  background:radial-gradient(circle,rgba(201,168,76,.18) 0%,transparent 70%);
   pointer-events:none;
 }
 </style>
@@ -301,93 +245,79 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
 <body>
 <div id="app">
 
-<!-- ── SCENE 1: INTRO ── -->
-<section id="s1" class="scene bg-navy active">
-  <div class="s1-logo" id="s1Logo">Dubai Brief</div>
-  <p class="s1-sub"><span id="s1Tag"></span><span class="caret" id="s1Cur"></span></p>
+<!-- SCENE 1 — INTRO -->
+<section id="sc1" class="scene bg-navy active">
+  <div class="intro-logo" id="introLogo">Dubai Brief</div>
+  <p class="intro-tag"><span id="introTag"></span><span class="caret" id="introCaret"></span></p>
 </section>
 
-<!-- ── SCENE 2: MASCOT ENTRANCE ── -->
-<section id="s2" class="scene bg-navy">
-  <div class="glow-ring"></div>
-  <p class="sc-label sc-label-light">your news companion</p>
-  <div style="width:190px;margin:12px auto 0;" id="mascot2"></div>
-  <p id="s2Caption" style="font-size:16px;color:rgba(245,240,232,.0);margin-top:18px;text-align:center;line-height:1.65;transition:opacity .6s ease;opacity:0;">
+<!-- SCENE 2 — MASCOT ENTRANCE -->
+<section id="sc2" class="scene bg-navy">
+  <div class="glow"></div>
+  <p class="sc-note" id="sc2note" style="opacity:0;transition:opacity .6s;">your news companion</p>
+  <div id="mascotBox2" class="mascot-wrap" style="width:190px;margin:14px auto 0;"></div>
+  <p id="sc2caption" style="font-size:16px;color:rgba(245,240,232,.0);margin-top:18px;text-align:center;line-height:1.65;transition:opacity .6s ease;">
     meet <strong style="color:#C9A84C;">Brief</strong> — your falcon guide to the UAE 🇦🇪
   </p>
 </section>
 
-<!-- ── SCENE 3: TESTIMONIALS ── -->
-<section id="s3" class="scene bg-cream">
-  <div class="mc-col">
+<!-- SCENE 3 — TESTIMONIALS -->
+<section id="sc3" class="scene bg-cream">
+  <div class="col">
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above fade-up" id="s3Bubble" style="min-height:56px;">
-        <span id="s3Text"></span><span class="caret" id="s3Cur"></span>
+      <div class="bubble bubble-above fu" id="bubble3" style="min-height:56px;">
+        <span id="bubbleText3"></span><span class="caret" id="caret3"></span>
       </div>
     </div>
-    <div style="width:170px;" id="mascot3" class="bounce-idle"></div>
-  </div>
-  <div class="dots">
-    <div class="dot dot-dark"></div><div class="dot dot-dark on"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div>
+    <div id="mascotBox3" class="mascot-wrap anim-float" style="width:168px;"></div>
   </div>
 </section>
 
-<!-- ── SCENE 4: MOOD ── -->
-<section id="s4" class="scene bg-cream">
-  <div class="mc-col">
+<!-- SCENE 4 — MOOD -->
+<section id="sc4" class="scene bg-cream">
+  <div class="col">
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above">hey! how was your day? 👋</div>
+      <div class="bubble bubble-above">hey! how was your day? 👋</div>
     </div>
-    <div style="width:155px;" id="mascot4"></div>
-    <div class="mood-row fade-up" id="moodRow" style="margin-top:4px;">
+    <div id="mascotBox4" class="mascot-wrap" style="width:155px;"></div>
+    <div class="mood-row fu" id="moodRow">
       <button class="mood-btn" onclick="pickMood(this,'meh')"><span class="em">😴</span><span>meh</span></button>
       <button class="mood-btn" onclick="pickMood(this,'good')"><span class="em">😊</span><span>good</span></button>
       <button class="mood-btn" onclick="pickMood(this,'amazing')"><span class="em">🔥</span><span>amazing</span></button>
     </div>
   </div>
-  <div class="dots">
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark on"></div><div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-  </div>
 </section>
 
-<!-- ── SCENE 5: NAME ── -->
-<section id="s5" class="scene bg-cream">
-  <div class="mc-col">
+<!-- SCENE 5 — NAME -->
+<section id="sc5" class="scene bg-cream">
+  <div class="col">
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above">nice! what should i call you? ✏️</div>
+      <div class="bubble bubble-above">nice! what should i call you? ✏️</div>
     </div>
-    <div style="width:155px;" id="mascot5"></div>
-    <div style="width:100%;" class="fade-up" id="nameWrap">
+    <div id="mascotBox5" class="mascot-wrap" style="width:155px;"></div>
+    <div style="width:100%;" class="fu" id="nameWrap">
       <input class="name-input" id="nameInput" type="text"
         placeholder="your name..." autocomplete="off"
         autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="24"/>
-      <p class="input-hint">press enter or tap below to continue</p>
+      <p class="input-hint">press enter to continue</p>
     </div>
-    <button class="btn btn-teal btn-full fade-up" id="nameBtn" style="display:none;" onclick="submitName()">
+    <button class="btn btn-teal btn-full fu" id="nameContinueBtn" style="display:none;" onclick="submitName()">
       that's me →
     </button>
   </div>
-  <div class="dots">
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark"></div><div class="dot dot-dark on"></div><div class="dot dot-dark"></div>
-    <div class="dot dot-dark"></div><div class="dot dot-dark"></div>
-  </div>
 </section>
 
-<!-- ── SCENE 6: AUTH ── -->
-<section id="s6" class="scene bg-navy">
-  <div class="mc-col">
-    <div style="width:150px;" id="mascot6"></div>
+<!-- SCENE 6 — AUTH -->
+<section id="sc6" class="scene bg-navy">
+  <div class="glow"></div>
+  <div class="col">
+    <div id="mascotBox6" class="mascot-wrap" style="width:148px;"></div>
     <div style="width:100%;max-width:280px;">
-      <div class="bubble from-mascot" style="background:rgba(255,255,255,.95);">
-        <span id="s6Text">let's get you set up 🚀</span>
+      <div class="bubble bubble-top" style="background:rgba(255,255,255,.95);">
+        <span id="authGreeting">let's get you set up 🚀</span>
       </div>
     </div>
-    <div class="auth-stack fade-up in" style="margin-top:10px;">
+    <div class="auth-stack fu" id="authStack">
       <button class="auth-btn auth-google" onclick="doAuth()">
         <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
         continue with Google
@@ -399,19 +329,14 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
       <button class="auth-skip" onclick="doAuth()">skip for now →</button>
     </div>
   </div>
-  <div class="dots">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot on"></div>
-    <div class="dot"></div><div class="dot"></div>
-  </div>
 </section>
 
-<!-- ── SCENE 7: TOPICS ── -->
-<section id="s7" class="scene bg-cream">
-  <div class="mc-col" style="gap:10px;">
-    <div style="width:110px;flex-shrink:0;" id="mascot7"></div>
+<!-- SCENE 7 — TOPICS -->
+<section id="sc7" class="scene bg-cream">
+  <div class="col" style="gap:11px;">
+    <div id="mascotBox7" class="mascot-wrap" style="width:108px;flex-shrink:0;"></div>
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above">what do you actually care about? 👇</div>
+      <div class="bubble bubble-above">what do you actually care about? 👇</div>
     </div>
     <div class="topics-grid">
       <div class="topic-card" data-topic="Laws & Visas" onclick="pickTopic(this)"><span class="te">🛂</span>Laws & Visas</div>
@@ -421,16 +346,16 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
       <div class="topic-card" data-topic="Foreign Affairs" onclick="pickTopic(this)"><span class="te">🌍</span>Foreign Affairs</div>
       <div class="topic-card" data-topic="Society" onclick="pickTopic(this)"><span class="te">🎓</span>Society</div>
     </div>
-    <button class="btn btn-teal btn-full" id="topicNext" onclick="goTo(8)" style="display:none;">next →</button>
+    <button class="btn btn-teal btn-full" id="topicNextBtn" onclick="goTo(8)" style="display:none;">next →</button>
   </div>
 </section>
 
-<!-- ── SCENE 8: AI MODE ── -->
-<section id="s8" class="scene bg-cream">
-  <div class="mc-col" style="gap:12px;">
-    <div style="width:115px;flex-shrink:0;" id="mascot8"></div>
+<!-- SCENE 8 — AI MODE -->
+<section id="sc8" class="scene bg-cream">
+  <div class="col" style="gap:12px;">
+    <div id="mascotBox8" class="mascot-wrap" style="width:112px;flex-shrink:0;"></div>
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above">how do you want your news? 🤔</div>
+      <div class="bubble bubble-above">how do you want your news? 🤔</div>
     </div>
     <div class="mode-cards">
       <div class="mode-card" onclick="pickMode(this,'auto')">
@@ -445,424 +370,389 @@ body{font-family:'DM Sans',sans-serif;background:#0A1628;-webkit-tap-highlight-c
   </div>
 </section>
 
-<!-- ── SCENE 9: CONFIRMATION ── -->
-<section id="s9" class="scene bg-teal">
-  <div class="glow-ring" style="background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);"></div>
-  <div class="mc-col">
+<!-- SCENE 9 — CONFIRM -->
+<section id="sc9" class="scene bg-teal">
+  <div class="glow" style="background:radial-gradient(circle,rgba(255,255,255,.14) 0%,transparent 70%);"></div>
+  <div class="col">
     <div style="width:100%;max-width:280px;">
-      <div class="bubble above" style="background:rgba(255,255,255,.96);">
+      <div class="bubble bubble-above" style="background:rgba(255,255,255,.96);">
         perfect! you can always change this in settings ⚙️
       </div>
     </div>
-    <div style="width:175px;" id="mascot9" class="wiggle"></div>
-    <button class="btn btn-gold btn-lg fade-up in" onclick="goTo(10)" style="margin-top:10px;">
-      let's go →
-    </button>
+    <div id="mascotBox9" class="mascot-wrap anim-wiggle" style="width:175px;"></div>
+    <button class="btn btn-gold btn-lg" onclick="goTo(10)" style="margin-top:8px;">let's go →</button>
   </div>
 </section>
 
-<!-- ── SCENE 10: NEWS ── -->
-<section id="s10" class="scene bg-cream">
+<!-- SCENE 10 — NEWS -->
+<section id="sc10" class="scene bg-cream">
   <div class="news-bar">
     <span class="news-logo">Dubai Brief</span>
-    <span class="news-date" id="newsDate"></span>
+    <span class="news-date" id="newsDateEl"></span>
   </div>
-  <div class="news-greeting" id="newsGreeting"></div>
-  <div id="newsCards" style="width:100%;"></div>
-  <div class="helper-btn" onclick="helperTap()" title="Brief says hi!">🦅</div>
+  <div class="news-greeting" id="newsGreetingEl"></div>
+  <div id="newsCardsEl" style="width:100%;"></div>
+  <div class="helper-fab" onclick="helperTap()">🦅</div>
 </section>
 
 </div>
-
 <script>
-/* ════════════════════════════════════════════════════
-   STATE
-════════════════════════════════════════════════════ */
-const S = { name: '', mood: '', topics: [], aiMode: '' };
-let cur = 1;
+/* ─── STATE ─── */
+var APP = { name: '', mood: '', topics: [], aiMode: '', curScene: 1 };
 
-/* ════════════════════════════════════════════════════
-   MASCOT SVG GENERATOR
-════════════════════════════════════════════════════ */
-function face(expr) {
-  // helper: standard open eye
-  const eye = (cx, cy, px=2, py=2) =>
-    `<circle cx="${cx}" cy="${cy}" r="15" fill="white"/>` +
-    `<circle cx="${cx+px}" cy="${cy+py}" r="9" fill="#1a0a00"/>` +
-    `<circle cx="${cx+px+4}" cy="${cy+py-3}" r="3.5" fill="white"/>`;
-
-  switch (expr) {
-    case 'confused': return `
-      ${eye(78,84,2,3)} ${eye(122,84,2,3)}
-      <path d="M63 71 Q78 62 91 71" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M109 71 Q122 62 137 71" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M83 111 Q89 107 95 111 Q101 115 107 111 Q111 108 115 111"
-        stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
-    case 'happy': return `
-      <path d="M63 88 Q78 74 93 88" stroke="#1a0a00" stroke-width="3.5" fill="#F5EDD5" stroke-linecap="round"/>
-      <path d="M107 88 Q122 74 137 88" stroke="#1a0a00" stroke-width="3.5" fill="#F5EDD5" stroke-linecap="round"/>
-      <circle cx="67" cy="98" r="10" fill="rgba(228,90,60,.22)"/>
-      <circle cx="133" cy="98" r="10" fill="rgba(228,90,60,.22)"/>
-      <path d="M80 110 Q100 130 120 110" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>`;
-    case 'excited': return `
-      <circle cx="78" cy="84" r="15" fill="white"/>
-      <circle cx="122" cy="84" r="15" fill="white"/>
-      <text x="67" y="91" font-size="17" fill="#C9A84C" font-family="sans-serif">★</text>
-      <text x="111" y="91" font-size="17" fill="#C9A84C" font-family="sans-serif">★</text>
-      <circle cx="64" cy="100" r="10" fill="rgba(228,90,60,.28)"/>
-      <circle cx="136" cy="100" r="10" fill="rgba(228,90,60,.28)"/>
-      <path d="M80 108 Q100 132 120 108 Q100 136 80 108Z"
-        fill="#B85C20" stroke="#1a0a00" stroke-width="2"/>`;
-    case 'sympathetic': return `
-      ${eye(78,86,1,3)} ${eye(122,86,1,3)}
-      <path d="M62 74 Q75 67 88 76" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M112 76 Q125 67 138 74" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M83 115 Q100 109 117 115" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
-    case 'watching': return `
-      <circle cx="78" cy="84" r="15" fill="white"/>
-      <circle cx="80" cy="89" r="9" fill="#1a0a00"/>
-      <circle cx="84" cy="86" r="3.5" fill="white"/>
-      <circle cx="122" cy="84" r="15" fill="white"/>
-      <circle cx="124" cy="89" r="9" fill="#1a0a00"/>
-      <circle cx="128" cy="86" r="3.5" fill="white"/>
-      <path d="M63 70 Q78 63 92 68" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M108 68 Q122 63 137 70" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M84 112 Q100 118 116 112" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
-    default: return `  /* neutral */
-      ${eye(78,84)} ${eye(122,84)}
-      <path d="M63 70 Q78 63 92 68" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M108 68 Q122 63 137 70" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M84 110 Q100 116 116 110" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
-  }
+/* ─── MASCOT SVG ─── */
+function buildFace(expr) {
+  var eye = function(cx, cy, px, py) {
+    px = px || 2; py = py || 2;
+    return '<circle cx="' + cx + '" cy="' + cy + '" r="15" fill="white"/>' +
+           '<circle cx="' + (cx+px) + '" cy="' + (cy+py) + '" r="9" fill="#1a0a00"/>' +
+           '<circle cx="' + (cx+px+4) + '" cy="' + (cy+py-3) + '" r="3.5" fill="white"/>';
+  };
+  if (expr === 'confused') return eye(78,84,1,3) + eye(122,84,1,3) +
+    '<path d="M63 71 Q78 62 91 71" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M109 71 Q122 62 137 71" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M85 113 Q92 108 100 112 Q108 116 115 111" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  if (expr === 'happy') return
+    '<path d="M63 88 Q78 74 93 88" stroke="#1a0a00" stroke-width="3.5" fill="#F5EDD5" stroke-linecap="round"/>' +
+    '<path d="M107 88 Q122 74 137 88" stroke="#1a0a00" stroke-width="3.5" fill="#F5EDD5" stroke-linecap="round"/>' +
+    '<circle cx="67" cy="98" r="10" fill="rgba(228,90,60,.22)"/>' +
+    '<circle cx="133" cy="98" r="10" fill="rgba(228,90,60,.22)"/>' +
+    '<path d="M82 110 Q100 130 118 110" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  if (expr === 'excited') return
+    '<circle cx="78" cy="84" r="15" fill="white"/>' +
+    '<circle cx="122" cy="84" r="15" fill="white"/>' +
+    '<text x="68" y="91" font-size="17" fill="#C9A84C" font-family="sans-serif">★</text>' +
+    '<text x="112" y="91" font-size="17" fill="#C9A84C" font-family="sans-serif">★</text>' +
+    '<circle cx="64" cy="100" r="10" fill="rgba(228,90,60,.28)"/>' +
+    '<circle cx="136" cy="100" r="10" fill="rgba(228,90,60,.28)"/>' +
+    '<path d="M80 108 Q100 134 120 108 Q100 138 80 108Z" fill="#B85C20" stroke="#1a0a00" stroke-width="1.5"/>';
+  if (expr === 'sympathetic') return eye(78,86,1,3) + eye(122,86,1,3) +
+    '<path d="M62 74 Q75 67 88 76" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M112 76 Q125 67 138 74" stroke="#1a0a00" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M85 115 Q100 109 115 115" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  if (expr === 'watching') return
+    '<circle cx="78" cy="84" r="15" fill="white"/>' +
+    '<circle cx="80" cy="90" r="9" fill="#1a0a00"/>' +
+    '<circle cx="84" cy="87" r="3.5" fill="white"/>' +
+    '<circle cx="122" cy="84" r="15" fill="white"/>' +
+    '<circle cx="124" cy="90" r="9" fill="#1a0a00"/>' +
+    '<circle cx="128" cy="87" r="3.5" fill="white"/>' +
+    '<path d="M63 70 Q78 63 92 68" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<path d="M108 68 Q122 63 137 70" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<path d="M84 112 Q100 118 116 112" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  /* neutral */
+  return eye(78,84) + eye(122,84) +
+    '<path d="M63 70 Q78 63 92 68" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<path d="M108 68 Q122 63 137 70" stroke="#1a0a00" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<path d="M84 110 Q100 116 116 110" stroke="#1a0a00" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
 }
 
-function mascotSVG(expr = 'neutral') {
-  return `<svg viewBox="0 0 200 275" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;overflow:visible;">
-  <!-- drop shadow -->
-  <ellipse cx="100" cy="270" rx="52" ry="6.5" fill="rgba(0,0,0,.15)"/>
-  <!-- ── BODY / KANDURA ── -->
-  <path d="M40 148 Q22 268 100 270 Q178 268 160 148 L142 134 L100 129 L58 134Z" fill="#0D7377"/>
-  <!-- gold collar trim -->
-  <path d="M63 141 Q100 153 137 141" stroke="#C9A84C" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-  <!-- gold hem -->
-  <path d="M46 237 Q100 248 154 237" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <!-- DB chest badge -->
-  <circle cx="100" cy="183" r="15" fill="rgba(0,0,0,.2)"/>
-  <text x="100" y="188" text-anchor="middle" font-size="10" fill="#C9A84C" font-family="sans-serif" font-weight="bold">DB</text>
-  <!-- ── WINGS ── -->
-  <path d="M40 148 Q5 183 15 210 Q30 206 44 179Z" fill="#B85C20"/>
-  <path d="M160 148 Q195 183 185 210 Q170 206 156 179Z" fill="#B85C20"/>
-  <!-- arm holding tablet -->
-  <path d="M155 160 Q164 174 158 196" stroke="#B85C20" stroke-width="13" fill="none" stroke-linecap="round"/>
-  <!-- ── TABLET ── -->
-  <rect x="138" y="175" width="47" height="64" rx="7" fill="#0A1628"/>
-  <rect x="142" y="179" width="39" height="54" rx="5" fill="#0D7377" opacity=".92"/>
-  <rect x="148" y="186" width="23" height="3.5" rx="1.75" fill="#C9A84C"/>
-  <rect x="148" y="193" width="18" height="2" rx="1" fill="rgba(255,255,255,.5)"/>
-  <rect x="148" y="198" width="21" height="2" rx="1" fill="rgba(255,255,255,.4)"/>
-  <rect x="148" y="203" width="15" height="2" rx="1" fill="rgba(255,255,255,.32)"/>
-  <rect x="148" y="215" width="17" height="7" rx="3.5" fill="rgba(201,168,76,.9)"/>
-  <!-- ── NECK ── -->
-  <ellipse cx="100" cy="135" rx="22" ry="15" fill="#D4722B"/>
-  <!-- ── HEAD ── -->
-  <circle cx="100" cy="82" r="60" fill="#D4722B"/>
-  <!-- darker feather cap -->
-  <path d="M50 65 Q100 29 150 65 Q132 38 100 33 Q68 38 50 65Z" fill="#B85C20"/>
-  <!-- crest feathers -->
-  <ellipse cx="100" cy="26" rx="7" ry="13" fill="#C9A84C"/>
-  <ellipse cx="88" cy="32" rx="5" ry="10" fill="#C8721E" transform="rotate(-18 88 32)"/>
-  <ellipse cx="112" cy="32" rx="5" ry="10" fill="#C8721E" transform="rotate(18 112 32)"/>
-  <!-- ── FACE ── -->
-  <ellipse cx="100" cy="94" rx="40" ry="47" fill="#F5EDD5"/>
-  <!-- EXPRESSION (swapped by JS) -->
-  ${face(expr)}
-  <!-- ── BEAK (always on top) ── -->
-  <path d="M87 108 Q100 127 113 108 Q100 112 87 108Z" fill="#E07B2A"/>
-</svg>`;
+function mascotSVG(expr) {
+  return '<svg viewBox="0 0 200 275" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;overflow:visible;">' +
+    '<ellipse cx="100" cy="270" rx="52" ry="6.5" fill="rgba(0,0,0,.15)"/>' +
+    '<path d="M40 148 Q22 268 100 270 Q178 268 160 148 L142 134 L100 129 L58 134Z" fill="#0D7377"/>' +
+    '<path d="M63 141 Q100 153 137 141" stroke="#C9A84C" stroke-width="5.5" fill="none" stroke-linecap="round"/>' +
+    '<path d="M46 237 Q100 248 154 237" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="100" cy="183" r="15" fill="rgba(0,0,0,.2)"/>' +
+    '<text x="100" y="188" text-anchor="middle" font-size="10" fill="#C9A84C" font-family="sans-serif" font-weight="bold">DB</text>' +
+    '<path d="M40 148 Q5 183 15 210 Q30 206 44 179Z" fill="#B85C20"/>' +
+    '<path d="M160 148 Q195 183 185 210 Q170 206 156 179Z" fill="#B85C20"/>' +
+    '<path d="M155 160 Q164 174 158 196" stroke="#B85C20" stroke-width="13" fill="none" stroke-linecap="round"/>' +
+    '<rect x="138" y="175" width="47" height="64" rx="7" fill="#0A1628"/>' +
+    '<rect x="142" y="179" width="39" height="54" rx="5" fill="#0D7377" opacity=".92"/>' +
+    '<rect x="148" y="186" width="23" height="3.5" rx="1.75" fill="#C9A84C"/>' +
+    '<rect x="148" y="193" width="18" height="2" rx="1" fill="rgba(255,255,255,.5)"/>' +
+    '<rect x="148" y="198" width="21" height="2" rx="1" fill="rgba(255,255,255,.4)"/>' +
+    '<rect x="148" y="203" width="15" height="2" rx="1" fill="rgba(255,255,255,.32)"/>' +
+    '<rect x="148" y="215" width="17" height="7" rx="3.5" fill="rgba(201,168,76,.9)"/>' +
+    '<ellipse cx="100" cy="135" rx="22" ry="15" fill="#D4722B"/>' +
+    '<circle cx="100" cy="82" r="60" fill="#D4722B"/>' +
+    '<path d="M50 65 Q100 29 150 65 Q132 38 100 33 Q68 38 50 65Z" fill="#B85C20"/>' +
+    '<ellipse cx="100" cy="26" rx="7" ry="13" fill="#C9A84C"/>' +
+    '<ellipse cx="88" cy="32" rx="5" ry="10" fill="#C8721E" transform="rotate(-18 88 32)"/>' +
+    '<ellipse cx="112" cy="32" rx="5" ry="10" fill="#C8721E" transform="rotate(18 112 32)"/>' +
+    '<ellipse cx="100" cy="94" rx="40" ry="47" fill="#F5EDD5"/>' +
+    buildFace(expr) +
+    '<path d="M87 108 Q100 127 113 108 Q100 112 87 108Z" fill="#E07B2A"/>' +
+  '</svg>';
 }
 
-function setExpr(id, expr) {
-  const el = document.getElementById(id);
+function setExpr(boxId, expr) {
+  var el = document.getElementById(boxId);
   if (el) el.innerHTML = mascotSVG(expr);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE MANAGER
-════════════════════════════════════════════════════ */
+/* ─── SCENE MANAGER ─── */
 function goTo(n) {
-  const from = document.getElementById('s' + cur);
-  const to   = document.getElementById('s' + n);
-  if (!to) return;
-  from.classList.add('out');
-  from.classList.remove('active');
-  setTimeout(() => {
-    from.classList.remove('out');
-    to.classList.add('active');
-    cur = n;
-    onEnter(n);
+  var fromEl = document.getElementById('sc' + APP.curScene);
+  var toEl   = document.getElementById('sc' + n);
+  if (!toEl) return;
+  fromEl.classList.add('out');
+  fromEl.classList.remove('active');
+  setTimeout(function() {
+    fromEl.classList.remove('out');
+    toEl.classList.add('active');
+    APP.curScene = n;
+    sceneEnter(n);
   }, 440);
 }
 
-function onEnter(n) {
-  ({2:s2,3:s3,4:s4,5:s5,6:s6,7:s7,8:s8,9:s9,10:s10})[n]?.();
+function sceneEnter(n) {
+  var fns = { 2: enterScene2, 3: enterScene3, 4: enterScene4,
+              5: enterScene5, 6: enterScene6, 7: enterScene7,
+              8: enterScene8, 9: enterScene9, 10: enterScene10 };
+  if (fns[n]) fns[n]();
 }
 
-/* ════════════════════════════════════════════════════
-   TYPEWRITER
-════════════════════════════════════════════════════ */
-function type(el, text, speed, done) {
-  let i = 0; el.textContent = '';
-  const t = setInterval(() => {
-    if (i < text.length) el.textContent += text[i++];
-    else { clearInterval(t); if (done) setTimeout(done, 500); }
+/* ─── TYPEWRITER ─── */
+function typeText(el, text, speed, done) {
+  var i = 0;
+  el.textContent = '';
+  var timer = setInterval(function() {
+    if (i < text.length) { el.textContent += text[i]; i++; }
+    else { clearInterval(timer); if (done) setTimeout(done, 500); }
   }, speed);
-  return t;
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 1 — INTRO (auto-runs)
-════════════════════════════════════════════════════ */
-(function () {
-  const logo = document.getElementById('s1Logo');
-  const tag  = document.getElementById('s1Tag');
-  const cur  = document.getElementById('s1Cur');
-  setTimeout(() => logo.classList.add('in'), 350);
-  setTimeout(() => {
-    type(tag, 'understand the UAE in 60 seconds.', 46, () => {
-      cur.style.display = 'none';
-      setTimeout(() => {
-        document.getElementById('s1').style.transition = 'opacity .65s';
-        document.getElementById('s1').style.opacity = '0';
-        setTimeout(() => goTo(2), 660);
+/* ─── SCENE 1 — auto boot ─── */
+(function bootScene1() {
+  var logoEl  = document.getElementById('introLogo');
+  var tagEl   = document.getElementById('introTag');
+  var caretEl = document.getElementById('introCaret');
+  setTimeout(function() { logoEl.classList.add('show'); }, 300);
+  setTimeout(function() {
+    typeText(tagEl, 'understand the UAE in 60 seconds.', 46, function() {
+      caretEl.style.display = 'none';
+      setTimeout(function() {
+        var sc1 = document.getElementById('sc1');
+        sc1.style.transition = 'opacity .6s ease';
+        sc1.style.opacity = '0';
+        setTimeout(function() { goTo(2); }, 620);
       }, 1800);
     });
   }, 1000);
 }());
 
-/* ════════════════════════════════════════════════════
-   SCENE 2 — MASCOT ENTRANCE
-════════════════════════════════════════════════════ */
-function s2() {
-  const box = document.getElementById('mascot2');
-  const cap = document.getElementById('s2Caption');
-  setExpr('mascot2', 'confused');
-  box.classList.add('fly-in');
-  setTimeout(() => setExpr('mascot2', 'neutral'), 1200);
-  setTimeout(() => {
-    setExpr('mascot2', 'happy');
-    box.classList.remove('fly-in');
-    box.classList.add('bounce-idle');
-    cap.style.opacity = '1';
-  }, 2200);
-  setTimeout(() => goTo(3), 3800);
+/* ─── SCENE 2 — FALCON ENTRANCE ─── */
+function enterScene2() {
+  var box     = document.getElementById('mascotBox2');
+  var noteEl  = document.getElementById('sc2note');
+  var capEl   = document.getElementById('sc2caption');
+  setExpr('mascotBox2', 'confused');
+  box.classList.add('anim-fly');
+  noteEl.style.opacity = '1';
+  setTimeout(function() { setExpr('mascotBox2', 'neutral'); }, 1100);
+  setTimeout(function() {
+    setExpr('mascotBox2', 'happy');
+    box.classList.remove('anim-fly');
+    box.classList.add('anim-float');
+    capEl.style.opacity = '1';
+    capEl.style.color   = 'rgba(245,240,232,.82)';
+  }, 2100);
+  setTimeout(function() { goTo(3); }, 3700);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 3 — TESTIMONIALS
-════════════════════════════════════════════════════ */
-function s3() {
-  setExpr('mascot3', 'happy');
-  const txt = document.getElementById('s3Text');
-  const bub = document.getElementById('s3Bubble');
-  const cr  = document.getElementById('s3Cur');
-  bub.classList.add('in');
+/* ─── SCENE 3 — TESTIMONIALS ─── */
+function enterScene3() {
+  setExpr('mascotBox3', 'happy');
+  var bubbleEl = document.getElementById('bubble3');
+  var textEl   = document.getElementById('bubbleText3');
+  var caretEl  = document.getElementById('caret3');
+  bubbleEl.classList.add('in');
 
-  setTimeout(() => {
-    type(txt, 'i love dubai brief because its soooooo simple 🤍', 38, () => {
-      setTimeout(() => {
-        cr.style.display = 'none';
-        bub.style.transition = 'opacity .4s';
-        bub.style.opacity = '0';
-        setExpr('mascot3', 'excited');
-        setTimeout(() => {
-          txt.textContent = '';
-          cr.style.display = '';
-          bub.style.opacity = '1';
-          type(txt, "bro i actually know what's happening in the uae now??", 38, () => {
-            cr.style.display = 'none';
-            setTimeout(() => goTo(4), 1600);
+  setTimeout(function() {
+    typeText(textEl, 'i love dubai brief because its soooooo simple 🤍', 38, function() {
+      setTimeout(function() {
+        caretEl.style.display = 'none';
+        bubbleEl.style.transition = 'opacity .4s';
+        bubbleEl.style.opacity = '0';
+        setExpr('mascotBox3', 'excited');
+        setTimeout(function() {
+          textEl.textContent = '';
+          caretEl.style.display = '';
+          bubbleEl.style.opacity = '1';
+          typeText(textEl, "bro i actually know what's happening in the uae now??", 40, function() {
+            caretEl.style.display = 'none';
+            setTimeout(function() { goTo(4); }, 1600);
           });
         }, 500);
       }, 1600);
     });
-  }, 300);
+  }, 250);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 4 — MOOD
-════════════════════════════════════════════════════ */
-function s4() {
-  setExpr('mascot4', 'neutral');
-  setTimeout(() => document.getElementById('moodRow').classList.add('in'), 200);
+/* ─── SCENE 4 — MOOD ─── */
+function enterScene4() {
+  setExpr('mascotBox4', 'neutral');
+  setTimeout(function() {
+    document.getElementById('moodRow').classList.add('in');
+  }, 200);
 }
 
 function pickMood(btn, mood) {
-  S.mood = mood;
-  document.querySelectorAll('.mood-btn').forEach(b => { b.style.opacity = '.35'; b.style.pointerEvents = 'none'; });
+  APP.mood = mood;
+  document.querySelectorAll('.mood-btn').forEach(function(b) {
+    b.style.opacity = '.35'; b.style.pointerEvents = 'none';
+  });
   btn.style.opacity = '1';
-  btn.classList.add('picked');
-  const m4 = document.getElementById('mascot4');
-  if (mood === 'amazing') { setExpr('mascot4','excited'); m4.classList.add('do-jump'); }
-  else if (mood === 'good') { setExpr('mascot4','happy'); m4.classList.add('do-nod'); }
-  else { setExpr('mascot4','sympathetic'); m4.classList.add('do-tilt'); }
-  setTimeout(() => goTo(5), 1000);
+  var box = document.getElementById('mascotBox4');
+  if (mood === 'amazing') {
+    setExpr('mascotBox4', 'excited');
+    box.classList.add('anim-jump');
+  } else if (mood === 'good') {
+    setExpr('mascotBox4', 'happy');
+    box.classList.add('anim-nod');
+  } else {
+    setExpr('mascotBox4', 'sympathetic');
+    box.classList.add('anim-tilt');
+  }
+  setTimeout(function() { goTo(5); }, 1000);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 5 — NAME
-════════════════════════════════════════════════════ */
-function s5() {
-  setExpr('mascot5', 'neutral');
-  const inp = document.getElementById('nameInput');
-  const btn = document.getElementById('nameBtn');
-  const wrap = document.getElementById('nameWrap');
-  setTimeout(() => { wrap.classList.add('in'); btn.classList.add('in'); }, 150);
-  inp.addEventListener('input', () => {
-    const v = inp.value.trim();
-    setExpr('mascot5', v ? 'watching' : 'neutral');
+/* ─── SCENE 5 — NAME ─── */
+function enterScene5() {
+  setExpr('mascotBox5', 'neutral');
+  var inp = document.getElementById('nameInput');
+  var btn = document.getElementById('nameContinueBtn');
+  var wrap = document.getElementById('nameWrap');
+  setTimeout(function() { wrap.classList.add('in'); }, 150);
+  inp.addEventListener('input', function() {
+    var v = inp.value.trim();
+    setExpr('mascotBox5', v ? 'watching' : 'neutral');
     btn.style.display = v ? 'flex' : 'none';
+    if (v) setTimeout(function() { btn.classList.add('in'); }, 10);
   });
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
-  setTimeout(() => inp.focus(), 400);
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitName();
+  });
+  setTimeout(function() { inp.focus(); }, 400);
 }
 
 function submitName() {
-  const v = document.getElementById('nameInput').value.trim();
+  var v = document.getElementById('nameInput').value.trim();
   if (!v) return;
-  S.name = v;
+  APP.name = v;
   goTo(6);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 6 — AUTH
-════════════════════════════════════════════════════ */
-function s6() {
-  setExpr('mascot6', 'happy');
-  document.getElementById('s6Text').textContent =
-    `welcome, ${S.name || 'friend'}! let's get you set up 🚀`;
+/* ─── SCENE 6 — AUTH ─── */
+function enterScene6() {
+  setExpr('mascotBox6', 'happy');
+  var nm = APP.name || 'friend';
+  document.getElementById('authGreeting').textContent = 'welcome, ' + nm + '! let\'s get you set up 🚀';
+  setTimeout(function() {
+    document.getElementById('authStack').classList.add('in');
+  }, 200);
 }
 
 function doAuth() { goTo(7); }
 
-/* ════════════════════════════════════════════════════
-   SCENE 7 — TOPICS
-════════════════════════════════════════════════════ */
-function s7() {
-  setExpr('mascot7', 'neutral');
-  S.topics = [];
-  document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('sel'));
-  document.getElementById('topicNext').style.display = 'none';
+/* ─── SCENE 7 — TOPICS ─── */
+function enterScene7() {
+  setExpr('mascotBox7', 'neutral');
+  APP.topics = [];
+  document.querySelectorAll('.topic-card').forEach(function(c) { c.classList.remove('sel'); });
+  document.getElementById('topicNextBtn').style.display = 'none';
 }
 
 function pickTopic(card) {
   card.classList.toggle('sel');
-  S.topics = [...document.querySelectorAll('.topic-card.sel')].map(c => c.dataset.topic);
-  const n = S.topics.length;
-  document.getElementById('topicNext').style.display = n > 0 ? 'flex' : 'none';
-  if (n === 0) setExpr('mascot7', 'neutral');
-  else if (n <= 2) setExpr('mascot7', 'happy');
-  else setExpr('mascot7', 'excited');
+  APP.topics = [];
+  document.querySelectorAll('.topic-card.sel').forEach(function(c) {
+    APP.topics.push(c.dataset.topic);
+  });
+  var n = APP.topics.length;
+  document.getElementById('topicNextBtn').style.display = n > 0 ? 'flex' : 'none';
+  if (n === 0) setExpr('mascotBox7', 'neutral');
+  else if (n <= 2) setExpr('mascotBox7', 'happy');
+  else setExpr('mascotBox7', 'excited');
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 8 — AI MODE
-════════════════════════════════════════════════════ */
-function s8() { setExpr('mascot8', 'neutral'); }
+/* ─── SCENE 8 — AI MODE ─── */
+function enterScene8() { setExpr('mascotBox8', 'neutral'); }
 
 function pickMode(card, mode) {
-  S.aiMode = mode;
-  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('sel'));
+  APP.aiMode = mode;
+  document.querySelectorAll('.mode-card').forEach(function(c) { c.classList.remove('sel'); });
   card.classList.add('sel');
-  setExpr('mascot8', 'happy');
-  setTimeout(() => goTo(9), 750);
+  setExpr('mascotBox8', 'happy');
+  setTimeout(function() { goTo(9); }, 750);
 }
 
-/* ════════════════════════════════════════════════════
-   SCENE 9 — CONFIRMATION
-════════════════════════════════════════════════════ */
-function s9() { setExpr('mascot9', 'excited'); }
+/* ─── SCENE 9 — CONFIRM ─── */
+function enterScene9() { setExpr('mascotBox9', 'excited'); }
 
-/* ════════════════════════════════════════════════════
-   SCENE 10 — NEWS DASHBOARD
-════════════════════════════════════════════════════ */
-const NEWS = {
+/* ─── SCENE 10 — NEWS ─── */
+var NEWS = {
   'Laws & Visas': [
-    { hl:'uae rolls out digital golden visa portal — apply in minutes', why:'removes paper requirements for over 60,000 applicants' },
-    { hl:'new freelance permit removes employer sponsorship requirement', why:'opens uae to thousands of independent workers globally' },
+    { hl:'uae rolls out digital golden visa portal — apply in minutes', why:'removes paper requirements for 60k+ applicants' },
+    { hl:'new freelance permit removes employer sponsorship requirement', why:'opens uae to thousands of independent workers globally' }
   ],
   'Economy': [
     { hl:"dubai's economy grows 4.3% in q1 — fastest pace in 5 years", why:'signals strong pivot away from oil toward tech and tourism' },
-    { hl:'uae raises corporate tax threshold for startups to aed 375k', why:'designed to attract global founders to set up here' },
+    { hl:'uae raises corporate tax threshold for startups to aed 375k', why:'designed to attract global founders to set up here' }
   ],
   'Leadership': [
     { hl:'sheikh mohammed chairs cabinet session on uae centennial goals', why:'key decisions expected on education and ai investment' },
-    { hl:'uae president hosts global leaders at world government summit', why:'cements uae\'s role as a neutral diplomatic hub' },
+    { hl:'uae president hosts global leaders at world government summit', why:'cements uae\'s role as a neutral diplomatic hub' }
   ],
   'City Life': [
-    { hl:'dubai metro blue line breaks ground — 14 new stations by 2030', why:'will connect deira directly to expo city in 25 minutes' },
-    { hl:'abu dhabi opens three free public beaches this weekend', why:'benefits 400k+ residents and visitors across the capital' },
+    { hl:'dubai metro blue line breaks ground — 14 new stations by 2030', why:'will connect deira to expo city in 25 minutes' },
+    { hl:'abu dhabi opens three free public beaches this weekend', why:'benefits 400k+ residents and visitors across the capital' }
   ],
   'Foreign Affairs': [
     { hl:'uae signs trade deals with five nations this quarter', why:'pushes non-oil exports to record aed 210bn' },
-    { hl:'uae pledges $1bn in climate finance for developing nations', why:'builds on cop28 legacy and strengthens soft power' },
+    { hl:'uae pledges $1bn in climate finance for developing nations', why:'builds on cop28 legacy and strengthens soft power' }
   ],
   'Society': [
     { hl:'uae launches national mental health campaign across all emirates', why:'tackles stigma affecting an estimated 1.2m residents' },
-    { hl:'ai literacy added to all school grade levels from next term', why:'prepares the next generation for an automated workforce' },
-  ],
+    { hl:'ai literacy added to all school grade levels from next term', why:'prepares next generation for an automated workforce' }
+  ]
 };
 
-function greeting() {
-  const h = new Date().getHours();
-  return h < 12 ? 'good morning' : h < 17 ? 'good afternoon' : 'good evening';
-}
-
-function s10() {
-  const nm = S.name ? `, ${S.name}` : '';
-  document.getElementById('newsGreeting').textContent =
-    `${greeting()}${nm}. here's your 60-second brief 👇`;
-  document.getElementById('newsDate').textContent =
+function enterScene10() {
+  var h = new Date().getHours();
+  var greeting = h < 12 ? 'good morning' : h < 17 ? 'good afternoon' : 'good evening';
+  var nm = APP.name ? ', ' + APP.name : '';
+  document.getElementById('newsGreetingEl').textContent =
+    greeting + nm + '. here\'s your 60-second brief 👇';
+  document.getElementById('newsDateEl').textContent =
     new Date().toLocaleDateString('en-AE', { weekday:'short', month:'short', day:'numeric' });
 
-  const picks = S.topics.length ? S.topics
-    : ['Economy','City Life','Laws & Visas','Leadership','Society'];
-
-  let items = [];
-  picks.forEach(t => {
-    const pool = NEWS[t] || [];
-    if (pool.length) items.push({ badge: t, ...pool[Math.floor(Math.random() * pool.length)] });
+  var picks = APP.topics.length ? APP.topics : ['Economy','City Life','Laws & Visas','Leadership','Society'];
+  var items = [];
+  picks.forEach(function(t) {
+    var pool = NEWS[t] || [];
+    if (pool.length) items.push({ badge: t, hl: pool[0].hl, why: pool[0].why });
   });
-
-  // fill to 5
-  const all = Object.keys(NEWS);
-  let fi = 0;
+  var allTopics = Object.keys(NEWS);
+  var fi = 0;
   while (items.length < 5 && fi < 30) {
-    const t = all[fi % all.length]; fi++;
-    if (!picks.includes(t)) {
-      const pool = NEWS[t] || [];
-      if (pool.length) items.push({ badge: t, ...pool[0] });
+    var t = allTopics[fi % allTopics.length]; fi++;
+    if (picks.indexOf(t) === -1 && NEWS[t] && NEWS[t].length) {
+      items.push({ badge: t, hl: NEWS[t][0].hl, why: NEWS[t][0].why });
     }
   }
   items = items.slice(0, 5);
 
-  const wrap = document.getElementById('newsCards');
+  var wrap = document.getElementById('newsCardsEl');
   wrap.innerHTML = '';
-  items.forEach((item, i) => {
-    const d = document.createElement('div');
+  items.forEach(function(item, i) {
+    var d = document.createElement('div');
     d.className = 'news-card';
-    d.innerHTML = `<span class="news-badge">${item.badge}</span>
-      <div class="news-hl">${item.hl}</div>
-      <div class="news-why"><b>why it matters:</b> ${item.why}</div>`;
+    d.innerHTML = '<span class="news-badge">' + item.badge + '</span>' +
+      '<div class="news-hl">' + item.hl + '</div>' +
+      '<div class="news-why"><b>why it matters:</b> ' + item.why + '</div>';
     wrap.appendChild(d);
-    setTimeout(() => d.classList.add('in'), 80 + i * 100);
+    setTimeout(function() { d.classList.add('in'); }, 80 + i * 110);
   });
 }
 
 function helperTap() {
-  const msgs = [
-    `hey ${S.name||'there'}! tap any card to read more 📰`,
-    'settings and personalisation coming soon 👀',
-    'you can change your topics in your profile ✏️',
+  var msgs = [
+    'hey ' + (APP.name||'there') + '! more features coming soon 🚀',
+    'you can update your topics in your profile ✏️',
+    'tap any card to read the full story 📰'
   ];
   alert(msgs[Math.floor(Math.random() * msgs.length)]);
 }
