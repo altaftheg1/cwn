@@ -81,15 +81,7 @@
       '</div>' +
     '</div>' +
 
-    '<div class="ticker-bar">' +
-      '<div class="ticker-label">' +
-        '<div class="ticker-dot"></div>' +
-        '<span>LIVE FEED</span>' +
-      '</div>' +
-      '<div class="ticker-content">' +
-        '<div class="ticker-scroll" id="tickerScroll">Loading headlines\u2026</div>' +
-      '</div>' +
-    '</div>';
+    '';
 
   /* ── Page title bar (non-home, non-article) ──────────── */
   var PAGE_META = {
@@ -180,35 +172,6 @@
     });
   }());
 
-  /* ── Live ticker (deferred so it never blocks page paint) ── */
-  function loadTicker() {
-    fetch('/api/news')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        var items = (d && d.items) ? d.items.slice(0, 20) : [];
-        if (!items.length) return;
-        var scroll = document.getElementById('tickerScroll');
-        if (!scroll) return;
-        var parts = items.map(function (it) {
-          var cat = (it.category || it.sourceName || '').toUpperCase().substr(0, 6);
-          var title = it.calmTitle || it.title || '';
-          var url = it.url || '#';
-          return '<span class="ticker-item">' +
-                 '<span class="ticker-badge">' + cat + '</span>' +
-                 '<a class="ticker-a" href="' + url + '" target="_blank" rel="noopener">' + title + '</a>' +
-                 '<span class="ticker-sep">\u25c6</span>' +
-                 '</span>';
-        }).join('');
-        scroll.innerHTML = parts + parts; // doubled for seamless loop
-      })
-      .catch(function () {});
-  }
-  // Defer until after main content has painted
-  if (document.readyState === 'complete') {
-    setTimeout(loadTicker, 800);
-  } else {
-    window.addEventListener('load', function () { setTimeout(loadTicker, 800); });
-  }
 
   /* ── Visitor count (ping every 30s) ─────────────────── */
   (function () {
