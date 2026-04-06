@@ -53,16 +53,6 @@
         '</span>' +
       '</div>' +
       '<div class="utility-right">' +
-        '<div class="lang-switcher" id="langSwitcher">' +
-          '<button class="lang-btn" id="langBtn">English \u25be</button>' +
-          '<div class="lang-dropdown" id="langDropdown">' +
-            '<div class="lang-option" data-lang="en">English</div>' +
-            '<div class="lang-option" data-lang="ml">\u0d2e\u0d32\u0d2f\u0d3e\u0d33\u0d02</div>' +
-            '<div class="lang-option" data-lang="ar">\u0627\u0644\u0639\u0631\u0628\u064a\u0629</div>' +
-            '<div class="lang-option" data-lang="hi">\u0939\u093f\u0928\u094d\u0926\u0940</div>' +
-            '<div class="lang-option" data-lang="tl">Filipino</div>' +
-          '</div>' +
-        '</div>' +
         '<a href="/about.html">About</a>' +
         '<a href="/sources.html">Sources</a>' +
         '<a href="/contact.html">Contact</a>' +
@@ -88,16 +78,6 @@
           '<button id="notifyBtn" class="notify-btn">Notify me</button>' +
           '<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">' + (isDark ? '\u2600' : '\u263e') + '</button>' +
         '</div>' +
-      '</div>' +
-    '</div>' +
-
-    '<div class="lang-bar">' +
-      '<div class="lang-bar-inner">' +
-        '<button class="lb-btn lb-active" data-lang="en">🇬🇧 English</button>' +
-        '<button class="lb-btn" data-lang="ar">🇦🇪 عربي</button>' +
-        '<button class="lb-btn" data-lang="ml">🇮🇳 മലയാളം</button>' +
-        '<button class="lb-btn" data-lang="hi">🇮🇳 हिंदी</button>' +
-        '<button class="lb-btn" data-lang="tl">🇵🇭 Filipino</button>' +
       '</div>' +
     '</div>' +
 
@@ -251,36 +231,6 @@
     setInterval(ping, 30000);
   }());
 
-  /* ── Language bar ────────────────────────────────────── */
-  (function () {
-    var btns = document.querySelectorAll('.lb-btn');
-    function applyLang(lang) {
-      var sel = document.querySelector('select.goog-te-combo');
-      if (sel) { sel.value = lang === 'en' ? '' : lang; sel.dispatchEvent(new Event('change')); }
-    }
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        btns.forEach(function (b) { b.classList.remove('lb-active'); });
-        btn.classList.add('lb-active');
-        applyLang(btn.dataset.lang);
-      });
-    });
-
-    /* Legacy dropdown (utility-bar) still works if present */
-    var dropdown = document.getElementById('langDropdown');
-    var langBtn  = document.getElementById('langBtn');
-    if (dropdown && langBtn) {
-      langBtn.addEventListener('click', function (e) { e.stopPropagation(); dropdown.classList.toggle('open'); });
-      document.addEventListener('click', function () { dropdown.classList.remove('open'); });
-      dropdown.querySelectorAll('.lang-option').forEach(function (opt) {
-        opt.addEventListener('click', function () {
-          applyLang(opt.dataset.lang);
-          dropdown.classList.remove('open');
-          langBtn.textContent = opt.textContent.trim() + ' \u25be';
-        });
-      });
-    }
-  }());
 
   /* ── Notify button — fire custom event ───────────────── */
   (function () {
